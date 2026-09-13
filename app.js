@@ -99,7 +99,7 @@ function bind(){
   document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("globalSearch").focus()}});
   $("globalSearch").onkeydown=e=>{if(e.key==="Enter"){switchPage("pos");$("productSearch").value=e.target.value;renderProducts()}};
   $("productSearch").oninput=renderProducts;$("clearCartBtn").onclick=()=>{cart={};renderCart()};$("clientType").onchange=renderCart;$("discountSelect").onchange=renderCart;
-  $("checkoutBtn").onclick=openCheckout;$("confirmSaleBtn").onclick=saveSale;$("mySalesSearch").oninput=renderMySales;$("allSalesSearch").oninput=renderAllSales;$("csvBtn").onclick=exportCSV;
+  $("checkoutBtn").onclick=openCheckout;$("confirmSaleBtn").onclick=saveSale;$("saleClient").oninput=updateCheckoutClientState;$("mySalesSearch").oninput=renderMySales;$("allSalesSearch").oninput=renderAllSales;$("csvBtn").onclick=exportCSV;
   $("addProductBtn").onclick=()=>openProduct();$("saveProductBtn").onclick=saveProduct;$("deleteProductBtn").onclick=deleteProduct;
   $("addDiscountBtn").onclick=()=>openDiscount();$("saveDiscountBtn").onclick=saveDiscount;$("deleteDiscountBtn").onclick=deleteDiscount;
   $("addEmployeeBtn").onclick=()=>{$("employeeName").value="";$("employeeUsername").value="";$("employeePassword").value="";$("employeeRole").value="cashier";$("employeeCommission").value="0";$("employeeError").textContent="";$("employeeModal").classList.remove("hidden")};
@@ -286,7 +286,12 @@ function renderCart(){
   $("discountNote").textContent=c.blocked?"Este convenio no aplica a este tipo de cliente.":(c.d.description||"");$("discountNote").classList.toggle("is-warning",c.blocked);$("checkoutBtn").disabled=!c.lines.length;
   updateProductSelection();
 }
-function openCheckout(){const c=calc();if(!c.lines.length)return;const bad=c.lines.find(x=>x.restriction&&x.restriction!==c.client);if(bad)return toast(`${bad.name} no corresponde al tipo de cliente seleccionado`);$("checkoutSummary").innerHTML=c.lines.map(x=>`<div><span>${x.qty}× ${esc(x.name)}</span><strong>${money(x.lineTotal)}</strong></div>`).join("")+`<div><span>Descuento · ${esc(c.d.name)}</span><strong>-${money(c.disc)}</strong></div><div><span>Tu ganancia estimada (${c.pct}%)</span><strong>${money(c.earning)}</strong></div><div class="sum-total"><span>Total</span><strong>${money(c.total)}</strong></div>`;$("saleClient").value="";$("saleNote").value="";checkoutSnapshot=JSON.stringify({lines:c.lines.map(x=>[x.id,x.qty,x.price,x.restriction,x.active]),discount:c.d,total:c.total,client:c.client,pct:c.pct});$("checkoutModal").classList.remove("hidden")}
+function updateCheckoutClientState(){
+  const field=$("saleClient"),button=$("confirmSaleBtn");if(!field||!button)return;
+  const valid=Boolean(field.value.trim());
+  if(!saleSaving){button.disabled=!valid;button.setAttribute("aria-disabled",String(!valid));button.title=valid?"Registrar venta":"Escribe Cliente / ID para continuar"}
+}
+function openCheckout(){const c=calc();if(!c.lines.length)return;const bad=c.lines.find(x=>x.restriction&&x.restriction!==c.client);if(bad)return toast(`${bad.name} no corresponde al tipo de cliente seleccionado`);$("checkoutSummary").innerHTML=c.lines.map(x=>`<div><span>${x.qty}× ${esc(x.name)}</span><strong>${money(x.lineTotal)}</strong></div>`).join("")+`<div><span>Descuento · ${esc(c.d.name)}</span><strong>-${money(c.disc)}</strong></div><div><span>Tu ganancia estimada (${c.pct}%)</span><strong>${money(c.earning)}</strong></div><div class="sum-total"><span>Total</span><strong>${money(c.total)}</strong></div>`;$("saleClient").value="";$("saleNote").value="";checkoutSnapshot=JSON.stringify({lines:c.lines.map(x=>[x.id,x.qty,x.price,x.restriction,x.active]),discount:c.d,total:c.total,client:c.client,pct:c.pct});$("checkoutModal").classList.remove("hidden");updateCheckoutClientState();$("saleClient").focus()}
 async function saveSale(){
   if(saleSaving)return;
   const c=calc();if(!c.lines.length)return;
@@ -297,6 +302,7 @@ async function saveSale(){
     $("saleClient").setCustomValidity("Escribe el nombre o ID del cliente");
     $("saleClient").reportValidity?.();
     $("saleClient").focus();
+    updateCheckoutClientState();
     return toast("El cliente o ID es obligatorio para registrar la venta");
   }
   $("saleClient").setCustomValidity("");

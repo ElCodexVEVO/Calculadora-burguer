@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0f14">
+  <title>BurgerShot · Punto de venta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=5.0.5">
+  <link rel="stylesheet" href="pos.css?v=5.0.5">
+</head>
+<body>
+<div id="toastHost" class="toast-host"></div>
+
+<!-- CLOUD SETUP -->
+<section id="cloudSetup" class="gate hidden">
+  <div class="gate-art">
+    <div class="brand big"><div class="logo"><img src="assets/brand-mark.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>PROFESSIONAL POS</small></div></div>
+    <div class="gate-copy">
+      <span class="eyebrow gold">V4 · PROFESSIONAL SUITE</span>
+      <h1>Ventas claras.<br>Equipo medible.</h1>
+      <p>Calculadora, empleados, convenios, comisiones, cortes y ventas sincronizadas.</p>
+    </div>
+    <div class="fake-kpis">
+      <div><span>GENERADO</span><strong>$24,850</strong><em>+12%</em></div>
+      <div><span>GANANCIAS</span><strong>$4,970</strong><em>20%</em></div>
+    </div>
+  </div>
+  <div class="gate-form">
+    <div class="auth-card">
+      <span class="eyebrow">CONFIGURACIÓN INICIAL</span>
+      <h2>Conecta Supabase</h2>
+      <p class="muted">Pega el Project URL y la Publishable/anon key de tu proyecto.</p>
+      <label>Project URL</label>
+      <input id="configUrl" placeholder="https://xxxxx.supabase.co">
+      <label>Publishable / anon key</label>
+      <textarea id="configKey" placeholder="sb_publishable_..."></textarea>
+      <div class="notice"><b>Seguridad:</b> nunca uses una service_role o secret key en la página.</div>
+      <button class="btn primary block" id="saveConfigBtn">Conectar</button>
+      <small class="hint">Antes ejecuta <b>supabase_schema_v3.sql</b> en Supabase → SQL Editor.</small>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section id="authScreen" class="gate hidden">
+  <div class="gate-art auth-art">
+    <div class="brand big"><div class="logo"><img src="assets/brand-mark.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>GOOD BURGERS. BETTER DAYS.</small></div></div>
+    <div class="gate-copy">
+      <span class="eyebrow gold">BURGER SHOT · COMMAND CENTER POS</span>
+      <h1>Punto de venta.<br>Estética profesional.</h1>
+      <p>Ingresa con el usuario y contraseña que te dio el administrador.</p>
+    </div>
+    <div class="quote">“Una buena burger siempre es un buen negocio.”</div>
+  </div>
+  <div class="gate-form">
+    <div class="auth-card">
+      <span class="eyebrow">ACCESO</span>
+      <h2>Iniciar sesión</h2>
+      <p class="muted">Usa tu usuario y contraseña.</p>
+      <label>Usuario o correo</label><input id="loginUsername" autocomplete="username" placeholder="ej. juanp">
+      <label>Contraseña</label><input id="loginPassword" autocomplete="current-password" type="password" placeholder="••••••••">
+      <div id="loginError" class="error"></div>
+      <button class="btn primary block" id="loginBtn">Entrar</button>
+      <div class="auth-sep"><span>PRIMERA CONFIGURACIÓN</span></div>
+      <button class="btn secondary block" id="openAdminSetupBtn">Crear administrador inicial</button>
+      <button class="text-link" id="changeCloudBtn">Cambiar conexión de Supabase</button>
+    </div>
+  </div>
+</section>
+
+<!-- INITIAL ADMIN -->
+<div id="adminSetupModal" class="modal-backdrop hidden">
+  <div class="modal narrow">
+    <div class="modal-head"><div><span class="eyebrow">PRIMER ACCESO</span><h2>Crear administrador</h2></div><button class="icon-btn" data-close="adminSetupModal">×</button></div>
+    <p class="modal-copy">Crea la primera cuenta. Después podrás crear empleados desde el panel.</p>
+    <label>Nombre</label><input id="adminName" placeholder="Ej. Miguel">
+    <label>Correo real</label><input id="adminEmail" type="email" placeholder="tu@correo.com">
+    <label>Usuario</label><input id="adminUsername" placeholder="Ej. miguelano">
+    <label>Contraseña</label><input id="adminPassword" type="password" placeholder="Mínimo 6 caracteres">
+    <label>Nombre del negocio</label><input id="adminStoreName" value="BurgerShot">
+    <div id="adminSetupError" class="error"></div>
+    <button class="btn primary block" id="createAdminBtn">Crear BurgerShot</button>
+    <small class="hint">Si Supabase pide confirmar correo, recibirás un enlace. Después de confirmarlo, vuelve a esta página.</small>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="app hidden">
+  <aside id="sidebar" class="sidebar">
+    <div class="brand"><div class="logo small"><img src="assets/brand-mark.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>POS · V4.4</small></div></div>
+    <div class="store-chip"><div class="store-icon">B</div><div><span>NEGOCIO</span><strong id="storeName">BurgerShot</strong></div><i></i></div>
+
+    <nav>
+      <div class="nav-label">OPERACIÓN</div>
+      <button class="nav-item active" data-page="dashboard"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9A1.5 1.5 0 0 1 19.5 21H15v-6H9v6H4.5A1.5 1.5 0 0 1 3 19.5z"/></svg></span><b>Inicio</b></button>
+      <button class="nav-item" data-page="pos"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg></span><b>Punto de venta</b></button>
+      <button class="nav-item" data-page="mySales"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"/></svg></span><b>Mis ventas</b></button>
+      <button class="nav-item" data-page="analytics"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 20V9M10 20V4M15 20v-7M20 20V7"/></svg></span><b>Estadísticas</b></button>
+      <button class="nav-item admin-only" data-page="allSales"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 5v14M4 10h16"/></svg></span><b>Todas las ventas</b></button>
+
+      <div class="nav-label admin-only">ADMINISTRACIÓN</div>
+      <button class="nav-item admin-only" data-page="employees"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 20c.5-4 2.6-6 5-6s4.6 2 5 6M13 20c.4-3 1.9-4.7 4.2-4.7 2.1 0 3.6 1.5 4 4.7"/></svg></span><b>Empleados</b></button>
+      <button class="nav-item admin-only" data-page="payouts"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5c-1-1.3-2.5-2-4.5-2-2.7 0-4.5 1.4-4.5 3.4 0 5 9 2.4 9 7.3 0 2.4-2 4.1-5 4.1-2.2 0-4.1-.8-5.3-2.4"/></svg></span><b>Pagos / cortes</b></button>
+      <button class="nav-item admin-only" data-page="discounts"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="m5 19 14-14"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span><b>Convenios</b></button>
+      <button class="nav-item admin-only" data-page="products"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM8 7V5h8v2M8 11h8M8 15h5"/></svg></span><b>Productos</b></button>
+    </nav>
+
+    <div class="sidebar-promo">
+      <img class="promo-logo" src="assets/brand-mark.svg" alt="">
+      <span>BURGER SHOT HQ</span>
+      <strong>PANEL EJECUTIVO</strong>
+      <small>Ventas, equipo y operación centralizada.</small>
+    </div>
+    <div class="sidebar-bottom">
+      <div id="sync" class="sync"><i></i><div><strong>Cloud</strong><small id="syncText">Sincronizando</small></div></div>
+      <button id="accountBtn" class="account-card"><div id="avatar" class="avatar">BS</div><div class="account-copy"><strong id="accountName">—</strong><span id="accountRole">—</span><small><i></i> Sesión activa</small></div><em>›</em></button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="mobileMenu" class="mobile-menu">☰</button>
+      <label class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Buscar productos…"><kbd>Ctrl K</kbd></label>
+      <div class="top-right"><button id="refreshBtn" class="icon-btn" title="Sincronizar"><svg class="top-svg" viewBox="0 0 24 24"><path d="M20 6v5h-5"/><path d="M4 18v-5h5"/><path d="M6.5 8.5A7 7 0 0 1 18.8 10M5.2 14A7 7 0 0 0 17.5 15.5"/></svg></button><div class="user-mini"><div id="topAvatar" class="avatar mini">BS</div><div><strong id="topName">—</strong><small id="topRole">—</small></div></div></div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="page-dashboard" class="page active">
+      <div class="hero-row">
+        <div><span class="eyebrow gold">BURGER SHOT · COMMAND CENTER</span><h1 id="welcomeTitle">¡Buenas!</h1><p id="welcomeSubtitle">Sistema premium de ventas y control de equipo.</p></div>
+        <div class="clock-card"><span id="todayDate">—</span><strong id="todayTime">—</strong><small><i></i> Sistema en línea</small></div>
+      </div>
+      <div class="command-strip">
+        <div class="command-card"><span class="command-label">OPERACIÓN</span><strong>Ventas, equipo y comisiones</strong><small>Todo centralizado en un solo panel.</small></div>
+        <div class="command-card"><span class="command-label">CONTROL DEL DÍA</span><strong>Todo listo para operar</strong><small>Ventas, caja, convenios y rendimiento sincronizados.</small></div>
+      </div>
+      <div id="dashboardMetrics" class="metrics"></div>
+      <div class="dashboard-grid">
+        <div class="panel">
+          <div class="panel-head"><div><span class="eyebrow">PRODUCTOS DESTACADOS</span><h2>Acceso rápido</h2><span>Agrega un producto y empieza una orden.</span></div><button class="text-action" data-go="pos">Abrir POS →</button></div>
+          <div id="quickProducts" class="quick-products"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><span class="eyebrow">ACTIVIDAD</span><h2>Últimas ventas</h2></div></div>
+          <div id="miniSales" class="mini-sales"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POS -->
+    <section id="page-pos" class="page">
+      <div class="page-title-row pos-title"><div><span class="eyebrow">BURGER SHOT / VENTAS</span><h1>Punto de venta<span class="title-dot">.</span></h1><p>Una buena orden empieza aquí.</p></div><div class="pos-session"><span class="session-dot"></span><span id="posCashier">Nueva venta</span></div></div>
+      <div class="pos-grid">
+        <div class="panel product-panel">
+          <div class="panel-head"><div class="catalog-heading"><h2>El menú</h2><span id="productCount">0 productos</span></div><label class="search"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="productSearch" aria-label="Buscar producto" placeholder="Buscar en el menú…" autocomplete="off"></label></div>
+          <div id="categoryTabs" class="category-tabs" role="group" aria-label="Categorías de productos"></div>
+          <div id="productGrid" class="product-grid" aria-label="Productos disponibles"></div>
+        </div>
+        <aside class="panel order-panel" aria-labelledby="orderTitle">
+          <div class="order-head"><div><span>ORDEN ACTUAL</span><h2 id="orderTitle">Nueva venta <small id="orderCount">0</small></h2></div><button id="clearCartBtn" class="icon-btn soft" aria-label="Vaciar orden" title="Vaciar orden" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12v14H9l-7-7Z"/><path d="m12 9 6 6m0-6-6 6"/></svg></button></div>
+          <div class="order-scroll">
+            <div id="cartEmpty" class="empty-cart"><img src="assets/brand-mark.svg" alt="" width="48" height="48"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>
+            <div id="cartList" class="cart-list" aria-label="Productos de la orden"></div>
+          </div>
+          <div class="order-checkout">
+            <div class="order-options"><div><label for="clientType">Tipo de cliente</label><select id="clientType"><option value="general">Cliente general</option><option value="police">Policía</option><option value="sheriff">Sheriff</option><option value="ems">EMS</option></select></div><div><label for="discountSelect">Convenio</label><select id="discountSelect"></select></div></div>
+            <small id="discountNote" class="field-note" aria-live="polite"></small>
+            <div class="totals"><div><span>Subtotal</span><strong id="subtotal">$0</strong></div><div><span>Descuento</span><strong id="discountAmount" class="green">-$0</strong></div><div class="grand"><span>Total a cobrar</span><strong id="grandTotal" aria-live="polite">$0</strong></div></div>
+            <div class="commission-preview"><div><span>Tu ganancia</span><small id="commissionPercentText">0% comisión</small></div><strong id="commissionPreview">$0</strong></div>
+            <button id="checkoutBtn" class="checkout" disabled><span>Cobrar y registrar <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></span><strong id="checkoutTotal">$0</strong></button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MY SALES -->
+    <section id="page-mySales" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">MI RENDIMIENTO</span><h1>Mis ventas y ganancias</h1><p>Tu generado, comisión acumulada y pagos.</p></div><label class="search small"><span>⌕</span><input id="mySalesSearch" placeholder="Buscar"></label></div>
+      <div id="myMetrics" class="metrics five"></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Folio</th><th>Fecha</th><th>Cliente</th><th>Generado</th><th>Mi ganancia</th><th>Neto negocio</th><th>Pago</th><th>Estado</th><th></th></tr></thead><tbody id="mySalesBody"></tbody></table></div></div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="page-analytics" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">ANALÍTICA</span><h1>Estadísticas</h1><p>Resumen general del desempeño.</p></div></div>
+      <div id="analyticsMetrics" class="metrics"></div>
+      <div class="analytics-grid">
+        <div class="panel chart-panel"><div class="panel-head"><div><h2>Últimos 7 días</h2><span>Generado por día</span></div></div><div id="weeklyChart" class="bar-chart"></div></div>
+        <div class="panel"><div class="panel-head"><div><h2>Productos más vendidos</h2><span>Por unidades</span></div></div><div id="productRanking" class="ranking"></div></div>
+      </div>
+    </section>
+
+    <!-- ALL SALES -->
+    <section id="page-allSales" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">CONTROL GENERAL</span><h1>Registro de ventas</h1><p>Generado, ganancias de empleados y neto del negocio.</p></div><div class="head-actions"><label class="search small"><span>⌕</span><input id="allSalesSearch" placeholder="Buscar"></label><button id="csvBtn" class="btn secondary">CSV</button></div></div>
+      <div id="allMetrics" class="metrics"></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Folio</th><th>Fecha</th><th>Empleado</th><th>Cliente</th><th>Generado</th><th>Ganancia empleado</th><th>Neto negocio</th><th>Pago comisión</th><th>Estado</th><th></th></tr></thead><tbody id="allSalesBody"></tbody></table></div></div>
+    </section>
+
+    <!-- EMPLOYEES -->
+    <section id="page-employees" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Empleados</h1><p>Usuarios, contraseñas, comisión, ventas y ganancias.</p></div><button id="addEmployeeBtn" class="btn primary">+ Crear empleado</button></div>
+      <div id="employeeMetrics" class="metrics"></div>
+      <div id="employeesBody" class="employee-grid"></div>
+    </section>
+
+    <!-- PAYOUTS -->
+    <section id="page-payouts" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">REGISTRO</span><h1>Pagos y cortes</h1><p>Historial de comisiones pagadas a los empleados.</p></div></div>
+      <div id="payoutMetrics" class="metrics"></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Empleado</th><th>Ventas incluidas</th><th>Generado</th><th>Pago empleado</th><th>Neto negocio</th><th>Registró</th></tr></thead><tbody id="payoutsBody"></tbody></table></div></div>
+    </section>
+
+    <!-- DISCOUNTS -->
+    <section id="page-discounts" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Convenios</h1><p>Gestión premium de convenios y descuentos especiales.</p></div><button id="addDiscountBtn" class="btn primary">+ Nuevo convenio</button></div>
+      <div id="discountCards" class="discount-grid"></div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="page-products" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Productos</h1><p>Administra menú y precios.</p></div><button id="addProductBtn" class="btn primary">+ Nuevo producto</button></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Etiqueta</th><th>Estado</th><th></th></tr></thead><tbody id="productsBody"></tbody></table></div></div>
+    </section>
+  </main>
+</div>
+
+<!-- CHECKOUT -->
+<div id="checkoutModal" class="modal-backdrop hidden"><div class="modal">
+  <div class="modal-head"><div><span class="eyebrow">FINALIZAR VENTA</span><h2>Cobrar orden</h2></div><button class="icon-btn" data-close="checkoutModal">×</button></div>
+  <div id="checkoutSummary" class="summary-box"></div>
+  <div class="form-grid"><div><label>Cliente / ID <span>(opcional)</span></label><input id="saleClient" placeholder="Nombre o ID"></div><div><label>Método de pago</label><select id="salePayment"><option>Efectivo</option><option>Transferencia</option><option>Tarjeta</option><option>Otro</option></select></div><div class="full"><label>Nota <span>(opcional)</span></label><input id="saleNote" placeholder="Ej. Pedido para evento"></div></div>
+  <div class="modal-actions"><button class="btn secondary" data-close="checkoutModal">Cancelar</button><button id="confirmSaleBtn" class="btn primary">Registrar venta</button></div>
+</div></div>
+
+<!-- SALE DETAIL -->
+<div id="saleDetailModal" class="modal-backdrop hidden"><div class="modal">
+  <div class="modal-head"><div><span class="eyebrow">DETALLE</span><h2 id="detailFolio">Venta</h2></div><button class="icon-btn" data-close="saleDetailModal">×</button></div>
+  <div id="saleDetail"></div><div id="saleDetailActions" class="modal-actions"></div>
+</div></div>
+
+<!-- PRODUCT -->
+<div id="productModal" class="modal-backdrop hidden"><div class="modal">
+  <div class="modal-head"><div><span class="eyebrow">PRODUCTO</span><h2 id="productModalTitle">Nuevo producto</h2></div><button class="icon-btn" data-close="productModal">×</button></div>
+  <input type="hidden" id="editProductId">
+  <div class="form-grid"><div class="full"><label>Nombre</label><input id="editProductName"></div><div><label>Precio</label><input id="editProductPrice" type="number" min="0"></div><div><label>Categoría</label><select id="editProductCategory"></select></div><div><label for="editProductEmoji">Imagen del producto</label><select id="editProductEmoji"></select></div><div><label>Etiqueta</label><select id="editProductTag"><option value="none">Ninguna</option><option value="all">General</option><option value="burger">Hamburguesa</option><option value="happybox">Caja Feliz</option></select></div><div><label>Restricción</label><select id="editProductRestriction"><option value="">Ninguna</option><option value="police">Policía</option><option value="sheriff">Sheriff</option><option value="ems">EMS</option></select></div><div><label class="check"><input id="editProductActive" type="checkbox"> Activo</label></div></div>
+  <div class="modal-actions"><button id="deleteProductBtn" class="btn danger hidden">Eliminar</button><button class="btn secondary" data-close="productModal">Cancelar</button><button id="saveProductBtn" class="btn primary">Guardar</button></div>
+</div></div>
+
+<!-- DISCOUNT -->
+<div id="discountModal" class="modal-backdrop hidden"><div class="modal">
+  <div class="modal-head"><div><span class="eyebrow">CONVENIO</span><h2 id="discountModalTitle">Nuevo convenio</h2></div><button class="icon-btn" data-close="discountModal">×</button></div>
+  <input type="hidden" id="editDiscountId">
+  <div class="form-grid"><div class="full"><label>Nombre</label><input id="editDiscountName"></div><div><label>Descuento (%)</label><input id="editDiscountPercent" type="number" min="0" max="100" value="25"></div><div><label>Aplica a</label><select id="editDiscountScope"><option value="all">Todo el menú</option><option value="burger">Hamburguesas</option><option value="happybox">Caja Feliz</option></select></div><div class="full"><label>Descripción</label><input id="editDiscountDescription"></div><div class="full"><label class="check"><input id="editDiscountExcludePublic" type="checkbox"> Excluir Policía, Sheriff y EMS</label></div><div class="full"><label class="check"><input id="editDiscountActive" type="checkbox"> Activo</label></div></div>
+  <div class="modal-actions"><button id="deleteDiscountBtn" class="btn danger hidden">Eliminar</button><button class="btn secondary" data-close="discountModal">Cancelar</button><button id="saveDiscountBtn" class="btn primary">Guardar</button></div>
+</div></div>
+
+<!-- CREATE EMPLOYEE -->
+<div id="employeeModal" class="modal-backdrop hidden"><div class="modal narrow">
+  <div class="modal-head"><div><span class="eyebrow">NUEVO EMPLEADO</span><h2>Crear acceso</h2></div><button class="icon-btn" data-close="employeeModal">×</button></div>
+  <p class="modal-copy">El administrador define nombre, usuario, contraseña y porcentaje de ganancia.</p>
+  <label>Nombre del empleado</label><input id="employeeName" placeholder="Ej. Juan Pérez">
+  <label>Usuario</label><input id="employeeUsername" placeholder="Ej. juanp">
+  <label>Contraseña</label><input id="employeePassword" type="password" placeholder="Mínimo 6 caracteres">
+  <label>Rol</label><select id="employeeRole"><option value="cashier">Empleado</option><option value="admin">Administrador</option></select>
+  <label>Ganancia / comisión (%)</label><input id="employeeCommission" type="number" min="0" max="100" step="0.1" value="0">
+  <div class="credential-tip">Ejemplo: si pones <b>20%</b> y el empleado genera $1,000, su ganancia será $200 y el negocio conservará $800.</div>
+  <div id="employeeError" class="error"></div>
+  <button id="createEmployeeBtn" class="btn primary block">Crear empleado</button>
+</div></div>
+
+<!-- EMPLOYEE DETAIL / EDIT -->
+<div id="employeeDetailModal" class="modal-backdrop hidden"><div class="modal wide">
+  <div class="modal-head"><div><span class="eyebrow">EMPLEADO</span><h2 id="employeeDetailName">—</h2></div><button class="icon-btn" data-close="employeeDetailModal">×</button></div>
+  <input type="hidden" id="editEmployeeId">
+  <div id="employeeDetailMetrics" class="metrics mini-metrics"></div>
+  <div class="employee-detail-grid">
+    <div class="subpanel">
+      <h3>Configuración</h3>
+      <label>Rol</label><select id="editEmployeeRole"><option value="cashier">Empleado</option><option value="admin">Administrador</option></select>
+      <label>Ganancia / comisión (%)</label><input id="editEmployeeCommission" type="number" min="0" max="100" step="0.1">
+      <label class="check"><input id="editEmployeeActive" type="checkbox"> Cuenta activa</label>
+      <button id="saveEmployeeBtn" class="btn secondary block">Guardar cambios</button>
+      <button id="deactivateEmployeeBtn" class="btn secondary block">Dar de baja</button>
+      <button id="resetPasswordBtn" class="btn secondary block">Cambiar contraseña</button>
+      <button id="payEmployeeBtn" class="btn primary block">Registrar pago pendiente</button>
+      <button id="deleteEmployeeBtn" class="btn danger block">Borrar perfil</button>
+    </div>
+    <div class="subpanel flex">
+      <div class="subpanel-head"><h3>Ventas del empleado</h3><span id="employeeSalesCount">0 ventas</span></div>
+      <div class="table-wrap compact-table"><table><thead><tr><th>Folio</th><th>Fecha</th><th>Generado</th><th>Ganancia</th><th>Pago</th></tr></thead><tbody id="employeeSalesBody"></tbody></table></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- RESET PASSWORD -->
+<div id="passwordModal" class="modal-backdrop hidden"><div class="modal narrow">
+  <div class="modal-head"><div><span class="eyebrow">SEGURIDAD</span><h2>Cambiar contraseña</h2></div><button class="icon-btn" data-close="passwordModal">×</button></div>
+  <label>Nueva contraseña</label><input id="newEmployeePassword" type="password" placeholder="Mínimo 6 caracteres">
+  <div id="passwordError" class="error"></div>
+  <button id="confirmPasswordBtn" class="btn primary block">Actualizar contraseña</button>
+</div></div>
+
+<!-- ACCOUNT -->
+<div id="accountModal" class="modal-backdrop hidden"><div class="modal narrow">
+  <div class="modal-head"><div><span class="eyebrow">MI CUENTA</span><h2 id="accountModalName">—</h2></div><button class="icon-btn" data-close="accountModal">×</button></div>
+  <div id="accountDetail" class="account-detail"></div>
+  <div class="modal-actions"><button id="logoutBtn" class="btn danger">Cerrar sesión</button></div>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js?v=5.0.5"></script>
+</body>
+</html>

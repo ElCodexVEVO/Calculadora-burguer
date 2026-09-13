@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=5.0.5">
   <link rel="stylesheet" href="pos.css?v=5.0.5">
+  <link rel="stylesheet" href="reports.css?v=5.1.1">
 </head>
 <body>
 <div id="toastHost" class="toast-host"></div>
@@ -17,9 +18,9 @@
 <!-- CLOUD SETUP -->
 <section id="cloudSetup" class="gate hidden">
   <div class="gate-art">
-    <div class="brand big"><div class="logo"><img src="assets/brand-mark.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>PROFESSIONAL POS</small></div></div>
+    <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>PUNTO DE VENTA</small></div></div>
     <div class="gate-copy">
-      <span class="eyebrow gold">V4 · PROFESSIONAL SUITE</span>
+      <span class="eyebrow gold">V5.1.1 · PUNTO DE VENTA</span>
       <h1>Ventas claras.<br>Equipo medible.</h1>
       <p>Calculadora, empleados, convenios, comisiones, cortes y ventas sincronizadas.</p>
     </div>
@@ -47,7 +48,7 @@
 <!-- LOGIN -->
 <section id="authScreen" class="gate hidden">
   <div class="gate-art auth-art">
-    <div class="brand big"><div class="logo"><img src="assets/brand-mark.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>GOOD BURGERS. BETTER DAYS.</small></div></div>
+    <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>GOOD BURGERS. BETTER DAYS.</small></div></div>
     <div class="gate-copy">
       <span class="eyebrow gold">BURGER SHOT · COMMAND CENTER POS</span>
       <h1>Punto de venta.<br>Estética profesional.</h1>
@@ -92,7 +93,7 @@
 <!-- MAIN APP -->
 <div id="app" class="app hidden">
   <aside id="sidebar" class="sidebar">
-    <div class="brand"><div class="logo small"><img src="assets/brand-mark.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>POS · V4.4</small></div></div>
+    <div class="brand"><div class="logo small"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>POS · V5.1</small></div></div>
     <div class="store-chip"><div class="store-icon">B</div><div><span>NEGOCIO</span><strong id="storeName">BurgerShot</strong></div><i></i></div>
 
     <nav>
@@ -106,12 +107,13 @@
       <div class="nav-label admin-only">ADMINISTRACIÓN</div>
       <button class="nav-item admin-only" data-page="employees"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 20c.5-4 2.6-6 5-6s4.6 2 5 6M13 20c.4-3 1.9-4.7 4.2-4.7 2.1 0 3.6 1.5 4 4.7"/></svg></span><b>Empleados</b></button>
       <button class="nav-item admin-only" data-page="payouts"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5c-1-1.3-2.5-2-4.5-2-2.7 0-4.5 1.4-4.5 3.4 0 5 9 2.4 9 7.3 0 2.4-2 4.1-5 4.1-2.2 0-4.1-.8-5.3-2.4"/></svg></span><b>Pagos / cortes</b></button>
+      <button class="nav-item admin-only" data-page="audit"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 4h14v17H5zM9 2h6v4H9zM8 10h8M8 14h8M8 18h5"/></svg></span><b>Historial de cambios</b></button>
       <button class="nav-item admin-only" data-page="discounts"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="m5 19 14-14"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span><b>Convenios</b></button>
       <button class="nav-item admin-only" data-page="products"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM8 7V5h8v2M8 11h8M8 15h5"/></svg></span><b>Productos</b></button>
     </nav>
 
     <div class="sidebar-promo">
-      <img class="promo-logo" src="assets/brand-mark.svg" alt="">
+      <img class="promo-logo" src="assets/burgershot-logo.webp" alt="">
       <span>BURGER SHOT HQ</span>
       <strong>PANEL EJECUTIVO</strong>
       <small>Ventas, equipo y operación centralizada.</small>
@@ -164,7 +166,7 @@
         <aside class="panel order-panel" aria-labelledby="orderTitle">
           <div class="order-head"><div><span>ORDEN ACTUAL</span><h2 id="orderTitle">Nueva venta <small id="orderCount">0</small></h2></div><button id="clearCartBtn" class="icon-btn soft" aria-label="Vaciar orden" title="Vaciar orden" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12v14H9l-7-7Z"/><path d="m12 9 6 6m0-6-6 6"/></svg></button></div>
           <div class="order-scroll">
-            <div id="cartEmpty" class="empty-cart"><img src="assets/brand-mark.svg" alt="" width="48" height="48"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>
+            <div id="cartEmpty" class="empty-cart"><img src="assets/burgershot-logo.webp" alt="" width="96" height="102"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>
             <div id="cartList" class="cart-list" aria-label="Productos de la orden"></div>
           </div>
           <div class="order-checkout">
@@ -180,26 +182,31 @@
 
     <!-- MY SALES -->
     <section id="page-mySales" class="page">
-      <div class="page-title-row"><div><span class="eyebrow">MI RENDIMIENTO</span><h1>Mis ventas y ganancias</h1><p>Tu generado, comisión acumulada y pagos.</p></div><label class="search small"><span>⌕</span><input id="mySalesSearch" placeholder="Buscar"></label></div>
+      <div class="page-title-row"><div><span class="eyebrow">MI RENDIMIENTO</span><h1>Mis ventas y ganancias</h1><p>Tu generado, comisión acumulada y pagos.</p></div><label class="search small"><span>⌕</span><input id="mySalesSearch" placeholder="Buscar" aria-label="Buscar en mis ventas"></label><button id="myCsvBtn" class="btn secondary">Exportar CSV</button></div>
+      <div id="mySalesFilters" class="report-filters"></div>
       <div id="myMetrics" class="metrics five"></div>
       <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Folio</th><th>Fecha</th><th>Cliente</th><th>Generado</th><th>Mi ganancia</th><th>Neto negocio</th><th>Pago</th><th>Estado</th><th></th></tr></thead><tbody id="mySalesBody"></tbody></table></div></div>
+      <div id="mySalesPager" class="report-pager"></div>
     </section>
 
     <!-- ANALYTICS -->
     <section id="page-analytics" class="page">
       <div class="page-title-row"><div><span class="eyebrow">ANALÍTICA</span><h1>Estadísticas</h1><p>Resumen general del desempeño.</p></div></div>
+      <div id="analyticsFilters" class="report-filters"></div>
       <div id="analyticsMetrics" class="metrics"></div>
       <div class="analytics-grid">
-        <div class="panel chart-panel"><div class="panel-head"><div><h2>Últimos 7 días</h2><span>Generado por día</span></div></div><div id="weeklyChart" class="bar-chart"></div></div>
+        <div class="panel chart-panel"><div class="panel-head"><div><h2 id="chartTitle">Ventas del período</h2><span id="chartSubtitle">Generado por fecha</span></div></div><div id="weeklyChart" class="bar-chart"></div></div>
         <div class="panel"><div class="panel-head"><div><h2>Productos más vendidos</h2><span>Por unidades</span></div></div><div id="productRanking" class="ranking"></div></div>
       </div>
     </section>
 
     <!-- ALL SALES -->
     <section id="page-allSales" class="page">
-      <div class="page-title-row"><div><span class="eyebrow">CONTROL GENERAL</span><h1>Registro de ventas</h1><p>Generado, ganancias de empleados y neto del negocio.</p></div><div class="head-actions"><label class="search small"><span>⌕</span><input id="allSalesSearch" placeholder="Buscar"></label><button id="csvBtn" class="btn secondary">CSV</button></div></div>
+      <div class="page-title-row"><div><span class="eyebrow">CONTROL GENERAL</span><h1>Registro de ventas</h1><p>Generado, ganancias de empleados y neto del negocio.</p></div><div class="head-actions"><label class="search small"><span>⌕</span><input id="allSalesSearch" placeholder="Buscar"></label><button id="csvBtn" class="btn secondary">Exportar CSV</button></div></div>
+      <div id="allSalesFilters" class="report-filters"></div>
       <div id="allMetrics" class="metrics"></div>
       <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Folio</th><th>Fecha</th><th>Empleado</th><th>Cliente</th><th>Generado</th><th>Ganancia empleado</th><th>Neto negocio</th><th>Pago comisión</th><th>Estado</th><th></th></tr></thead><tbody id="allSalesBody"></tbody></table></div></div>
+      <div id="allSalesPager" class="report-pager"></div>
     </section>
 
     <!-- EMPLOYEES -->
@@ -211,9 +218,21 @@
 
     <!-- PAYOUTS -->
     <section id="page-payouts" class="page">
-      <div class="page-title-row"><div><span class="eyebrow">REGISTRO</span><h1>Pagos y cortes</h1><p>Historial de comisiones pagadas a los empleados.</p></div></div>
+      <div class="page-title-row"><div><span class="eyebrow">REGISTRO</span><h1>Pagos y cortes</h1><p>Abre un corte para revisar las ventas y comisiones incluidas.</p></div><button id="payoutCsvBtn" class="btn secondary">Exportar CSV</button></div>
+      <div id="payoutsFilters" class="report-filters"></div>
       <div id="payoutMetrics" class="metrics"></div>
-      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Empleado</th><th>Ventas incluidas</th><th>Generado</th><th>Pago empleado</th><th>Neto negocio</th><th>Registró</th></tr></thead><tbody id="payoutsBody"></tbody></table></div></div>
+      <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Empleado</th><th>Ventas incluidas</th><th>Generado</th><th>Pago empleado</th><th>Neto negocio</th><th>Registró</th><th>Detalle</th></tr></thead><tbody id="payoutsBody"></tbody></table></div></div>
+      <div id="payoutsPager" class="report-pager"></div>
+    </section>
+
+    <!-- AUDIT -->
+    <section id="page-audit" class="page">
+      <div class="page-title-row"><div><span class="eyebrow">ADMINISTRACIÓN / TRAZABILIDAD</span><h1>Historial de cambios</h1><p>Quién hizo el cambio, cuándo y qué valores se modificaron.</p></div><button id="auditRefreshBtn" class="btn secondary">Actualizar historial</button></div>
+      <div id="auditFilters" class="report-filters"></div>
+      <p class="report-note">Se registran los cambios desde la instalación de V5.1. Las operaciones de servidor o SQL se identifican por separado.</p>
+      <div id="auditStatus" class="report-notice hidden" role="status"></div>
+      <div class="panel table-panel"><div class="table-wrap"><table class="audit-table"><thead><tr><th>Fecha</th><th>Responsable</th><th>Acción</th><th>Registro</th><th>Detalle</th></tr></thead><tbody id="auditBody"></tbody></table></div></div>
+      <div id="auditPager" class="report-pager"></div>
     </section>
 
     <!-- DISCOUNTS -->
@@ -242,6 +261,18 @@
 <div id="saleDetailModal" class="modal-backdrop hidden"><div class="modal">
   <div class="modal-head"><div><span class="eyebrow">DETALLE</span><h2 id="detailFolio">Venta</h2></div><button class="icon-btn" data-close="saleDetailModal">×</button></div>
   <div id="saleDetail"></div><div id="saleDetailActions" class="modal-actions"></div>
+</div></div>
+
+<!-- PAYOUT DETAIL -->
+<div id="payoutDetailModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="payoutDetailTitle"><div class="modal wide report-modal">
+  <div class="modal-head"><div><span class="eyebrow">PAGOS / CORTE</span><h2 id="payoutDetailTitle">Detalle del corte</h2><p id="payoutDetailMeta" class="report-note"></p></div><button class="icon-btn" data-close="payoutDetailModal" aria-label="Cerrar detalle del corte">×</button></div>
+  <div id="payoutDetailContent" aria-live="polite"></div>
+  <div class="modal-actions"><button id="payoutDetailCsvBtn" class="btn secondary" disabled>Exportar ventas del corte</button><button class="btn primary" data-close="payoutDetailModal">Cerrar</button></div>
+</div></div>
+<div id="auditDetailModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="auditDetailTitle"><div class="modal wide report-modal">
+  <div class="modal-head"><div><span class="eyebrow">HISTORIAL</span><h2 id="auditDetailTitle">Detalle del cambio</h2><p id="auditDetailMeta" class="report-note"></p></div><button class="icon-btn" data-close="auditDetailModal" aria-label="Cerrar detalle del cambio">×</button></div>
+  <div id="auditDetailContent"></div>
+  <div class="modal-actions"><button class="btn primary" data-close="auditDetailModal">Cerrar</button></div>
 </div></div>
 
 <!-- PRODUCT -->
@@ -315,6 +346,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js?v=5.0.6"></script>
-<script src="app.js?v=5.0.6"></script>
+<script src="app.js?v=5.1.1"></script>
 </body>
 </html>

@@ -1,0 +1,85 @@
+/* BurgerShot V5.1 — readable reports, filters and historical detail */
+.report-filters{margin:0 0 22px;padding:18px 20px;background:linear-gradient(120deg,#171e27,#111820);border:1px solid #2a333e;border-radius:17px;box-shadow:0 8px 25px #00000012}
+.filter-fields{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.filter-fields label{display:flex;flex-direction:column;gap:8px;min-width:150px;flex:1;margin:0;color:#acb9c9;font-size:12px;font-weight:600;letter-spacing:.02em}
+.filter-fields select,.filter-fields input{width:100%;min-height:43px;margin:0;padding:10px 12px;border:1px solid #35404e;border-radius:9px;background:#0c1219;color:#f2f5f9;font-size:13px;line-height:1.5;color-scheme:dark}
+.filter-fields .date-field{min-width:145px;flex:.8}
+.filter-reset{min-height:43px;padding:10px 14px;background:transparent;color:#e7bd70;border:1px solid #59482e;border-radius:9px;font-size:12px;cursor:pointer}
+.filter-summary{margin-top:12px;color:#94a3b6;font-size:12px;line-height:1.6}
+.filter-summary.is-error{color:#ffb1b1}
+.report-pager{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:14px 0 24px;color:#aab6c5;font-size:12px}
+.report-pager>div{display:flex;gap:12px;align-items:center}
+.report-pager .row-btn{min-height:36px;font-size:12px;padding:8px 12px}
+.report-pager button:disabled{opacity:.35;cursor:default}
+.report-note{font-size:13px!important;color:#9cabbc!important;line-height:1.65;margin:8px 0 20px}
+.report-notice{padding:14px 17px;margin:18px 0;border-left:3px solid #d0a752;background:#cda85b0d;border-radius:0 10px 10px 0;color:#d6c5a4;font-size:13px;line-height:1.7}
+.report-empty{padding:30px 22px;color:#a5b3c4;font-size:14px;line-height:1.6}
+.report-modal.modal{width:min(1080px,calc(100vw - 40px));padding:26px;border-radius:22px;background:linear-gradient(135deg,#19212b,#10161d);border:1px solid #334050;box-shadow:0 30px 100px #0008}
+.report-modal .modal-head{gap:22px;margin-bottom:22px}
+.report-modal h2{font-size:27px;line-height:1.2;margin:8px 0 0;overflow-wrap:anywhere}
+.report-modal .eyebrow{font-size:10px;letter-spacing:.18em}
+.report-modal .icon-btn{font-size:23px;width:38px;height:38px;flex-shrink:0}
+.report-modal .modal-actions{margin-top:24px;gap:12px}
+.report-modal .btn{min-height:43px;font-size:13px;padding:11px 18px}
+.report-modal .metrics.cut-metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0}
+.report-modal .metric{min-height:106px;padding:18px}
+.report-modal .metric strong{font-size:25px;overflow-wrap:anywhere}
+.report-modal .metric>span{font-size:10px;letter-spacing:.08em;line-height:1.5}
+.report-modal .metric small{font-size:11px}
+.cut-sales{display:grid;gap:10px}
+.cut-sale{border:1px solid #303b49;border-radius:12px;overflow:hidden;background:#111820}
+.cut-sale summary{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:17px 20px;list-style:none;cursor:pointer}
+.cut-sale summary::-webkit-details-marker{display:none}
+.cut-sale summary:after{content:'+';font-size:20px;color:#dfbe83;flex:0 0 16px}
+.cut-sale[open] summary:after{content:'−'}
+.cut-sale summary>span:first-child{flex:1}
+.cut-sale summary strong{display:block;color:#f1f3f7;font-size:14px;font-weight:700}
+.cut-sale summary small{display:block;color:#94a4b8;font-size:12px;line-height:1.65;margin-top:3px}
+.cut-sale-amount{text-align:right;white-space:nowrap}
+.cut-sale-amount em{font-style:normal;color:#e5be7b}
+.cut-sale-items{padding:14px 20px 18px;border-top:1px solid #303b49;background:#0c121966}
+.cut-sale-items>div{display:flex;justify-content:space-between;gap:14px;padding:8px 0;color:#b6c2d1;font-size:13px;line-height:1.5}
+.cut-sale-items strong{color:#e9edf4;white-space:nowrap}
+.cut-sale-items p{color:#96a7ba;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.audit-entity{display:block;margin-top:5px;font-size:11px;color:#91a1b7}
+#page-audit .table-wrap{overflow:auto}
+#page-audit table{min-width:800px}
+#page-audit th{padding:17px 20px;font-size:11px;letter-spacing:.08em;text-align:left}
+#page-audit td{padding:18px 20px;font-size:13px;line-height:1.6;text-align:left}
+#page-audit .badge{font-size:11px;padding:6px 10px}
+#page-audit .row-btn,.cut-open{padding:9px 13px;font-size:12px;white-space:nowrap}
+.report-modal .audit-diff{min-width:550px;width:100%;table-layout:fixed}
+.report-modal .audit-diff th{padding:14px 16px;font-size:11px;text-align:left;letter-spacing:.08em}
+.report-modal .audit-diff td{padding:17px 16px;font-size:13px;line-height:1.65;text-align:left;white-space:normal;overflow-wrap:anywhere;vertical-align:top}
+.report-modal .audit-diff td:nth-child(2){color:#91a0b3}
+.report-modal .audit-diff td:nth-child(3){background:#d1aa5f07;color:#ebd6b0}
+#weeklyChart{overflow-x:auto;gap:16px}
+#weeklyChart .bar-col{min-width:65px}
+#weeklyChart .bar-value,#weeklyChart .bar-label{font-size:11px;white-space:nowrap}
+.report-filters :focus-visible,.report-modal :focus-visible,.report-pager :focus-visible{outline:2px solid #ecc67b;outline-offset:3px}
+@media(max-width:760px){
+  .report-filters{padding:15px;margin-bottom:18px}
+  .filter-fields{gap:12px}.filter-fields label{min-width:130px}
+  .filter-summary{font-size:11px}
+  .report-modal.modal{padding:19px;width:calc(100vw - 24px);max-height:92dvh}
+  .report-modal .metrics.cut-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .report-modal .metric{padding:14px;min-height:95px}
+  .report-modal .metric strong{font-size:22px}
+  .report-modal h2{font-size:23px}
+  .cut-sale summary{padding:15px 13px;gap:10px;flex-wrap:wrap}
+  .cut-sale summary>span:first-child{min-width:130px}
+  .cut-sale-amount{text-align:left;white-space:normal}
+  .report-pager{align-items:flex-start;flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){.report-modal *{animation:none!important;transition:none!important}}
+
+/* Emblema BurgerShot recreado a partir de la referencia del usuario. */
+.logo,.logo.small{width:46px;height:50px;flex:0 0 46px;border-radius:0!important}
+.logo img{object-fit:contain}
+.brand.big .logo{width:66px;height:72px;flex-basis:66px}
+#cartEmpty img{width:96px;height:102px;object-fit:contain;opacity:1;margin:0 0 10px;filter:drop-shadow(0 8px 16px #0005)}
+.promo-logo{width:46px;height:50px;object-fit:contain}
+
+.sale-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px;padding:15px 17px;border:1px solid #2c3745;border-radius:12px;background:#0c121966}
+.sale-meta>div{display:flex;flex-direction:column;gap:5px;min-width:0}.sale-meta span,.detail-items-head span{color:#8fa0b3;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}.sale-meta strong{color:#e7ecf3;font-size:13px;overflow-wrap:anywhere}.sale-edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px 17px;margin-top:18px;padding:18px;border:1px solid #775b2c;background:#c99b3d08;border-radius:13px}.sale-edit-grid label{display:block;margin:0 0 7px;color:#aebdcd;font-size:12px;font-weight:600}.sale-edit-grid input,.sale-edit-grid select,.sale-edit-grid textarea{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #3a4654;border-radius:9px;background:#101821;color:#f2f5f9;font:inherit;font-size:13px;color-scheme:dark;resize:vertical}.sale-edit-help{grid-column:1/-1;margin:0;color:#d2ba83;font-size:12px;line-height:1.6}.detail-items{margin-top:18px}.detail-items-head{display:flex;justify-content:space-between;padding:0 2px 9px}.detail-items-head small{color:#8191a3;font-size:11px}.sale-edit-grid :focus-visible{outline:2px solid #ecc67b;outline-offset:2px}
+@media(max-width:600px){.sale-meta{grid-template-columns:1fr 1fr}.sale-edit-grid{grid-template-columns:1fr;padding:14px}.sale-edit-help{grid-column:auto}}

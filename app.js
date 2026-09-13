@@ -3,7 +3,7 @@
 const CATS={combos:"Combos",individuales:"Individuales",extras:"Extras",cajas:"Cajas felices",mayoreo:"Mayoreo"};
 const CONFIG_KEY="bs_v3_cloud";
 const PENDING_BOOTSTRAP_KEY="bs_v3_pending_admin";
-let saleSaving=false,checkoutSnapshot=null;
+let saleSaving=false,checkoutSnapshot=null,loadVersion=0,saleEditId=null;
 let sb,user=null,profile=null,store=null,products=[],discounts=[],sales=[],employees=[],payouts=[],cart={},activeCategory="all",realtime=null,resetTarget=null;
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:0}).format(Number(n)||0);
@@ -80,12 +80,12 @@ function pendingFor(employeeId){return sales.filter(s=>s.created_by===employeeId
 function paidFor(employeeId){return payouts.filter(p=>p.employee_id===employeeId).reduce((a,p)=>a+Number(p.amount||0),0)}
 
 async function init(){
-  bind();renderSetupActions();renderCategories();tick();setInterval(tick,1000);
+  bind();initReports();renderSetupActions();renderCategories();tick();setInterval(tick,1000);
   const c=cfg();if(!c?.url||!c?.key){showOnly("cloudSetup");return}
   try{
     sb=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true}});
     const {data:{session}}=await sb.auth.getSession();user=session?.user||null;
-    sb.auth.onAuthStateChange(async(_event,s)=>{user=s?.user||null;if(user)await afterAuth();else showOnly("authScreen")});
+    sb.auth.onAuthStateChange(async(_event,s)=>{user=s?.user||null;if(user)await afterAuth();else{profile=null;loadVersion++;auditRequest++;payoutRequest++;auditRows=[];document.querySelectorAll(".modal-backdrop").forEach(x=>x.classList.add("hidden"));showOnly("authScreen")}});
     if(user)await afterAuth();else showOnly("authScreen");
   }catch(e){console.error(e);showOnly("cloudSetup");toast("No se pudo conectar a Supabase")}
 }
@@ -195,20 +195,29 @@ async function afterAuth(){
     return;
   }
   if(!data.active){await sb.auth.signOut();toast("Cuenta desactivada");return}
-  profile=data;await loadData();showOnly("app");refreshUser();setupRealtime();
+  profile=data;await loadData();if(!user||!profile)return;showOnly("app");refreshUser();setupRealtime();
 }
 async function loadData(){
-  if(!profile)return;setSync("","Sincronizando");const sid=profile.store_id;
-  const [a,b,c,d,e,f]=await Promise.all([
-    sb.from("stores").select("*").eq("id",sid).single(),
-    sb.from("products").select("*").eq("store_id",sid).order("sort_order").order("name"),
-    sb.from("discounts").select("*").eq("store_id",sid).order("sort_order").order("name"),
-    sb.from("sales").select("*").eq("store_id",sid).order("created_at",{ascending:false}).limit(3000),
-    sb.from("profiles").select("*").eq("store_id",sid).order("name"),
-    sb.from("employee_payouts").select("*").eq("store_id",sid).order("created_at",{ascending:false}).limit(1000)
-  ]);
-  const err=a.error||b.error||c.error||d.error||e.error||f.error;if(err){console.error(err);setSync("error","Error");toast(err.message);return}
-  store=a.data;products=b.data||[];discounts=c.data||[];sales=d.data||[];employees=e.data||[];payouts=f.data||[];setSync("online","Sincronizado");renderAll();
+  if(!profile)return;const version=++loadVersion,sid=profile.store_id;setSync("","Sincronizando");
+  try{
+    const result=await Promise.all([
+      sb.from("stores").select("*").eq("id",sid).single(),
+      readAll(()=>sb.from("products").select("*").eq("store_id",sid).order("sort_order").order("id")),
+      readAll(()=>sb.from("discounts").select("*").eq("store_id",sid).order("sort_order").order("id")),
+      readAll(()=>sb.from("sales").select("*").eq("store_id",sid).order("created_at",{ascending:false}).order("id",{ascending:false})),
+      readAll(()=>sb.from("profiles").select("*").eq("store_id",sid).order("name").order("user_id")),
+      readAll(()=>sb.from("employee_payouts").select("id,store_id,employee_id,employee_name,generated_total,amount,business_net,sales_count,created_by,created_by_name,created_at").eq("store_id",sid).order("created_at",{ascending:false}).order("id",{ascending:false}))
+    ]);
+    const error=result.find(r=>r.error)?.error;if(error)throw error;
+    if(version!==loadVersion||!user||profile?.store_id!==sid)return;
+    [store,products,discounts,sales,employees,payouts]=result.map(r=>r.data);
+    const current=employees.find(e=>e.user_id===user.id);
+    if(!current?.active){await sb.auth.signOut();return}
+    profile=current;refreshUser();
+    if(!isAdmin()&&['allSales','employees','payouts','discounts','products','audit'].some(x=>$('page-'+x).classList.contains('active')))switchPage('dashboard');
+    setSync("online","Sincronizado");renderAll();
+    if($('page-audit').classList.contains('active'))loadAudit(auditPage);
+  }catch(error){if(version===loadVersion){setSync("error","Error");toast(error.message||"No se pudieron cargar los datos")}}
 }
 function setupRealtime(){
   if(realtime)sb.removeChannel(realtime);
@@ -217,7 +226,8 @@ function setupRealtime(){
     .on("postgres_changes",{event:"*",schema:"public",table:"products",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"*",schema:"public",table:"discounts",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"*",schema:"public",table:"profiles",filter:`store_id=eq.${profile.store_id}`},loadData)
-    .on("postgres_changes",{event:"*",schema:"public",table:"employee_payouts",filter:`store_id=eq.${profile.store_id}`},loadData).subscribe();
+    .on("postgres_changes",{event:"*",schema:"public",table:"employee_payouts",filter:`store_id=eq.${profile.store_id}`},loadData)
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"audit_events",filter:`store_id=eq.${profile.store_id}`},()=>{if($("page-audit").classList.contains("active"))loadAudit(0)}).subscribe();
 }
 function refreshUser(){
   $("storeName").textContent=store?.name||"BurgerShot";$("accountName").textContent=profile.name;$("posCashier").textContent=profile.name;$("topName").textContent=profile.name;const role=isAdmin()?"Administrador":"Empleado";$("accountRole").textContent=role;$("topRole").textContent=role;
@@ -225,8 +235,8 @@ function refreshUser(){
   $("welcomeSubtitle").textContent=isAdmin()?"Resumen general del BurgerShot.":`Tu comisión actual es ${Number(profile.commission_percent||0)}%.`;
   document.querySelectorAll(".admin-only").forEach(x=>x.classList.toggle("hidden",!isAdmin()));
 }
-function switchPage(page){if(["allSales","employees","payouts","discounts","products"].includes(page)&&!isAdmin())return;document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));$(`page-${page}`).classList.add("active");document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add("active");$("sidebar").classList.remove("open");renderAll()}
-function renderAll(){renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin()}
+function switchPage(page){if(["allSales","employees","payouts","discounts","products","audit"].includes(page)&&!isAdmin())return;document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));$(`page-${page}`).classList.add("active");document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add("active");$("sidebar").classList.remove("open");renderAll();if(page==="audit")loadAudit(0)}
+function renderAll(){refreshReportEmployees();renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin()}
 function renderDashboard(){
   if(!profile)return;
   const mine=sales.filter(s=>s.created_by===user.id),m=sums(mine),all=sums(sales),pending=pendingFor(user.id);
@@ -293,24 +303,59 @@ async function saveSale(){
   finally{saleSaving=false;button.disabled=false;button.textContent=label}
 }
 function renderMySales(){
-  if(!profile)return;const q=$("mySalesSearch").value.trim().toLowerCase(),mine=sales.filter(s=>s.created_by===user.id),m=sums(mine),pending=pendingFor(user.id),paid=paidFor(user.id);
-  $("myMetrics").innerHTML=metricHTML([["Ventas",m.count,"activas"],["Generado",money(m.generated),"total vendido","accent"],["Mi ganancia",money(m.earnings),`${Number(profile.commission_percent||0)}% actual`,"green"],["Pendiente",money(pending),"por pagar"],["Pagado",money(paid),"cortes registrados"]]);
-  const arr=mine.filter(s=>!q||[folio(s),s.client,s.employee_name].join(" ").toLowerCase().includes(q));$("mySalesBody").innerHTML=arr.length?arr.map(s=>`<tr><td><strong>${folio(s)}</strong></td><td>${fmtDate(s.created_at)}</td><td>${esc(s.client)}</td><td><strong>${money(s.total)}</strong></td><td><strong>${money(s.employee_earnings)}</strong></td><td>${money(s.business_net)}</td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td><td>${statusBadge(s)}</td><td><button class="row-btn" data-sale="${s.id}">Ver</button></td></tr>`).join(""):`<tr><td colspan="9">No hay ventas.</td></tr>`;bindSaleButtons();
+  if(!profile)return;const mine=filteredRows('mySales'),m=sums(mine),pending=mine.filter(s=>s.status==='active'&&!s.payout_id).reduce((a,s)=>a+Number(s.employee_earnings),0),paid=mine.filter(s=>s.payout_id).reduce((a,s)=>a+Number(s.employee_earnings),0);
+  $("myMetrics").innerHTML=metricHTML([["Ventas",m.count,"activas en el filtro"],["Generado",reportMoney(m.generated),"en el filtro","accent"],["Mi ganancia",reportMoney(m.earnings),"comisiones originales","green"],["Pendiente",reportMoney(pending),"ventas filtradas"],["Pagado",reportMoney(paid),"ventas filtradas"]]);
+  const arr=reportPage('mySales',mine);$("mySalesBody").innerHTML=arr.length?arr.map(s=>`<tr><td><strong>${folio(s)}</strong></td><td>${fmtDate(s.created_at)}</td><td>${esc(s.client)}</td><td><strong>${reportMoney(s.total)}</strong></td><td><strong>${reportMoney(s.employee_earnings)}</strong></td><td>${reportMoney(s.business_net)}</td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td><td>${statusBadge(s)}</td><td><button class="row-btn" data-sale="${s.id}">Ver</button></td></tr>`).join(""):`<tr><td colspan="9">No hay ventas.</td></tr>`;bindSaleButtons();
 }
 function renderAnalytics(){
-  if(!profile)return;const base=isAdmin()?sales:sales.filter(s=>s.created_by===user.id),m=sums(base);$("analyticsMetrics").innerHTML=metricHTML([["Ventas",m.count,"activas"],["Generado",money(m.generated),"bruto","accent"],["Ganancias",money(m.earnings),"empleados"],["Neto",money(m.net),"negocio","green"]]);
-  const active=base.filter(x=>x.status==="active"),days=[];for(let i=6;i>=0;i--){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-i);const n=new Date(d);n.setDate(n.getDate()+1);days.push({label:new Intl.DateTimeFormat("es-MX",{weekday:"short"}).format(d),total:active.filter(s=>new Date(s.created_at)>=d&&new Date(s.created_at)<n).reduce((a,b)=>a+Number(b.total),0)})}
-  const max=Math.max(...days.map(x=>x.total),1);$("weeklyChart").innerHTML=days.map(x=>`<div class="bar-col"><div class="bar-value">${money(x.total)}</div><div class="bar" style="height:${Math.max(3,x.total/max*85)}%"></div><div class="bar-label">${x.label}</div></div>`).join("");
-  const count={};active.forEach(s=>(s.items||[]).forEach(i=>count[i.name]=(count[i.name]||0)+Number(i.qty)));const rank=Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,8);$("productRanking").innerHTML=rank.length?rank.map(([n,q],i)=>`<div class="rank-item"><div class="rank-num">${i+1}</div><div><strong>${esc(n)}</strong><small>Unidades</small></div><div class="rank-qty">${q}</div></div>`).join(""):`<div class="empty-cart"><strong>Sin datos</strong></div>`;
+  if(!profile)return;const base=filteredRows('analytics'),m=sums(base);reportSummary('analytics',base.length);
+  $("analyticsMetrics").innerHTML=metricHTML([["Ventas",m.count,"activas en el filtro"],["Generado",reportMoney(m.generated),"en el filtro","accent"],["Ganancias",reportMoney(m.earnings),"comisiones"],["Neto",reportMoney(m.net),"negocio","green"]]);
+  const active=m.a,bounds=dateBounds('analytics');
+  let start=bounds.start||new Date(active.length?Math.min(...active.map(s=>+new Date(s.created_at))):Date.now());start=new Date(start);start.setHours(0,0,0,0);
+  let end=bounds.end;if(!end){end=new Date(active.length?Math.max(...active.map(s=>+new Date(s.created_at))):Date.now());end.setHours(0,0,0,0);end.setDate(end.getDate()+1)}
+  const calendar=d=>Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()),span=Math.max(1,Math.round((calendar(end)-calendar(start))/86400000)),step=Math.max(1,Math.ceil(span/12)),days=[];
+  const label=d=>new Intl.DateTimeFormat('es-MX',{day:'numeric',month:'short'}).format(d);
+  for(let offset=0;offset<span;offset+=step){const d=new Date(start);d.setDate(d.getDate()+offset);const n=new Date(d);n.setDate(n.getDate()+step);days.push({label:label(d),total:active.filter(s=>new Date(s.created_at)>=d&&new Date(s.created_at)<n).reduce((a,s)=>a+Number(s.total),0)})}
+  const max=Math.max(...days.map(x=>x.total),1);$("weeklyChart").innerHTML=active.length&&!bounds.error?days.map(x=>`<div class="bar-col"><div class="bar-value">${reportMoney(x.total)}</div><div class="bar" title="${esc(x.label)}: ${reportMoney(x.total)}" style="height:${Math.max(3,x.total/max*85)}%"></div><div class="bar-label">${esc(x.label)}</div></div>`).join(''):'<div class="report-empty">No hay ventas activas en este período.</div>';
+  $('chartTitle').textContent='Ventas del período';$('chartSubtitle').textContent=step>1?`Agrupadas cada ${step} días · Primer día de cada grupo`:'Generado por día';
+  const count={};active.forEach(s=>(s.items||[]).forEach(i=>count[i.name]=(count[i.name]||0)+Number(i.qty)));const rank=Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,8);$("productRanking").innerHTML=rank.length?rank.map(([n,q],i)=>`<div class="rank-item"><div class="rank-num">${i+1}</div><div><strong>${esc(n)}</strong><small>Unidades en el filtro</small></div><div class="rank-qty">${q}</div></div>`).join(''):'<div class="report-empty">Sin ventas en el filtro.</div>';
 }
 function renderAllSales(){
-  if(!isAdmin())return;const q=$("allSalesSearch").value.trim().toLowerCase(),m=sums(sales);$("allMetrics").innerHTML=metricHTML([["Ventas",m.count,"activas"],["Generado",money(m.generated),"bruto","accent"],["Ganancias empleados",money(m.earnings),"comisiones"],["Neto negocio",money(m.net),"después de comisiones","green"]]);
-  const arr=sales.filter(s=>!q||[folio(s),s.client,s.employee_name].join(" ").toLowerCase().includes(q));$("allSalesBody").innerHTML=arr.length?arr.map(s=>`<tr><td><strong>${folio(s)}</strong></td><td>${fmtDate(s.created_at)}</td><td>${esc(s.employee_name)}</td><td>${esc(s.client)}</td><td><strong>${money(s.total)}</strong></td><td>${money(s.employee_earnings)}</td><td><strong>${money(s.business_net)}</strong></td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td><td>${statusBadge(s)}</td><td><button class="row-btn" data-sale="${s.id}">Ver</button></td></tr>`).join(""):`<tr><td colspan="10">No hay ventas.</td></tr>`;bindSaleButtons();
+  if(!isAdmin())return;const rows=filteredRows('allSales'),m=sums(rows);$("allMetrics").innerHTML=metricHTML([["Ventas",m.count,"activas en el filtro"],["Generado",reportMoney(m.generated),"en el filtro","accent"],["Ganancias empleados",reportMoney(m.earnings),"comisiones originales"],["Neto negocio",reportMoney(m.net),"después de comisiones","green"]]);
+  const arr=reportPage('allSales',rows);$("allSalesBody").innerHTML=arr.length?arr.map(s=>`<tr><td><strong>${folio(s)}</strong></td><td>${fmtDate(s.created_at)}</td><td>${esc(s.employee_name)}</td><td>${esc(s.client)}</td><td><strong>${reportMoney(s.total)}</strong></td><td>${reportMoney(s.employee_earnings)}</td><td><strong>${reportMoney(s.business_net)}</strong></td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td><td>${statusBadge(s)}</td><td><button class="row-btn" data-sale="${s.id}">Ver</button></td></tr>`).join(""):`<tr><td colspan="10">No hay ventas.</td></tr>`;bindSaleButtons();
 }
 function statusBadge(s){return s.status==="active"?`<span class="badge green">Activa</span>`:`<span class="badge red">Anulada</span>`}
 function fmtDate(x){return new Intl.DateTimeFormat("es-MX",{dateStyle:"short",timeStyle:"short"}).format(new Date(x))}
 function bindSaleButtons(){document.querySelectorAll("[data-sale]").forEach(b=>b.onclick=()=>openSale(b.dataset.sale))}
-function openSale(id){const s=sales.find(x=>x.id===id);if(!s)return;$("detailFolio").textContent=folio(s);$("saleDetail").innerHTML=`<div class="detail-grid"><div class="detail-box"><span>Empleado</span><strong>${esc(s.employee_name)}</strong></div><div class="detail-box"><span>Generado</span><strong>${money(s.total)}</strong></div><div class="detail-box"><span>Ganancia empleado</span><strong>${money(s.employee_earnings)}</strong></div><div class="detail-box"><span>Neto negocio</span><strong>${money(s.business_net)}</strong></div><div class="detail-box"><span>Comisión</span><strong>${Number(s.commission_percent||0)}%</strong></div><div class="detail-box"><span>Pago comisión</span><strong>${s.payout_id?"Pagado":"Pendiente"}</strong></div></div><div class="detail-items">${(s.items||[]).map(i=>`<div class="detail-item"><span>${i.qty}× ${esc(i.name)}</span><strong>${money(i.lineTotal)}</strong></div>`).join("")}</div>`;const actions=[];if(isAdmin()){if(s.status==="active")actions.push(`<button id="voidBtn" class="btn danger">Anular venta</button>`);if(!s.payout_id)actions.push(`<button id="deleteSaleBtn" class="btn secondary">Eliminar orden</button>`);}$("saleDetailActions").innerHTML=actions.length?actions.join(""):statusBadge(s);$("saleDetailModal").classList.remove("hidden");$("voidBtn")&&($("voidBtn").onclick=()=>voidSale(id));$("deleteSaleBtn")&&($("deleteSaleBtn").onclick=()=>deleteSale(id))}
+function salePaymentOptions(value){return ["Efectivo","Transferencia","Tarjeta","Otro"].map(x=>`<option ${x===value?"selected":""}>${x}</option>`).join("")}
+function saleClientOptions(value){return [["general","Cliente general"],["police","Policía"],["sheriff","Sheriff"],["ems","EMS"]].map(([id,label])=>`<option value="${id}" ${id===value?"selected":""}>${label}</option>`).join("")}
+function renderSaleDetail(s){
+  const editing=saleEditId===s.id,locked=Boolean(s.payout_id)||s.status!=="active";
+  $("detailFolio").textContent=folio(s);
+  const items=(s.items||[]).map(i=>`<div class="detail-item"><span>${i.qty}× ${esc(i.name)}</span><strong>${money(i.lineTotal)}</strong></div>`).join("");
+  $("saleDetail").innerHTML=`<div class="detail-grid"><div class="detail-box"><span>Empleado</span><strong>${esc(s.employee_name)}</strong></div><div class="detail-box"><span>Generado</span><strong>${money(s.total)}</strong></div><div class="detail-box"><span>Ganancia empleado</span><strong>${money(s.employee_earnings)}</strong></div><div class="detail-box"><span>Neto negocio</span><strong>${money(s.business_net)}</strong></div><div class="detail-box"><span>Comisión</span><strong>${Number(s.commission_percent||0)}%</strong></div><div class="detail-box"><span>Pago comisión</span><strong>${s.payout_id?"Pagado":"Pendiente"}</strong></div></div>${editing?`<div class="sale-edit-grid"><div><label for="editSaleClient">Cliente / ID</label><input id="editSaleClient" value="${esc(s.client||"")}" maxlength="120"></div><div><label for="editSaleClientType">Tipo de cliente</label><select id="editSaleClientType">${saleClientOptions(s.client_type||"general")}</select></div><div><label for="editSalePayment">Método de pago</label><select id="editSalePayment">${salePaymentOptions(s.payment||"Efectivo")}</select></div><div class="full"><label for="editSaleNote">Nota</label><textarea id="editSaleNote" maxlength="500" rows="3">${esc(s.note||"")}</textarea></div><p class="sale-edit-help">Puedes corregir los datos de la orden. El total y la comisión se conservan porque los importes financieros pertenecen al registro original.</p></div>`:`<div class="sale-meta"><div><span>Cliente</span><strong>${esc(s.client||"Cliente general")}</strong></div><div><span>Tipo</span><strong>${esc({general:"Cliente general",police:"Policía",sheriff:"Sheriff",ems:"EMS"}[s.client_type]||s.client_type||"—")}</strong></div><div><span>Método</span><strong>${esc(s.payment||"—")}</strong></div>${s.note?`<div class="full"><span>Nota</span><strong>${esc(s.note)}</strong></div>`:""}</div>`}<div class="detail-items"><div class="detail-items-head"><span>Productos</span><small>Importes registrados</small></div>${items||`<div class="report-empty">No hay productos en esta orden.</div>`}</div>`;
+  const actions=[];
+  if(isAdmin()){
+    if(editing){actions.push(`<button id="cancelSaleEditBtn" class="btn secondary">Cancelar</button><button id="saveSaleEditBtn" class="btn primary">Guardar cambios</button>`)}
+    else if(!locked)actions.push(`<button id="editSaleBtn" class="btn secondary">Editar orden</button>`);
+    if(s.status==="active")actions.push(`<button id="voidBtn" class="btn danger">Anular venta</button>`);
+    if(!s.payout_id)actions.push(`<button id="deleteSaleBtn" class="btn secondary">Eliminar orden</button>`);
+  }
+  $("saleDetailActions").innerHTML=actions.length?actions.join(""):statusBadge(s);
+  $("editSaleBtn")&&($("editSaleBtn").onclick=()=>{saleEditId=s.id;renderSaleDetail(s);$("editSaleClient").focus()});
+  $("cancelSaleEditBtn")&&($("cancelSaleEditBtn").onclick=()=>{saleEditId=null;renderSaleDetail(s)});
+  $("saveSaleEditBtn")&&($("saveSaleEditBtn").onclick=()=>saveSaleEdit(s.id));
+  $("voidBtn")&&($("voidBtn").onclick=()=>voidSale(s.id));$("deleteSaleBtn")&&($("deleteSaleBtn").onclick=()=>deleteSale(s.id));
+}
+function openSale(id){const s=sales.find(x=>x.id===id);if(!s)return;saleEditId=null;renderSaleDetail(s);$("saleDetailModal").classList.remove("hidden")}
+async function saveSaleEdit(id){
+  const s=sales.find(x=>x.id===id);if(!isAdmin()||!s||s.payout_id||s.status!=="active")return toast("Esta orden ya está cerrada y no se puede editar");
+  const client=$("editSaleClient").value.trim()||"Cliente general",client_type=$("editSaleClientType").value,payment=$("editSalePayment").value,note=$("editSaleNote").value.trim();
+  if(client.length>120||note.length>500)return toast("Revisa la longitud de los datos");
+  if((s.items||[]).some(i=>{const p=products.find(x=>x.id===i.id);return p?.restriction&&p.restriction!==client_type}))return toast("El tipo de cliente ya no corresponde a un producto restringido");
+  const {error}=await sb.from("sales").update({client,client_type,payment,note}).eq("id",id).eq("store_id",profile.store_id).is("payout_id",null);
+  if(error)return toast(error.message||"No se pudo guardar la orden");saleEditId=null;await loadData();$("saleDetailModal").classList.add("hidden");toast("Orden actualizada")
+}
 async function voidSale(id){if(!isAdmin()||!confirm("¿Anular esta venta?"))return;const {error}=await sb.from("sales").update({status:"void",voided_at:new Date().toISOString(),voided_by:user.id}).eq("id",id);if(error)return toast(error.message);$("saleDetailModal").classList.add("hidden");await loadData();toast("Venta anulada")}
 async function deleteSale(id){const s=sales.find(x=>x.id===id);if(!isAdmin()||!s)return;if(s.payout_id)return toast("No puedes eliminar una orden que ya fue incluida en un pago. Puedes anularla si lo necesitas.");if(!confirm(`¿Eliminar permanentemente la orden ${folio(s)}? Esta acción no se puede deshacer.`))return;const {error}=await sb.from("sales").delete().eq("id",id);if(error)return toast(error.message);$("saleDetailModal").classList.add("hidden");await loadData();toast("Orden eliminada")}
 function employeeStats(e){const list=sales.filter(s=>s.created_by===e.user_id),m=sums(list);return{...m,pending:pendingFor(e.user_id),paid:paidFor(e.user_id)}}
@@ -367,8 +412,11 @@ function openPasswordReset(){resetTarget=$("editEmployeeId").value;$("newEmploye
 async function resetPassword(){const p=$("newEmployeePassword").value;if(p.length<6)return $("passwordError").textContent="Mínimo 6 caracteres";const {data,error}=await sb.functions.invoke("employee-admin",{body:{action:"reset_password",user_id:resetTarget,password:p}});if(error)return $("passwordError").textContent=await edgeErrorMessage(error,data,"No se pudo actualizar la contraseña");if(data?.error)return $("passwordError").textContent=data.error;$("passwordModal").classList.add("hidden");toast("Contraseña actualizada")}
 async function payEmployee(){const id=$("editEmployeeId").value,st=employeeStats(employees.find(e=>e.user_id===id));if(st.pending<=0)return toast("No hay ganancias pendientes");if(!confirm(`Registrar pago de ${money(st.pending)} a este empleado?`))return;const {error}=await sb.rpc("create_employee_payout",{p_employee:id});if(error)return toast(error.message);$("employeeDetailModal").classList.add("hidden");await loadData();toast("Pago registrado")}
 function renderPayouts(){
-  if(!isAdmin())return;const total=payouts.reduce((a,p)=>a+Number(p.amount),0),gen=payouts.reduce((a,p)=>a+Number(p.generated_total),0),net=payouts.reduce((a,p)=>a+Number(p.business_net),0);$("payoutMetrics").innerHTML=metricHTML([["Cortes",payouts.length,"registros"],["Generado incluido",money(gen),"ventas"],["Pagado empleados",money(total),"comisiones","accent"],["Neto negocio",money(net),"en cortes","green"]]);
-  $("payoutsBody").innerHTML=payouts.length?payouts.map(p=>`<tr><td>${fmtDate(p.created_at)}</td><td><strong>${esc(p.employee_name)}</strong></td><td>${p.sales_count}</td><td>${money(p.generated_total)}</td><td><strong>${money(p.amount)}</strong></td><td>${money(p.business_net)}</td><td>${esc(p.created_by_name||"—")}</td></tr>`).join(""):`<tr><td colspan="7">Aún no hay pagos registrados.</td></tr>`;
+  if(!isAdmin())return;const rows=filteredRows('payouts'),total=rows.reduce((a,p)=>a+Number(p.amount),0),gen=rows.reduce((a,p)=>a+Number(p.generated_total),0),net=rows.reduce((a,p)=>a+Number(p.business_net),0);
+  $("payoutMetrics").innerHTML=metricHTML([["Cortes",rows.length,"en el filtro"],["Generado incluido",reportMoney(gen),"ventas registradas"],["Pagado empleados",reportMoney(total),"comisiones","accent"],["Neto negocio",reportMoney(net),"en cortes","green"]]);
+  const page=reportPage('payouts',rows);
+  $("payoutsBody").innerHTML=page.length?page.map(p=>`<tr><td>${fmtDate(p.created_at)}</td><td><strong>${esc(p.employee_name)}</strong></td><td>${p.sales_count}</td><td>${reportMoney(p.generated_total)}</td><td><strong>${reportMoney(p.amount)}</strong></td><td>${reportMoney(p.business_net)}</td><td>${esc(p.created_by_name||"—")}</td><td><button class="row-btn cut-open" data-payout="${esc(p.id)}">Ver corte</button></td></tr>`).join(''):'<tr><td colspan="8">No hay cortes en este filtro.</td></tr>';
+  $('payoutsBody').querySelectorAll('[data-payout]').forEach(b=>b.onclick=()=>openPayout(b.dataset.payout));
 }
 function renderProductsAdmin(){$("editProductCategory").innerHTML=Object.entries(CATS).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");$("productsBody").innerHTML=products.map(p=>`<tr><td><div class="admin-product-photo">${productArt(p,true)}<strong>${esc(p.name)}</strong></div></td><td>${esc(CATS[p.category]||p.category)}</td><td><strong>${money(p.price)}</strong></td><td><span class="badge dark">${esc(p.tag)}</span></td><td>${p.active?`<span class="badge green">Activo</span>`:`<span class="badge red">Inactivo</span>`}</td><td><button class="row-btn" data-edit-product="${p.id}">Editar</button></td></tr>`).join("");document.querySelectorAll("[data-edit-product]").forEach(b=>b.onclick=()=>openProduct(b.dataset.editProduct))}
 function openProduct(id=null){const p=id?products.find(x=>x.id===id):null;$("productModalTitle").textContent=p?"Editar producto":"Nuevo producto";$("editProductId").value=p?.id||"";$("editProductName").value=p?.name||"";$("editProductPrice").value=p?.price||0;$("editProductCategory").value=p?.category||"individuales";$("editProductEmoji").innerHTML=`<option value="">Automática según el nombre</option>`+Object.entries(PHOTO_LABELS).map(([k,v])=>`<option value="photo:${k}">${v}</option>`).join("");$("editProductEmoji").value=String(p?.emoji||"").startsWith("photo:")?p.emoji:"";$("editProductEmoji").dataset.legacy=String(p?.emoji||"").startsWith("photo:")?"🍔":p?.emoji||"🍔";$("editProductTag").value=p?.tag||"all";$("editProductRestriction").value=p?.restriction||"";$("editProductActive").checked=p?p.active:true;$("deleteProductBtn").classList.toggle("hidden",!p);$("productModal").classList.remove("hidden")}
@@ -379,6 +427,167 @@ function openDiscount(id=null){const d=id?discounts.find(x=>x.id===id):null;$("d
 async function saveDiscount(){const id=$("editDiscountId").value,name=$("editDiscountName").value.trim();if(!name)return toast("Escribe un nombre");const p={store_id:profile.store_id,name,percent:Number($("editDiscountPercent").value)||0,scope:$("editDiscountScope").value,description:$("editDiscountDescription").value.trim(),exclude_public:$("editDiscountExcludePublic").checked,active:$("editDiscountActive").checked,system:false};const r=id?await sb.from("discounts").update(p).eq("id",id):await sb.from("discounts").insert(p);if(r.error)return toast(r.error.message);$("discountModal").classList.add("hidden");await loadData()}
 async function deleteDiscount(){const id=$("editDiscountId").value;if(!confirm("¿Eliminar convenio?"))return;const {error}=await sb.from("discounts").delete().eq("id",id);if(error)return toast(error.message);$("discountModal").classList.add("hidden");await loadData()}
 function openAccount(){$("accountModalName").textContent=profile.name;const mine=sums(sales.filter(s=>s.created_by===user.id));$("accountDetail").innerHTML=`Usuario: <strong>${esc(profile.username||"—")}</strong><br>Rol: ${isAdmin()?"Administrador":"Empleado"}<br>Comisión actual: ${Number(profile.commission_percent||0)}%<br>Generado: ${money(mine.generated)}<br>Ganancia: ${money(mine.earnings)}`;$("accountModal").classList.remove("hidden")}
-function exportCSV(){const rows=[["Folio","Fecha","Empleado","Cliente","Generado","Comision %","Ganancia empleado","Neto negocio","Pago comision","Estado"]];sales.forEach(s=>rows.push([folio(s),s.created_at,s.employee_name,s.client,s.total,s.commission_percent,s.employee_earnings,s.business_net,s.payout_id?"Pagado":"Pendiente",s.status]));const csv="\ufeff"+rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="burgershot-registro-ventas.csv";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+// Reports use the same filtered rows for tables, metrics and exports.
+const REPORT_PAGE_SIZE=25;
+const reportState=Object.fromEntries(['mySales','allSales','analytics','payouts','audit'].map(k=>[k,{period:'all',start:'',end:'',employee:'',status:'',entity:'',page:0}]));
+let auditRows=[],auditPage=0,auditHasNext=false,auditRequest=0,payoutRequest=0,detailPayout=null,detailPayoutSales=[];
+const reportMoney=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:2}).format(Number(n)||0);
+const localDay=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const AUDIT_ENTITIES={sales:'Venta',profiles:'Empleado',products:'Producto',discounts:'Convenio',employee_payouts:'Corte'};
+const AUDIT_ACTIONS={insert:'Creación',update:'Actualización',delete:'Eliminación',void:'Anulación',paid:'Comisión pagada',deactivate:'Baja de usuario',reactivate:'Reactivación'};
+function dateBounds(scope){
+  const f=reportState[scope];let start=null,end=null;
+  if(f.period==='custom'){
+    if(!f.start||!f.end)return {error:'Selecciona la fecha inicial y final.'};
+    start=new Date(f.start+'T00:00:00');end=new Date(f.end+'T00:00:00');
+    if(!Number.isFinite(+start)||!Number.isFinite(+end)||localDay(start)!==f.start||localDay(end)!==f.end||start>end)return {error:'La fecha inicial debe ser anterior o igual a la final.'};
+    end.setDate(end.getDate()+1);
+  }else if(f.period!=='all'){
+    start=new Date();start.setHours(0,0,0,0);end=new Date(start);
+    if(f.period==='today')end.setDate(end.getDate()+1);
+    if(f.period==='week'){start.setDate(start.getDate()-(start.getDay()+6)%7);end=new Date(start);end.setDate(end.getDate()+7)}
+    if(f.period==='month'){start.setDate(1);end=new Date(start);end.setMonth(end.getMonth()+1)}
+  }
+  return {start,end};
+}
+function initReports(){
+  Object.keys(reportState).forEach(scope=>{
+    const host=$(scope+'Filters'),isSales=['mySales','allSales'].includes(scope);
+    host.innerHTML=`<div class="filter-fields"><label>Período<select data-filter="period"><option value="all">Todo el historial</option><option value="today">Hoy</option><option value="week">Esta semana</option><option value="month">Este mes</option><option value="custom">Personalizado</option></select></label><label class="date-field hidden">Desde<input type="date" data-filter="start"></label><label class="date-field hidden">Hasta<input type="date" data-filter="end"></label>${scope!=='mySales'?`<label class="employee-filter">${scope==='audit'?'Responsable':'Empleado'}<select data-filter="employee"><option value="">Todos</option></select></label>`:''}${isSales?'<label>Estado<select data-filter="status"><option value="">Todos los estados</option><option value="active">Activas</option><option value="void">Anuladas</option></select></label>':''}${scope==='audit'?`<label>Registro<select data-filter="entity"><option value="">Todos los registros</option>${Object.entries(AUDIT_ENTITIES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></label><label>Acción<select data-filter="status"><option value="">Todas las acciones</option>${Object.entries(AUDIT_ACTIONS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></label>`:''}<button type="button" class="filter-reset">Limpiar filtros</button></div><div class="filter-summary" aria-live="polite"></div>`;
+    host.onchange=e=>{const key=e.target.dataset.filter;if(!key)return;reportState[scope][key]=e.target.value;reportState[scope].page=0;host.querySelectorAll('.date-field').forEach(x=>x.classList.toggle('hidden',reportState[scope].period!=='custom'));updateReport(scope)};
+    host.querySelector('.filter-reset').onclick=()=>{Object.assign(reportState[scope],{period:'all',start:'',end:'',employee:'',status:'',entity:'',page:0});host.querySelectorAll('[data-filter]').forEach(x=>x.value=reportState[scope][x.dataset.filter]);host.querySelectorAll('.date-field').forEach(x=>x.classList.add('hidden'));const search=$(scope+'Search');if(search)search.value='';updateReport(scope)};
+  });
+  $('myCsvBtn').onclick=()=>exportCSV('mySales');$('payoutCsvBtn').onclick=exportPayoutCSV;
+  $('payoutDetailCsvBtn').onclick=()=>{if(detailPayout)downloadSalesCSV(detailPayoutSales,`burgershot-corte-${detailPayout.id.slice(0,8)}.csv`)};
+  $('auditRefreshBtn').onclick=()=>loadAudit(0);
+  for(const scope of ['mySales','allSales'])$(scope+'Search').oninput=()=>{reportState[scope].page=0;updateReport(scope)};
+  // Accessible focus return and Escape behavior for the new dialogs.
+  for(const id of ['payoutDetailModal','auditDetailModal']){
+    const modal=$(id);modal.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>modal._opener?.focus()));
+    modal.addEventListener('keydown',e=>{if(e.key==='Escape'){modal.classList.add('hidden');modal._opener?.focus();return}if(e.key!=='Tab')return;const focusable=[...modal.querySelectorAll('button:not([disabled]),summary,[tabindex="0"]')];const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus()}});
+  }
+}
+function updateReport(scope){
+  if(scope==='audit')return loadAudit(0);
+  ({mySales:renderMySales,allSales:renderAllSales,analytics:renderAnalytics,payouts:renderPayouts})[scope]();
+}
+function refreshReportEmployees(){
+  const names=new Map();employees.forEach(e=>names.set(e.user_id,`${e.name}${e.active?'':' · Inactivo'}`));
+  sales.forEach(s=>{if(!names.has(s.created_by))names.set(s.created_by,s.employee_name)});
+  payouts.forEach(p=>{if(!names.has(p.employee_id))names.set(p.employee_id,p.employee_name)});
+  for(const scope of ['allSales','analytics','payouts','audit']){
+    const select=$(scope+'Filters').querySelector('[data-filter="employee"]');
+    select.closest('label').classList.toggle('hidden',!isAdmin());
+    const options=new Map(names);if(scope==='audit')auditRows.forEach(a=>{if(a.actor_id&&!options.has(a.actor_id))options.set(a.actor_id,a.actor_name)});
+    // Keep a selected deleted actor available when moving to another page.
+    if(reportState[scope].employee&&reportState[scope].employee!=='system'&&!options.has(reportState[scope].employee))options.set(reportState[scope].employee,select.selectedOptions[0]?.textContent||'Cuenta anterior');
+    select.innerHTML='<option value="">Todos</option>'+[...options].sort((a,b)=>a[1].localeCompare(b[1],'es')).map(([id,name])=>`<option value="${esc(id)}">${esc(name)}</option>`).join('')+(scope==='audit'?'<option value="system">Servicio / SQL</option>':'');select.value=reportState[scope].employee;
+  }
+}
+function filteredRows(scope){
+  const f=reportState[scope],bounds=dateBounds(scope),q=normalize($(scope+'Search')?.value.trim()||'');
+  if(bounds.error)return [];
+  const source=scope==='payouts'?payouts:sales;
+  return source.filter(row=>{
+    const employee=scope==='payouts'?row.employee_id:row.created_by;
+    if((scope==='mySales'||!isAdmin())&&employee!==user.id)return false;
+    if(isAdmin()&&f.employee&&employee!==f.employee)return false;
+    if(f.status&&row.status!==f.status)return false;
+    const date=new Date(row.created_at);
+    if(bounds.start&&date<bounds.start||bounds.end&&date>=bounds.end)return false;
+    return !q||normalize([folio(row),row.client,row.employee_name].join(' ')).includes(q);
+  });
+}
+function reportSummary(scope,count){
+  const bounds=dateBounds(scope),host=$(scope+'Filters').querySelector('.filter-summary');
+  host.textContent=bounds.error||`${count} registro${count===1?'':'s'} en el filtro · Totales de ventas activas${scope==='payouts'?' al registrar cada corte':''} · Hora local (${Intl.DateTimeFormat().resolvedOptions().timeZone})`;
+  host.classList.toggle('is-error',Boolean(bounds.error));
+  const button=$({allSales:'csvBtn',mySales:'myCsvBtn',payouts:'payoutCsvBtn'}[scope]);if(button)button.disabled=Boolean(bounds.error)||!count;
+}
+function reportPage(scope,rows){
+  const f=reportState[scope],pages=Math.max(1,Math.ceil(rows.length/REPORT_PAGE_SIZE));f.page=Math.min(f.page,pages-1);
+  const start=f.page*REPORT_PAGE_SIZE,host=$(scope+'Pager');
+  host.innerHTML=`<span>${rows.length?`${start+1}–${Math.min(start+REPORT_PAGE_SIZE,rows.length)} de ${rows.length}`:'Sin resultados'}</span><div><button class="row-btn" data-prev ${f.page===0?'disabled':''}>Anterior</button><span>${f.page+1} / ${pages}</span><button class="row-btn" data-next ${f.page>=pages-1?'disabled':''}>Siguiente</button></div>`;
+  host.querySelector('[data-prev]').onclick=()=>{f.page--;updateReport(scope)};host.querySelector('[data-next]').onclick=()=>{f.page++;updateReport(scope)};
+  reportSummary(scope,rows.length);return rows.slice(start,start+REPORT_PAGE_SIZE);
+}
+async function readAll(makeQuery){
+  const rows=[];let offset=0;
+  // Advance by the actual page length, including projects with a lower API cap.
+  for(;;){const {data,error}=await makeQuery().range(offset,offset+499);if(error)return {data:null,error};if(!data?.length)break;rows.push(...data);offset+=data.length}
+  return {data:[...new Map(rows.map(r=>[r.id||r.user_id,r])).values()],error:null};
+}
+function openReportModal(id){const modal=$(id);modal._opener=document.activeElement;modal.classList.remove('hidden');modal.querySelector('[data-close]')?.focus()}
+async function openPayout(id){
+  if(!isAdmin())return;const request=++payoutRequest;
+  detailPayout=null;detailPayoutSales=[];$('payoutDetailCsvBtn').disabled=true;$('payoutDetailTitle').textContent='Detalle del corte';$('payoutDetailMeta').textContent='';$('payoutDetailContent').textContent='Cargando ventas del corte…';openReportModal('payoutDetailModal');
+  try{
+    const {data:p,error}=await sb.from('employee_payouts').select('*').eq('id',id).eq('store_id',profile.store_id).single();
+    if(error)throw error;if(!p)throw new Error('No se encontró este corte.');
+    const captured=Array.isArray(p.sales_snapshot);
+    const result=captured?{data:p.sales_snapshot,error:null}:await readAll(()=>sb.from('sales').select('*').eq('store_id',profile.store_id).eq('payout_id',id).order('created_at').order('id'));
+    if(result.error)throw result.error;if(request!==payoutRequest||!isAdmin())return;
+    detailPayout=p;detailPayoutSales=result.data.map(s=>({...s,payout_id:id}));
+    $('payoutDetailTitle').textContent=`Corte · ${p.employee_name}`;
+    $('payoutDetailMeta').textContent=`${fmtDate(p.created_at)} · Registrado por ${p.created_by_name||'—'} · ${id.slice(0,8)}`;
+    const rows=detailPayoutSales,generated=rows.reduce((a,s)=>a+Number(s.total),0),earnings=rows.reduce((a,s)=>a+Number(s.employee_earnings),0),net=rows.reduce((a,s)=>a+Number(s.business_net),0);
+    const mismatch=rows.length!==Number(p.sales_count)||Math.abs(generated-Number(p.generated_total))>.009||Math.abs(earnings-Number(p.amount))>.009||Math.abs(net-Number(p.business_net))>.009;
+    $('payoutDetailContent').innerHTML=`<div class="metrics cut-metrics">${metricHTML([['Ventas incluidas',p.sales_count,'en este corte'],['Generado',reportMoney(p.generated_total),'importe registrado'],['Pago al empleado',reportMoney(p.amount),'comisión liquidada','accent'],['Neto negocio',reportMoney(p.business_net),'importe registrado','green']])}</div><p class="report-notice">${captured?'Este detalle conserva las ventas tal como estaban al registrar el corte.':'Corte anterior a V5.1: se muestran las ventas vinculadas en su estado actual. Los totales superiores son los importes originales del corte.'}${mismatch?' Los registros disponibles no coinciden con los importes del corte; revisa las diferencias antes de usar la exportación.':''}</p><div class="cut-sales">${rows.map(s=>`<details class="cut-sale"><summary><span><strong>${folio(s)}</strong><small>${fmtDate(s.created_at)} · ${esc(s.client||'Cliente general')}</small></span><span class="cut-sale-amount"><small>Venta / comisión</small><strong>${reportMoney(s.total)} / <em>${reportMoney(s.employee_earnings)}</em></strong><small>${Number(s.commission_percent)}%${s.status!=='active'?' · Anulada actualmente':''}</small></span></summary><div class="cut-sale-items">${(s.items||[]).map(i=>`<div><span>${Number(i.qty)} × ${esc(i.name)}</span><strong>${reportMoney(i.lineTotal)}</strong></div>`).join('')}<div><span>Descuento · ${esc(s.discount_name||'Sin convenio')}</span><strong>−${reportMoney(s.discount_amount)}</strong></div><div><span>Neto del negocio</span><strong>${reportMoney(s.business_net)}</strong></div><p>Método: ${esc(s.payment||'—')}${s.note?` · Nota: ${esc(s.note)}`:''}</p></div></details>`).join('')||'<div class="report-empty">No hay ventas vinculadas disponibles. Se conservan los totales del corte.</div>'}</div>`;
+    $('payoutDetailCsvBtn').disabled=!rows.length;
+  }catch(e){if(request===payoutRequest){$('payoutDetailContent').textContent=`No se pudo cargar el corte. ${e.message||'Intenta abrirlo de nuevo.'}`}}
+}
+async function loadAudit(page=0){
+  if(!isAdmin())return;const request=++auditRequest,bounds=dateBounds('audit'),f=reportState.audit;
+  $('auditStatus').classList.add('hidden');$('auditPager').innerHTML='';$('auditBody').innerHTML='<tr><td colspan="5">Cargando historial…</td></tr>';
+  const summary=$('auditFilters').querySelector('.filter-summary');summary.textContent=bounds.error||`Hora local (${Intl.DateTimeFormat().resolvedOptions().timeZone}) · Solo administradores`;summary.classList.toggle('is-error',!!bounds.error);
+  if(bounds.error){auditRows=[];$('auditBody').innerHTML='<tr><td colspan="5">Completa un período válido.</td></tr>';return}
+  try{
+    let query=sb.from('audit_events').select('*').eq('store_id',profile.store_id).order('created_at',{ascending:false}).order('id',{ascending:false});
+    if(bounds.start)query=query.gte('created_at',bounds.start.toISOString());if(bounds.end)query=query.lt('created_at',bounds.end.toISOString());
+    if(f.employee)query=f.employee==='system'?query.is('actor_id',null):query.eq('actor_id',f.employee);
+    if(f.entity)query=query.eq('entity',f.entity);if(f.status)query=query.eq('action',f.status);
+    const {data,error}=await query.range(page*REPORT_PAGE_SIZE,page*REPORT_PAGE_SIZE+REPORT_PAGE_SIZE);
+    if(error)throw error;if(request!==auditRequest||!isAdmin())return;
+    auditRows=(data||[]).slice(0,REPORT_PAGE_SIZE);auditHasNext=(data||[]).length>REPORT_PAGE_SIZE;auditPage=page;
+    $('auditBody').innerHTML=auditRows.length?auditRows.map(a=>`<tr><td>${fmtDate(a.created_at)}</td><td><strong>${esc(a.actor_name)}</strong></td><td><span class="badge ${['delete','void','deactivate'].includes(a.action)?'red':'dark'}">${esc(AUDIT_ACTIONS[a.action]||a.action)}</span></td><td><strong>${esc(a.entity_name)}</strong><small class="audit-entity">${esc(AUDIT_ENTITIES[a.entity]||a.entity)}</small></td><td><button class="row-btn" data-audit="${esc(a.id)}">Ver cambios</button></td></tr>`).join(''):'<tr><td colspan="5">No hay cambios en este filtro. Los eventos aparecerán después de realizar operaciones.</td></tr>';
+    $('auditBody').querySelectorAll('[data-audit]').forEach(b=>b.onclick=()=>openAuditDetail(b.dataset.audit));
+    $('auditPager').innerHTML=`<span>Página ${page+1} · ${auditRows.length} cambios</span><div><button class="row-btn" data-prev ${page===0?'disabled':''}>Anterior</button><button class="row-btn" data-next ${!auditHasNext?'disabled':''}>Siguiente</button></div>`;
+    $('auditPager').querySelector('[data-prev]').onclick=()=>loadAudit(auditPage-1);$('auditPager').querySelector('[data-next]').onclick=()=>loadAudit(auditPage+1);refreshReportEmployees();
+  }catch(e){if(request!==auditRequest)return;auditRows=[];$('auditBody').innerHTML='';$('auditStatus').classList.remove('hidden');$('auditStatus').textContent=['42P01','PGRST205'].includes(e.code)?'Falta activar el historial. Ejecuta supabase_patch_v5_1.sql en el SQL Editor de tu proyecto y pulsa Actualizar historial.':`No se pudo cargar el historial. ${e.message||'Revisa tu conexión e inténtalo de nuevo.'}`}
+}
+const AUDIT_FIELDS={name:'Nombre',username:'Usuario',role:'Rol',active:'Activo',commission_percent:'Comisión',price:'Precio',category:'Categoría',emoji:'Imagen',tag:'Etiqueta',restriction:'Restricción',percent:'Descuento',scope:'Alcance',description:'Descripción',exclude_public:'Excluir servicios públicos',sale_number:'Folio',employee_name:'Empleado',total:'Total',employee_earnings:'Comisión del empleado',business_net:'Neto negocio',status:'Estado',payout_id:'Corte',generated_total:'Generado',amount:'Pago',sales_count:'Ventas incluidas'};
+function auditValue(key,value){
+  if(value===undefined||value===null||value==='')return '—';if(typeof value==='boolean')return value?'Sí':'No';
+  if(['price','total','employee_earnings','business_net','generated_total','amount'].includes(key))return reportMoney(value);
+  if(['commission_percent','percent'].includes(key))return `${Number(value)}%`;
+  if(key==='sale_number')return folio({sale_number:value});
+  if(key==='role')return value==='admin'?'Administrador':'Empleado';
+  if(key==='status')return value==='active'?'Activa':'Anulada';
+  if(key==='category')return CATS[value]||value;
+  return String(value);
+}
+function openAuditDetail(id){
+  if(!isAdmin())return;const event=auditRows.find(a=>a.id===id);if(!event)return;
+  $('auditDetailTitle').textContent=`${AUDIT_ACTIONS[event.action]||event.action} · ${event.entity_name}`;
+  $('auditDetailMeta').textContent=`${event.actor_name} · ${fmtDate(event.created_at)}`;
+  const before=event.before_data||{},after=event.after_data||{},keys=[...new Set([...Object.keys(before),...Object.keys(after)])].filter(k=>JSON.stringify(before[k])!==JSON.stringify(after[k]));
+  $('auditDetailContent').innerHTML=`<div class="table-wrap"><table class="audit-diff"><thead><tr><th>Campo</th><th>Antes</th><th>Después</th></tr></thead><tbody>${keys.map(k=>`<tr><td>${esc(AUDIT_FIELDS[k]||k)}</td><td>${esc(auditValue(k,before[k]))}</td><td><strong>${esc(auditValue(k,after[k]))}</strong></td></tr>`).join('')}</tbody></table></div>`;openReportModal('auditDetailModal');
+}
+function downloadCSV(rows,filename){
+  // Quoting alone does not stop spreadsheet formulas in user-entered names.
+  const cell=v=>{let s=String(v??'');if(typeof v==='string'&&/^[\s]*[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'};
+  const csv='\ufeff'+rows.map(r=>r.map(cell).join(',')).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);
+}
+function downloadSalesCSV(rows,name){downloadCSV([['Folio','Fecha UTC','Empleado','Cliente','Generado','Comisión %','Ganancia empleado','Neto negocio','Pago comisión','Estado'],...rows.map(s=>[folio(s),s.created_at,s.employee_name,s.client,Number(s.total),Number(s.commission_percent),Number(s.employee_earnings),Number(s.business_net),s.payout_id?'Pagado':'Pendiente',s.status])],name)}
+function exportCSV(scope='allSales'){
+  if(typeof scope!=='string')scope='allSales';if(scope==='allSales'&&!isAdmin())return;
+  if(dateBounds(scope).error)return toast(dateBounds(scope).error);downloadSalesCSV(filteredRows(scope),'burgershot-ventas-filtradas.csv');
+}
+function exportPayoutCSV(){
+  if(!isAdmin()||dateBounds('payouts').error)return;
+  downloadCSV([['ID corte','Fecha UTC','Empleado','Ventas incluidas','Generado','Pago empleado','Neto negocio','Registró'],...filteredRows('payouts').map(p=>[p.id,p.created_at,p.employee_name,Number(p.sales_count),Number(p.generated_total),Number(p.amount),Number(p.business_net),p.created_by_name])],'burgershot-cortes-filtrados.csv');
+}
+
 init();
 })();

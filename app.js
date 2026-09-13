@@ -50,6 +50,7 @@ function initials(name){
 
 const isAdmin=()=>profile?.role==="admin";
 const can=permission=>isAdmin()||profile?.[`can_${permission}`]===true;
+async function notifyDiscord(event,payload={}){try{if(!sb||!profile)return;const {error}=await sb.functions.invoke("discord-notify",{body:{event,...payload}});if(error)console.warn("Discord webhook:",error.message||error)}catch(error){console.warn("Discord webhook:",error?.message||error)}}
 const folio=s=>`BS-${String(s.sale_number||0).padStart(5,"0")}`;
 const uname=v=>String(v||"").trim().toLowerCase().replace(/[^a-z0-9._-]/g,"").slice(0,28);
 const synthEmail=u=>`${uname(u)}.${crypto.randomUUID().slice(0,8)}@burgershot.app`;
@@ -318,7 +319,8 @@ async function saveSale(){
   saleSaving=true;const button=$("confirmSaleBtn"),label=button.textContent;button.disabled=true;button.textContent="Registrando…";
   try{
     const payload={store_id:profile.store_id,created_by:user.id,employee_name:profile.name,client:saleClient,client_type:c.client,payment:$("salePayment").value,note:$("saleNote").value.trim(),items:c.lines.map(x=>({id:x.id,name:x.name,price:Number(x.price),qty:x.qty,lineTotal:x.lineTotal})),subtotal:c.subtotal,discount_id:c.d.id||null,discount_name:c.blocked?"Sin convenio":c.d.name,discount_percent:c.blocked?0:Number(c.d.percent||0),discount_amount:c.disc,total:c.total,status:"active"};
-    const {error}=await sb.from("sales").insert(payload);if(error)throw error;
+    const {data:createdSale,error}=await sb.from("sales").insert(payload).select("id").single();if(error)throw error;
+    if(createdSale?.id)notifyDiscord("sale_created",{sale_id:createdSale.id});
     cart={};checkoutSnapshot=null;$("checkoutModal").classList.add("hidden");renderCart();await loadData();toast("Venta registrada");
   }catch(error){toast(error.message||"No se pudo registrar. Tu orden sigue disponible.")}
   finally{saleSaving=false;button.disabled=false;button.textContent=label}
@@ -377,7 +379,7 @@ async function saveSaleEdit(id){
   const {error}=await sb.from("sales").update({client,client_type,payment,note}).eq("id",id).eq("store_id",profile.store_id).is("payout_id",null);
   if(error)return toast(error.message||"No se pudo guardar la orden");saleEditId=null;await loadData();$("saleDetailModal").classList.add("hidden");toast("Orden actualizada")
 }
-async function voidSale(id){if(!isAdmin()||!confirm("¿Anular esta venta?"))return;const {error}=await sb.from("sales").update({status:"void",voided_at:new Date().toISOString(),voided_by:user.id}).eq("id",id);if(error)return toast(error.message);$("saleDetailModal").classList.add("hidden");await loadData();toast("Venta anulada")}
+async function voidSale(id){if(!isAdmin()||!confirm("¿Anular esta venta?"))return;const {error}=await sb.from("sales").update({status:"void",voided_at:new Date().toISOString(),voided_by:user.id}).eq("id",id);if(error)return toast(error.message);notifyDiscord("sale_voided",{sale_id:id,event_id:crypto.randomUUID?.()||String(Date.now())});$("saleDetailModal").classList.add("hidden");await loadData();toast("Venta anulada")}
 async function deleteSale(id){const s=sales.find(x=>x.id===id);if(!isAdmin()||!s)return;if(s.payout_id)return toast("No puedes eliminar una orden que ya fue incluida en un pago. Puedes anularla si lo necesitas.");if(!confirm(`¿Eliminar permanentemente la orden ${folio(s)}? Esta acción no se puede deshacer.`))return;const {error}=await sb.from("sales").delete().eq("id",id);if(error)return toast(error.message);$("saleDetailModal").classList.add("hidden");await loadData();toast("Orden eliminada")}
 function employeeStats(e){const list=sales.filter(s=>s.created_by===e.user_id),m=sums(list);return{...m,pending:pendingFor(e.user_id),paid:paidFor(e.user_id)}}
 function renderEmployees(){
@@ -434,7 +436,7 @@ async function deleteEmployee(){
 }
 function openPasswordReset(){resetTarget=$("editEmployeeId").value;$("newEmployeePassword").value="";$("passwordError").textContent="";$("passwordModal").classList.remove("hidden")}
 async function resetPassword(){if(!can("manage_employees"))return $("passwordError").textContent="No tienes permiso";const p=$("newEmployeePassword").value;if(p.length<6)return $("passwordError").textContent="Mínimo 6 caracteres";const {data,error}=await sb.functions.invoke("employee-admin",{body:{action:"reset_password",user_id:resetTarget,password:p}});if(error)return $("passwordError").textContent=await edgeErrorMessage(error,data,"No se pudo actualizar la contraseña");if(data?.error)return $("passwordError").textContent=data.error;$("passwordModal").classList.add("hidden");toast("Contraseña actualizada")}
-async function payEmployee(){if(!can("manage_payouts"))return toast("No tienes permiso para registrar pagos");const id=$("editEmployeeId").value,st=employeeStats(employees.find(e=>e.user_id===id));if(st.pending<=0)return toast("No hay ganancias pendientes");if(!confirm(`Registrar pago de ${money(st.pending)} a este empleado?`))return;const {error}=await sb.rpc("create_employee_payout",{p_employee:id});if(error)return toast(error.message);$("employeeDetailModal").classList.add("hidden");await loadData();toast("Pago registrado")}
+async function payEmployee(){if(!can("manage_payouts"))return toast("No tienes permiso para registrar pagos");const id=$("editEmployeeId").value,st=employeeStats(employees.find(e=>e.user_id===id));if(st.pending<=0)return toast("No hay ganancias pendientes");if(!confirm(`Registrar pago de ${money(st.pending)} a este empleado?`))return;const {data,error}=await sb.rpc("create_employee_payout",{p_employee:id});if(error)return toast(error.message);if(data)notifyDiscord("payout_created",{payout_id:data});$("employeeDetailModal").classList.add("hidden");await loadData();toast("Pago registrado")}
 function renderPayouts(){
   if(!can("manage_payouts"))return;const rows=filteredRows('payouts'),total=rows.reduce((a,p)=>a+Number(p.amount),0),gen=rows.reduce((a,p)=>a+Number(p.generated_total),0),net=rows.reduce((a,p)=>a+Number(p.business_net),0);
   $("payoutMetrics").innerHTML=metricHTML([["Cortes",rows.length,"en el filtro"],["Generado incluido",reportMoney(gen),"ventas registradas"],["Pagado empleados",reportMoney(total),"comisiones","accent"],["Neto negocio",reportMoney(net),"en cortes","green"]]);
@@ -649,7 +651,7 @@ async function saveSaleEdit(id){
   if(bad)return toast(`El tipo de cliente no corresponde a ${bad.name}`);
   const {error}=await sb.from("sales").update({client,client_type,payment,note,items:c.lines.map(x=>({id:x.id,name:x.name,price:Number(x.price),qty:x.qty,lineTotal:x.price*x.qty})),subtotal:c.subtotal,discount_id:c.d.id||null,discount_name:c.blocked?"Sin convenio":c.d.name,discount_percent:c.blocked?0:Number(c.d.percent||0),discount_amount:c.disc,total:c.total}).eq("id",id).eq("store_id",profile.store_id).is("payout_id",null);
   if(error)return toast(error.message||"No se pudo guardar la orden");
-  saleEditId=null;saleEditDraft=null;await loadData();$("saleDetailModal").classList.add("hidden");toast("Orden actualizada");
+  notifyDiscord("sale_updated",{sale_id:id,event_id:crypto.randomUUID?.()||String(Date.now())});saleEditId=null;saleEditDraft=null;await loadData();$("saleDetailModal").classList.add("hidden");toast("Orden actualizada");
 }
 async function toggleEmployeeActive(){
   if(!can("manage_employees"))return toast("No tienes permiso para gestionar empleados");

@@ -66,6 +66,12 @@ async function edgeErrorMessage(error,data,fallback="No se pudo completar la ope
   return error?.message&&error.message!=="Edge Function returned a non-2xx status code"?error.message:fallback;
 }
 function cfg(){const x=window.BURGERSHOT_CLOUD||{};if(x.supabaseUrl&&x.supabaseAnonKey)return{url:x.supabaseUrl,key:x.supabaseAnonKey};try{return JSON.parse(localStorage.getItem(CONFIG_KEY)||"null")}catch{return null}}
+function hasFixedCloudConfig(){const c=window.BURGERSHOT_CLOUD||{};return Boolean(c.supabaseUrl&&c.supabaseAnonKey)}
+function initialSetupAllowed(){const flag=window.BURGERSHOT_CLOUD?.allowInitialSetup;return flag===true||(flag!==false&&!hasFixedCloudConfig())}
+function renderSetupActions(){
+  $("initialSetupActions").classList.toggle("hidden",!initialSetupAllowed());
+  $("changeCloudBtn").classList.toggle("hidden",hasFixedCloudConfig());
+}
 function showOnly(id){["cloudSetup","authScreen","app"].forEach(x=>$(x).classList.add("hidden"));$(id).classList.remove("hidden")}
 function setSync(state,text){const e=$("sync");if(!e)return;e.classList.remove("online","error");if(state)e.classList.add(state);$("syncText").textContent=text}
 function metricHTML(list){return list.map(x=>`<div class="metric ${x[3]||""}"><span>${esc(x[0])}</span><strong>${esc(x[1])}</strong><small>${esc(x[2]||"")}</small></div>`).join("")}
@@ -74,7 +80,7 @@ function pendingFor(employeeId){return sales.filter(s=>s.created_by===employeeId
 function paidFor(employeeId){return payouts.filter(p=>p.employee_id===employeeId).reduce((a,p)=>a+Number(p.amount||0),0)}
 
 async function init(){
-  bind();renderCategories();tick();setInterval(tick,1000);
+  bind();renderSetupActions();renderCategories();tick();setInterval(tick,1000);
   const c=cfg();if(!c?.url||!c?.key){showOnly("cloudSetup");return}
   try{
     sb=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true}});
@@ -85,8 +91,8 @@ async function init(){
 }
 function bind(){
   $("saveConfigBtn").onclick=()=>{const url=$("configUrl").value.trim(),key=$("configKey").value.trim();if(!url||!key)return toast("Completa URL y Publishable key");localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));location.reload()};
-  $("changeCloudBtn").onclick=()=>{localStorage.removeItem(CONFIG_KEY);location.reload()};
-  $("openAdminSetupBtn").onclick=()=>$("adminSetupModal").classList.remove("hidden");
+  $("changeCloudBtn").onclick=()=>{if(hasFixedCloudConfig())return;localStorage.removeItem(CONFIG_KEY);location.reload()};
+  $("openAdminSetupBtn").onclick=()=>{if(initialSetupAllowed())$("adminSetupModal").classList.remove("hidden")};
   $("createAdminBtn").onclick=createInitialAdmin;$("loginBtn").onclick=login;$("loginPassword").onkeydown=e=>{if(e.key==="Enter")login()};
   $("logoutBtn").onclick=()=>sb.auth.signOut();$("mobileMenu").onclick=()=>$("sidebar").classList.toggle("open");$("refreshBtn").onclick=loadData;$("accountBtn").onclick=openAccount;
   document.querySelectorAll(".nav-item").forEach(b=>b.onclick=()=>switchPage(b.dataset.page));document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>switchPage(b.dataset.go));document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
@@ -115,6 +121,7 @@ async function login(){
   if(error)$("loginError").textContent="Usuario o contraseña incorrectos";
 }
 async function createInitialAdmin(){
+  if(!initialSetupAllowed())return;
   $("adminSetupError").textContent="";
   const name=$("adminName").value.trim(),
         email=$("adminEmail").value.trim().toLowerCase(),

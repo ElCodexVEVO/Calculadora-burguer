@@ -64,9 +64,11 @@
       <label>Contraseña</label><input id="loginPassword" autocomplete="current-password" type="password" placeholder="••••••••">
       <div id="loginError" class="error"></div>
       <button class="btn primary block" id="loginBtn">Entrar</button>
-      <div class="auth-sep"><span>PRIMERA CONFIGURACIÓN</span></div>
-      <button class="btn secondary block" id="openAdminSetupBtn">Crear administrador inicial</button>
-      <button class="text-link" id="changeCloudBtn">Cambiar conexión de Supabase</button>
+      <div id="initialSetupActions" class="hidden">
+        <div class="auth-sep"><span>PRIMERA CONFIGURACIÓN</span></div>
+        <button class="btn secondary block" id="openAdminSetupBtn">Crear administrador inicial</button>
+      </div>
+      <button class="text-link hidden" id="changeCloudBtn">Cambiar conexión de Supabase</button>
     </div>
   </div>
 </section>
@@ -312,7 +314,7 @@
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="app.js?v=5.0.5"></script>
+<script src="config.js?v=5.0.6"></script>
+<script src="app.js?v=5.0.6"></script>
 </body>
 </html>

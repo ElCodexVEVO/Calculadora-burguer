@@ -19,7 +19,7 @@ export default {
       const { data: adminProfile, error: profileError } =
         await ctx.supabaseAdmin
           .from("profiles")
-          .select("user_id, store_id, name, role, active")
+          .select("user_id, store_id, name, role, active, can_manage_employees")
           .eq("user_id", user.id)
           .single();
 
@@ -27,7 +27,7 @@ export default {
         profileError ||
         !adminProfile ||
         !adminProfile.active ||
-        adminProfile.role !== "admin"
+        adminProfile.role !== "admin" && adminProfile.can_manage_employees !== true
       ) {
         return Response.json(
           { error: "Solo un administrador puede administrar empleados" },
@@ -106,6 +106,12 @@ export default {
             role,
             active: true,
             commission_percent: commission,
+            can_edit_orders: false,
+            can_manage_catalog: false,
+            can_manage_employees: false,
+            can_view_reports: false,
+            can_manage_payouts: false,
+            can_view_audit: false,
           });
 
         if (insertError) {
@@ -166,6 +172,40 @@ export default {
         }
 
         return Response.json({ ok: true });
+      }
+
+      if (action === "set_active") {
+        const employeeId = String(body.user_id || "");
+        const active = body.active === true;
+        if (!employeeId || employeeId === user.id) {
+          return Response.json(
+            { error: "No puedes cambiar el estado de tu propia cuenta" },
+            { status: 400 },
+          );
+        }
+        const { data: target } = await ctx.supabaseAdmin
+          .from("profiles")
+          .select("user_id, store_id, role, name")
+          .eq("user_id", employeeId)
+          .eq("store_id", adminProfile.store_id)
+          .maybeSingle();
+        if (!target) return Response.json({ error: "Empleado no encontrado" }, { status: 404 });
+        if (!active && target.role === "admin") {
+          const { count } = await ctx.supabaseAdmin
+            .from("profiles")
+            .select("user_id", { count: "exact", head: true })
+            .eq("store_id", adminProfile.store_id)
+            .eq("role", "admin")
+            .eq("active", true);
+          if ((count || 0) <= 1) return Response.json({ error: "La sucursal debe conservar al menos un administrador activo" }, { status: 409 });
+        }
+        const { error: updateError } = await ctx.supabaseAdmin
+          .from("profiles")
+          .update({ active })
+          .eq("user_id", employeeId)
+          .eq("store_id", adminProfile.store_id);
+        if (updateError) return Response.json({ error: updateError.message }, { status: 400 });
+        return Response.json({ ok: true, user_id: employeeId, active });
       }
 
       if (action === "delete") {

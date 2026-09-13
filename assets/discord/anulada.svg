@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Venta anulada BurgerShot">
+  <defs>
+    <linearGradient id="paper" x1="55" y1="44" x2="204" y2="216" gradientUnits="userSpaceOnUse"><stop stop-color="#eef2f5"/><stop offset="1" stop-color="#8994a3"/></linearGradient>
+    <linearGradient id="red" x1="61" y1="55" x2="195" y2="207" gradientUnits="userSpaceOnUse"><stop stop-color="#ff6870"/><stop offset=".5" stop-color="#e32c3c"/><stop offset="1" stop-color="#8b1025"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000" flood-opacity=".6"/></filter>
+  </defs>
+  <circle cx="128" cy="128" r="112" fill="#17151b" stroke="#6d3b49" stroke-width="5" filter="url(#shadow)"/>
+  <circle cx="128" cy="128" r="101" fill="none" stroke="#0f0d13" stroke-width="8" opacity=".84"/>
+  <path d="M49 103A86 86 0 0 1 185 54" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".12"/>
+  <path d="M72 212A90 90 0 0 0 210 121" fill="none" stroke="#8a5260" stroke-width="3" stroke-linecap="round" opacity=".34"/>
+  <path d="M68 48h120v160l-15 12-15-12-15 12-15-12-15 12-15-12-15 12-15-12z" fill="url(#paper)" stroke="#c7d0d9" stroke-width="5"/>
+  <path d="M89 82h78M89 101h55M89 121h68" stroke="#556171" stroke-width="8" stroke-linecap="round" opacity=".65"/>
+  <circle cx="128" cy="151" r="38" fill="#351d27" stroke="#ff7880" stroke-width="5"/>
+  <path d="m108 131 40 40M148 131l-40 40" stroke="url(#red)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M61 54 195 204" stroke="#ffb53d" stroke-width="4" opacity=".8"/>
+</svg>

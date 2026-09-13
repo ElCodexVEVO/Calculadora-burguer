@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Venta BurgerShot">
+  <defs>
+    <linearGradient id="bg" x1="20" y1="16" x2="232" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#202a38"/><stop offset="1" stop-color="#090e15"/></linearGradient>
+    <linearGradient id="gold" x1="52" y1="52" x2="192" y2="198" gradientUnits="userSpaceOnUse"><stop stop-color="#ffe08a"/><stop offset=".48" stop-color="#ffb936"/><stop offset="1" stop-color="#d87718"/></linearGradient>
+    <linearGradient id="red" x1="93" y1="124" x2="162" y2="202" gradientUnits="userSpaceOnUse"><stop stop-color="#ff5963"/><stop offset="1" stop-color="#a9162b"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#000" flood-opacity=".55"/></filter>
+  </defs>
+  <circle cx="128" cy="128" r="112" fill="url(#bg)" stroke="#415468" stroke-width="5" filter="url(#shadow)"/>
+  <circle cx="128" cy="128" r="101" fill="none" stroke="#0a111b" stroke-width="8" opacity=".82"/>
+  <path d="M49 103A86 86 0 0 1 185 54" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".14"/>
+  <path d="M72 212A90 90 0 0 0 210 121" fill="none" stroke="#4a6077" stroke-width="3" stroke-linecap="round" opacity=".35"/>
+  <path d="M79 73c6-25 26-39 49-39s43 14 49 39" fill="url(#gold)" stroke="#ffedb5" stroke-width="4"/>
+  <path d="M76 78h104l-8 19H84z" fill="#7a321d" stroke="#ffb936" stroke-width="4"/>
+  <path d="M82 101h92l-7 18H89z" fill="#f5c04c" stroke="#74241e" stroke-width="4"/>
+  <path d="M88 123h80l8 19H80z" fill="url(#red)" stroke="#ff7770" stroke-width="4"/>
+  <path d="M84 148h88l-7 20H91z" fill="#f9c249" stroke="#8d301c" stroke-width="4"/>
+  <path d="M112 173h32v25c0 8-7 14-16 14s-16-6-16-14z" fill="url(#red)"/>
+  <path d="m172 52 13 13M184 52l-13 13" stroke="#fff3c4" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+  <circle cx="195" cy="178" r="27" fill="#152c2a" stroke="#4ee09b" stroke-width="4"/>
+  <path d="m181 178 9 9 19-21" fill="none" stroke="#63f0ad" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

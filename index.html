@@ -253,7 +253,7 @@
 <div id="checkoutModal" class="modal-backdrop hidden"><div class="modal">
   <div class="modal-head"><div><span class="eyebrow">FINALIZAR VENTA</span><h2>Cobrar orden</h2></div><button class="icon-btn" data-close="checkoutModal">×</button></div>
   <div id="checkoutSummary" class="summary-box"></div>
-  <div class="form-grid"><div><label>Cliente / ID <span>(opcional)</span></label><input id="saleClient" placeholder="Nombre o ID"></div><div><label>Método de pago</label><select id="salePayment"><option>Efectivo</option><option>Transferencia</option><option>Tarjeta</option><option>Otro</option></select></div><div class="full"><label>Nota <span>(opcional)</span></label><input id="saleNote" placeholder="Ej. Pedido para evento"></div></div>
+  <div class="form-grid"><div><label for="saleClient">Cliente / ID <span class="required-mark">(obligatorio)</span></label><input id="saleClient" placeholder="Nombre o ID" maxlength="120" required aria-required="true"></div><div><label>Método de pago</label><select id="salePayment"><option>Efectivo</option><option>Transferencia</option><option>Tarjeta</option><option>Otro</option></select></div><div class="full"><label>Nota <span>(opcional)</span></label><input id="saleNote" placeholder="Ej. Pedido para evento" maxlength="500"></div></div>
   <div class="modal-actions"><button class="btn secondary" data-close="checkoutModal">Cancelar</button><button id="confirmSaleBtn" class="btn primary">Registrar venta</button></div>
 </div></div>
 

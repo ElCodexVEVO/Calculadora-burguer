@@ -292,11 +292,19 @@ async function saveSale(){
   const c=calc();if(!c.lines.length)return;
   const bad=c.lines.find(x=>!x.active||(x.restriction&&x.restriction!==c.client));
   if(bad)return toast(`Revisa el producto ${bad.name} y el tipo de cliente`);
+  const saleClient=$("saleClient").value.trim();
+  if(!saleClient){
+    $("saleClient").setCustomValidity("Escribe el nombre o ID del cliente");
+    $("saleClient").reportValidity?.();
+    $("saleClient").focus();
+    return toast("El cliente o ID es obligatorio para registrar la venta");
+  }
+  $("saleClient").setCustomValidity("");
   const current=JSON.stringify({lines:c.lines.map(x=>[x.id,x.qty,x.price,x.restriction,x.active]),discount:c.d,total:c.total,client:c.client,pct:c.pct});
   if(checkoutSnapshot!==current){openCheckout();toast("La orden cambió. Revisa el resumen antes de confirmar.");return}
   saleSaving=true;const button=$("confirmSaleBtn"),label=button.textContent;button.disabled=true;button.textContent="Registrando…";
   try{
-    const payload={store_id:profile.store_id,created_by:user.id,employee_name:profile.name,client:$("saleClient").value.trim()||"Cliente general",client_type:c.client,payment:$("salePayment").value,note:$("saleNote").value.trim(),items:c.lines.map(x=>({id:x.id,name:x.name,price:Number(x.price),qty:x.qty,lineTotal:x.lineTotal})),subtotal:c.subtotal,discount_id:c.d.id||null,discount_name:c.blocked?"Sin convenio":c.d.name,discount_percent:c.blocked?0:Number(c.d.percent||0),discount_amount:c.disc,total:c.total,status:"active"};
+    const payload={store_id:profile.store_id,created_by:user.id,employee_name:profile.name,client:saleClient,client_type:c.client,payment:$("salePayment").value,note:$("saleNote").value.trim(),items:c.lines.map(x=>({id:x.id,name:x.name,price:Number(x.price),qty:x.qty,lineTotal:x.lineTotal})),subtotal:c.subtotal,discount_id:c.d.id||null,discount_name:c.blocked?"Sin convenio":c.d.name,discount_percent:c.blocked?0:Number(c.d.percent||0),discount_amount:c.disc,total:c.total,status:"active"};
     const {error}=await sb.from("sales").insert(payload);if(error)throw error;
     cart={};checkoutSnapshot=null;$("checkoutModal").classList.add("hidden");renderCart();await loadData();toast("Venta registrada");
   }catch(error){toast(error.message||"No se pudo registrar. Tu orden sigue disponible.")}

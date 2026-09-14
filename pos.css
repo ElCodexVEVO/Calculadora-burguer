@@ -162,6 +162,70 @@ button:disabled { cursor:not-allowed; }
 @media(max-width:380px) { .cart-item { gap:8px; grid-template-columns:48px minmax(0,1fr) 96px; padding:9px; } .cart-photo { width:48px; height:60px; } .order-head { margin-inline:13px; } .order-checkout { padding-inline:13px; } .order-scroll { padding-inline:10px; } .product-copy { padding:10px; } .product-bottom strong { font-size:20px; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
 
+/* V5.5: employee of the week dashboard card. */
+.employee-week { margin:18px 0 20px; overflow:hidden; }
+.employee-week .panel-head { align-items:center; }
+.employee-week .panel-head > div { min-width:0; }
+.employee-week .panel-head .btn { flex:none; padding:9px 13px; font-size:11px; }
+.employee-week-content { padding:16px 20px 20px; }
+.employee-week-layout { display:grid; grid-template-columns:minmax(235px,.72fr) minmax(0,1.28fr); gap:14px; }
+.employee-week-person, .employee-week-chart-wrap, .employee-week-ranking { border:1px solid #293542; border-radius:12px; background:linear-gradient(145deg,#141e28,#10171f); }
+.employee-week-person { display:flex; align-items:center; gap:15px; padding:18px; min-width:0; }
+.employee-week-avatar { flex:0 0 84px; width:84px; height:84px; display:grid; place-items:center; overflow:hidden; border-radius:22px; background:linear-gradient(145deg,#d33e4a,#6d1d2b); border:1px solid #ed737244; box-shadow:0 12px 28px #9a28352e; }
+.employee-week-avatar img { width:100%; height:100%; object-fit:cover; }
+.employee-week-avatar span { color:#fff4e7; font:800 25px Manrope,Inter,sans-serif; letter-spacing:.02em; }
+.employee-week-person h3 { margin:5px 0 4px; font:800 20px/1.15 Manrope,Inter,sans-serif; letter-spacing:-.45px; overflow-wrap:anywhere; }
+.employee-week-person p, .employee-week-person small { display:block; margin:0; color:#96a6b6; font-size:10px; line-height:1.5; }
+.employee-week-person small { margin-top:7px; color:#cfaa68; }
+.employee-week-kicker { display:block; color:#d7a85d; font-size:8px; letter-spacing:1.55px; font-weight:800; }
+.employee-week-kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; grid-column:2; }
+.employee-week-kpis > div { display:flex; flex-direction:column; justify-content:center; min-width:0; padding:12px 13px; border:1px solid #293542; border-radius:12px; background:#121b24; }
+.employee-week-kpis span { color:#8999a9; font-size:9px; text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+.employee-week-kpis strong { margin:7px 0 2px; color:#edf3f7; font:800 20px/1 Manrope,Inter,sans-serif; letter-spacing:-.5px; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.employee-week-kpis > div:nth-child(2) strong { color:#f3c977; }
+.employee-week-kpis > div:nth-child(3) strong { color:#79d4a2; }
+.employee-week-kpis small { color:#77899a; font-size:9px; }
+.employee-week-chart-wrap, .employee-week-ranking { grid-column:2; padding:14px 15px 12px; }
+.employee-week-subhead { display:flex; justify-content:space-between; align-items:flex-end; gap:10px; margin-bottom:11px; }
+.employee-week-subhead strong { display:block; margin-top:4px; color:#e6edf4; font-size:12px; }
+.employee-week-subhead > small { color:#8d9eaf; font-size:9px; white-space:nowrap; }
+.employee-week-chart { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); align-items:end; gap:8px; height:132px; }
+.employee-week-bar { display:grid; grid-template-rows:16px 1fr 15px; min-width:0; height:100%; text-align:center; }
+.employee-week-bar > span { color:#9aaabb; font-size:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.employee-week-bar > div { display:flex; align-items:end; justify-content:center; min-height:0; margin:3px auto 5px; width:100%; max-width:28px; border-radius:6px 6px 3px 3px; background:#1a2530; overflow:hidden; }
+.employee-week-bar i { display:block; width:100%; min-height:2px; border-radius:6px 6px 3px 3px; background:linear-gradient(180deg,#f3c772,#b85a3f); }
+.employee-week-bar small { color:#8294a6; font-size:9px; }
+.employee-week-ranking { grid-column:1; grid-row:2; }
+.employee-week-rank-row { display:grid; grid-template-columns:22px minmax(0,1fr) auto; align-items:center; gap:8px; padding:8px 7px; border-top:1px solid #25303a; border-radius:7px; }
+.employee-week-rank-row.selected { background:#3b2b1a66; border-color:#80613566; }
+.employee-week-rank-row > b { color:#d0a75f; font:800 10px Manrope,Inter,sans-serif; }
+.employee-week-rank-row > div { min-width:0; }
+.employee-week-rank-row strong { display:block; color:#e7edf3; font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.employee-week-rank-row > strong { color:#f2c976; font-variant-numeric:tabular-nums; }
+.employee-week-rank-row small { display:block; color:#7e91a3; font-size:8px; margin-top:2px; }
+.employee-week-empty { display:grid; gap:6px; padding:23px 12px; color:#a8b5c2; text-align:center; }
+.employee-week-empty strong { color:#e8edf2; font-size:13px; }
+.employee-week-empty span { color:#8192a3; font-size:11px; line-height:1.55; }
+.employee-week-modal { width:min(620px,calc(100vw - 40px)); }
+.employee-week-preview-wrap { display:grid; gap:8px; }
+.employee-week-preview { width:100%; max-height:230px; object-fit:contain; border-radius:12px; border:1px solid #2d3946; background:#0e151d; }
+.employee-week-preview[hidden] { display:none; }
+.employee-week-modal .field-note { margin:5px 0 0; color:#8495a6; font-size:10px; line-height:1.45; }
+.employee-week-modal .field-note.is-warning { color:#ffc58c; }
+@media(max-width:850px) {
+  .employee-week-layout { grid-template-columns:1fr; }
+  .employee-week-kpis, .employee-week-chart-wrap, .employee-week-ranking { grid-column:1; }
+  .employee-week-ranking { grid-row:auto; }
+}
+@media(max-width:520px) {
+  .employee-week-content { padding-inline:12px; }
+  .employee-week-person { padding:14px; }
+  .employee-week-avatar { flex-basis:68px; width:68px; height:68px; border-radius:18px; }
+  .employee-week-person h3 { font-size:17px; }
+  .employee-week-kpis { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .employee-week-kpis strong { font-size:17px; }
+}
+
 /* V5.0.1: catalog rows retain their content height inside the scrolling panel.
    Explicit image height avoids a percentage-height / flex sizing cycle and
    reserves room even before lazy-loaded photographs have decoded. */

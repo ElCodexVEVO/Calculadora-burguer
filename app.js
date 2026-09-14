@@ -5,7 +5,8 @@ const CONFIG_KEY="bs_v3_cloud";
 const PENDING_BOOTSTRAP_KEY="bs_v3_pending_admin";
 const TEMPLATE_KEY="bs_order_templates_v1";
 let saleSaving=false,checkoutSnapshot=null,loadVersion=0,saleEditId=null,saleEditDraft=null;
-let sb,user=null,profile=null,store=null,products=[],discounts=[],sales=[],employees=[],payouts=[],cart={},activeCategory="all",realtime=null,resetTarget=null;
+let employeeWeekSaving=false,employeeWeekPreviewUrl=null;
+let sb,user=null,profile=null,store=null,products=[],discounts=[],sales=[],employees=[],payouts=[],cart={},employeeWeek=null,activeCategory="all",realtime=null,resetTarget=null;
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:0}).format(Number(n)||0);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
@@ -128,7 +129,7 @@ async function init(){
   try{
     sb=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true}});
     const {data:{session}}=await sb.auth.getSession();user=session?.user||null;
-    sb.auth.onAuthStateChange(async(_event,s)=>{user=s?.user||null;if(user)await afterAuth();else{profile=null;cart={};checkoutSnapshot=null;companion?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];document.querySelectorAll(".modal-backdrop").forEach(x=>x.classList.add("hidden"));showOnly("authScreen")}});
+    sb.auth.onAuthStateChange(async(_event,s)=>{user=s?.user||null;if(user)await afterAuth();else{profile=null;employeeWeek=null;cart={};checkoutSnapshot=null;companion?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];document.querySelectorAll(".modal-backdrop").forEach(x=>x.classList.add("hidden"));showOnly("authScreen")}});
     if(user)await afterAuth();else showOnly("authScreen");
   }catch(e){console.error(e);showOnly("cloudSetup");toast("No se pudo conectar a Supabase")}
 }
@@ -139,6 +140,18 @@ function bind(){
   $("createAdminBtn").onclick=createInitialAdmin;$("loginBtn").onclick=login;$("loginPassword").onkeydown=e=>{if(e.key==="Enter")login()};
   $("logoutBtn").onclick=()=>sb.auth.signOut();$("mobileMenu").onclick=()=>$("sidebar").classList.toggle("open");$("refreshBtn").onclick=loadData;$("accountBtn").onclick=openAccount;
   document.querySelectorAll(".nav-item").forEach(b=>b.onclick=()=>switchPage(b.dataset.page));document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>switchPage(b.dataset.go));document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
+  $("editEmployeeWeekBtn").onclick=openEmployeeWeekEditor;
+  $("saveEmployeeWeekBtn").onclick=saveEmployeeWeek;
+  $("employeeWeekPhoto").onchange=()=>{const file=$("employeeWeekPhoto").files?.[0];if(file)$("employeeWeekPhotoUrl").value="";updateEmployeeWeekPreview(file)};
+  $("employeeWeekPhotoUrl").oninput=()=>{if(!$("employeeWeekPhoto").files?.length)updateEmployeeWeekPreview()};
+  $("employeeWeekEmployee").onchange=()=>{
+    const currentWeek=localDay(employeeWeekBounds().start);
+    if($("employeeWeekEmployee").value!==employeeWeek?.employee_id||employeeWeek?.week_start!==currentWeek){
+      $("employeeWeekPhotoUrl").value="";
+      $("employeeWeekPhoto").value="";
+    }
+    updateEmployeeWeekPreview();
+  };
   document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("globalSearch").focus()}});
   document.addEventListener("click",e=>{if(!saleEditId||!e.target.closest("#saleDetail"))return;setTimeout(()=>{const s=sales.find(x=>x.id===saleEditId);if(s)renderPermissionSaleActions(s)},0)});
   document.addEventListener("change",e=>{if(!saleEditId||!e.target.closest("#saleDetail"))return;setTimeout(()=>{const s=sales.find(x=>x.id===saleEditId);if(s)renderPermissionSaleActions(s)},0)});
@@ -257,7 +270,10 @@ async function loadData(){
     ]);
     const error=result.find(r=>r.error)?.error;if(error)throw error;
     if(version!==loadVersion||!user||profile?.store_id!==sid)return;
+    const employeeWeekResult=await sb.from("employee_of_week").select("*").eq("store_id",sid).maybeSingle();
+    if(version!==loadVersion||!user||profile?.store_id!==sid)return;
     [store,products,discounts,sales,employees,payouts]=result.map(r=>r.data);
+    employeeWeek=employeeWeekResult.error?null:employeeWeekResult.data;
     const current=employees.find(e=>e.user_id===user.id);
     if(!current?.active){await sb.auth.signOut();return}
     profile=current;refreshUser();
@@ -275,6 +291,7 @@ function setupRealtime(){
     .on("postgres_changes",{event:"*",schema:"public",table:"discounts",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"*",schema:"public",table:"profiles",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"*",schema:"public",table:"employee_payouts",filter:`store_id=eq.${profile.store_id}`},loadData)
+    .on("postgres_changes",{event:"*",schema:"public",table:"employee_of_week",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"INSERT",schema:"public",table:"audit_events",filter:`store_id=eq.${profile.store_id}`},()=>{if($("page-audit").classList.contains("active"))loadAudit(0)}).subscribe();
 }
 function refreshUser(){
@@ -287,6 +304,65 @@ const pagePermissions={allSales:"view_reports",employees:"manage_employees",payo
 function pageAllowed(page){return !pagePermissions[page]||can(pagePermissions[page])}
 function switchPage(page){if(!pageAllowed(page))return toast("No tienes permiso para abrir esta sección");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));$(`page-${page}`).classList.add("active");document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add("active");$("sidebar").classList.remove("open");renderAll();if(page==="audit")loadAudit(0)}
 function renderAll(){refreshReportEmployees();renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin();renderCustomers()}
+function employeeWeekBounds(date=new Date()){
+  const start=new Date(date);start.setHours(0,0,0,0);start.setDate(start.getDate()-(start.getDay()+6)%7);const end=new Date(start);end.setDate(end.getDate()+7);return{start,end};
+}
+function employeeWeekStats(){
+  const {start,end}=employeeWeekBounds(),ranking=new Map();
+  const dayNames=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  for(const sale of sales){const date=new Date(sale.created_at);if(sale.status!=="active"||date<start||date>=end)continue;const id=sale.created_by,employee=employees.find(x=>x.user_id===id),row=ranking.get(id)||{id,name:sale.employee_name||employee?.name||'Empleado',count:0,generated:0,commission:0,daily:Array(7).fill(0)};const day=(date.getDay()+6)%7;row.count++;row.generated+=Number(sale.total||0);row.commission+=Number(sale.employee_earnings||0);row.daily[day]+=Number(sale.total||0);ranking.set(id,row)}
+  const configured=employeeWeek?.week_start===localDay(start)?employeeWeek?.employee_id:null;
+  const rows=[...ranking.values()].sort((a,b)=>b.generated-a.generated||b.count-a.count||a.name.localeCompare(b.name,'es')),selectedId=configured||rows[0]?.id||null,selected=rows.find(x=>x.id===selectedId)||(()=>{const p=employees.find(x=>x.user_id===selectedId);return p?{id:p.user_id,name:p.name,count:0,generated:0,commission:0,daily:Array(7).fill(0)}:null})();
+  return{start,end,rows,selected,selectedId,configured,dayNames};
+}
+function renderEmployeeWeek(){
+  const host=$("employeeWeekContent");if(!host)return;const s=employeeWeekStats(),fmt=d=>new Intl.DateTimeFormat('es-MX',{day:'2-digit',month:'short'}).format(d),week=`${fmt(s.start)} – ${fmt(new Date(s.end.getTime()-86400000))}`,selected=s.selected;
+  if(!selected){host.innerHTML='<div class="employee-week-empty"><strong>Aún no hay ventas esta semana</strong><span>Cuando se registre una venta aparecerá aquí el líder automático. Un administrador también puede elegirlo manualmente.</span></div>';return}
+  const configured=s.configured===selected.id,photo=configured?String(employeeWeek?.photo_url||'').trim():'';const initials=selected.name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'BS',max=Math.max(...selected.daily,1),rank=s.rows.findIndex(x=>x.id===selected.id)+1;
+  host.innerHTML=`<div class="employee-week-layout"><div class="employee-week-person"><div class="employee-week-avatar">${photo?`<img src="${esc(photo)}" alt="Foto de ${esc(selected.name)}">`:`<span>${esc(initials)}</span>`}</div><div><span class="employee-week-kicker">${configured?'ELEGIDO POR ADMINISTRACIÓN':'LÍDER AUTOMÁTICO'}</span><h3>${esc(selected.name)}</h3><p>Semana ${week}</p><small>${rank>0?`Puesto #${rank} de ${s.rows.length}`:'Sin ventas registradas'}</small></div></div><div class="employee-week-kpis"><div><span>Ventas</span><strong>${selected.count}</strong><small>activas</small></div><div><span>Generado</span><strong>${money(selected.generated)}</strong><small>esta semana</small></div><div><span>Comisión</span><strong>${money(selected.commission)}</strong><small>acumulada</small></div><div><span>Ticket promedio</span><strong>${money(selected.count?selected.generated/selected.count:0)}</strong><small>por venta</small></div></div><div class="employee-week-chart-wrap"><div class="employee-week-subhead"><div><span class="employee-week-kicker">ACTIVIDAD SEMANAL</span><strong>Generado por día</strong></div><small>${money(selected.generated)} total</small></div><div class="employee-week-chart">${selected.daily.map((value,i)=>`<div class="employee-week-bar"><span>${value?money(value):'—'}</span><div><i style="height:${value?Math.max(8,Math.round(value/max*100)):2}%"></i></div><small>${s.dayNames[i]}</small></div>`).join('')}</div></div><div class="employee-week-ranking"><div class="employee-week-subhead"><div><span class="employee-week-kicker">RANKING</span><strong>Rendimiento de la sucursal</strong></div><small>Por generado</small></div>${s.rows.slice(0,5).map((row,i)=>`<div class="employee-week-rank-row ${row.id===selected.id?'selected':''}"><b>${String(i+1).padStart(2,'0')}</b><div><strong>${esc(row.name)}</strong><small>${row.count} venta${row.count===1?'':'s'}</small></div><strong>${money(row.generated)}</strong></div>`).join('')||'<p class="employee-week-empty">Sin ventas activas esta semana.</p>'}</div></div>`;
+}
+function openEmployeeWeekEditor(){
+  if(!isAdmin())return toast('Solo un administrador puede configurar el empleado de la semana');const s=employeeWeekStats(),select=$("employeeWeekEmployee"),current=s.selectedId||employees.find(x=>x.active&&x.role!=='admin')?.user_id;select.innerHTML=employees.filter(x=>x.active).sort((a,b)=>a.name.localeCompare(b.name,'es')).map(x=>`<option value="${esc(x.user_id)}">${esc(x.name)}${x.role==='admin'?' · Admin':''}</option>`).join('');select.value=current||'';$("employeeWeekPhotoUrl").value=s.configured===current?employeeWeek?.photo_url||'' : '';$("employeeWeekPhoto").value='';$("employeeWeekPhotoStatus").textContent='';$("employeeWeekPreview").hidden=true;$("employeeWeekPreview").removeAttribute('src');$("employeeWeekModal").classList.remove('hidden');updateEmployeeWeekPreview();$("employeeWeekEmployee").focus();
+}
+function updateEmployeeWeekPreview(file){
+  if(employeeWeekPreviewUrl){URL.revokeObjectURL(employeeWeekPreviewUrl);employeeWeekPreviewUrl=null}
+  const img=$("employeeWeekPreview"),raw=$("employeeWeekPhotoUrl").value.trim();
+  const validFile=file&&/^image\/(png|jpeg|webp)$/i.test(file.type)&&file.size<=8*1024*1024;
+  if(file&&!validFile){img.hidden=true;img.removeAttribute('src');$("employeeWeekPhotoStatus").textContent='Elige una imagen PNG, JPG o WebP de hasta 8 MB.';return}
+  const url=file?(employeeWeekPreviewUrl=URL.createObjectURL(file)):(/^https?:\/\//i.test(raw)?raw:'');
+  img.onerror=()=>{img.hidden=true;$("employeeWeekPhotoStatus").textContent='No se pudo cargar la vista previa. Revisa la imagen o su URL.'};
+  if(!url){img.hidden=true;img.removeAttribute('src');return}img.src=url;img.hidden=false;
+}
+function optimizeEmployeeWeekPhoto(file){
+  return new Promise((resolve,reject)=>{if(!file||!/^image\/(png|jpe?g|webp)$/i.test(file.type)||file.size>8*1024*1024)return reject(new Error('Elige una imagen PNG, JPG o WebP de hasta 8 MB.'));const src=URL.createObjectURL(file),img=new Image();img.onload=()=>{URL.revokeObjectURL(src);const scale=Math.min(1,900/Math.max(img.naturalWidth,img.naturalHeight)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));const context=canvas.getContext('2d');if(!context||!canvas.toBlob)return reject(new Error('Tu navegador no puede preparar esta foto.'));context.drawImage(img,0,0,canvas.width,canvas.height);canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('No se pudo preparar la foto.')),'image/webp',.86)};img.onerror=()=>{URL.revokeObjectURL(src);reject(new Error('No se pudo abrir la foto.'))};img.src=src});
+}
+async function uploadEmployeeWeekPhoto(file,employeeId){
+  const sid=profile.store_id,uid=user.id,blob=await optimizeEmployeeWeekPhoto(file);
+  if(user?.id!==uid||profile?.store_id!==sid||!isAdmin())throw new Error('La sesión cambió. Vuelve a iniciar sesión.');
+  const path=`${sid}/${employeeId}.webp`,result=await sb.storage.from('employee-week').upload(path,blob,{upsert:true,contentType:blob.type||'image/webp',cacheControl:'0'});
+  if(result.error)throw result.error;return sb.storage.from('employee-week').getPublicUrl(path).data.publicUrl+'?v='+Date.now();
+}
+async function saveEmployeeWeek(){
+  if(employeeWeekSaving)return;
+  if(!isAdmin())return toast('Solo un administrador puede configurar el empleado de la semana');
+  const employeeId=$("employeeWeekEmployee").value,url=$("employeeWeekPhotoUrl").value.trim(),file=$("employeeWeekPhoto").files?.[0];
+  if(!employees.some(e=>e.user_id===employeeId&&e.active))return toast('Selecciona un empleado activo');
+  if(!file&&url){try{const parsed=new URL(url);if(!/^https?:$/.test(parsed.protocol))throw Error()}catch{return toast('La URL de la foto no es válida')}}
+  const button=$("saveEmployeeWeekBtn"),label=button.textContent,sid=profile.store_id,uid=user.id;
+  employeeWeekSaving=true;button.disabled=true;button.textContent='Guardando…';$("employeeWeekPhotoStatus").textContent='';
+  try{
+    const photoUrl=file?await uploadEmployeeWeekPhoto(file,employeeId):url;
+    if(user?.id!==uid||profile?.store_id!==sid||!isAdmin())throw new Error('La sesión cambió. Vuelve a iniciar sesión.');
+    const payload={store_id:sid,employee_id:employeeId,photo_url:photoUrl,week_start:localDay(employeeWeekBounds().start),updated_by:uid,updated_at:new Date().toISOString()};
+    const {data,error}=await sb.from('employee_of_week').upsert(payload,{onConflict:'store_id'}).select('*').single();
+    if(error)throw error;
+    if(user?.id!==uid||profile?.store_id!==sid)return;
+    employeeWeek=data||payload;$("employeeWeekModal").classList.add('hidden');renderEmployeeWeek();toast('Empleado de la semana actualizado');
+  }catch(error){
+    $("employeeWeekPhotoStatus").textContent=['PGRST205','42P01'].includes(error.code)?'Falta activar esta función: ejecuta el contenido de supabase_patch_v5_5_employee_week.sql en Supabase.':error.message||'No se pudo guardar. Revisa el parche SQL y el bucket de fotos.';
+    $("employeeWeekPhotoStatus").classList.add('is-warning');
+  }finally{employeeWeekSaving=false;button.disabled=false;button.textContent=label}
+}
 function renderDashboard(){
   if(!profile)return;
   const mine=sales.filter(s=>s.created_by===user.id),m=sums(mine),all=sums(sales),pending=pendingFor(user.id);
@@ -296,6 +372,7 @@ function renderDashboard(){
   $("quickProducts").innerHTML=products.filter(x=>x.active).slice(0,8).map(p=>`<button class="quick-card" data-quick-add="${esc(p.id)}" aria-label="Agregar ${esc(p.name)} y abrir punto de venta"><div class="quick-photo">${productArt(p)}</div><h3>${esc(p.name)}</h3><strong>${money(p.price)}</strong></button>`).join("");
   $("quickProducts").onclick=e=>{const b=e.target.closest("[data-quick-add]");if(b){addToCart(b.dataset.quickAdd);switchPage("pos")}};
   const shown=isAdmin()?sales:sales.filter(s=>s.created_by===user.id);$("miniSales").innerHTML=shown.slice(0,8).map(s=>`<button class="mini-sale" data-mini-sale="${s.id}"><span>${folio(s)}</span><strong>${esc(s.employee_name)}</strong><b>${money(s.total)}</b><em>Ver →</em></button>`).join("")||`<div class="empty-cart"><strong>Sin ventas todavía</strong></div>`;document.querySelectorAll("[data-mini-sale]").forEach(b=>b.onclick=()=>openSale(b.dataset.miniSale));
+  renderEmployeeWeek();
 }
 function updateBulkPreview(input){
   const card=input?.closest(".product-card"),id=card?.dataset.product,p=products.find(x=>x.id===id),preview=card?.querySelector("[data-bulk-preview]");if(!p||!preview)return;

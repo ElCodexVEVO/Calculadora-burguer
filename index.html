@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5.4.1">
-  <link rel="stylesheet" href="pos.css?v=5.4.1">
-  <link rel="stylesheet" href="reports.css?v=5.4.1">
-  <link rel="stylesheet" href="companion.css?v=5.4.1">
+  <link rel="stylesheet" href="styles.css?v=5.5.0">
+  <link rel="stylesheet" href="pos.css?v=5.5.0">
+  <link rel="stylesheet" href="reports.css?v=5.5.0">
+  <link rel="stylesheet" href="companion.css?v=5.5.0">
 </head>
 <body>
 <div id="toastHost" class="toast-host"></div>
@@ -21,7 +21,7 @@
   <div class="gate-art">
     <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>PUNTO DE VENTA</small></div></div>
     <div class="gate-copy">
-      <span class="eyebrow gold">V5.1.1 · PUNTO DE VENTA</span>
+      <span class="eyebrow gold">V5.5 · PUNTO DE VENTA</span>
       <h1>Ventas claras.<br>Equipo medible.</h1>
       <p>Calculadora, empleados, convenios, comisiones, cortes y ventas sincronizadas.</p>
     </div>
@@ -144,6 +144,7 @@
         <div class="command-card"><span class="command-label">CONTROL DEL DÍA</span><strong>Todo listo para operar</strong><small>Ventas, caja, convenios y rendimiento sincronizados.</small></div>
       </div>
       <div id="dashboardMetrics" class="metrics"></div>
+      <section class="employee-week panel"><div class="panel-head"><div><span class="eyebrow">RECONOCIMIENTO DEL EQUIPO</span><h2>Empleado de la semana</h2><span>Rendimiento de lunes a domingo.</span></div><button id="editEmployeeWeekBtn" class="btn secondary admin-only">Configurar</button></div><div id="employeeWeekContent" class="employee-week-content"></div></section>
       <div class="dashboard-grid">
         <div class="panel">
           <div class="panel-head"><div><span class="eyebrow">PRODUCTOS DESTACADOS</span><h2>Acceso rápido</h2><span>Agrega un producto y empieza una orden.</span></div><button class="text-action" data-go="pos">Abrir POS →</button></div>
@@ -268,6 +269,13 @@
   <div class="modal-actions"><button class="btn secondary" data-close="checkoutModal">Cancelar</button><button id="confirmSaleBtn" class="btn primary">Registrar venta</button></div>
 </div></div>
 
+<!-- EMPLOYEE OF THE WEEK -->
+<div id="employeeWeekModal" class="modal-backdrop hidden"><div class="modal employee-week-modal">
+  <div class="modal-head"><div><span class="eyebrow">RECONOCIMIENTO</span><h2>Empleado de la semana</h2><p>Elige a la persona destacada y define su foto.</p></div><button class="icon-btn" data-close="employeeWeekModal" aria-label="Cerrar">×</button></div>
+  <div class="form-grid"><div class="full"><label for="employeeWeekEmployee">Empleado destacado</label><select id="employeeWeekEmployee"></select></div><div class="full"><label for="employeeWeekPhotoUrl">URL pública de foto <span>(opcional)</span></label><input id="employeeWeekPhotoUrl" type="url" placeholder="https://…/foto.jpg" autocomplete="off"></div><div class="full"><label for="employeeWeekPhoto">O subir una foto <span>(opcional)</span></label><input id="employeeWeekPhoto" type="file" accept="image/png,image/jpeg,image/webp"><small class="field-note">La foto se optimiza en tu dispositivo antes de subirla.</small></div><div class="full employee-week-preview-wrap"><img id="employeeWeekPreview" class="employee-week-preview" alt="Vista previa de la foto del empleado" hidden><p id="employeeWeekPhotoStatus" class="field-note" role="status"></p></div></div>
+  <div class="modal-actions"><button class="btn secondary" data-close="employeeWeekModal">Cancelar</button><button id="saveEmployeeWeekBtn" class="btn primary">Guardar reconocimiento</button></div>
+</div></div>
+
 <!-- SALE DETAIL -->
 <div id="saleDetailModal" class="modal-backdrop hidden"><div class="modal">
   <div class="modal-head"><div><span class="eyebrow">DETALLE</span><h2 id="detailFolio">Venta</h2></div><button class="icon-btn" data-close="saleDetailModal">×</button></div>
@@ -373,8 +381,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js?v=5.0.6"></script>
-<script src="companion-core.js?v=5.4.1"></script>
-<script src="companion.js?v=5.4.1"></script>
-<script src="app.js?v=5.4.1"></script>
+<script src="companion-core.js?v=5.5.0"></script>
+<script src="companion.js?v=5.5.0"></script>
+<script src="app.js?v=5.5.0"></script>
 </body>
 </html>

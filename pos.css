@@ -71,6 +71,7 @@ button:disabled { cursor:not-allowed; }
 .product-bottom strong { font-family:Manrope,Inter,system-ui,sans-serif; font-size:22px; letter-spacing:-.7px; color:var(--pos-gold); font-variant-numeric:tabular-nums; }
 .add-product { display:grid; place-items:center; width:33px; height:33px; border-radius:9px; background:linear-gradient(145deg,#8b2b35,#491d28); border:1px solid #b5505b70; box-shadow:inset 0 1px 0 #ffffff09; color:#fff3f2; }
 .add-product:hover { background:#b72e3d; border-color:#e66b76; }
+.bulk-add{display:flex;align-items:center;gap:6px}.bulk-qty-label{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.bulk-qty{width:46px;height:33px;box-sizing:border-box;padding:0 5px;text-align:center;font:600 12px Inter,system-ui,sans-serif;color:#e8eff5;background:#10171f;border:1px solid #34414f;border-radius:8px;font-variant-numeric:tabular-nums}.bulk-qty:focus{outline:2px solid #f5ce80;outline-offset:2px}.bulk-qty::-webkit-inner-spin-button,.bulk-qty::-webkit-outer-spin-button{opacity:.7}
 .catalog-empty { grid-column:1/-1; padding:64px 24px; border:1px dashed #33404f; border-radius:12px; text-align:center; display:grid; gap:8px; }
 .catalog-empty strong { font-size:16px; }
 .catalog-empty span { color:#a6b1be; font-size:12px; }
@@ -106,6 +107,7 @@ button:disabled { cursor:not-allowed; }
 .qty button:hover { filter:brightness(1.3); }
 .qty .ui-icon { width:13px; height:13px; stroke-width:2.4; }
 .qty b { min-width:17px; font-size:12px; font-weight:600; font-variant-numeric:tabular-nums; }
+.qty-input{width:31px;height:27px;box-sizing:border-box;padding:0 2px;text-align:center;background:#10171f;border:1px solid #485564;border-radius:6px;color:#f1f5f8;font:600 12px Inter,system-ui,sans-serif;font-variant-numeric:tabular-nums}.qty-input:focus{outline:2px solid #f5ce80;outline-offset:2px}.qty-input::-webkit-inner-spin-button,.qty-input::-webkit-outer-spin-button{opacity:.7}
 .line-total span { font-size:9px; line-height:1.25; color:#8695a5; white-space:nowrap; }
 .line-total strong { font-size:18px; line-height:1.3; margin-top:2px; color:var(--pos-gold); letter-spacing:-.3px; font-variant-numeric:tabular-nums; }
 .order-checkout { flex:none; padding:14px 18px 17px; background:#101720; border-top:1px solid #28313d; }

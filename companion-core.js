@@ -16,6 +16,13 @@
     const result = Number(text);
     return Number.isFinite(result) && result >= 0 && result <= 999999999 ? result : null;
   }
+  function quantity(value, allowZero = false) {
+    const text = String(value ?? '').trim();
+    if (!/^\d+$/.test(text)) return null;
+    const result = Number(text);
+    const minimum = allowZero ? 0 : 1;
+    return Number.isSafeInteger(result) && result >= minimum && result <= 9999 ? result : null;
+  }
   function readPayment(text) {
     const source = String(text || '').replace(/\r/g, '');
     const matches = [...source.matchAll(/(?:\$|MXN\s+)\s*(\d[\d.,]*\d|\d)(?=\s|$|[^\d.,]|[.,](?:\s|$))/gi)];
@@ -70,5 +77,5 @@
     if (!confirmed) return 'Confirma que recibiste el pago en el juego.';
     return '';
   }
-  return { key, amount, readPayment, customers, repeat, review };
+  return { key, amount, quantity, readPayment, customers, repeat, review };
 });

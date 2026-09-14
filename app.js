@@ -33,10 +33,14 @@ function productBadge(p){
 function productSubtitle(p){
   return p.category==="mayoreo"?"Paquete de mayoreo":p.restriction?"Exclusivo · "+productBadge(p):CATS[p.category]||"Producto";
 }
-function addToCart(id){
+function addToCart(id,requested=1){
   if(saleSaving)return;
   if(!products.some(p=>p.id===id&&p.active))return;
-  cart[id]=Math.min(9999,(cart[id]||0)+1);renderCart();
+  const quantity=window.BurgerCompanionCore?.quantity(requested) ?? (Number.isInteger(Number(requested))&&Number(requested)>=1&&Number(requested)<=9999?Number(requested):null);
+  if(!quantity)return toast("La cantidad debe ser un entero entre 1 y 9,999");
+  const next=(cart[id]||0)+quantity;
+  if(next>9999)return toast("La cantidad máxima por producto es 9,999");
+  cart[id]=next;renderCart();
 }
 function updateProductSelection(){
   document.querySelectorAll(".product-card[data-product]").forEach(el=>{
@@ -263,8 +267,8 @@ function renderCategories(){
 function renderProducts(){
   const q=normalize($("productSearch").value.trim()),arr=products.filter(p=>p.active).filter(p=>activeCategory==="all"||p.category===activeCategory).filter(p=>!q||normalize(p.name).includes(q));
   $("productCount").textContent=`${arr.length} producto${arr.length===1?"":"s"}`;
-  $("productGrid").innerHTML=arr.length?arr.map(p=>`<article class="product-card" data-product="${esc(p.id)}"><div class="product-photo">${productArt(p)}${productBadge(p)?`<span class="product-badge">${esc(productBadge(p))}</span>`:""}<span class="in-cart-count" hidden></span></div><div class="product-copy"><span class="product-category">${esc(productSubtitle(p))}</span><h3>${esc(p.name)}</h3><div class="product-bottom"><strong>${money(p.price)}</strong><button class="add-product" data-add="${esc(p.id)}" aria-label="Agregar ${esc(p.name)}" title="Agregar a la orden">${uiIcon("plus")}</button></div></div></article>`).join(""):`<div class="catalog-empty"><strong>No encontramos ese producto</strong><span>Prueba otro nombre o cambia de categoría.</span></div>`;
-  $("productGrid").onclick=e=>{const b=e.target.closest("[data-add]");if(b)addToCart(b.dataset.add)};
+  $("productGrid").innerHTML=arr.length?arr.map(p=>`<article class="product-card" data-product="${esc(p.id)}"><div class="product-photo">${productArt(p)}${productBadge(p)?`<span class="product-badge">${esc(productBadge(p))}</span>`:""}<span class="in-cart-count" hidden></span></div><div class="product-copy"><span class="product-category">${esc(productSubtitle(p))}</span><h3>${esc(p.name)}</h3><div class="product-bottom"><strong>${money(p.price)}</strong><div class="bulk-add"><label class="bulk-qty-label" for="bulkQty-${esc(p.id)}">Cantidad</label><input id="bulkQty-${esc(p.id)}" class="bulk-qty" data-bulk-qty="${esc(p.id)}" type="number" min="1" max="9999" step="1" value="1" inputmode="numeric" aria-label="Cantidad de ${esc(p.name)}"><button class="add-product" data-add="${esc(p.id)}" aria-label="Agregar la cantidad indicada de ${esc(p.name)}" title="Agregar cantidad indicada">${uiIcon("plus")}</button></div></div></div></article>`).join(""):`<div class="catalog-empty"><strong>No encontramos ese producto</strong><span>Prueba otro nombre o cambia de categoría.</span></div>`;
+  $("productGrid").onclick=e=>{const b=e.target.closest("[data-add]");if(!b)return;const input=b.closest(".bulk-add")?.querySelector("[data-bulk-qty]"),requested=input?.value||1;addToCart(b.dataset.add,requested);if(input)input.value="1"};
   updateProductSelection();
 }
 function calc(){
@@ -281,16 +285,24 @@ function renderCart(){
   $("cartEmpty").classList.toggle("hidden",c.lines.length>0);
   $("orderCount").textContent=c.lines.reduce((sum,x)=>sum+x.qty,0);
   $("clearCartBtn").disabled=!c.lines.length;
-  $("cartList").innerHTML=c.lines.map(x=>`<article class="cart-item"><div class="cart-photo">${productArt(x,true)}</div><div class="cart-copy"><h4>${esc(x.name)}</h4><small>${money(x.price)} c/u</small><button class="remove-line" data-remove="${esc(x.id)}" aria-label="Quitar ${esc(x.name)}" title="Quitar producto">${uiIcon("trash")}</button></div><div class="cart-numbers"><div class="qty" role="group" aria-label="Cantidad de ${esc(x.name)}"><button data-q="${esc(x.id)}" data-d="-1" aria-label="Restar uno a ${esc(x.name)}">${uiIcon("minus")}</button><b aria-live="polite">${x.qty}</b><button data-q="${esc(x.id)}" data-d="1" aria-label="Sumar uno a ${esc(x.name)}">${uiIcon("plus")}</button></div><div class="line-total"><span>${x.qty} × ${money(x.price)}</span><strong>${money(x.lineTotal)}</strong></div></div></article>`).join("");
+  $("cartList").innerHTML=c.lines.map(x=>`<article class="cart-item"><div class="cart-photo">${productArt(x,true)}</div><div class="cart-copy"><h4>${esc(x.name)}</h4><small>${money(x.price)} c/u</small><button class="remove-line" data-remove="${esc(x.id)}" aria-label="Quitar ${esc(x.name)}" title="Quitar producto">${uiIcon("trash")}</button></div><div class="cart-numbers"><div class="qty" role="group" aria-label="Cantidad de ${esc(x.name)}"><button data-q="${esc(x.id)}" data-d="-1" aria-label="Restar uno a ${esc(x.name)}">${uiIcon("minus")}</button><input class="qty-input" data-q-input="${esc(x.id)}" type="number" min="1" max="9999" step="1" value="${x.qty}" inputmode="numeric" aria-label="Cantidad de ${esc(x.name)}"><button data-q="${esc(x.id)}" data-d="1" aria-label="Sumar uno a ${esc(x.name)}">${uiIcon("plus")}</button></div><div class="line-total"><span>${x.qty} × ${money(x.price)}</span><strong>${money(x.lineTotal)}</strong></div></div></article>`).join("");
   $("cartList").onclick=e=>{
     const remove=e.target.closest("[data-remove]"),b=e.target.closest("[data-q]");
     if(remove){delete cart[remove.dataset.remove];renderCart();return}
     if(!b)return;
     const id=b.dataset.q,delta=b.dataset.d,scroll=$("cartList").parentElement.scrollTop;
-    cart[id]=(cart[id]||0)+Number(delta);if(cart[id]<=0)delete cart[id];renderCart();
+    const next=(cart[id]||0)+Number(delta);if(next>9999)return toast("La cantidad máxima por producto es 9,999");cart[id]=next;if(cart[id]<=0)delete cart[id];renderCart();
     $("cartList").parentElement.scrollTop=scroll;
     Array.from($("cartList").querySelectorAll("[data-q]")).find(el=>el.dataset.q===id&&el.dataset.d===delta)?.focus({preventScroll:true});
   };
+  const setCartQuantity=e=>{
+    const input=e.target.closest("[data-q-input]");if(!input)return;
+    const id=input.dataset.qInput,current=cart[id]||0,requested=window.BurgerCompanionCore?.quantity(input.value,true) ?? (Number.isInteger(Number(input.value))&&Number(input.value)>=0&&Number(input.value)<=9999?Number(input.value):null);
+    if(requested===null){input.value=String(current);return toast("La cantidad debe ser un entero entre 0 y 9,999")}
+    if(requested===0)delete cart[id];else cart[id]=requested;renderCart();
+  };
+  $("cartList").onchange=setCartQuantity;
+  $("cartList").onkeydown=e=>{if(e.key==="Enter"&&e.target.matches("[data-q-input]")){e.preventDefault();setCartQuantity(e)}};
   $("subtotal").textContent=money(c.subtotal);$("discountAmount").textContent=c.disc?`−${money(c.disc)}`:money(0);$("grandTotal").textContent=money(c.total);$("checkoutTotal").textContent=money(c.total);$("commissionPreview").textContent=money(c.earning);$("commissionPercentText").textContent=`${c.pct}% comisión`;
   $("discountNote").textContent=c.blocked?"Este convenio no aplica a este tipo de cliente.":(c.d.description||"");$("discountNote").classList.toggle("is-warning",c.blocked);$("checkoutBtn").disabled=!c.lines.length;
   updateProductSelection();
@@ -674,6 +686,7 @@ const companion=window.BurgerCompanion?.mount({
   state:()=>({profile,user,products,discounts,calc:calc(),saving:saleSaving,sales:profile?(isAdmin()?sales:sales.filter(s=>s.created_by===user?.id)):[]}),
   add:addToCart,
   quantity:(id,delta)=>{if(saleSaving)return;const p=products.find(x=>x.id===id&&x.active);if(!p)return;const next=Math.min(9999,(cart[id]||0)+delta);if(next>0)cart[id]=next;else delete cart[id];renderCart()},
+  setQuantity:(id,value)=>{if(saleSaving)return;const p=products.find(x=>x.id===id&&x.active);if(!p)return;if(!Number.isInteger(value)||value<1||value>9999)return toast("La cantidad debe ser un entero entre 1 y 9,999");cart[id]=value;renderCart()},
   options:(type,discount)=>{if(saleSaving)return;$("clientType").value=type;$("discountSelect").value=discount;renderCart()},
   clear:()=>{if(saleSaving)return;cart={};renderCart()},
   replace:result=>{if(saleSaving)return;cart=result.cart;$("clientType").value=result.clientType;$("discountSelect").value=discounts.some(d=>d.id===result.discountId&&d.active)?result.discountId:(discounts.find(d=>d.active&&Number(d.percent)===0)?.id||"");renderCart()},

@@ -62,7 +62,7 @@
     function renderProducts() {
       const s = api.state(), q = core.key($('bsSearch').value);
       const rows = s.products.filter(p => p.active && (tab === 'all' || (tab === 'combos' ? p.category === 'combos' : favorites.includes(p.id))) && (!q || core.key(p.name).includes(q)));
-      $('bsProducts').innerHTML = rows.map(p => `<article class="bs-product"><button class="bs-favorite ${favorites.includes(p.id)?'selected':''}" data-bs-fav="${e(p.id)}" aria-label="${favorites.includes(p.id)?'Quitar de':'Agregar a'} favoritos: ${e(p.name)}" aria-pressed="${favorites.includes(p.id)}">${icon('star')}</button><button class="bs-pick" data-bs-add="${e(p.id)}" aria-label="Agregar ${e(p.name)}">${api.art(p,true)}<strong>${e(p.name)}</strong><div><b>${m(p.price)}</b><span class="bs-plus">${icon('plus')}</span></div>${p.restriction?`<small>${e(p.restriction.toUpperCase())}</small>`:''}</button></article>`).join('') || '<p class="bs-empty">No hay productos aquí. Abre Menú y marca tus favoritos con la estrella.</p>';
+      $('bsProducts').innerHTML = rows.map(p => `<article class="bs-product"><button class="bs-favorite ${favorites.includes(p.id)?'selected':''}" data-bs-fav="${e(p.id)}" aria-label="${favorites.includes(p.id)?'Quitar de':'Agregar a'} favoritos: ${e(p.name)}" aria-pressed="${favorites.includes(p.id)}">${icon('star')}</button><button class="bs-pick" data-bs-add="${e(p.id)}" aria-label="Agregar una unidad de ${e(p.name)}">${api.art(p,true)}<strong>${e(p.name)}</strong><div><b>${m(p.price)}</b><span class="bs-plus">${icon('plus')}</span></div>${p.restriction?`<small>${e(p.restriction.toUpperCase())}</small>`:''}</button><div class="bs-bulk-add"><label for="bsBulk-${e(p.id)}">Cantidad</label><div><input id="bsBulk-${e(p.id)}" data-bs-bulk-qty="${e(p.id)}" type="number" min="1" max="9999" step="1" value="1" inputmode="numeric" aria-label="Cantidad de ${e(p.name)}"><button data-bs-add-qty="${e(p.id)}" aria-label="Agregar cantidad indicada de ${e(p.name)}">Añadir</button></div></div></article>`).join('') || '<p class="bs-empty">No hay productos aquí. Abre Menú y marca tus favoritos con la estrella.</p>';
     }
     function clientInfo() {
       const q = core.key($('bsClient').value), found = customerGroups.find(c => c.key === q);
@@ -83,7 +83,7 @@
       customerGroups = core.customers(s.sales);
       renderProducts(); clientInfo();
       $('bsCount').textContent = s.calc.lines.reduce((sum,p)=>sum+p.qty,0);
-      $('bsLines').innerHTML = s.calc.lines.map(p => `<div class="bs-line"><img src="assets/food/${api.photo(p)}-thumb.webp" alt=""><div><strong>${e(p.name)}</strong><small>${m(p.price)} c/u</small></div><div class="bs-qty"><button data-bs-qty="${e(p.id)}" data-delta="-1" aria-label="Restar ${e(p.name)}">${icon('minus')}</button><b>${p.qty}</b><button data-bs-qty="${e(p.id)}" data-delta="1" aria-label="Sumar ${e(p.name)}">${icon('plus')}</button></div><strong>${m(p.lineTotal)}</strong></div>`).join('') || '<div class="bs-empty-order"><img src="assets/burgershot-logo.webp" alt=""><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>';
+      $('bsLines').innerHTML = s.calc.lines.map(p => `<div class="bs-line"><img src="assets/food/${api.photo(p)}-thumb.webp" alt=""><div><strong>${e(p.name)}</strong><small>${m(p.price)} c/u</small></div><div class="bs-qty"><button data-bs-qty="${e(p.id)}" data-delta="-1" aria-label="Restar ${e(p.name)}">${icon('minus')}</button><input class="bs-qty-input" data-bs-line-qty="${e(p.id)}" type="number" min="1" max="9999" step="1" value="${p.qty}" inputmode="numeric" aria-label="Cantidad de ${e(p.name)}"><button data-bs-qty="${e(p.id)}" data-delta="1" aria-label="Sumar ${e(p.name)}">${icon('plus')}</button></div><strong>${m(p.lineTotal)}</strong></div>`).join('') || '<div class="bs-empty-order"><img src="assets/burgershot-logo.webp" alt=""><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>';
       $('bsDiscount').innerHTML = $('discountSelect').innerHTML;
       $('bsDiscount').value = $('discountSelect').value; $('bsType').value = s.calc.client;
       $('bsDiscountName').textContent = s.calc.blocked ? 'Sin convenio' : s.calc.d.name;
@@ -107,9 +107,20 @@
       const t = ev.target.closest('button'); if (!t) return;
       if (t.dataset.bsTab) { tab=t.dataset.bsTab; panel.querySelectorAll('[data-bs-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b===t))); renderProducts(); }
       if (t.dataset.bsAdd) { $('bsSuccess').hidden=true; api.add(t.dataset.bsAdd); }
+      if (t.dataset.bsAddQty) { const input=t.closest('.bs-bulk-add')?.querySelector('[data-bs-bulk-qty]'); $('bsSuccess').hidden=true; api.add(t.dataset.bsAddQty,input?.value||1); if(input)input.value='1'; }
       if (t.dataset.bsFav) { const id=t.dataset.bsFav; favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];saveFavorites();renderProducts(); }
       if (t.dataset.bsQty) api.quantity(t.dataset.bsQty, Number(t.dataset.delta));
     });
+    const setAuxLineQuantity=e=>{
+      const input=e.target.closest('[data-bs-line-qty]');if(!input)return;
+      const value=core.quantity(input.value,true);
+      if(value===null||value===0){input.value=String(api.state().calc.lines.find(p=>p.id===input.dataset.bsLineQty)?.qty||1);return api.toast('La cantidad debe ser un entero entre 1 y 9,999. Usa Quitar para eliminar el producto.');}
+      const current=api.state().calc.lines.find(p=>p.id===input.dataset.bsLineQty)?.qty;
+      if(current===value)return;
+      api.setQuantity(input.dataset.bsLineQty,value);
+    };
+    $('bsLines').addEventListener('change',setAuxLineQuantity);
+    $('bsLines').addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.matches('[data-bs-line-qty]')){ev.preventDefault();setAuxLineQuantity(ev);ev.target.blur();}});
     $('bsSearch').oninput=renderProducts;
     $('bsClient').oninput=clientInfo;
     $('bsType').onchange=()=>api.options($('bsType').value,$('bsDiscount').value);

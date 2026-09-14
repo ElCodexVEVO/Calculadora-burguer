@@ -3,6 +3,7 @@
 const CATS={combos:"Combos",individuales:"Individuales",extras:"Extras",cajas:"Cajas felices",mayoreo:"Mayoreo"};
 const CONFIG_KEY="bs_v3_cloud";
 const PENDING_BOOTSTRAP_KEY="bs_v3_pending_admin";
+const TEMPLATE_KEY="bs_order_templates_v1";
 let saleSaving=false,checkoutSnapshot=null,loadVersion=0,saleEditId=null,saleEditDraft=null;
 let sb,user=null,profile=null,store=null,products=[],discounts=[],sales=[],employees=[],payouts=[],cart={},activeCategory="all",realtime=null,resetTarget=null;
 const $=id=>document.getElementById(id);
@@ -33,14 +34,49 @@ function productBadge(p){
 function productSubtitle(p){
   return p.category==="mayoreo"?"Paquete de mayoreo":p.restriction?"Exclusivo · "+productBadge(p):CATS[p.category]||"Producto";
 }
+function templateScope(){return profile?.store_id&&user?.id?`${TEMPLATE_KEY}:${profile.store_id}:${user.id}`:""}
+function readOrderTemplates(){
+  const scope=templateScope();if(!scope)return [];
+  try{const rows=JSON.parse(localStorage.getItem(scope)||"[]");return Array.isArray(rows)?rows.filter(x=>x&&typeof x.name==="string"&&Array.isArray(x.lines)):[]}catch{return []}
+}
+function writeOrderTemplates(rows){const scope=templateScope();if(!scope)return false;try{localStorage.setItem(scope,JSON.stringify(rows.slice(0,30)));return true}catch{return false}}
+function renderOrderTemplates(){
+  const select=$("templateSelect"),load=$("loadTemplateBtn"),del=$("deleteTemplateBtn"),save=$("saveTemplateBtn");if(!select)return;
+  const selected=select.value,rows=readOrderTemplates();
+  select.innerHTML=rows.length?`<option value="">Selecciona una plantilla</option>`+rows.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join(""):"<option value=\"\">Sin plantillas guardadas</option>";
+  if(rows.some(x=>x.id===selected))select.value=selected;
+  const has=Boolean(select.value);if(load)load.disabled=!has;if(del)del.disabled=!has;if(save)save.disabled=!Object.keys(cart).length;
+}
+function saveOrderTemplate(nameArg){
+  if(!Object.keys(cart).length)return toast("Agrega productos antes de guardar una plantilla");
+  const name=String(nameArg??window.prompt?.("Nombre de la plantilla:","Pedido frecuente")??"").trim();if(!name)return;
+  const lines=Object.entries(cart).map(([id,qty])=>({id,qty})),rows=readOrderTemplates(),existing=rows.find(x=>x.name.toLowerCase()===name.toLowerCase());
+  if(existing&&!window.confirm?.("Ya existe una plantilla con ese nombre. ¿Reemplazarla?"))return;
+  const item={id:existing?.id||`tpl-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,name:name.slice(0,50),lines,clientType:$("clientType").value,discountId:$("discountSelect").value,updatedAt:new Date().toISOString()};
+  const next=existing?rows.map(x=>x.id===existing.id?item:x):[item,...rows];if(!writeOrderTemplates(next))return toast("No se pudo guardar la plantilla en este navegador");renderOrderTemplates();$("templateSelect").value=item.id;renderOrderTemplates();toast(`Plantilla «${item.name}» guardada`);
+}
+function loadOrderTemplate(templateId){
+  const id=templateId||$("templateSelect")?.value,row=readOrderTemplates().find(x=>x.id===id);if(!row)return;
+  const next={};let skipped=0;
+  for(const line of row.lines){const p=products.find(x=>x.id===line.id&&x.active),qty=Number(line.qty);if(!p||!Number.isInteger(qty)||qty<1){skipped++;continue}next[p.id]=Math.min(9999,(next[p.id]||0)+qty)}
+  if(!Object.keys(next).length)return toast("Los productos de esta plantilla ya no están disponibles");
+  cart=next;if(discounts.some(x=>x.id===row.discountId&&x.active))$("discountSelect").value=row.discountId;$("clientType").value=row.clientType||"general";renderCart();toast(skipped?`Plantilla cargada; ${skipped} producto${skipped===1?"":"s"} no disponible${skipped===1?"":"s"}.`:`Plantilla «${row.name}» cargada`);
+}
+function deleteOrderTemplate(templateId){
+  const id=templateId||$("templateSelect")?.value,row=readOrderTemplates().find(x=>x.id===id);if(!row)return;if(!window.confirm?.(`¿Eliminar la plantilla «${row.name}»?`))return;writeOrderTemplates(readOrderTemplates().filter(x=>x.id!==id));renderOrderTemplates();toast("Plantilla eliminada");
+}
+function confirmBulkQuantity(id,quantity){
+  if(quantity<100)return true;const p=products.find(x=>x.id===id);return typeof window.confirm!=="function"||window.confirm(`Vas a agregar ${quantity} unidades de ${p?.name||"este producto"} (${money(Number(p?.price||0)*quantity)}). ¿Continuar?`);
+}
 function addToCart(id,requested=1){
-  if(saleSaving)return;
-  if(!products.some(p=>p.id===id&&p.active))return;
+  if(saleSaving)return false;
+  if(!products.some(p=>p.id===id&&p.active))return false;
   const quantity=window.BurgerCompanionCore?.quantity(requested) ?? (Number.isInteger(Number(requested))&&Number(requested)>=1&&Number(requested)<=9999?Number(requested):null);
-  if(!quantity)return toast("La cantidad debe ser un entero entre 1 y 9,999");
+  if(!quantity){toast("La cantidad debe ser un entero positivo");return false}
+  if(!confirmBulkQuantity(id,quantity))return false;
   const next=(cart[id]||0)+quantity;
-  if(next>9999)return toast("La cantidad máxima por producto es 9,999");
-  cart[id]=next;renderCart();
+  if(next>9999){toast("La cantidad máxima por producto es 9,999");return false}
+  cart[id]=next;renderCart();return true;
 }
 function updateProductSelection(){
   document.querySelectorAll(".product-card[data-product]").forEach(el=>{
@@ -109,6 +145,7 @@ function bind(){
   document.addEventListener("input",e=>{if(!saleEditId||!e.target.matches("[data-edit-qty]"))return;const item=saleEditDraft?.items.find(i=>i.id===e.target.dataset.editQty),p=products.find(x=>x.id===e.target.dataset.editQty);if(item){const line=e.target.closest('.edit-order-line');if(line)line.querySelector('.edit-line-total').textContent=money(Number(p?.price??item.price??0)*(Number(e.target.value)||0));const s=sales.find(x=>x.id===saleEditId);if(s)updateSaleEditTotals(s)}});
   $("globalSearch").onkeydown=e=>{if(e.key==="Enter"){switchPage("pos");$("productSearch").value=e.target.value;renderProducts()}};
   $("productSearch").oninput=renderProducts;$("clearCartBtn").onclick=()=>{cart={};renderCart()};$("clientType").onchange=renderCart;$("discountSelect").onchange=renderCart;
+  $("saveTemplateBtn").onclick=()=>saveOrderTemplate();$("loadTemplateBtn").onclick=()=>loadOrderTemplate();$("deleteTemplateBtn").onclick=()=>deleteOrderTemplate();$("templateSelect").onchange=renderOrderTemplates;
   $("checkoutBtn").onclick=openCheckout;$("confirmSaleBtn").onclick=saveSale;$("saleClient").oninput=updateCheckoutClientState;$("mySalesSearch").oninput=renderMySales;$("allSalesSearch").oninput=renderAllSales;$("customerSearch").oninput=()=>{customerPage=0;renderCustomers()};$("csvBtn").onclick=exportCSV;
   $("addProductBtn").onclick=()=>can("manage_catalog")?openProduct():toast("No tienes permiso para gestionar el catálogo");$("saveProductBtn").onclick=()=>can("manage_catalog")&&saveProduct();$("deleteProductBtn").onclick=()=>can("manage_catalog")&&deleteProduct();
   $("addDiscountBtn").onclick=()=>can("manage_catalog")?openDiscount():toast("No tienes permiso para gestionar convenios");$("saveDiscountBtn").onclick=()=>can("manage_catalog")&&saveDiscount();$("deleteDiscountBtn").onclick=()=>can("manage_catalog")&&deleteDiscount();
@@ -260,6 +297,10 @@ function renderDashboard(){
   $("quickProducts").onclick=e=>{const b=e.target.closest("[data-quick-add]");if(b){addToCart(b.dataset.quickAdd);switchPage("pos")}};
   const shown=isAdmin()?sales:sales.filter(s=>s.created_by===user.id);$("miniSales").innerHTML=shown.slice(0,8).map(s=>`<button class="mini-sale" data-mini-sale="${s.id}"><span>${folio(s)}</span><strong>${esc(s.employee_name)}</strong><b>${money(s.total)}</b><em>Ver →</em></button>`).join("")||`<div class="empty-cart"><strong>Sin ventas todavía</strong></div>`;document.querySelectorAll("[data-mini-sale]").forEach(b=>b.onclick=()=>openSale(b.dataset.miniSale));
 }
+function updateBulkPreview(input){
+  const card=input?.closest(".product-card"),id=card?.dataset.product,p=products.find(x=>x.id===id),preview=card?.querySelector("[data-bulk-preview]");if(!p||!preview)return;
+  const q=window.BurgerCompanionCore?.quantity(input.value)||1;preview.textContent=`${q} × ${money(p.price)} = ${money(q*Number(p.price||0))}`;
+}
 function renderCategories(){
   $("categoryTabs").innerHTML=Object.entries({all:"Todos",...CATS}).map(([k,v])=>`<button class="category-tab ${k===activeCategory?"active":""}" data-cat="${k}" aria-pressed="${k===activeCategory}">${v}</button>`).join("");
   $("categoryTabs").onclick=e=>{const b=e.target.closest("[data-cat]");if(!b)return;activeCategory=b.dataset.cat;renderCategories();renderProducts();$("productGrid").scrollTop=0;document.querySelector(`[data-cat="${activeCategory}"]`)?.focus({preventScroll:true})};
@@ -267,8 +308,10 @@ function renderCategories(){
 function renderProducts(){
   const q=normalize($("productSearch").value.trim()),arr=products.filter(p=>p.active).filter(p=>activeCategory==="all"||p.category===activeCategory).filter(p=>!q||normalize(p.name).includes(q));
   $("productCount").textContent=`${arr.length} producto${arr.length===1?"":"s"}`;
-  $("productGrid").innerHTML=arr.length?arr.map(p=>`<article class="product-card" data-product="${esc(p.id)}"><div class="product-photo">${productArt(p)}${productBadge(p)?`<span class="product-badge">${esc(productBadge(p))}</span>`:""}<span class="in-cart-count" hidden></span></div><div class="product-copy"><span class="product-category">${esc(productSubtitle(p))}</span><h3>${esc(p.name)}</h3><div class="product-bottom"><strong>${money(p.price)}</strong><div class="bulk-add"><label class="bulk-qty-label" for="bulkQty-${esc(p.id)}">Cantidad</label><input id="bulkQty-${esc(p.id)}" class="bulk-qty" data-bulk-qty="${esc(p.id)}" type="number" min="1" max="9999" step="1" value="1" inputmode="numeric" aria-label="Cantidad de ${esc(p.name)}"><button class="add-product" data-add="${esc(p.id)}" aria-label="Agregar la cantidad indicada de ${esc(p.name)}" title="Agregar cantidad indicada">${uiIcon("plus")}</button></div></div></div></article>`).join(""):`<div class="catalog-empty"><strong>No encontramos ese producto</strong><span>Prueba otro nombre o cambia de categoría.</span></div>`;
-  $("productGrid").onclick=e=>{const b=e.target.closest("[data-add]");if(!b)return;const input=b.closest(".bulk-add")?.querySelector("[data-bulk-qty]"),requested=input?.value||1;addToCart(b.dataset.add,requested);if(input)input.value="1"};
+  $("productGrid").innerHTML=arr.length?arr.map(p=>`<article class="product-card" data-product="${esc(p.id)}"><div class="product-photo">${productArt(p)}${productBadge(p)?`<span class="product-badge">${esc(productBadge(p))}</span>`:""}<span class="in-cart-count" hidden></span></div><div class="product-copy"><span class="product-category">${esc(productSubtitle(p))}</span><h3>${esc(p.name)}</h3><div class="product-bottom"><strong>${money(p.price)}</strong><div class="bulk-add"><label class="bulk-qty-label" for="bulkQty-${esc(p.id)}">Cantidad</label><input id="bulkQty-${esc(p.id)}" class="bulk-qty" data-bulk-qty="${esc(p.id)}" type="number" min="1" max="9999" step="1" value="1" inputmode="numeric" aria-label="Cantidad de ${esc(p.name)}"><button class="add-product" data-add="${esc(p.id)}" aria-label="Agregar la cantidad indicada de ${esc(p.name)}" title="Agregar cantidad indicada">${uiIcon("plus")}</button><div class="bulk-presets" role="group" aria-label="Cantidades rápidas de ${esc(p.name)}"><button type="button" data-add-preset="${esc(p.id)}" data-quantity="10">+10</button><button type="button" data-add-preset="${esc(p.id)}" data-quantity="25">+25</button><button type="button" data-add-preset="${esc(p.id)}" data-quantity="50">+50</button><button type="button" data-add-preset="${esc(p.id)}" data-quantity="100">+100</button></div><small class="bulk-preview" data-bulk-preview="${esc(p.id)}">1 × ${money(p.price)} = ${money(p.price)}</small></div></div></div></article>`).join(""):`<div class="catalog-empty"><strong>No encontramos ese producto</strong><span>Prueba otro nombre o cambia de categoría.</span></div>`;
+  $("productGrid").onclick=e=>{const preset=e.target.closest("[data-add-preset]");if(preset){addToCart(preset.dataset.addPreset,Number(preset.dataset.quantity));return}const b=e.target.closest("[data-add]");if(!b)return;const input=b.closest(".bulk-add")?.querySelector("[data-bulk-qty]"),requested=input?.value||1;if(addToCart(b.dataset.add,requested)&&input){input.value="1";updateBulkPreview(input)}};
+  $("productGrid").oninput=e=>{if(e.target.matches("[data-bulk-qty]"))updateBulkPreview(e.target)};
+  $("productGrid").onkeydown=e=>{if(e.key==="Enter"&&e.target.matches("[data-bulk-qty]")){e.preventDefault();const input=e.target;if(addToCart(input.dataset.bulkQty,input.value)){input.value="1";updateBulkPreview(input)}}};
   updateProductSelection();
 }
 function calc(){
@@ -305,7 +348,7 @@ function renderCart(){
   $("cartList").onkeydown=e=>{if(e.key==="Enter"&&e.target.matches("[data-q-input]")){e.preventDefault();setCartQuantity(e)}};
   $("subtotal").textContent=money(c.subtotal);$("discountAmount").textContent=c.disc?`−${money(c.disc)}`:money(0);$("grandTotal").textContent=money(c.total);$("checkoutTotal").textContent=money(c.total);$("commissionPreview").textContent=money(c.earning);$("commissionPercentText").textContent=`${c.pct}% comisión`;
   $("discountNote").textContent=c.blocked?"Este convenio no aplica a este tipo de cliente.":(c.d.description||"");$("discountNote").classList.toggle("is-warning",c.blocked);$("checkoutBtn").disabled=!c.lines.length;
-  updateProductSelection();
+  updateProductSelection();renderOrderTemplates();
   companion?.refresh();
 }
 function updateCheckoutClientState(){
@@ -598,9 +641,10 @@ async function loadAudit(page=0){
     $('auditPager').querySelector('[data-prev]').onclick=()=>loadAudit(auditPage-1);$('auditPager').querySelector('[data-next]').onclick=()=>loadAudit(auditPage+1);refreshReportEmployees();
   }catch(e){if(request!==auditRequest)return;auditRows=[];$('auditBody').innerHTML='';$('auditStatus').classList.remove('hidden');$('auditStatus').textContent=['42P01','PGRST205'].includes(e.code)?'Falta activar el historial. Ejecuta supabase_patch_v5_1.sql en el SQL Editor de tu proyecto y pulsa Actualizar historial.':`No se pudo cargar el historial. ${e.message||'Revisa tu conexión e inténtalo de nuevo.'}`}
 }
-const AUDIT_FIELDS={name:'Nombre',username:'Usuario',role:'Rol',active:'Activo',commission_percent:'Comisión',price:'Precio',category:'Categoría',emoji:'Imagen',tag:'Etiqueta',restriction:'Restricción',percent:'Descuento',scope:'Alcance',description:'Descripción',exclude_public:'Excluir servicios públicos',sale_number:'Folio',employee_name:'Empleado',total:'Total',employee_earnings:'Comisión del empleado',business_net:'Neto negocio',status:'Estado',payout_id:'Corte',generated_total:'Generado',amount:'Pago',sales_count:'Ventas incluidas'};
+const AUDIT_FIELDS={name:'Nombre',username:'Usuario',role:'Rol',active:'Activo',commission_percent:'Comisión',price:'Precio',category:'Categoría',emoji:'Imagen',tag:'Etiqueta',restriction:'Restricción',percent:'Descuento',scope:'Alcance',description:'Descripción',exclude_public:'Excluir servicios públicos',sale_number:'Folio',employee_name:'Empleado',client:'Cliente / ID',client_type:'Tipo de cliente',payment:'Método de pago',note:'Nota',items:'Productos y cantidades',subtotal:'Subtotal',discount_name:'Convenio',discount_percent:'Descuento aplicado',discount_amount:'Importe de descuento',total:'Total',employee_earnings:'Comisión del empleado',business_net:'Neto negocio',status:'Estado',payout_id:'Corte',generated_total:'Generado',amount:'Pago',sales_count:'Ventas incluidas'};
 function auditValue(key,value){
   if(value===undefined||value===null||value==='')return '—';if(typeof value==='boolean')return value?'Sí':'No';
+  if(key==='items'){try{const rows=Array.isArray(value)?value:JSON.parse(value);return rows.map(x=>`${Number(x.qty)||0} × ${x.name||x.id||'Producto'}`).join(', ')||'—';}catch{return '—'}}
   if(['price','total','employee_earnings','business_net','generated_total','amount'].includes(key))return reportMoney(value);
   if(['commission_percent','percent'].includes(key))return `${Number(value)}%`;
   if(key==='sale_number')return folio({sale_number:value});
@@ -685,6 +729,7 @@ const companion=window.BurgerCompanion?.mount({
   escape:esc,money,art:productArt,photo:productPhotoKey,toast,
   state:()=>({profile,user,products,discounts,calc:calc(),saving:saleSaving,sales:profile?(isAdmin()?sales:sales.filter(s=>s.created_by===user?.id)):[]}),
   add:addToCart,
+  templates:readOrderTemplates,saveTemplate:saveOrderTemplate,loadTemplate:loadOrderTemplate,deleteTemplate:deleteOrderTemplate,
   quantity:(id,delta)=>{if(saleSaving)return;const p=products.find(x=>x.id===id&&x.active);if(!p)return;const next=Math.min(9999,(cart[id]||0)+delta);if(next>0)cart[id]=next;else delete cart[id];renderCart()},
   setQuantity:(id,value)=>{if(saleSaving)return;const p=products.find(x=>x.id===id&&x.active);if(!p)return;if(!Number.isInteger(value)||value<1||value>9999)return toast("La cantidad debe ser un entero entre 1 y 9,999");cart[id]=value;renderCart()},
   options:(type,discount)=>{if(saleSaving)return;$("clientType").value=type;$("discountSelect").value=discount;renderCart()},

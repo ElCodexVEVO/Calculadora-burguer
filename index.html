@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5.4.0">
-  <link rel="stylesheet" href="pos.css?v=5.4.0">
-  <link rel="stylesheet" href="reports.css?v=5.4.0">
-  <link rel="stylesheet" href="companion.css?v=5.4.0">
+  <link rel="stylesheet" href="styles.css?v=5.4.1">
+  <link rel="stylesheet" href="pos.css?v=5.4.1">
+  <link rel="stylesheet" href="reports.css?v=5.4.1">
+  <link rel="stylesheet" href="companion.css?v=5.4.1">
 </head>
 <body>
 <div id="toastHost" class="toast-host"></div>
@@ -166,7 +166,8 @@
           <div id="productGrid" class="product-grid" aria-label="Productos disponibles"></div>
         </div>
         <aside class="panel order-panel" aria-labelledby="orderTitle">
-          <div class="order-head"><div><span>ORDEN ACTUAL</span><h2 id="orderTitle">Nueva venta <small id="orderCount">0</small></h2></div><button id="clearCartBtn" class="icon-btn soft" aria-label="Vaciar orden" title="Vaciar orden" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12v14H9l-7-7Z"/><path d="m12 9 6 6m0-6-6 6"/></svg></button></div>
+          <div class="order-head"><div><span>ORDEN ACTUAL</span><h2 id="orderTitle">Nueva venta <small id="orderCount">0</small></h2></div><div class="order-head-actions"><button id="saveTemplateBtn" class="icon-btn soft" aria-label="Guardar pedido como plantilla" title="Guardar pedido como plantilla" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 4v5h8V4M8 15h8"/></svg></button><button id="clearCartBtn" class="icon-btn soft" aria-label="Vaciar orden" title="Vaciar orden" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12v14H9l-7-7Z"/><path d="m12 9 6 6m0-6-6 6"/></svg></button></div></div>
+          <div class="order-templates" aria-label="Plantillas de pedidos"><div class="order-templates-head"><span>PLANTILLAS</span><small>Guarda pedidos repetidos</small></div><div class="order-template-row"><select id="templateSelect" aria-label="Seleccionar plantilla"><option value="">Sin plantillas guardadas</option></select><button id="loadTemplateBtn" class="template-action" disabled>Cargar</button><button id="deleteTemplateBtn" class="template-action danger" aria-label="Eliminar plantilla" title="Eliminar plantilla" disabled>×</button></div></div>
           <div class="order-scroll">
             <div id="cartEmpty" class="empty-cart"><img src="assets/burgershot-logo.webp" alt="" width="96" height="102"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>
             <div id="cartList" class="cart-list" aria-label="Productos de la orden"></div>
@@ -372,8 +373,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js?v=5.0.6"></script>
-<script src="companion-core.js?v=5.4.0"></script>
-<script src="companion.js?v=5.4.0"></script>
-<script src="app.js?v=5.4.0"></script>
+<script src="companion-core.js?v=5.4.1"></script>
+<script src="companion.js?v=5.4.1"></script>
+<script src="app.js?v=5.4.1"></script>
 </body>
 </html>

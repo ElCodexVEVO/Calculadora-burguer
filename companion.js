@@ -36,6 +36,7 @@
           <section class="bs-order"><div class="bs-section-head"><h2>Orden actual <span id="bsCount">0</span></h2><button id="bsClear" class="bs-text">Vaciar</button></div>
             <label for="bsClient">Cliente / ID <span class="bs-required">*</span></label><input id="bsClient" list="bsCustomers" maxlength="120" required placeholder="Nombre o ID del cliente" autocomplete="off"><datalist id="bsCustomers"></datalist>
             <div class="bs-customer-info"><small id="bsClientHint">Obligatorio para continuar</small><button id="bsRepeat" class="bs-text" hidden>${icon('repeat')} Repetir compra</button></div>
+            <div class="bs-template-tools"><div><span>PLANTILLAS</span><small>Pedidos frecuentes</small></div><button id="bsSaveTemplate" class="bs-text">Guardar</button></div><div class="bs-template-row"><select id="bsTemplateSelect" aria-label="Seleccionar plantilla"><option value="">Sin plantillas guardadas</option></select><button id="bsLoadTemplate" class="bs-text" disabled>Cargar</button><button id="bsDeleteTemplate" class="bs-text bs-template-delete" aria-label="Eliminar plantilla" title="Eliminar plantilla" disabled>×</button></div>
             <div id="bsLines" class="bs-lines"></div>
             <details class="bs-options"><summary>Tipo de cliente y convenio <span id="bsDiscountName"></span></summary><div class="bs-form-row"><div><label for="bsType">Tipo de cliente</label><select id="bsType"><option value="general">Cliente general</option><option value="police">Policía</option><option value="sheriff">Sheriff</option><option value="ems">EMS</option></select></div><div><label for="bsDiscount">Convenio</label><select id="bsDiscount"></select></div></div><p id="bsDiscountNote" class="bs-help"></p></details>
           </section>
@@ -59,10 +60,14 @@
     function scope() { const s = api.state(); return s.profile ? `bs_aux_favorites:${s.profile.store_id}:${s.profile.user_id}` : ''; }
     function stamp() { const s = api.state(); return JSON.stringify([s.profile?.user_id, s.calc.lines.map(p => [p.id,p.qty,p.price,p.active,p.restriction]),s.calc.total,s.calc.client,s.calc.d,s.calc.pct]); }
     function saveFavorites() { try { localStorage.setItem(lastScope, JSON.stringify(favorites)); } catch { api.toast('No se pudieron guardar los favoritos en este navegador.'); } }
+    function updateAuxBulkPreview(input){
+      const card=input?.closest('.bs-product'),id=card?.querySelector('[data-bs-bulk-qty]')?.dataset.bsBulkQty,p=api.state().products.find(x=>x.id===id),preview=card?.querySelector('[data-bs-bulk-preview]');if(!p||!preview)return;
+      const q=core.quantity(input.value)||1;preview.textContent=`${q} × ${m(p.price)} = ${m(q*Number(p.price||0))}`;
+    }
     function renderProducts() {
       const s = api.state(), q = core.key($('bsSearch').value);
       const rows = s.products.filter(p => p.active && (tab === 'all' || (tab === 'combos' ? p.category === 'combos' : favorites.includes(p.id))) && (!q || core.key(p.name).includes(q)));
-      $('bsProducts').innerHTML = rows.map(p => `<article class="bs-product"><button class="bs-favorite ${favorites.includes(p.id)?'selected':''}" data-bs-fav="${e(p.id)}" aria-label="${favorites.includes(p.id)?'Quitar de':'Agregar a'} favoritos: ${e(p.name)}" aria-pressed="${favorites.includes(p.id)}">${icon('star')}</button><button class="bs-pick" data-bs-add="${e(p.id)}" aria-label="Agregar una unidad de ${e(p.name)}">${api.art(p,true)}<strong>${e(p.name)}</strong><div><b>${m(p.price)}</b><span class="bs-plus">${icon('plus')}</span></div>${p.restriction?`<small>${e(p.restriction.toUpperCase())}</small>`:''}</button><div class="bs-bulk-add"><label for="bsBulk-${e(p.id)}">Cantidad</label><div><input id="bsBulk-${e(p.id)}" data-bs-bulk-qty="${e(p.id)}" type="number" min="1" max="9999" step="1" value="1" inputmode="numeric" aria-label="Cantidad de ${e(p.name)}"><button data-bs-add-qty="${e(p.id)}" aria-label="Agregar cantidad indicada de ${e(p.name)}">Añadir</button></div></div></article>`).join('') || '<p class="bs-empty">No hay productos aquí. Abre Menú y marca tus favoritos con la estrella.</p>';
+      $('bsProducts').innerHTML = rows.map(p => `<article class="bs-product"><button class="bs-favorite ${favorites.includes(p.id)?'selected':''}" data-bs-fav="${e(p.id)}" aria-label="${favorites.includes(p.id)?'Quitar de':'Agregar a'} favoritos: ${e(p.name)}" aria-pressed="${favorites.includes(p.id)}">${icon('star')}</button><button class="bs-pick" data-bs-add="${e(p.id)}" aria-label="Agregar una unidad de ${e(p.name)}">${api.art(p,true)}<strong>${e(p.name)}</strong><div><b>${m(p.price)}</b><span class="bs-plus">${icon('plus')}</span></div>${p.restriction?`<small>${e(p.restriction.toUpperCase())}</small>`:''}</button><div class="bs-bulk-add"><label for="bsBulk-${e(p.id)}">Cantidad</label><div><input id="bsBulk-${e(p.id)}" data-bs-bulk-qty="${e(p.id)}" type="number" min="1" max="9999" step="1" value="1" inputmode="numeric" aria-label="Cantidad de ${e(p.name)}"><button data-bs-add-qty="${e(p.id)}" aria-label="Agregar cantidad indicada de ${e(p.name)}">Añadir</button></div><div class="bs-bulk-presets" role="group" aria-label="Cantidades rápidas de ${e(p.name)}"><button type="button" data-bs-preset="${e(p.id)}" data-quantity="10">+10</button><button type="button" data-bs-preset="${e(p.id)}" data-quantity="25">+25</button><button type="button" data-bs-preset="${e(p.id)}" data-quantity="50">+50</button><button type="button" data-bs-preset="${e(p.id)}" data-quantity="100">+100</button></div><small class="bs-bulk-preview" data-bs-bulk-preview="${e(p.id)}">1 × ${m(p.price)} = ${m(p.price)}</small></div></div></article>`).join('') || '<p class="bs-empty">No hay productos aquí. Abre Menú y marca tus favoritos con la estrella.</p>';
     }
     function clientInfo() {
       const q = core.key($('bsClient').value), found = customerGroups.find(c => c.key === q);
@@ -70,6 +75,11 @@
       $('bsClientHint').textContent = found ? `${found.count} compra${found.count===1?'':'s'} registrada${found.count===1?'':'s'}${found.count>1?' · Cliente frecuente':''}` : q ? 'Nuevo cliente' : 'Obligatorio para continuar';
       $('bsRepeat').hidden = !found;
       $('bsReview').disabled = !q || !api.state().calc.lines.length || busy || api.state().saving;
+    }
+    function renderTemplates(){
+      const select=$('bsTemplateSelect'),load=$('bsLoadTemplate'),del=$('bsDeleteTemplate');if(!select||!api.templates)return;
+      const selected=select.value,rows=api.templates();select.innerHTML=rows.length?`<option value="">Selecciona una plantilla</option>`+rows.map(x=>`<option value="${e(x.id)}">${e(x.name)}</option>`).join(''):'<option value="">Sin plantillas guardadas</option>';
+      if(rows.some(x=>x.id===selected))select.value=selected;const has=Boolean(select.value);load.disabled=!has;del.disabled=!has;
     }
     function refresh() {
       const s = api.state(); if (!s.profile) return;
@@ -81,7 +91,7 @@
         $('bsClient').value = '';
       }
       customerGroups = core.customers(s.sales);
-      renderProducts(); clientInfo();
+      renderProducts(); clientInfo(); renderTemplates();
       $('bsCount').textContent = s.calc.lines.reduce((sum,p)=>sum+p.qty,0);
       $('bsLines').innerHTML = s.calc.lines.map(p => `<div class="bs-line"><img src="assets/food/${api.photo(p)}-thumb.webp" alt=""><div><strong>${e(p.name)}</strong><small>${m(p.price)} c/u</small></div><div class="bs-qty"><button data-bs-qty="${e(p.id)}" data-delta="-1" aria-label="Restar ${e(p.name)}">${icon('minus')}</button><input class="bs-qty-input" data-bs-line-qty="${e(p.id)}" type="number" min="1" max="9999" step="1" value="${p.qty}" inputmode="numeric" aria-label="Cantidad de ${e(p.name)}"><button data-bs-qty="${e(p.id)}" data-delta="1" aria-label="Sumar ${e(p.name)}">${icon('plus')}</button></div><strong>${m(p.lineTotal)}</strong></div>`).join('') || '<div class="bs-empty-order"><img src="assets/burgershot-logo.webp" alt=""><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>';
       $('bsDiscount').innerHTML = $('discountSelect').innerHTML;
@@ -108,9 +118,12 @@
       if (t.dataset.bsTab) { tab=t.dataset.bsTab; panel.querySelectorAll('[data-bs-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b===t))); renderProducts(); }
       if (t.dataset.bsAdd) { $('bsSuccess').hidden=true; api.add(t.dataset.bsAdd); }
       if (t.dataset.bsAddQty) { const input=t.closest('.bs-bulk-add')?.querySelector('[data-bs-bulk-qty]'); $('bsSuccess').hidden=true; api.add(t.dataset.bsAddQty,input?.value||1); if(input)input.value='1'; }
+      if (t.dataset.bsPreset) { $('bsSuccess').hidden=true; api.add(t.dataset.bsPreset,Number(t.dataset.quantity)); }
       if (t.dataset.bsFav) { const id=t.dataset.bsFav; favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];saveFavorites();renderProducts(); }
       if (t.dataset.bsQty) api.quantity(t.dataset.bsQty, Number(t.dataset.delta));
     });
+    $('bsProducts').addEventListener('input',ev=>{if(ev.target.matches('[data-bs-bulk-qty]'))updateAuxBulkPreview(ev.target);});
+    $('bsProducts').addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.matches('[data-bs-bulk-qty]')){ev.preventDefault();const input=ev.target;if(api.add(input.dataset.bsBulkQty,input.value)){input.value='1';updateAuxBulkPreview(input);}}});
     const setAuxLineQuantity=e=>{
       const input=e.target.closest('[data-bs-line-qty]');if(!input)return;
       const value=core.quantity(input.value,true);
@@ -122,6 +135,10 @@
     $('bsLines').addEventListener('change',setAuxLineQuantity);
     $('bsLines').addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.matches('[data-bs-line-qty]')){ev.preventDefault();setAuxLineQuantity(ev);ev.target.blur();}});
     $('bsSearch').oninput=renderProducts;
+    $('bsTemplateSelect').onchange=renderTemplates;
+    $('bsSaveTemplate').onclick=()=>{if(!api.state().calc.lines.length)return api.toast('Agrega productos antes de guardar una plantilla');const name=window.prompt?.('Nombre de la plantilla:','Pedido frecuente')?.trim();if(name){api.saveTemplate?.(name);renderTemplates();}};
+    $('bsLoadTemplate').onclick=()=>{api.loadTemplate?.($('bsTemplateSelect').value);renderTemplates();};
+    $('bsDeleteTemplate').onclick=()=>{api.deleteTemplate?.($('bsTemplateSelect').value);renderTemplates();};
     $('bsClient').oninput=clientInfo;
     $('bsType').onchange=()=>api.options($('bsType').value,$('bsDiscount').value);
     $('bsDiscount').onchange=()=>api.options($('bsType').value,$('bsDiscount').value);

@@ -67,6 +67,7 @@ button:disabled { cursor:not-allowed; }
 .product-copy { padding:13px 14px 14px; display:flex; flex-direction:column; flex:1 0 auto; min-height:112px; }
 .product-category { color:#98a3b2; text-transform:uppercase; letter-spacing:1.2px; font-size:8px; font-weight:600; }
 .product-card h3 { font-size:13px; font-weight:600; line-height:1.45; margin:5px 0 12px; letter-spacing:-.1px; }
+.product-contents { margin:-4px 0 12px; color:#b4bfcb; font-size:12px; font-weight:400; line-height:1.5; overflow-wrap:break-word; }
 .product-bottom { min-height:33px; flex:0 0 auto; }
 .product-bottom strong { font-family:Manrope,Inter,system-ui,sans-serif; font-size:22px; letter-spacing:-.7px; color:var(--pos-gold); font-variant-numeric:tabular-nums; }
 .add-product { display:grid; place-items:center; width:33px; height:33px; border-radius:9px; background:linear-gradient(145deg,#8b2b35,#491d28); border:1px solid #b5505b70; box-shadow:inset 0 1px 0 #ffffff09; color:#fff3f2; }

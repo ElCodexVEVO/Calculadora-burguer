@@ -1,0 +1,12 @@
+{
+  "name": "burgershot-pos",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/marketing-core.test.cjs tests/coupons-db.test.mjs",
+    "test:ui": "node tests/marketing-ui.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.3.14",
+    "playwright": "1.63.0"
+  }
+}

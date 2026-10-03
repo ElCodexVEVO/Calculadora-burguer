@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="pos.css?v=5.5.1">
   <link rel="stylesheet" href="reports.css?v=5.5.0">
   <link rel="stylesheet" href="companion.css?v=5.5.0">
+  <link rel="stylesheet" href="marketing.css?v=5.6.0">
 </head>
 <body>
 <div id="toastHost" class="toast-host"></div>
@@ -105,6 +106,8 @@
       <button class="nav-item" data-page="analytics"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 20V9M10 20V4M15 20v-7M20 20V7"/></svg></span><b>Estadísticas</b></button>
       <button class="nav-item admin-only" data-page="allSales" data-permission="view_reports"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 5v14M4 10h16"/></svg></span><b>Todas las ventas</b></button>
 
+      <button class="nav-item" data-page="announcements"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 10h5l12-6v16L8 14H3zM8 14l2 7H6l-2-7"/></svg></span><b>Anuncios RP</b></button>
+      <button class="nav-item admin-only" data-page="coupons"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4zM9 8l6 8M9 16l6-8"/></svg></span><b>Cupones</b></button>
       <div class="nav-label admin-only" data-permission="view_reports">ADMINISTRACIÓN</div>
       <button class="nav-item admin-only" data-page="customers" data-permission="view_reports"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M16 11a2.5 2.5 0 1 0 0-5M15.5 14.5c2.6.2 4.2 2 5 5.5"/></svg></span><b>Clientes</b></button>
       <button class="nav-item admin-only" data-page="employees" data-permission="manage_employees"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 20c.5-4 2.6-6 5-6s4.6 2 5 6M13 20c.4-3 1.9-4.7 4.2-4.7 2.1 0 3.6 1.5 4 4.7"/></svg></span><b>Empleados</b></button>
@@ -174,6 +177,7 @@
             <div id="cartList" class="cart-list" aria-label="Productos de la orden"></div>
           </div>
           <div class="order-checkout">
+            <div id="mktCouponEntry"></div>
             <div class="order-options"><div><label for="clientType">Tipo de cliente</label><select id="clientType"><option value="general">Cliente general</option><option value="police">Policía</option><option value="sheriff">Sheriff</option><option value="ems">EMS</option></select></div><div><label for="discountSelect">Convenio</label><select id="discountSelect"></select></div></div>
             <small id="discountNote" class="field-note" aria-live="polite"></small>
             <div class="totals"><div><span>Subtotal</span><strong id="subtotal">$0</strong></div><div><span>Descuento</span><strong id="discountAmount" class="green">-$0</strong></div><div class="grand"><span>Total a cobrar</span><strong id="grandTotal" aria-live="polite">$0</strong></div></div>
@@ -258,6 +262,8 @@
       <div class="page-title-row"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Productos</h1><p>Administra menú y precios.</p></div><button id="addProductBtn" class="btn primary">+ Nuevo producto</button></div>
       <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Etiqueta</th><th>Estado</th><th></th></tr></thead><tbody id="productsBody"></tbody></table></div></div>
     </section>
+    <section id="page-announcements" class="page"></section>
+    <section id="page-coupons" class="page"></section>
   </main>
 </div>
 
@@ -383,6 +389,8 @@
 <script src="config.js?v=5.0.6"></script>
 <script src="companion-core.js?v=5.5.0"></script>
 <script src="companion.js?v=5.5.0"></script>
-<script src="app.js?v=5.5.1"></script>
+<script src="marketing-core.js?v=5.6.0"></script>
+<script src="marketing.js?v=5.6.0"></script>
+<script src="app.js?v=5.6.0"></script>
 </body>
 </html>

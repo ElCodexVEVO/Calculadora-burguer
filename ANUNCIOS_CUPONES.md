@@ -1,6 +1,10 @@
-# Anuncios RP y cupones — V5.6
+# Anuncios RP y cupones — V5.6.1
 
-Esta actualización añade dos secciones al panel existente. No crea otra tienda ni necesita otra Edge Function.
+Anuncios RP ofrece **20 mensajes ya escritos con emojis**, listos para copiar. Hay humor, anuncios clásicos, combos, aperturas y cierres; no hay campos de ubicación, horario ni variables por completar.
+
+## Actualizar desde V5.6
+
+Si ya instalaste los cupones y su migración, acepta esta actualización en GitHub y espera la publicación de Pages. Después recarga con **Ctrl+F5**. **V5.6.1 no requiere ejecutar SQL de nuevo.** Solo cambian `index.html`, `marketing-core.js`, `marketing.js` y `marketing.css` en la aplicación.
 
 ## Activar en tu aplicación
 
@@ -8,17 +12,19 @@ Esta actualización añade dos secciones al panel existente. No crea otra tienda
 2. Publica los archivos de esta versión en tu alojamiento habitual: `index.html`, `app.js`, `marketing-core.js`, `marketing.js` y `marketing.css`. Conserva las demás carpetas y tu conexión actual en `config.js`.
 3. Recarga con **Ctrl+F5** e inicia sesión como administrador. Verás **Anuncios RP** y **Cupones** en el menú. Los empleados verán Anuncios RP y podrán aplicar códigos al cobrar; la administración de cupones es exclusiva de administradores.
 
-La base se actualiza primero. Hasta aplicar la migración, las ventas habituales y las plantillas base de anuncios siguen disponibles; los cupones y las plantillas compartidas mostrarán que no están disponibles. Si ese aviso continúa después de la actualización, comprueba la conexión y vuelve a pulsar Actualizar.
+La base se actualiza primero. Hasta aplicar la migración, las ventas habituales y los anuncios predefinidos siguen disponibles; los cupones mostrarán que no están disponibles. Si ese aviso continúa después de la actualización, comprueba la conexión y vuelve a pulsar Actualizar.
 
 La migración es transaccional: si aparece un error, no publiques los archivos nuevos hasta resolverlo. No requiere claves privadas en el navegador. Esta entrega no ejecuta SQL ni registra ventas en tu proyecto real.
 
-## Preparar un anuncio
+## Copiar un anuncio
 
-Abre **Anuncios RP**, elige Apertura, Promoción, Evento, Cierre o Personalizado y completa los campos que aparecen. Puedes cambiar la plantilla y editar el mensaje final antes de pulsar **Copiar anuncio**. El prefijo es opcional: escribe `/anuncio` solo si ese es el comando que utiliza tu servidor.
+Abre **Anuncios RP**, elige el mensaje que te guste y pulsa **Copiar anuncio** en su tarjeta. Pégalo en el chat del juego. Puedes verlos todos o filtrar por Con humor, Para el antojo, Combos y banda, Abrimos y Cerramos.
 
-Las variables admitidas son `{negocio}`, `{ubicacion}`, `{horario}`, `{oferta}`, `{codigo}`, `{evento}` y `{contacto}`. Si falta alguna, se marca antes de copiar. Los mensajes no se envían automáticamente al juego, Discord ni otros canales.
+Cada texto ya está completo e incluye emojis. El nombre del negocio se toma de tu tienda. Si el navegador bloquea el portapapeles, aparece el texto seleccionado para copiarlo manualmente. La colección funciona sin consultar tablas de anuncios en Supabase.
 
-Los administradores pueden guardar, actualizar y eliminar plantillas del equipo. Los empleados pueden utilizarlas y ajustar su mensaje local. Desde una tarjeta de cupón, **Crear anuncio** completa el código, descuento y condiciones; revisa ubicación y texto antes de copiar.
+Desde un cupón, **Crear anuncio** prepara una promoción con el código y sus condiciones ya completados. Pulsa **Copiar promoción**. No se envían mensajes automáticamente.
+
+Las plantillas personalizadas de la versión anterior permanecen en la base de datos; esta pantalla usa la colección predefinida y no presenta el editor antiguo.
 
 ## Crear y usar un cupón
 
@@ -48,8 +54,8 @@ npx playwright install chromium
 npm run test:ui
 ```
 
-`npm test` ejecuta 20 comprobaciones. La suite de base de datos usa PostgreSQL embebido con PGlite: carga el esquema del repositorio y esta migración, prueba RLS con roles distintos, canjes, reintentos, vigencia, precios, restricciones, comisión, historial e inserciones directas. No simula las funciones SQL. La exclusión del último uso se implementa con un bloqueo de fila; la suite comprueba dos consumidores sucesivos, no una prueba de carga con sesiones PostgreSQL paralelas.
+`npm test` ejecuta 18 comprobaciones. La suite de base de datos usa PostgreSQL embebido con PGlite: carga el esquema del repositorio y esta migración, prueba RLS con roles distintos, canjes, reintentos, vigencia, precios, restricciones, comisión, historial e inserciones directas. No simula las funciones SQL. La exclusión del último uso se implementa con un bloqueo de fila; la suite comprueba dos consumidores sucesivos, no una prueba de carga con sesiones PostgreSQL paralelas.
 
-La prueba de navegador usa Playwright y una instancia de Supabase simulada en memoria, con las conexiones externas bloqueadas. Cubre las dos pantallas, guardado de plantillas y cupones, reemplazo de convenio, invalidación del descuento, respuesta de venta perdida, caja auxiliar, permisos y ausencia de la migración. Guarda capturas en `test-results/`. Si ya tienes Chromium instalado en otra ruta, puedes indicar `BURGERSHOT_CHROMIUM=/ruta/al/binario npm run test:ui`.
+La prueba de navegador usa Playwright y una instancia de Supabase simulada en memoria, con las conexiones externas bloqueadas. Cubre las dos pantallas, copia de anuncios con emojis, filtros, copia manual cuando se bloquea el portapapeles, guardado de cupones, reemplazo de convenio, invalidación del descuento, respuesta de venta perdida, caja auxiliar, permisos y ausencia de la migración. Guarda capturas en `test-results/`. Si ya tienes Chromium instalado en otra ruta, puedes indicar `BURGERSHOT_CHROMIUM=/ruta/al/binario npm run test:ui`.
 
 Se verificaron las pantallas a 1440 px y 390 px de ancho. Las pruebas locales no sustituyen una comprobación con la configuración y los triggers adicionales que pueda tener la base de producción. No se aplicaron cambios a esa base ni se publicaron anuncios durante la verificación.

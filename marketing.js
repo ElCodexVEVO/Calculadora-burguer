@@ -7,8 +7,8 @@
 
   function mount(api) {
     const $ = id => document.getElementById(id), e = api.escape, money = api.money;
-    let templates = [], coupons = [], scope = '', version = 0, loading = null;
-    let templatesError = '', couponsError = '', editingCoupon = null;
+    let coupons = [], scope = '', version = 0, loading = null, announcementCategory = 'all';
+    let couponsError = '', editingCoupon = null;
     let selected = null, requestedCode = '', couponError = '', quoteBusy = false, quoteVersion = 0, request = null;
     const entries = new Map();
     const admin = () => api.state().profile?.role === 'admin';
@@ -18,21 +18,12 @@
     const errorText = error => error?.message || 'No se pudo completar la operación. Intenta de nuevo.';
 
     $('page-announcements').innerHTML = `
-      <div class="page-title-row"><div><span class="eyebrow">LA VOZ DE TU NEGOCIO</span><h1>Anuncios RP</h1><p>Prepara el mensaje, dale tu toque y cópialo al chat.</p></div></div>
-      <div class="mkt-editor-grid">
-        <section class="panel mkt-panel"><div class="mkt-section-title"><span class="mkt-step">01</span><div><h2>Prepara tu anuncio</h2><p>Elige una ocasión y completa los detalles.</p></div></div>
-          <div class="mkt-fields"><label>Plantilla<select id="mktTemplate"></select></label><label>Prefijo del chat <span class="mkt-optional">opcional</span><input id="mktPrefix" maxlength="60" placeholder="Ej. /anuncio" autocomplete="off"></label>
-          ${core.variables.map(key => `<label data-mkt-variable="${key}">${({ negocio: 'Negocio', ubicacion: 'Ubicación', horario: 'Horario', oferta: 'Oferta y condiciones', codigo: 'Código promocional', evento: 'Evento', contacto: 'Contacto' })[key]}<input id="mktVar-${key}" maxlength="500" autocomplete="off"></label>`).join('')}</div>
-          <label class="mkt-block">Texto de la plantilla<textarea id="mktBody" rows="5" maxlength="1800"></textarea></label>
-          <p class="mkt-help">Puedes usar ${core.variables.map(v => `<code>{${v}}</code>`).join(' ')}.</p>
-          <div id="mktSharedEditor" class="mkt-shared" hidden><label>Nombre para el equipo<input id="mktTemplateName" maxlength="80" placeholder="Ej. Promoción de fin de semana"></label><div class="mkt-actions"><button id="mktSaveTemplate" class="btn secondary" type="button">Guardar como nueva</button><button id="mktUpdateTemplate" class="btn secondary" type="button" hidden>Actualizar</button><button id="mktDeleteTemplate" class="btn danger" type="button" hidden>Eliminar</button></div></div>
-          <p id="mktTemplatesStatus" class="mkt-help" role="status"></p>
-        </section>
-        <section class="panel mkt-panel mkt-preview"><div class="mkt-section-title"><span class="mkt-step">02</span><div><h2>Listo para el chat</h2><p>Puedes ajustar el mensaje final antes de copiarlo.</p></div></div>
-          <label class="mkt-block" for="mktOutput">Tu anuncio</label><textarea id="mktOutput" rows="11" maxlength="6000" spellcheck="true"></textarea><div class="mkt-output-meta"><span id="mktMissing" role="status"></span><span id="mktCount">0 caracteres</span></div>
-          <button id="mktCopy" class="btn primary mkt-wide" type="button">Copiar anuncio</button><p class="mkt-help">Pégalo donde anuncies tu negocio. El envío lo haces tú.</p>
-        </section>
-      </div>`;
+      <div class="page-title-row"><div><span class="eyebrow">EL ANTOJO TAMBIÉN SE ANUNCIA</span><h1>Anuncios RP</h1><p>Elige uno, copia y pégalo en el chat.</p></div><span class="mkt-ready-count">${core.templates.length} mensajes listos</span></div>
+      <section id="mktCouponAnnouncement" class="panel mkt-promo-announcement" hidden aria-labelledby="mktPromoTitle"><div><span class="eyebrow">TU PROMOCIÓN</span><h2 id="mktPromoTitle">Anuncio del cupón</h2></div><p id="mktPromoText"></p><button id="mktCopyPromo" class="btn primary" type="button">Copiar promoción</button></section>
+      <div id="mktAnnouncementFilters" class="mkt-announcement-filters" role="group" aria-label="Tipo de anuncio"><button type="button" data-announcement-category="all" aria-pressed="true">Todos</button>${core.announcementCategories.map(c => `<button type="button" data-announcement-category="${c.id}" aria-pressed="false">${e(c.name)}</button>`).join('')}</div>
+      <p id="mktAnnouncementCount" class="mkt-help" role="status"></p>
+      <div id="mktAnnouncementCards" class="mkt-announcement-grid"></div>
+      <section id="mktCopyFallback" class="panel mkt-copy-fallback" hidden><label for="mktCopyText">Copia el texto seleccionado con Ctrl+C o mantén pulsado en el celular.</label><textarea id="mktCopyText" rows="4" readonly></textarea></section>`;
 
     $('page-coupons').innerHTML = `
       <div class="page-title-row"><div><span class="eyebrow">PROMOCIONES CON CÓDIGO</span><h1>Cupones</h1><p>Una promoción, un código y sus condiciones.</p></div><div class="mkt-actions"><button id="mktRefreshCoupons" class="btn secondary">Actualizar</button><button id="mktNewCoupon" class="btn primary">+ Nuevo cupón</button></div></div>
@@ -51,58 +42,34 @@
         <p id="mktCouponFormStatus" class="mkt-help" role="status"></p><div class="mkt-actions"><button type="button" id="mktCancelCoupon" class="btn secondary">Cancelar</button><button id="mktSaveCoupon" type="submit" class="btn primary">Guardar cupón</button></div>
       </form></section></div>`);
 
-    function renderTemplates() {
-      const previous = $('mktTemplate').value;
-      $('mktTemplate').innerHTML = `<optgroup label="Plantillas base">${core.templates.map(t => `<option value="${t.id}">${e(t.name)}</option>`).join('')}</optgroup>` + (templates.length ? `<optgroup label="Del equipo">${templates.map(t => `<option value="${e(t.id)}">${e(t.name)}</option>`).join('')}</optgroup>` : '');
-      if ([...core.templates, ...templates].some(t => t.id === previous)) $('mktTemplate').value = previous;
-      $('mktSharedEditor').hidden = !admin();
-      $('mktTemplatesStatus').textContent = templatesError ? 'Las plantillas compartidas no están disponibles. Revisa la conexión y la actualización de la base de datos. Puedes usar las plantillas base.' : 'Las plantillas del equipo están disponibles para todos los empleados activos.';
-      const shared = templates.some(t => t.id === $('mktTemplate').value);
-      $('mktUpdateTemplate').hidden = !shared; $('mktDeleteTemplate').hidden = !shared;
-      for (const id of ['mktSaveTemplate', 'mktUpdateTemplate', 'mktDeleteTemplate']) $(id).disabled = !admin() || !!templatesError;
+    function announcementText(template) {
+      return template.body.replaceAll('BurgerShot', api.state().store?.name || 'BurgerShot');
     }
-    function chooseTemplate() {
-      const t = [...core.templates, ...templates].find(t => t.id === $('mktTemplate').value) || core.templates[0];
-      $('mktBody').value = t.body; $('mktTemplateName').value = t.name; renderTemplates(); generate();
+    function renderAnnouncements() {
+      const rows = core.templates.filter(t => announcementCategory === 'all' || t.category === announcementCategory);
+      $('mktAnnouncementCount').textContent = `${rows.length} anuncios para elegir`;
+      $('mktAnnouncementFilters').querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.announcementCategory === announcementCategory)));
+      $('mktAnnouncementCards').innerHTML = rows.map(t => {
+        const category = core.announcementCategories.find(c => c.id === t.category);
+        return `<article class="panel mkt-announcement"><span class="mkt-announcement-kind">${e(category.name)}</span><h2>${e(t.name)}</h2><p>${e(announcementText(t))}</p><button type="button" class="btn secondary" data-copy-announcement="${t.id}" aria-label="Copiar anuncio: ${e(t.name)}">Copiar anuncio</button></article>`;
+      }).join('');
     }
-    function generate() {
-      const body = $('mktBody').value, values = {};
-      core.variables.forEach(v => { values[v] = $('mktVar-' + v).value; document.querySelector(`[data-mkt-variable="${v}"]`).hidden = !body.toLowerCase().includes(`{${v}}`); });
-      $('mktOutput').value = core.announcement(body, values, $('mktPrefix').value).text;
-      reviewOutput();
-    }
-    function reviewOutput() {
-      const text = $('mktOutput').value, missing = [...new Set([...text.matchAll(/\{([a-z_]+)\}/gi)].map(x => x[1]))];
-      $('mktMissing').textContent = missing.length ? `Completa: ${missing.join(', ')}.` : 'Listo para copiar';
-      $('mktMissing').classList.toggle('mkt-warning', !!missing.length);
-      $('mktCount').textContent = `${text.length} caracteres`;
-      $('mktCopy').disabled = !!missing.length || !text.trim();
-    }
-    async function saveTemplate(update = false) {
-      if (!admin()) return;
-      const s = api.state(), token = version, name = $('mktTemplateName').value.trim(), body = $('mktBody').value.trim();
-      if (!name || !body) return api.toast('Escribe un nombre y el texto de la plantilla.');
-      for (const id of ['mktSaveTemplate', 'mktUpdateTemplate']) $(id).disabled = true;
+    async function copyAnnouncement(text, button) {
+      const token = version;
+      button.disabled = true;
       try {
-        const query = update ? s.sb.from('marketing_announcements').update({ name, body }).eq('id', $('mktTemplate').value).eq('store_id', s.profile.store_id) : s.sb.from('marketing_announcements').insert({ store_id: s.profile.store_id, name, body });
-        const { data, error } = await query.select('id').single();
-        if (token !== version || scope !== currentScope()) return;
-        if (error) throw error;
-        await load(); if (token !== version) return;
-        $('mktTemplate').value = data.id; chooseTemplate(); api.toast('Plantilla guardada para el equipo.');
-      } catch (error) { if (token === version) api.toast(errorText(error)); }
-      finally { if (token === version) renderTemplates(); }
-    }
-    async function deleteTemplate() {
-      const id = $('mktTemplate').value;
-      if (!admin() || !templates.some(t => t.id === id) || !confirm('¿Eliminar esta plantilla compartida?')) return;
-      const s = api.state(), token = version;
-      try {
-        const { error } = await s.sb.from('marketing_announcements').delete().eq('id', id).eq('store_id', s.profile.store_id);
-        if (token !== version || scope !== currentScope()) return;
-        if (error) throw error;
-        await load(); if (token !== version) return; chooseTemplate(); api.toast('Plantilla eliminada.');
-      } catch (error) { if (token === version) api.toast(errorText(error)); }
+        await navigator.clipboard.writeText(text);
+        if (token !== version) return;
+        $('mktCopyFallback').hidden = true;
+        $('mktAnnouncementCards').querySelectorAll('button').forEach(b => { b.textContent = 'Copiar anuncio'; });
+        $('mktCopyPromo').textContent = 'Copiar promoción';
+        button.textContent = 'Copiado ✓'; api.toast('Anuncio copiado.');
+      } catch {
+        if (token !== version) return;
+        $('mktCopyFallback').hidden = false; $('mktCopyText').value = text;
+        $('mktCopyFallback').scrollIntoView({ block: 'center' }); $('mktCopyText').focus(); $('mktCopyText').select();
+        api.toast('Seleccionamos el anuncio para que puedas copiarlo.');
+      } finally { button.disabled = false; }
     }
     function couponOffer(c) { return c.type === 'percent' ? `${Number(c.amount)}% de descuento` : `${money(c.amount)} de descuento`; }
     function renderCoupons() {
@@ -159,22 +126,29 @@
       finally { if (button.isConnected) button.disabled = false; }
     }
     function announceCoupon(c) {
-      api.navigate('announcements'); $('mktTemplate').value = 'offer'; chooseTemplate();
-      const conditions = [couponOffer(c), c.scope === 'burger' ? 'Aplica a hamburguesas y sus combos o mayoreos.' : 'Aplica a productos elegibles; excluye los marcados sin descuento.', 'No acumulable con convenios.', c.min_subtotal > 0 ? `Compra mínima: ${money(c.min_subtotal)}.` : '', c.starts_at ? `Desde ${dateLabel(c.starts_at)}.` : '', c.ends_at ? `Hasta ${dateLabel(c.ends_at)}.` : '', c.max_uses != null ? `Hasta agotar ${c.max_uses} usos totales.` : '', c.exclude_public ? 'No aplica a Policía, Sheriff ni EMS.' : ''];
-      $('mktVar-oferta').value = conditions.filter(Boolean).join(' '); $('mktVar-codigo').value = c.code; generate();
+      api.navigate('announcements');
+      const conditions = [c.scope === 'burger' ? 'Aplica a hamburguesas y sus combos o mayoreos.' : 'Aplica a productos elegibles; excluye los marcados sin descuento.', 'No acumulable con convenios.', c.min_subtotal > 0 ? `Compra mínima: ${money(c.min_subtotal)}.` : '', c.starts_at ? `Desde ${dateLabel(c.starts_at)}.` : '', c.ends_at ? `Hasta ${dateLabel(c.ends_at)}.` : '', c.max_uses != null ? `Hasta agotar ${c.max_uses} usos totales.` : '', c.exclude_public ? 'No aplica a Policía, Sheriff ni EMS.' : ''];
+      $('mktPromoText').textContent = `🍔 ¡El antojo trae premio en ${api.state().store?.name || 'BurgerShot'}! ${couponOffer(c)} con el código ${c.code}. 🔥 ${conditions.filter(Boolean).join(' ')}`;
+      $('mktPromoTitle').textContent = `Cupón ${c.code}`; $('mktCopyPromo').textContent = 'Copiar promoción';
+      $('mktCouponAnnouncement').hidden = false; $('mktCouponAnnouncement').scrollIntoView({ block: 'start' });
     }
     async function load() {
       const next = currentScope(); if (!next) { reset(); return; }
-      if (next !== scope) { reset(); scope = next; $('mktVar-negocio').value = api.state().store?.name || 'BurgerShot'; generate(); }
+      if (next !== scope) { reset(); scope = next; }
+      renderAnnouncements();
       if (loading) return loading;
       const s = api.state(), token = version;
       loading = (async () => {
-        const results = await Promise.allSettled([s.sb.from('marketing_announcements').select('*').eq('store_id', s.profile.store_id).order('name'), admin() ? s.sb.rpc('list_burgershot_coupons') : Promise.resolve({ data: [], error: null })]);
-        if (token !== version || scope !== currentScope()) return;
-        const [ann, cup] = results.map(r => r.status === 'fulfilled' ? r.value : { error: r.reason });
-        templatesError = ann.error ? errorText(ann.error) : ''; couponsError = cup.error ? errorText(cup.error) : '';
-        templates = ann.error ? [] : ann.data || []; coupons = cup.error ? [] : cup.data || [];
-        renderTemplates(); renderCoupons();
+        try {
+          const result = admin() ? await s.sb.rpc('list_burgershot_coupons') : { data: [], error: null };
+          if (token !== version || scope !== currentScope()) return;
+          if (result.error) throw result.error;
+          couponsError = ''; coupons = result.data || [];
+        } catch (error) {
+          if (token !== version || scope !== currentScope()) return;
+          couponsError = errorText(error); coupons = [];
+        }
+        renderCoupons();
       })().finally(() => { if (token === version) loading = null; });
       return loading;
     }
@@ -244,20 +218,23 @@
       return api.state().sb.rpc('redeem_burgershot_coupon', { p_request_id: request.id, p_code: c.couponCode, p_items: items, p_client_type: payload.client_type, p_client: payload.client, p_payment: payload.payment, p_note: payload.note, p_expected_total: c.total });
     }
     function reset() {
-      version++; scope = ''; loading = null; templates = []; coupons = []; templatesError = ''; couponsError = ''; editingCoupon = null; saved();
+      version++; scope = ''; loading = null; coupons = []; couponsError = ''; editingCoupon = null; announcementCategory = 'all'; saved();
       $('mktCouponModal').classList.add('hidden'); $('mktCouponForm').reset(); $('mktSaveCoupon').disabled = false;
-      core.variables.forEach(v => { $('mktVar-' + v).value = ''; }); $('mktPrefix').value = '';
-      renderTemplates(); $('mktTemplate').value = 'opening'; chooseTemplate(); renderCoupons();
+      $('mktCouponAnnouncement').hidden = true; $('mktPromoText').textContent = '';
+      $('mktCopyFallback').hidden = true; $('mktCopyText').value = '';
+      renderAnnouncements(); renderCoupons();
     }
 
-    $('mktTemplate').onchange = chooseTemplate;
-    for (const id of ['mktBody', 'mktPrefix', ...core.variables.map(v => 'mktVar-' + v)]) $(id).oninput = generate;
-    $('mktOutput').oninput = reviewOutput;
-    $('mktCopy').onclick = async () => {
-      try { await navigator.clipboard.writeText($('mktOutput').value); api.toast('Anuncio copiado.'); }
-      catch { $('mktOutput').focus(); $('mktOutput').select(); api.toast('Seleccionamos el texto. Cópialo con Ctrl+C.'); }
+    $('mktAnnouncementFilters').onclick = ev => {
+      const button = ev.target.closest('[data-announcement-category]'); if (!button) return;
+      announcementCategory = button.dataset.announcementCategory; renderAnnouncements();
     };
-    $('mktSaveTemplate').onclick = () => saveTemplate(); $('mktUpdateTemplate').onclick = () => saveTemplate(true); $('mktDeleteTemplate').onclick = deleteTemplate;
+    $('mktAnnouncementCards').onclick = ev => {
+      const button = ev.target.closest('[data-copy-announcement]'); if (!button) return;
+      const template = core.templates.find(t => t.id === button.dataset.copyAnnouncement);
+      if (template) void copyAnnouncement(announcementText(template), button);
+    };
+    $('mktCopyPromo').onclick = () => copyAnnouncement($('mktPromoText').textContent, $('mktCopyPromo'));
     $('mktNewCoupon').onclick = () => openCoupon(); $('mktRefreshCoupons').onclick = () => load();
     $('mktCloseCoupon').onclick = closeCoupon; $('mktCancelCoupon').onclick = closeCoupon;
     $('mktCouponType').onchange = () => { $('mktCouponAmount').max = $('mktCouponType').value === 'percent' ? '100' : '999999'; };
@@ -269,7 +246,7 @@
       if (b.dataset.couponEdit) openCoupon(c); else if (b.dataset.couponToggle) void toggleCoupon(c, b); else announceCoupon(c);
     };
     document.addEventListener('keydown', ev => { if (ev.key === 'Escape') closeCoupon(); });
-    renderTemplates(); chooseTemplate(); renderCoupons();
+    renderAnnouncements(); renderCoupons();
     return { load, adjust, refresh, redeem, saved, reset };
   }
 })();

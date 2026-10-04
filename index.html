@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0b0f14">
+  <meta name="theme-color" content="#141016">
   <title>BurgerShot · Punto de venta</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="reports.css?v=5.5.0">
   <link rel="stylesheet" href="companion.css?v=5.5.0">
   <link rel="stylesheet" href="marketing.css?v=5.6.1">
+  <link rel="stylesheet" href="seasonal.css?v=6.0.0">
 </head>
 <body>
 <div id="toastHost" class="toast-host"></div>
@@ -22,11 +23,11 @@
   <div class="gate-art">
     <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>PUNTO DE VENTA</small></div></div>
     <div class="gate-copy">
-      <span class="eyebrow gold">V5.5 · PUNTO DE VENTA</span>
-      <h1>Ventas claras.<br>Equipo medible.</h1>
+      <span class="eyebrow gold">HALLOWEEN · DÍA DE MUERTOS</span>
+      <h1>BurgerShot.<br>Todo en su lugar.</h1>
       <p>Calculadora, empleados, convenios, comisiones, cortes y ventas sincronizadas.</p>
     </div>
-    <div class="fake-kpis">
+    <div class="fake-kpis" hidden>
       <div><span>GENERADO</span><strong>$24,850</strong><em>+12%</em></div>
       <div><span>GANANCIAS</span><strong>$4,970</strong><em>20%</em></div>
     </div>
@@ -50,10 +51,10 @@
 <!-- LOGIN -->
 <section id="authScreen" class="gate hidden">
   <div class="gate-art auth-art">
-    <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>GOOD BURGERS. BETTER DAYS.</small></div></div>
+    <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>HALLOWEEN · DÍA DE MUERTOS</small></div></div>
     <div class="gate-copy">
-      <span class="eyebrow gold">BURGER SHOT · COMMAND CENTER POS</span>
-      <h1>Punto de venta.<br>Estética profesional.</h1>
+      <span class="eyebrow gold">HALLOWEEN · DÍA DE MUERTOS</span>
+      <h1>Bienvenido<br>al turno.</h1>
       <p>Ingresa con el usuario y contraseña que te dio el administrador.</p>
     </div>
     <div class="quote">“Una buena burger siempre es un buen negocio.”</div>
@@ -94,57 +95,34 @@
 
 <!-- MAIN APP -->
 <div id="app" class="app hidden">
-  <aside id="sidebar" class="sidebar">
-    <div class="brand"><div class="logo small"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>POS · V5.4</small></div></div>
-    <div class="store-chip"><div class="store-icon">B</div><div><span>NEGOCIO</span><strong id="storeName">BurgerShot</strong></div><i></i></div>
-
-    <nav>
-      <div class="nav-label">OPERACIÓN</div>
-      <button class="nav-item active" data-page="dashboard"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9A1.5 1.5 0 0 1 19.5 21H15v-6H9v6H4.5A1.5 1.5 0 0 1 3 19.5z"/></svg></span><b>Inicio</b></button>
-      <button class="nav-item" data-page="pos"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg></span><b>Punto de venta</b></button>
-      <button class="nav-item" data-page="mySales"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"/></svg></span><b>Mis ventas</b></button>
-      <button class="nav-item" data-page="analytics"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 20V9M10 20V4M15 20v-7M20 20V7"/></svg></span><b>Estadísticas</b></button>
-      <button class="nav-item admin-only" data-page="allSales" data-permission="view_reports"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 5v14M4 10h16"/></svg></span><b>Todas las ventas</b></button>
-
-      <button class="nav-item" data-page="announcements"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 10h5l12-6v16L8 14H3zM8 14l2 7H6l-2-7"/></svg></span><b>Anuncios RP</b></button>
-      <button class="nav-item admin-only" data-page="coupons"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4zM9 8l6 8M9 16l6-8"/></svg></span><b>Cupones</b></button>
-      <div class="nav-label admin-only" data-permission="view_reports">ADMINISTRACIÓN</div>
-      <button class="nav-item admin-only" data-page="customers" data-permission="view_reports"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M16 11a2.5 2.5 0 1 0 0-5M15.5 14.5c2.6.2 4.2 2 5 5.5"/></svg></span><b>Clientes</b></button>
-      <button class="nav-item admin-only" data-page="employees" data-permission="manage_employees"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 20c.5-4 2.6-6 5-6s4.6 2 5 6M13 20c.4-3 1.9-4.7 4.2-4.7 2.1 0 3.6 1.5 4 4.7"/></svg></span><b>Empleados</b></button>
-      <button class="nav-item admin-only" data-page="payouts" data-permission="manage_payouts"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5c-1-1.3-2.5-2-4.5-2-2.7 0-4.5 1.4-4.5 3.4 0 5 9 2.4 9 7.3 0 2.4-2 4.1-5 4.1-2.2 0-4.1-.8-5.3-2.4"/></svg></span><b>Pagos / cortes</b></button>
-      <button class="nav-item admin-only" data-page="audit" data-permission="view_audit"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 4h14v17H5zM9 2h6v4H9zM8 10h8M8 14h8M8 18h5"/></svg></span><b>Historial de cambios</b></button>
-      <button class="nav-item admin-only" data-page="discounts" data-permission="manage_catalog"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="m5 19 14-14"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span><b>Convenios</b></button>
-      <button class="nav-item admin-only" data-page="products" data-permission="manage_catalog"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM8 7V5h8v2M8 11h8M8 15h5"/></svg></span><b>Productos</b></button>
-    </nav>
-
-    <div class="sidebar-promo">
-      <img class="promo-logo" src="assets/burgershot-logo.webp" alt="">
-      <span>BURGER SHOT HQ</span>
-      <strong>PANEL EJECUTIVO</strong>
-      <small>Ventas, equipo y operación centralizada.</small>
+  <header class="seasonal-masthead">
+    <div class="seasonal-garland" aria-hidden="true"></div>
+    <div class="seasonal-ornament seasonal-ornament-left" aria-hidden="true"></div>
+    <div class="seasonal-ornament seasonal-ornament-right" aria-hidden="true"></div>
+    <div class="seasonal-identity"><span class="seasonal-wordmark">BURGER <em>SHOT</em></span><span class="seasonal-subtitle">Halloween <i>·</i> Día de Muertos</span></div>
+    <div class="seasonal-store"><strong id="storeName">BurgerShot</strong> <span>· Punto de venta</span></div>
+        <div class="topbar">
+      <button id="mobileMenu" class="mobile-menu" aria-label="Abrir navegación" aria-controls="sidebar" aria-expanded="false">☰</button>
+      <label class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Buscar productos…"><kbd>Ctrl K</kbd></label>
+      <div class="top-right"><button id="refreshBtn" class="icon-btn" title="Sincronizar"><svg class="top-svg" viewBox="0 0 24 24"><path d="M20 6v5h-5"/><path d="M4 18v-5h5"/><path d="M6.5 8.5A7 7 0 0 1 18.8 10M5.2 14A7 7 0 0 0 17.5 15.5"/></svg></button><button type="button" class="user-mini" id="topAccountBtn" aria-label="Abrir mi cuenta"><div id="topAvatar" class="avatar mini">BS</div><div><strong id="topName">—</strong><small id="topRole">—</small></div></button></div>
     </div>
+  </header>
+  <aside id="sidebar" class="sidebar">
+    <nav class="seasonal-areas" aria-label="Áreas de trabajo"><button class="seasonal-area" data-area="pos" aria-pressed="true"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg></span><span>Caja</span></button><button class="seasonal-area" data-area="sales" aria-pressed="false"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 20V9M10 20V4M15 20v-7M20 20V7"/></svg></span><span>Ventas</span></button><button class="seasonal-area" data-area="team" aria-pressed="false"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 20c.5-4 2.6-6 5-6s4.6 2 5 6M13 20c.4-3 1.9-4.7 4.2-4.7 2.1 0 3.6 1.5 4 4.7"/></svg></span><span>Equipo</span></button><button class="seasonal-area" data-area="announcements" aria-pressed="false"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 10h5l12-6v16L8 14H3zM8 14l2 7H6l-2-7"/></svg></span><span>Anuncios</span></button><button class="seasonal-area" data-area="settings" aria-pressed="false"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM8 7V5h8v2M8 11h8M8 15h5"/></svg></span><span>Ajustes</span></button></nav>
     <div class="sidebar-bottom">
       <div id="sync" class="sync"><i></i><div><strong>Cloud</strong><small id="syncText">Sincronizando</small></div></div>
       <button id="accountBtn" class="account-card"><div id="avatar" class="avatar">BS</div><div class="account-copy"><strong id="accountName">—</strong><span id="accountRole">—</span><small><i></i> Sesión activa</small></div><em>›</em></button>
     </div>
-  </aside>
+    </aside>
 
   <main class="main">
-    <header class="topbar">
-      <button id="mobileMenu" class="mobile-menu">☰</button>
-      <label class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Buscar productos…"><kbd>Ctrl K</kbd></label>
-      <div class="top-right"><button id="refreshBtn" class="icon-btn" title="Sincronizar"><svg class="top-svg" viewBox="0 0 24 24"><path d="M20 6v5h-5"/><path d="M4 18v-5h5"/><path d="M6.5 8.5A7 7 0 0 1 18.8 10M5.2 14A7 7 0 0 0 17.5 15.5"/></svg></button><div class="user-mini"><div id="topAvatar" class="avatar mini">BS</div><div><strong id="topName">—</strong><small id="topRole">—</small></div></div></div>
-    </header>
+    <div id="sectionNav" class="section-bar"><nav class="section-links" data-area-menu="pos" aria-label="Caja"><button class="nav-item" data-page="pos"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg></span><b>Caja</b></button></nav><nav class="section-links" data-area-menu="sales" aria-label="Ventas" hidden><button class="nav-item" data-page="dashboard"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9A1.5 1.5 0 0 1 19.5 21H15v-6H9v6H4.5A1.5 1.5 0 0 1 3 19.5z"/></svg></span><b>Inicio</b></button><button class="nav-item" data-page="mySales"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"/></svg></span><b>Mis ventas</b></button><button class="nav-item admin-only" data-page="allSales" data-permission="view_reports"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4zM8 5v14M4 10h16"/></svg></span><b>Todas las ventas</b></button><button class="nav-item" data-page="analytics"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 20V9M10 20V4M15 20v-7M20 20V7"/></svg></span><b>Estadísticas</b></button><button class="nav-item admin-only" data-page="customers" data-permission="view_reports"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20c.5-4 2.5-6 5.5-6s5 2 5.5 6M16 11a2.5 2.5 0 1 0 0-5M15.5 14.5c2.6.2 4.2 2 5 5.5"/></svg></span><b>Clientes</b></button></nav><nav class="section-links" data-area-menu="team" aria-label="Equipo" hidden><button class="nav-item admin-only" data-page="employees" data-permission="manage_employees"><span class="nav-svg"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 20c.5-4 2.6-6 5-6s4.6 2 5 6M13 20c.4-3 1.9-4.7 4.2-4.7 2.1 0 3.6 1.5 4 4.7"/></svg></span><b>Empleados</b></button><button class="nav-item admin-only" data-page="payouts" data-permission="manage_payouts"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6.5c-1-1.3-2.5-2-4.5-2-2.7 0-4.5 1.4-4.5 3.4 0 5 9 2.4 9 7.3 0 2.4-2 4.1-5 4.1-2.2 0-4.1-.8-5.3-2.4"/></svg></span><b>Pagos / cortes</b></button></nav><nav class="section-links" data-area-menu="announcements" aria-label="Anuncios" hidden><button class="nav-item" data-page="announcements"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 10h5l12-6v16L8 14H3zM8 14l2 7H6l-2-7"/></svg></span><b>Anuncios RP</b></button></nav><nav class="section-links" data-area-menu="settings" aria-label="Ajustes" hidden><button class="nav-item admin-only" data-page="products" data-permission="manage_catalog"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4zM8 7V5h8v2M8 11h8M8 15h5"/></svg></span><b>Productos</b></button><button class="nav-item admin-only" data-page="discounts" data-permission="manage_catalog"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="m5 19 14-14"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span><b>Convenios</b></button><button class="nav-item admin-only" data-page="coupons"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4zM9 8l6 8M9 16l6-8"/></svg></span><b>Cupones</b></button><button class="nav-item admin-only" data-page="audit" data-permission="view_audit"><span class="nav-svg"><svg viewBox="0 0 24 24"><path d="M5 4h14v17H5zM9 2h6v4H9zM8 10h8M8 14h8M8 18h5"/></svg></span><b>Historial de cambios</b></button></nav></div>
 
     <!-- DASHBOARD -->
-    <section id="page-dashboard" class="page active">
+    <section id="page-dashboard" class="page">
       <div class="hero-row">
         <div><span class="eyebrow gold">BURGER SHOT · COMMAND CENTER</span><h1 id="welcomeTitle">¡Buenas!</h1><p id="welcomeSubtitle">Sistema premium de ventas y control de equipo.</p></div>
         <div class="clock-card"><span id="todayDate">—</span><strong id="todayTime">—</strong><small><i></i> Sistema en línea</small></div>
-      </div>
-      <div class="command-strip">
-        <div class="command-card"><span class="command-label">OPERACIÓN</span><strong>Ventas, equipo y comisiones</strong><small>Todo centralizado en un solo panel.</small></div>
-        <div class="command-card"><span class="command-label">CONTROL DEL DÍA</span><strong>Todo listo para operar</strong><small>Ventas, caja, convenios y rendimiento sincronizados.</small></div>
       </div>
       <div id="dashboardMetrics" class="metrics"></div>
       <section class="employee-week panel"><div class="panel-head"><div><span class="eyebrow">RECONOCIMIENTO DEL EQUIPO</span><h2>Empleado de la semana</h2><span>Rendimiento de lunes a domingo.</span></div><button id="editEmployeeWeekBtn" class="btn secondary admin-only">Configurar</button></div><div id="employeeWeekContent" class="employee-week-content"></div></section>
@@ -161,23 +139,23 @@
     </section>
 
     <!-- POS -->
-    <section id="page-pos" class="page">
-      <div class="page-title-row pos-title"><div><span class="eyebrow">BURGER SHOT / VENTAS</span><h1>Punto de venta<span class="title-dot">.</span></h1><p>Una buena orden empieza aquí.</p></div><div class="pos-session"><span class="session-dot"></span><span id="posCashier">Nueva venta</span></div></div>
+    <section id="page-pos" class="page active">
+      <div class="page-title-row pos-title"><div><span class="eyebrow">BURGER SHOT / VENTAS</span><h1>Arma el pedido</h1><p>Elige del menú y prepara la orden.</p></div><div class="pos-session"><span class="session-dot"></span><span id="posCashier">Nueva venta</span></div></div>
       <div class="pos-grid">
         <div class="panel product-panel">
-          <div class="panel-head"><div class="catalog-heading"><h2>El menú</h2><span id="productCount">0 productos</span></div><label class="search"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="productSearch" aria-label="Buscar producto" placeholder="Buscar en el menú…" autocomplete="off"></label></div>
+          <div class="panel-head"><div class="catalog-heading"><h2>Arma el pedido</h2><span id="productCount">0 productos</span></div><label class="search"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="productSearch" aria-label="Buscar producto" placeholder="Buscar en el menú…" autocomplete="off"></label></div>
           <div id="categoryTabs" class="category-tabs" role="group" aria-label="Categorías de productos"></div>
           <div id="productGrid" class="product-grid" aria-label="Productos disponibles"></div>
         </div>
         <aside class="panel order-panel" aria-labelledby="orderTitle">
-          <div class="order-head"><div><span>ORDEN ACTUAL</span><h2 id="orderTitle">Nueva venta <small id="orderCount">0</small></h2></div><div class="order-head-actions"><button id="saveTemplateBtn" class="icon-btn soft" aria-label="Guardar pedido como plantilla" title="Guardar pedido como plantilla" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 4v5h8V4M8 15h8"/></svg></button><button id="clearCartBtn" class="icon-btn soft" aria-label="Vaciar orden" title="Vaciar orden" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12v14H9l-7-7Z"/><path d="m12 9 6 6m0-6-6 6"/></svg></button></div></div>
-          <div class="order-templates" aria-label="Plantillas de pedidos"><div class="order-templates-head"><span>PLANTILLAS</span><small>Guarda pedidos repetidos</small></div><div class="order-template-row"><select id="templateSelect" aria-label="Seleccionar plantilla"><option value="">Sin plantillas guardadas</option></select><button id="loadTemplateBtn" class="template-action" disabled>Cargar</button><button id="deleteTemplateBtn" class="template-action danger" aria-label="Eliminar plantilla" title="Eliminar plantilla" disabled>×</button></div></div>
+          <div class="order-head"><div><span>ORDEN ACTUAL</span><h2 id="orderTitle">Tu pedido <small id="orderCount">0</small></h2></div><div class="order-head-actions"><button id="saveTemplateBtn" class="icon-btn soft" aria-label="Guardar pedido como plantilla" title="Guardar pedido como plantilla" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 4v5h8V4M8 15h8"/></svg></button><button id="clearCartBtn" class="icon-btn soft" aria-label="Vaciar orden" title="Vaciar orden" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12v14H9l-7-7Z"/><path d="m12 9 6 6m0-6-6 6"/></svg></button></div></div>
           <div class="order-scroll">
             <div id="cartEmpty" class="empty-cart"><img src="assets/burgershot-logo.webp" alt="" width="96" height="102"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>
             <div id="cartList" class="cart-list" aria-label="Productos de la orden"></div>
           </div>
           <div class="order-checkout">
-            <div id="mktCouponEntry"></div>
+            <label class="seasonal-client" for="posClient">Cliente / ID<input id="posClient" placeholder="Nombre o ID del cliente" maxlength="120" autocomplete="off"></label>
+            <details class="seasonal-order-extras"><summary>Cupones y plantillas</summary><div id="mktCouponEntry"></div><div class="order-templates" aria-label="Plantillas de pedidos"><div class="order-templates-head"><span>PLANTILLAS</span><small>Guarda pedidos repetidos</small></div><div class="order-template-row"><select id="templateSelect" aria-label="Seleccionar plantilla"><option value="">Sin plantillas guardadas</option></select><button id="loadTemplateBtn" class="template-action" disabled>Cargar</button><button id="deleteTemplateBtn" class="template-action danger" aria-label="Eliminar plantilla" title="Eliminar plantilla" disabled>×</button></div></div></details>
             <div class="order-options"><div><label for="clientType">Tipo de cliente</label><select id="clientType"><option value="general">Cliente general</option><option value="police">Policía</option><option value="sheriff">Sheriff</option><option value="ems">EMS</option></select></div><div><label for="discountSelect">Convenio</label><select id="discountSelect"></select></div></div>
             <small id="discountNote" class="field-note" aria-live="polite"></small>
             <div class="totals"><div><span>Subtotal</span><strong id="subtotal">$0</strong></div><div><span>Descuento</span><strong id="discountAmount" class="green">-$0</strong></div><div class="grand"><span>Total a cobrar</span><strong id="grandTotal" aria-live="polite">$0</strong></div></div>
@@ -253,7 +231,7 @@
 
     <!-- DISCOUNTS -->
     <section id="page-discounts" class="page">
-      <div class="page-title-row"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Convenios</h1><p>Gestión premium de convenios y descuentos especiales.</p></div><button id="addDiscountBtn" class="btn primary">+ Nuevo convenio</button></div>
+      <div class="page-title-row"><div><span class="eyebrow">ADMINISTRACIÓN</span><h1>Convenios</h1><p>Descuentos y condiciones para tus clientes.</p></div><button id="addDiscountBtn" class="btn primary">+ Nuevo convenio</button></div>
       <div id="discountCards" class="discount-grid"></div>
     </section>
 
@@ -391,6 +369,6 @@
 <script src="companion.js?v=5.5.0"></script>
 <script src="marketing-core.js?v=5.6.1"></script>
 <script src="marketing.js?v=5.6.1"></script>
-<script src="app.js?v=5.6.0"></script>
+<script src="app.js?v=6.0.0"></script>
 </body>
 </html>

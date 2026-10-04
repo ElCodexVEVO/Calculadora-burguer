@@ -25,8 +25,7 @@ function productPhotoKey(p){
 }
 function productArt(p,thumb=false){
   const key=productPhotoKey(p);
-  if(["burger","combo-burger","fries","drink"].includes(key))return `<span class="food-photo seasonal-food seasonal-food-${key}${thumb?" seasonal-food-thumb":""}" aria-hidden="true"></span>`;
-  return `<img class="food-photo" src="assets/food/${key}${thumb?"-thumb":""}.webp" alt="" loading="${thumb?"eager":"lazy"}" decoding="async" width="${thumb?160:720}" height="${thumb?160:720}">`;
+  return `<img class="food-photo" src="assets/seasonal/menu/${key}${thumb?"-thumb":""}.webp" alt="" loading="${thumb?"eager":"lazy"}" decoding="async" width="${thumb?180:720}" height="${thumb?120:480}">`;
 }
 function productBadge(p){
   if(p.restriction)return {police:"Policía",ems:"EMS",sheriff:"Sheriff"}[p.restriction]||p.restriction;

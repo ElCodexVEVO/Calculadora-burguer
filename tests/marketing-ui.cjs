@@ -38,7 +38,13 @@ const burger = '44444444-4444-4444-8444-444444444444';
     await fs.mkdir(path.join(root, 'test-results'), { recursive: true });
     await page.goto(origin + '/index.html');
     await page.waitForSelector('#app:not(.hidden)');
-    const nav = async name => { if (await page.locator('#mobileMenu').isVisible()) await page.click('#mobileMenu'); await page.click(`.nav-item[data-page="${name}"]`); };
+    const nav = async name => {
+      const area = ['pos','companion'].includes(name) ? 'pos' : name === 'announcements' ? name : ['coupons','products','discounts','audit'].includes(name) ? 'settings' : ['employees','payouts'].includes(name) ? 'team' : 'sales';
+      if (await page.locator('#mobileMenu').isVisible()) await page.click('#mobileMenu');
+      await page.click(`[data-area="${area}"]`);
+      if (!(await page.locator(`#page-${name}`).evaluate(el=>el.classList.contains('active')))) await page.click(`.nav-item[data-page="${name}"]`);
+      if (name === 'pos' && !(await page.locator('.seasonal-order-extras').evaluate(el=>el.open))) await page.locator('.seasonal-order-extras summary').click();
+    };
 
     await nav('announcements');
     assert.equal(await page.locator('#page-announcements input').count(), 0);

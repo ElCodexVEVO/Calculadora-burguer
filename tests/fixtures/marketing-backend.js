@@ -22,7 +22,7 @@
         return Promise.resolve().then(() => {
           if (window.__missingMarketing && table.startsWith('marketing_')) return { data: null, error: { message: 'relation missing' } };
           const rows = db[table] || []; let result = rows.filter(r => filters.every(f => f(r)));
-          if (mode === 'insert') { result = (Array.isArray(values) ? values : [values]).map(v => ({ id: crypto.randomUUID(), uses: 0, created_at: new Date().toISOString(), ...v })); rows.push(...result); }
+          if (mode === 'insert') { result = (Array.isArray(values) ? values : [values]).map(v => ({ id: crypto.randomUUID(), uses: 0, created_at: new Date().toISOString(), ...v })); if (table === 'sales') result.forEach((sale,index) => { const employee=db.profiles.find(e=>e.user_id===sale.created_by)||profile; const commission=Number(employee.commission_percent||0); Object.assign(sale,{sale_number:Math.max(0,...rows.map(r=>Number(r.sale_number||0)))+index+1,commission_percent:commission,employee_earnings:Math.round(Number(sale.total)*commission)/100,business_net:Number(sale.total)-Math.round(Number(sale.total)*commission)/100}); }); rows.push(...result); }
           if (mode === 'update') result.forEach(r => Object.assign(r, values));
           if (mode === 'delete') db[table] = rows.filter(r => !result.includes(r));
           result = result.slice(start, end + 1);

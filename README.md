@@ -1,5 +1,28 @@
 # BurgerShot — Punto de Venta
 
+## V6: Halloween y Día de Muertos
+
+Rediseño basado en la propuesta aprobada: cabecera con papel picado, cempasúchil y calaveritas; catálogo con fotografías de temporada; ticket de cobro separado; navegación por Caja, Ventas, Equipo, Anuncios y Ajustes. Caja es la pantalla inicial. Las secciones secundarias conservan sus permisos.
+
+El cliente se puede escribir en el pedido y pasa a la confirmación de cobro. Cupones, plantillas y cantidades de mayoreo están en controles desplegables. Empleados utiliza un directorio de filas; ventas, reportes, formularios, acceso y caja auxiliar comparten la apariencia de temporada.
+
+**Esta actualización de interfaz no requiere SQL ni volver a desplegar funciones de Supabase.** Se conservan los cálculos, las validaciones del servidor y la conexión existente. Para un despliegue manual, incluye `index.html`, `app.js`, `seasonal.css` y la carpeta `assets/seasonal/`, además de los archivos existentes. No reemplaces tu configuración de conexión. En GitHub Pages se aplicará cuando la rama se integre y el alojamiento publique el commit.
+
+Abre **VISTA_PREVIA.html** para recorrer el diseño con datos de ejemplo. Utiliza un simulador local y muestra una advertencia visible; no conecta con tu Supabase. Sus ventas y cambios solo duran durante esa sesión. `index.html` sigue siendo la aplicación operativa.
+
+Verificación: 18 pruebas de lógica y base de datos, regresión de anuncios/cupones/caja auxiliar, y navegación de las 14 pantallas en 1536, 1024, 768, 390 y 320 px. Se comprobó cliente prellenado, cobro, limpieza del pedido, mayoreo, plantillas, permisos, cierre de sesión, imágenes y ausencia de errores JavaScript. Las pruebas utilizan datos aislados, sin operaciones en la base real.
+
+```bash
+npm test
+npm run test:ui
+npm run test:seasonal
+npm run preview:build
+```
+
+![Caja de temporada con datos de ejemplo](docs/seasonal-pos.webp)
+
+Si Playwright usa un Chromium del sistema, configura `BURGERSHOT_CHROMIUM` con su ruta. Las instrucciones siguientes documentan versiones anteriores.
+
 ## V5.6.1: anuncios listos para copiar y cupones
 
 20 anuncios predefinidos con emojis y botón de copiar, sin ubicación ni horario por rellenar; cupones por porcentaje o importe fijo con vigencia, compra mínima, productos y límite de usos. Disponibles en el POS y la caja auxiliar, con validación y canje atómico en Supabase.

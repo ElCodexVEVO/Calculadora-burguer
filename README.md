@@ -1,5 +1,13 @@
 # BurgerShot — Punto de Venta
 
+## V6.0.1: menú completo de temporada y cabecera corregida
+
+Las 12 fotografías del menú tienen la temática de Halloween y Día de Muertos: hamburguesa, burrito, nuggets, alitas, sus cuatro combos, bebida, papitas, helado y caja feliz. Se muestran completas en proporción 3:2, también en el carrito, los accesos rápidos, la caja auxiliar y la administración de productos. Las 12 fotos y sus 12 miniaturas suman 959 492 bytes. Los archivos y prompts se encuentran en [assets/seasonal/menu](assets/seasonal/menu/PROMPTS.md).
+
+La cabecera mantiene visible el papel picado completo y separa el nombre, los controles y las decoraciones laterales en escritorio y móvil. Se actualiza la versión de CSS y JavaScript para cargar estos cambios. La vista previa ahora incluye los 12 tipos de producto con datos de ejemplo; los precios y productos reales no se modifican. **No requiere SQL ni cambios en Supabase.**
+
+![Menú de temporada y cabecera corregida, con datos de ejemplo](docs/seasonal-menu.webp)
+
 ## V6: Halloween y Día de Muertos
 
 Rediseño basado en la propuesta aprobada: cabecera con papel picado, cempasúchil y calaveritas; catálogo con fotografías de temporada; ticket de cobro separado; navegación por Caja, Ventas, Equipo, Anuncios y Ajustes. Caja es la pantalla inicial. Las secciones secundarias conservan sus permisos.

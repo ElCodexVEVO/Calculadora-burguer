@@ -10,8 +10,17 @@
   const burger=db.products[0],drink=db.products[1];
   const combo={...burger,id:'77777777-7777-4777-8777-777777777777',name:'Combo hamburguesa',category:'combos',price:280,sort_order:2,emoji:'photo:combo-burger'};
   const fries={...burger,id:'55555555-5555-4555-8555-555555555555',name:'Papitas fritas',category:'extras',price:100,tag:'all',sort_order:3,emoji:'photo:fries'};
-  drink.sort_order=4;
-  db.products=[burger,combo,fries,drink];
+  const examples=[
+    ['nuggets','Nuggets','individuales',150],
+    ['wings','Alitas','individuales',175],
+    ['burrito','Burrito','individuales',170],
+    ['combo-nuggets','Combo nuggets','combos',280],
+    ['combo-wings','Combo alitas','combos',300],
+    ['combo-burrito','Combo burrito','combos',280],
+    ['icecream','Helado','extras',80],
+    ['happybox','Caja feliz','cajas',250]
+  ].map(([key,name,category,price],index)=>({...burger,id:`88888888-8888-4888-8888-${String(index+1).padStart(12,'0')}`,name,category,price,tag:'all',emoji:'photo:'+key}));
+  db.products=[burger,combo,...examples,fries,drink].map((product,index)=>({...product,sort_order:index+1}));
   db.discounts.push({id:'police',store_id:store,name:'Policía',percent:10,scope:'all',active:true,description:'10% para personal de Policía.'});
   const amounts=[300,560,700,400,280,600,300,840,400,700,560,300];
   db.sales=amounts.map((amount,index)=>{

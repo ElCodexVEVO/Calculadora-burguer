@@ -1,21 +1,10 @@
 #page-announcements [hidden],#page-coupons [hidden],#mktCouponModal [hidden],.mkt-coupon-entry [hidden]{display:none!important}
-.mkt-editor-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
-.mkt-panel{padding:26px;min-width:0}
-.mkt-section-title{display:flex;gap:14px;align-items:center;margin-bottom:24px}
-.mkt-section-title h2{font-size:20px;margin:0 0 6px}.mkt-section-title p{margin:0;color:#9e9b98;font-size:13px;line-height:1.6}
-.mkt-step{display:grid;place-items:center;flex:0 0 40px;height:40px;border:1px solid #73572a;border-radius:12px;color:#efbe68;background:#2b2419;font-size:13px;font-weight:800}
 .mkt-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.mkt-fields label,.mkt-shared>label,.mkt-block{display:block;color:#ddd5ca;font-size:12px;font-weight:600;line-height:1.6}
-.mkt-fields input,.mkt-fields select,.mkt-shared input,.mkt-panel textarea{display:block;width:100%;min-width:0;margin-top:7px}
-.mkt-panel textarea{resize:vertical;line-height:1.8;border:1px solid #383530;border-radius:12px;background:#171819;color:#f2e9dc;padding:14px;font:inherit;font-size:14px;max-width:100%}
-.mkt-block{margin-top:22px}.mkt-preview .mkt-block{margin-top:0}
+.mkt-fields label{display:block;color:#ddd5ca;font-size:12px;font-weight:600;line-height:1.6}
+.mkt-fields input,.mkt-fields select{display:block;width:100%;min-width:0;margin-top:7px}
 .mkt-help{font-size:12px;color:#a8a29a;line-height:1.8;margin:14px 0 0;overflow-wrap:anywhere}
-.mkt-help code{font-size:11px;color:#dfbc81;white-space:nowrap}.mkt-optional{color:#92908b;font-weight:400}
-.mkt-preview{position:sticky;top:24px;border-color:#5b4529;background:linear-gradient(150deg,#262219,#181a1c 65%)}
-.mkt-output-meta{display:flex;gap:16px;justify-content:space-between;font-size:12px;color:#a8a29a;margin:12px 0 22px}.mkt-output-meta>span:last-child{white-space:nowrap}
-.mkt-warning,.mkt-warning small{color:#f0bc65!important}.mkt-wide{width:100%}
-.mkt-shared{border-top:1px solid #383530;margin-top:22px;padding-top:20px}
-.mkt-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.mkt-shared .mkt-actions{margin-top:12px}
+.mkt-warning,.mkt-warning small{color:#f0bc65!important}
+.mkt-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
 .mkt-coupon-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:20px}
 .mkt-coupon{padding:24px;display:flex;flex-direction:column;min-width:0;border-top:2px solid #aa7a38}
 .mkt-coupon-top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#9c9892;font-size:12px}
@@ -29,5 +18,21 @@
 .mkt-coupon-entry{margin:0 0 12px;padding:12px;border:1px dashed #57472c;border-radius:12px;background:#241f16}
 .mkt-coupon-entry label{display:block;font-size:11px;color:#d9c4a2;font-weight:700;margin-bottom:7px}.mkt-entry-row{display:flex;gap:6px;min-width:0}.mkt-entry-row input{min-width:0;width:100%;flex:1;text-transform:uppercase;font-size:12px;padding:9px}.mkt-entry-row .btn{padding:8px 10px;font-size:11px}.mkt-coupon-entry small{display:block;font-size:11px;line-height:1.6;color:#aba194;margin-top:7px}.bs-options .mkt-coupon-entry{margin-top:12px}
 @media(max-width:1200px){.mkt-coupon-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:800px){.mkt-editor-grid{grid-template-columns:1fr}.mkt-preview{position:static}.mkt-panel{padding:20px}}
-@media(max-width:480px){.mkt-fields,.mkt-coupon-grid{grid-template-columns:1fr}.mkt-modal{padding:20px}.mkt-output-meta{flex-wrap:wrap;gap:8px}.mkt-coupon{padding:20px}}
+
+@media(max-width:480px){.mkt-fields,.mkt-coupon-grid{grid-template-columns:1fr}.mkt-modal{padding:20px}.mkt-coupon{padding:20px}}
+
+.mkt-ready-count{color:#b5aca1;font-size:13px;white-space:nowrap}
+.mkt-announcement-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.mkt-announcement-filters button{border:1px solid #343b43;background:#111820;color:#c6cbd0;border-radius:10px;padding:11px 16px;font:inherit;font-size:13px;cursor:pointer}
+.mkt-announcement-filters button[aria-pressed="true"]{background:#942330;color:#fff;border-color:#c3404a}
+.mkt-announcement-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
+.mkt-announcement{display:flex;flex-direction:column;min-width:0;padding:24px;gap:12px}
+.mkt-announcement-kind{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700;color:#d1ad77}
+.mkt-announcement h2{margin:0;color:#f3eadf;font-size:17px}
+.mkt-announcement p,.mkt-promo-announcement p{font-size:15px;line-height:1.8;color:#d4d3d0;overflow-wrap:anywhere;margin:0 0 12px;white-space:pre-wrap}
+.mkt-announcement .btn{margin-top:auto;align-self:flex-start;min-height:42px}
+.mkt-promo-announcement{padding:24px;margin-bottom:22px;display:grid;gap:16px;border-color:#806039}
+.mkt-promo-announcement h2{font-size:20px;margin-top:6px}.mkt-promo-announcement .btn{justify-self:start}
+.mkt-copy-fallback{padding:20px;margin-top:20px}.mkt-copy-fallback label{display:block;font-size:13px;line-height:1.6;margin-bottom:12px}.mkt-copy-fallback textarea{display:block;width:100%;resize:vertical;font:inherit;line-height:1.7}
+@media(max-width:1200px){.mkt-announcement-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.mkt-announcement-grid{grid-template-columns:1fr}.mkt-announcement{padding:22px}.mkt-announcement-filters button{padding:11px 13px}.mkt-ready-count{white-space:normal}}

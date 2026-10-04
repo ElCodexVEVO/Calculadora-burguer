@@ -1,10 +1,10 @@
 # BurgerShot — Punto de Venta
 
-## V5.6: anuncios RP y cupones
+## V5.6.1: anuncios listos para copiar y cupones
 
-Anuncios con plantillas editables y texto para copiar; cupones por porcentaje o importe fijo con vigencia, compra mínima, productos y límite de usos. Disponibles en el POS y la caja auxiliar, con validación y canje atómico en Supabase.
+20 anuncios predefinidos con emojis y botón de copiar, sin ubicación ni horario por rellenar; cupones por porcentaje o importe fijo con vigencia, compra mínima, productos y límite de usos. Disponibles en el POS y la caja auxiliar, con validación y canje atómico en Supabase.
 
-**Esta versión requiere una migración SQL nueva antes de publicar los archivos.** Sigue [la guía de activación y uso](ANUNCIOS_CUPONES.md). Las instrucciones de versiones anteriores que dicen «no hay migración SQL nueva» corresponden únicamente a esas versiones.
+**Si actualizas desde V5.6, no necesitas volver a ejecutar SQL.** Para instalar cupones por primera vez sí debes aplicar la migración incluida antes de publicar los archivos. Sigue [la guía de activación y uso](ANUNCIOS_CUPONES.md). Las instrucciones de versiones anteriores que dicen «no hay migración SQL nueva» corresponden únicamente a esas versiones.
 
 Rework sobre el ZIP completo BurgerShot_V4_4_Professional_Images.zip.
 

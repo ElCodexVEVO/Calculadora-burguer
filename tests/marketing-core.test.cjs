@@ -2,12 +2,6 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const core = require('../marketing-core.js');
 
-test('announcements substitute literal values repeatedly and add an optional prefix', () => {
-  assert.deepEqual(core.announcement('{negocio} {oferta} {negocio}', { negocio: 'Burger $&', oferta: '15% hoy' }, ' /anuncio '), { text: '/anuncio Burger $& 15% hoy Burger $&', missing: [] });
-});
-test('missing and unknown announcement variables remain visible', () => {
-  assert.deepEqual(core.announcement('{ubicacion} {falta} {ubicacion}', {}), { text: '{ubicacion} {falta} {ubicacion}', missing: ['ubicacion', 'falta'] });
-});
 test('coupon codes normalize without altering internal characters', () => {
   assert.equal(core.code(' bienvenida_15 '), 'BIENVENIDA_15');
 });

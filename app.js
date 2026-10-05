@@ -335,6 +335,19 @@ function employeeWeekStats(){
   const rows=[...ranking.values()].sort((a,b)=>b.generated-a.generated||b.count-a.count||a.name.localeCompare(b.name,'es')),selectedId=configured||rows[0]?.id||null,selected=rows.find(x=>x.id===selectedId)||(()=>{const p=employees.find(x=>x.user_id===selectedId);return p?{id:p.user_id,name:p.name,count:0,generated:0,commission:0,daily:Array(7).fill(0)}:null})();
   return{start,end,rows,selected,selectedId,configured,dayNames};
 }
+function renderCustomerWeek(){
+  const host=$("customerWeekContent");if(!host)return;
+  const {start,end}=employeeWeekBounds(),groups=new Map();
+  for(const sale of sales){
+    const date=new Date(sale.created_at);if(sale.status!=="active"||date<start||date>=end)continue;
+    const name=String(sale.client||"").trim(),key=normalize(name);if(!key||key==="cliente general")continue;
+    const row=groups.get(key)||{name,count:0,total:0,last:null};row.count++;row.total+=Number(sale.total||0);if(!row.last||date>row.last)row.last=date;groups.set(key,row);
+  }
+  const rows=[...groups.values()].sort((a,b)=>b.total-a.total||b.count-a.count||a.name.localeCompare(b.name,"es")),best=rows[0];
+  if(!best){host.innerHTML='<div class="customer-week-empty"><strong>Aún no hay cliente destacado</strong><span>Cuando haya compras identificadas esta semana, aparecerá aquí automáticamente.</span></div>';return}
+  const ticket=best.count?best.total/best.count:0,last=best.last?fmtDate(best.last):"—";
+  host.innerHTML=`<div class="customer-week-person"><div class="customer-week-medal">★</div><div><span class="customer-week-kicker">CLIENTE #1 DE LA SEMANA</span><h3>${esc(best.name)}</h3><p>Gracias por volver a BurgerShot.</p></div></div><div class="customer-week-stat"><span>Compras</span><strong>${best.count}</strong><small>esta semana</small></div><div class="customer-week-stat"><span>Generado</span><strong>${money(best.total)}</strong><small>acumulado</small></div><div class="customer-week-stat"><span>Ticket promedio</span><strong>${money(ticket)}</strong><small>última: ${esc(last)}</small></div>`;
+}
 function renderEmployeeWeek(){
   const host=$("employeeWeekContent");if(!host)return;const s=employeeWeekStats(),fmt=d=>new Intl.DateTimeFormat('es-MX',{day:'2-digit',month:'short'}).format(d),week=`${fmt(s.start)} – ${fmt(new Date(s.end.getTime()-86400000))}`,selected=s.selected;
   if(!selected){host.innerHTML='<div class="employee-week-empty"><strong>Aún no hay ventas esta semana</strong><span>Cuando se registre una venta aparecerá aquí el líder automático. Un administrador también puede elegirlo manualmente.</span></div>';return}

@@ -1,0 +1,30 @@
+/* BurgerShot V6.4 Spooky integration — safe overlay on top of the current production UI */
+:root{--spooky-plum:#3d1631;--spooky-plum-2:#6c2349;--spooky-orange:#f28b2c;--spooky-gold:#f6bd4a;--spooky-bone:#f4e8d3;--spooky-ink:#171116}
+body{background:radial-gradient(circle at 85% 8%,rgba(242,139,44,.10),transparent 30%),radial-gradient(circle at 10% 80%,rgba(108,35,73,.16),transparent 35%),#f7f3ed}
+.seasonal-masthead{position:relative;overflow:hidden;background:linear-gradient(115deg,rgba(24,12,21,.96),rgba(58,21,46,.94) 52%,rgba(93,34,53,.96)),url('assets/seasonal/masthead.webp') center/cover no-repeat!important;border-bottom:1px solid rgba(246,189,74,.24);box-shadow:0 12px 28px rgba(31,15,25,.16)}
+.seasonal-masthead:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 12% 20%,rgba(246,189,74,.16),transparent 20%),linear-gradient(90deg,transparent 0 46%,rgba(242,139,44,.06) 50%,transparent 54%)}
+.seasonal-identity{position:relative;padding-left:72px;z-index:2}
+.seasonal-identity:before{content:"";position:absolute;left:2px;top:50%;width:58px;height:58px;transform:translateY(-50%);background:url('assets/burgershot-spooky.svg') center/contain no-repeat;filter:drop-shadow(0 8px 12px rgba(0,0,0,.28));animation:spookyFloat 5s ease-in-out infinite}
+.seasonal-wordmark,.seasonal-subtitle,.seasonal-store{position:relative;z-index:2}
+.sidebar{background:linear-gradient(180deg,#21121d 0%,#171116 100%)!important;border-right:1px solid rgba(246,189,74,.13)}
+.seasonal-area{border-radius:14px}.seasonal-area[aria-pressed="true"]{background:linear-gradient(135deg,rgba(242,139,44,.18),rgba(108,35,73,.32));box-shadow:inset 0 0 0 1px rgba(246,189,74,.14)}
+.panel{border-radius:20px!important;border:1px solid rgba(85,39,61,.10)!important;box-shadow:0 14px 40px rgba(53,24,41,.07)!important}
+.product-card{border-radius:18px!important;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.product-card:hover{transform:translateY(-2px);border-color:rgba(242,139,44,.32)!important;box-shadow:0 18px 34px rgba(63,26,43,.12)!important}
+.product-photo{background:linear-gradient(145deg,#fffaf0,#f4e7d5)!important}
+.checkout{background:linear-gradient(135deg,#e96825,#f0a332)!important;box-shadow:0 12px 28px rgba(218,92,32,.22)!important}.checkout:hover{filter:brightness(1.04)}
+.brand .logo img,.empty-cart img{object-fit:contain;filter:drop-shadow(0 8px 12px rgba(46,19,34,.12))}
+.customer-week{position:relative;overflow:hidden;background:linear-gradient(125deg,rgba(255,250,241,.98),rgba(255,246,230,.96))!important}
+.customer-week:after{content:"";position:absolute;right:-35px;top:-35px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(242,139,44,.17),rgba(108,35,73,.03) 52%,transparent 70%)}
+.customer-week-content{display:grid;grid-template-columns:minmax(220px,1.1fr) repeat(3,minmax(130px,.6fr));gap:14px;align-items:stretch}
+.customer-week-person,.customer-week-stat{position:relative;z-index:1;border:1px solid rgba(92,44,65,.10);background:rgba(255,255,255,.75);border-radius:16px;padding:18px}
+.customer-week-person{display:flex;gap:15px;align-items:center;background:linear-gradient(135deg,rgba(61,22,49,.96),rgba(100,33,68,.94));color:white}
+.customer-week-medal{display:grid;place-items:center;flex:0 0 62px;width:62px;height:62px;border-radius:18px;background:linear-gradient(145deg,#f6bd4a,#e66c25);font-size:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 10px 22px rgba(0,0,0,.18)}
+.customer-week-person h3{margin:4px 0 3px;font-size:1.24rem}.customer-week-person p{margin:0;color:rgba(255,255,255,.72)}
+.customer-week-kicker{font-size:.7rem;font-weight:800;letter-spacing:.13em;color:#f7bd55}
+.customer-week-stat span{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#806a73;font-weight:700}.customer-week-stat strong{display:block;margin-top:8px;font-size:1.45rem;color:#2f1726}.customer-week-stat small{color:#8d7781}
+.customer-week-empty{padding:24px;border:1px dashed rgba(96,47,69,.20);border-radius:16px;color:#765f6a}.customer-week-empty strong{display:block;color:#3b2230;margin-bottom:4px}
+@keyframes spookyFloat{0%,100%{transform:translateY(-50%) rotate(-1deg)}50%{transform:translateY(calc(-50% - 3px)) rotate(1deg)}}
+@media(max-width:900px){.customer-week-content{grid-template-columns:1fr 1fr}.customer-week-person{grid-column:1/-1}}
+@media(max-width:560px){.seasonal-identity{padding-left:58px}.seasonal-identity:before{width:46px;height:46px}.customer-week-content{grid-template-columns:1fr}.customer-week-person{grid-column:auto}}
+@media(prefers-reduced-motion:reduce){.seasonal-identity:before{animation:none}.product-card{transition:none}}

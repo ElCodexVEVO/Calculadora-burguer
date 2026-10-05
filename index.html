@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="reports.css?v=5.5.0">
   <link rel="stylesheet" href="companion.css?v=5.5.0">
   <link rel="stylesheet" href="marketing.css?v=5.6.1">
-  <link rel="stylesheet" href="seasonal.css?v=6.0.1">
+  <link rel="stylesheet" href="seasonal.css?v=6.0.1">\n  <link rel="stylesheet" href="spooky-v6.css?v=6.4.1">
 </head>
 <body>
 <div id="toastHost" class="toast-host"></div>
@@ -21,7 +21,7 @@
 <!-- CLOUD SETUP -->
 <section id="cloudSetup" class="gate hidden">
   <div class="gate-art">
-    <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>PUNTO DE VENTA</small></div></div>
+    <div class="brand big"><div class="logo"><img src="assets/burgershot-spooky.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>PUNTO DE VENTA</small></div></div>
     <div class="gate-copy">
       <span class="eyebrow gold">HALLOWEEN · DÍA DE MUERTOS</span>
       <h1>BurgerShot.<br>Todo en su lugar.</h1>
@@ -51,7 +51,7 @@
 <!-- LOGIN -->
 <section id="authScreen" class="gate hidden">
   <div class="gate-art auth-art">
-    <div class="brand big"><div class="logo"><img src="assets/burgershot-logo.webp" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>HALLOWEEN · DÍA DE MUERTOS</small></div></div>
+    <div class="brand big"><div class="logo"><img src="assets/burgershot-spooky.svg" alt=""></div><div><strong>Burger<span>Shot</span></strong><small>HALLOWEEN · DÍA DE MUERTOS</small></div></div>
     <div class="gate-copy">
       <span class="eyebrow gold">HALLOWEEN · DÍA DE MUERTOS</span>
       <h1>Bienvenido<br>al turno.</h1>
@@ -124,7 +124,7 @@
         <div class="clock-card"><span id="todayDate">—</span><strong id="todayTime">—</strong><small><i></i> Sistema en línea</small></div>
       </div>
       <div id="dashboardMetrics" class="metrics"></div>
-      <section class="employee-week panel"><div class="panel-head"><div><span class="eyebrow">RECONOCIMIENTO DEL EQUIPO</span><h2>Empleado de la semana</h2><span>Rendimiento de lunes a domingo.</span></div><button id="editEmployeeWeekBtn" class="btn secondary admin-only">Configurar</button></div><div id="employeeWeekContent" class="employee-week-content"></div></section>
+      <section id="customerWeek" class="customer-week panel"><div class="panel-head"><div><span class="eyebrow">CLIENTE DESTACADO</span><h2>Cliente de la semana</h2><span>Reconocimiento automático por compras de lunes a domingo.</span></div></div><div id="customerWeekContent" class="customer-week-content"></div></section>\n      <section class="employee-week panel"><div class="panel-head"><div><span class="eyebrow">RECONOCIMIENTO DEL EQUIPO</span><h2>Empleado de la semana</h2><span>Rendimiento de lunes a domingo.</span></div><button id="editEmployeeWeekBtn" class="btn secondary admin-only">Configurar</button></div><div id="employeeWeekContent" class="employee-week-content"></div></section>
       <div class="dashboard-grid">
         <div class="panel">
           <div class="panel-head"><div><span class="eyebrow">PRODUCTOS DESTACADOS</span><h2>Acceso rápido</h2><span>Agrega un producto y empieza una orden.</span></div><button class="text-action" data-go="pos">Abrir POS →</button></div>
@@ -149,7 +149,7 @@
         <aside class="panel order-panel" aria-labelledby="orderTitle">
           <div class="order-head"><div><span>ORDEN ACTUAL</span><h2 id="orderTitle">Tu pedido <small id="orderCount">0</small></h2></div><div class="order-head-actions"><button id="saveTemplateBtn" class="icon-btn soft" aria-label="Guardar pedido como plantilla" title="Guardar pedido como plantilla" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 4v5h8V4M8 15h8"/></svg></button><button id="clearCartBtn" class="icon-btn soft" aria-label="Vaciar orden" title="Vaciar orden" disabled><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12v14H9l-7-7Z"/><path d="m12 9 6 6m0-6-6 6"/></svg></button></div></div>
           <div class="order-scroll">
-            <div id="cartEmpty" class="empty-cart"><img src="assets/burgershot-logo.webp" alt="" width="96" height="102"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>
+            <div id="cartEmpty" class="empty-cart"><img src="assets/burgershot-spooky.svg" alt="" width="96" height="102"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>
             <div id="cartList" class="cart-list" aria-label="Productos de la orden"></div>
           </div>
           <div class="order-checkout">

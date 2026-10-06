@@ -1,0 +1,4 @@
+{
+  "passed": 18,
+  "environment": "PostgreSQL local PGlite, Auth simulado; sin conexión remota"
+}

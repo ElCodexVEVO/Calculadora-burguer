@@ -35,6 +35,20 @@ export default {
         );
       }
 
+      if (adminProfile.role !== "admin") {
+        if (action === "create" && body.role === "admin") {
+          return Response.json({ error: "Solo un administrador puede crear administradores" }, { status: 403 });
+        }
+        if (action !== "create") {
+          const { data: protectedTarget } = await ctx.supabaseAdmin.from("profiles")
+            .select("role,can_manage_employees").eq("user_id", String(body.user_id || ""))
+            .eq("store_id", adminProfile.store_id).maybeSingle();
+          if (protectedTarget?.role === "admin" || protectedTarget?.can_manage_employees) {
+            return Response.json({ error: "Esta cuenta requiere un administrador" }, { status: 403 });
+          }
+        }
+      }
+
       if (action === "create") {
         const name = String(body.name || "").trim();
         const username = String(body.username || "")

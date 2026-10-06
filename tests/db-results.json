@@ -1,0 +1,4 @@
+{
+  "tests": 20,
+  "environment": "PGlite PostgreSQL local; auth.uid and Supabase roles simulated; no remote database"
+}

@@ -1,0 +1,82 @@
+{
+  "version": "6.4.0",
+  "logo": {
+    "src": "assets/burgershot-spooky.png",
+    "loaded": true,
+    "width": 1254,
+    "height": 1254
+  },
+  "responsive": [
+    {
+      "width": 1600,
+      "documentWidth": 1600,
+      "brandRight": 554.015625,
+      "toolsLeft": 1204,
+      "imageWidth": 76,
+      "imageHeight": 76
+    },
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "brandRight": 554.015625,
+      "toolsLeft": 1044,
+      "imageWidth": 76,
+      "imageHeight": 76
+    },
+    {
+      "width": 1120,
+      "documentWidth": 1120,
+      "brandRight": 469.890625,
+      "toolsLeft": 811,
+      "imageWidth": 65,
+      "imageHeight": 65
+    },
+    {
+      "width": 900,
+      "documentWidth": 900,
+      "brandRight": 330.265625,
+      "toolsLeft": 693,
+      "imageWidth": 65,
+      "imageHeight": 65
+    },
+    {
+      "width": 768,
+      "documentWidth": 768,
+      "brandRight": 330.265625,
+      "toolsLeft": 561,
+      "imageWidth": 65,
+      "imageHeight": 65
+    },
+    {
+      "width": 390,
+      "documentWidth": 390,
+      "brandRight": 268.75,
+      "toolsLeft": 312,
+      "imageWidth": 47,
+      "imageHeight": 47
+    },
+    {
+      "width": 360,
+      "documentWidth": 360,
+      "brandRight": 241.3125,
+      "toolsLeft": 290,
+      "imageWidth": 40,
+      "imageHeight": 40
+    },
+    {
+      "width": 320,
+      "documentWidth": 320,
+      "brandRight": 241.3125,
+      "toolsLeft": 251.3125,
+      "imageWidth": 40,
+      "imageHeight": 40
+    }
+  ],
+  "original_menu_assets": 20,
+  "preview": "BurgerShot_Preview_Spooky.png",
+  "cartTotal": 380,
+  "companionLogo": "loaded",
+  "setupLogo": "loaded",
+  "emptyOrderLogo": "loaded",
+  "javascriptErrors": []
+}

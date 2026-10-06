@@ -1,0 +1,35 @@
+{
+  "hover": {
+    "class": true,
+    "tilt": "0.52deg",
+    "light": "1"
+  },
+  "category": {
+    "left": 310,
+    "target": 310,
+    "width": 83,
+    "targetWidth": 83
+  },
+  "click": {
+    "waves": 1,
+    "quantity": "5",
+    "remaining": 0,
+    "orderClip": "none"
+  },
+  "dialog": "bsDialogReveal",
+  "reduced": {
+    "waves": 0,
+    "tilted": 0,
+    "flying": 0
+  },
+  "off": {
+    "waves": 0,
+    "quantity": "15"
+  },
+  "mobile": {
+    "overflow": false,
+    "sidebarRight": -11.5
+  },
+  "errors": [],
+  "source": "Local DEMO_V6 files, mocked Supabase; no live browser tab or service"
+}

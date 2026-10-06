@@ -1,0 +1,18 @@
+{
+  "scenarios": [
+    "Cantidad escrita agrega diez unidades en un solo clic, con total y confirmación correctos",
+    "Accesos +5, +10, +25 y +50 suman la cantidad exacta al pedido existente",
+    "Enter agrega la cantidad una sola vez y emite el evento de animación",
+    "Vacío, cero, negativos, decimales y cantidades fuera del límite no se agregan ni animan",
+    "Cancelar una cantidad grande conserva el pedido; confirmar agrega las cien unidades",
+    "El límite de 9,999 se respeta también al sumar accesos rápidos",
+    "Cobro de dos productos con cantidades distintas conserva descuento y unidades en la venta demo",
+    "Movimiento reducido mantiene las cantidades y suprime la animación",
+    "El ajuste de animaciones apagadas también respeta el teclado",
+    "Página y controles sin desbordamiento en siete anchos entre 320 y 1600 px",
+    "Sin errores de JavaScript en el navegador"
+  ],
+  "count": 11,
+  "errors": [],
+  "environment": "Chromium headless; DEMO_V6 con Supabase simulado y archivos locales, sin ventas reales"
+}

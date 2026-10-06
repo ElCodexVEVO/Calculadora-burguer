@@ -1,5 +1,5 @@
 {
-  "version": "6.5.0",
+  "version": "6.6.0",
   "base": "5.5",
   "menu_images": "20 archivos originales suministrados por el usuario",
   "database_patch": "supabase_patch_v6.sql + supabase_patch_v6_5_convenios.sql",
@@ -10,9 +10,14 @@
     "seasonal_browser": "Chromium: escritorio 1600x1160, móvil 390x844 y anchos 320–1440; menú, cantidades, cupones, pedidos guardados, cobro demo, navegación y movimiento reducido",
     "branding_browser": "Chromium; logo cargado en demo, configuración, auxiliar y orden vacía; anchos 320, 360, 390, 768, 900, 1120, 1440 y 1600 px; sin solapamiento ni desbordamiento",
     "motion_browser": "Chromium 1600x1173 y 800x600: logo, papel picado, pétalos, tarjetas, vuelo al pedido y contadores sin errores de JavaScript",
-    "convenios": "Cálculo en demo para los 20 convenios; parche SQL verificado en PGlite (tests/v6-5-convenios-db.cjs)"
+    "convenios": "Cálculo en demo para los 20 convenios; parche SQL verificado en PGlite (tests/v6-5-convenios-db.cjs)",
+    "quick_quantity_browser_scenarios": 11,
+    "quick_quantity_browser": "Chromium con archivos locales y Supabase simulado: cantidades por clic y Enter, +5/+10/+25/+50, validación, límite acumulado, cancelación, cobro, movimiento reducido y anchos 320, 360, 390, 768, 1120, 1440 y 1600 px; sin errores JavaScript ni desbordamiento",
+    "polish_motion_review": "Revisión aislada de archivos locales: luz y giro de tarjeta, posición de guía de categorías, ondas y limpieza, entrada de ventana, cancelación por movimiento reducido y ajuste de animaciones; vista móvil sin desbordamiento. Resultado: preview/revision-animaciones.json"
   },
   "seasonal_design": "Encabezado festivo adaptado a la referencia; velas, calaveras y cempasúchil; papel picado con calabazas, calaveras y flores que ondea con el viento y brilla por sus recortes; catálogo con fotos grandes; ticket crema de V6.2",
   "branding": "Logo hamburguesa-calavera (assets/burgershot-muertos.webp) con halo, brillo, gotas de queso y destellos; cabecera, acceso, caja auxiliar, orden vacía y favicon",
-  "convenios": "Porcentaje o precio especial por unidad; alcance por menú, hamburguesas, Caja Feliz o combos; exclusivos por tipo de cliente"
+  "convenios": "Porcentaje o precio especial por unidad; alcance por menú, hamburguesas, Caja Feliz o combos; exclusivos por tipo de cliente",
+  "quick_quantity": "Cantidad visible por tarjeta, botón Agregar con cantidad, total antes de agregar, accesos +5/+10/+25/+50, confirmación y animación por lote con soporte de Enter",
+  "visual_motion": "Luz dorada e inclinación suave de tarjetas al mover el cursor; ondas en botones; línea luminosa que sigue la categoría; entrada de ventanas y avisos; barra de tiempo en avisos; transición de páginas, títulos y desplegables; destello en pedido, importe y confirmación"
 }

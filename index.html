@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="festival.css?v=6.5.1">
   <link rel="stylesheet" href="spooky.css?v=6.4">
   <link rel="stylesheet" href="motion.css?v=6.5.1">
+  <link rel="stylesheet" href="caja-rapida.css?v=6.5.2">
+  <link rel="stylesheet" href="polish-motion.css?v=6.6.0">
   <link rel="icon" type="image/webp" href="assets/burgershot-muertos.webp">
 </head>
 <body>
@@ -156,6 +158,8 @@
         <div class="panel product-panel">
           <div class="panel-head"><div class="catalog-heading"><h2>El menú</h2><span id="productCount">0 productos</span></div><label class="search"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="productSearch" aria-label="Buscar producto" placeholder="Buscar en el menú…" autocomplete="off"></label></div>
           <div id="categoryTabs" class="category-tabs" role="group" aria-label="Categorías de productos"></div>
+          <p class="pos-quantity-hint">Escribe cuántas unidades quieres y pulsa Agregar o Enter. Los botones +5, +10, +25 y +50 las suman directamente.</p>
+          <div id="posAddStatus" class="pos-add-status" role="status" aria-live="polite" aria-atomic="true"></div>
           <div id="productGrid" class="product-grid" aria-label="Productos disponibles"></div>
         </div>
         <aside class="panel order-panel" aria-labelledby="orderTitle">
@@ -393,9 +397,10 @@
 <script src="companion.js?v=6.5.1"></script>
 <script src="v6-core.js?v=6.0.0"></script>
 <script src="v6-modules.js?v=6.0.0"></script>
-<script src="app.js?v=6.5.1"></script>
-<script src="atelier.js?v=6.2"></script>
+<script src="app.js?v=6.5.2"></script>
+<script src="atelier.js?v=6.5.2"></script>
 <script src="festival.js?v=6.5.1"></script>
-<script src="motion.js?v=6.5.1"></script>
+<script src="motion.js?v=6.5.2"></script>
+<script src="polish-motion.js?v=6.6.0"></script>
 </body>
 </html>

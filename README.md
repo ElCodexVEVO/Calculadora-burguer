@@ -1,4 +1,8 @@
-# Burger Shot V6
+# Burger Shot V6.6
+
+La caja permite agregar varias comidas de una vez: escribe la cantidad, pulsa Agregar o Enter, o usa los accesos +5, +10, +25 y +50. Incluye nuevas animaciones de tarjetas, botones, categorías, ventanas y avisos, con soporte para movimiento reducido.
+
+Consulta [las mejoras de caja](ACTUALIZAR_V6_5_2_CAJA.md) y [las animaciones de V6.6](ACTUALIZAR_V6_6_ANIMACIONES.md). Puedes probarlas en `DEMO_V6.html` con datos simulados.
 
 **Empieza por [LEEME_V6.md](LEEME_V6.md).** Incluye actualización, reglas de promociones y vista previa interactiva en DEMO_V6.html. Conserva tu config.js al actualizar.
 

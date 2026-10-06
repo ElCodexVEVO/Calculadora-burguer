@@ -85,7 +85,13 @@ function addToCart(id,requested=1){
   if(!confirmBulkQuantity(id,quantity))return false;
   const next=(cart[id]||0)+quantity;
   if(next>9999){toast("La cantidad máxima por producto es 9,999");return false}
-  cart[id]=next;renderCart();return true;
+  cart[id]=next;renderCart();
+  const card=Array.from($("productGrid").querySelectorAll("[data-product]")).find(el=>el.dataset.product===id);
+  const feedback=card?.querySelector("[data-add-feedback]"),p=products.find(x=>x.id===id);
+  if(feedback)feedback.textContent=`✓ ${quantity} ${quantity===1?"unidad añadida":"unidades añadidas"}`;
+  const status=$("posAddStatus");if(status)status.textContent=`${quantity} × ${p.name} añadidos al pedido. ${next} en la orden.`;
+  document.dispatchEvent(new CustomEvent("bs:cart-added",{detail:{id,quantity,total:next}}));
+  return true;
 }
 function updateProductSelection(){
   document.querySelectorAll(".product-card[data-product]").forEach(el=>{
@@ -388,7 +394,17 @@ function renderDashboard(){
 }
 function updateBulkPreview(input){
   const card=input?.closest(".product-card"),id=card?.dataset.product,p=products.find(x=>x.id===id),preview=card?.querySelector("[data-bulk-preview]");if(!p||!preview)return;
-  const q=window.BurgerCompanionCore?.quantity(input.value)||1;preview.textContent=`${q} × ${money(p.price)} = ${money(q*Number(p.price||0))}`;
+  const n=Number(input.value),q=input.value.trim()&&Number.isInteger(n)&&n>=1&&n<=9999?n:null;
+  input.setAttribute("aria-invalid",String(!q));
+  const button=card.querySelector("[data-add]"),label=button.querySelector("[data-add-label]");
+  button.disabled=!q;label.textContent=q?`Agregar ${q.toLocaleString("es-MX")}`:"Agregar";
+  button.setAttribute("aria-label",q?`Agregar ${q} ${q===1?"unidad":"unidades"} de ${p.name}`:`Agregar ${p.name}`);
+  preview.textContent=q?`${q.toLocaleString("es-MX")} × ${money(p.price)} = ${money(q*Number(p.price||0))}`:"Introduce de 1 a 9,999 unidades";
+}
+function submitProductQuantity(input){
+  if(!input?.checkValidity()||!input.value.trim()){input?.reportValidity();return false}
+  if(!addToCart(input.dataset.bulkQty,input.value))return false;
+  input.value="1";updateBulkPreview(input);return true;
 }
 function renderCategories(){
   $("categoryTabs").innerHTML=Object.entries({all:"Todos",...CATS}).map(([k,v])=>`<button class="category-tab ${k===activeCategory?"active":""}" data-cat="${k}" aria-pressed="${k===activeCategory}">${v}</button>`).join("");
@@ -397,10 +413,11 @@ function renderCategories(){
 function renderProducts(){
   const q=normalize($("productSearch").value.trim()),arr=products.filter(p=>p.active).filter(p=>activeCategory==="all"||p.category===activeCategory).filter(p=>!q||normalize(p.name).includes(q));
   $("productCount").textContent=`${arr.length} producto${arr.length===1?"":"s"}`;
-  $("productGrid").innerHTML=arr.length?arr.map(p=>`<article class="product-card" data-product="${esc(p.id)}"><div class="product-photo">${productArt(p)}${productBadge(p)?`<span class="product-badge">${esc(productBadge(p))}</span>`:""}<span class="in-cart-count" hidden></span></div><div class="product-copy"><span class="product-category">${esc(productSubtitle(p))}</span><h3>${esc(p.name)}</h3>${productContents(p)?`<p class="product-contents">${esc(productContents(p))}</p>`:""}<div class="product-bottom"><strong>${money(p.price)}</strong><div class="bulk-add"><label class="bulk-qty-label" for="bulkQty-${esc(p.id)}">Cantidad</label><input id="bulkQty-${esc(p.id)}" class="bulk-qty" data-bulk-qty="${esc(p.id)}" type="number" min="1" max="9999" step="1" value="1" inputmode="numeric" aria-label="Cantidad de ${esc(p.name)}"><button class="add-product" data-add="${esc(p.id)}" aria-label="Agregar la cantidad indicada de ${esc(p.name)}" title="Agregar cantidad indicada">${uiIcon("plus")}</button><div class="bulk-presets" role="group" aria-label="Cantidades rápidas de ${esc(p.name)}"><button type="button" data-add-preset="${esc(p.id)}" data-quantity="10">+10</button><button type="button" data-add-preset="${esc(p.id)}" data-quantity="25">+25</button><button type="button" data-add-preset="${esc(p.id)}" data-quantity="50">+50</button><button type="button" data-add-preset="${esc(p.id)}" data-quantity="100">+100</button></div><small class="bulk-preview" data-bulk-preview="${esc(p.id)}">1 × ${money(p.price)} = ${money(p.price)}</small></div></div></div></article>`).join(""):`<div class="catalog-empty"><strong>No encontramos ese producto</strong><span>Prueba otro nombre o cambia de categoría.</span></div>`;
-  $("productGrid").onclick=e=>{const preset=e.target.closest("[data-add-preset]");if(preset){addToCart(preset.dataset.addPreset,Number(preset.dataset.quantity));return}const b=e.target.closest("[data-add]");if(!b)return;const input=b.closest(".bulk-add")?.querySelector("[data-bulk-qty]"),requested=input?.value||1;if(addToCart(b.dataset.add,requested)&&input){input.value="1";updateBulkPreview(input)}};
-  $("productGrid").oninput=e=>{if(e.target.matches("[data-bulk-qty]"))updateBulkPreview(e.target)};
-  $("productGrid").onkeydown=e=>{if(e.key==="Enter"&&e.target.matches("[data-bulk-qty]")){e.preventDefault();const input=e.target;if(addToCart(input.dataset.bulkQty,input.value)){input.value="1";updateBulkPreview(input)}}};
+  $("productGrid").innerHTML=arr.length?arr.map(p=>`<article class="product-card" data-product="${esc(p.id)}"><div class="product-photo">${productArt(p)}${productBadge(p)?`<span class="product-badge">${esc(productBadge(p))}</span>`:""}<span class="in-cart-count" hidden></span></div><div class="product-copy"><span class="product-category">${esc(productSubtitle(p))}</span><h3>${esc(p.name)}</h3>${productContents(p)?`<p class="product-contents">${esc(productContents(p))}</p>`:""}<div class="product-bottom"><strong>${money(p.price)}</strong><span class="product-unit">por unidad</span></div><div class="bulk-add"><label class="bulk-qty-label" for="bulkQty-${esc(p.id)}">Cantidad a agregar</label><div class="bulk-quantity-row"><input id="bulkQty-${esc(p.id)}" class="bulk-qty" data-bulk-qty="${esc(p.id)}" type="number" min="1" max="9999" step="1" value="1" required inputmode="numeric" aria-label="Cantidad de ${esc(p.name)}" aria-describedby="bulkPreview-${esc(p.id)}"><button type="button" class="add-product" data-add="${esc(p.id)}" aria-label="Agregar 1 unidad de ${esc(p.name)}">${uiIcon("plus")}<span data-add-label>Agregar 1</span></button></div><div class="bulk-presets" role="group" aria-label="Agregar unidades directamente de ${esc(p.name)}">${[5,10,25,50].map(n=>`<button type="button" data-add-preset="${esc(p.id)}" data-quantity="${n}" aria-label="Agregar ${n} unidades de ${esc(p.name)}">+${n}</button>`).join("")}</div><small id="bulkPreview-${esc(p.id)}" class="bulk-preview" data-bulk-preview="${esc(p.id)}">1 × ${money(p.price)} = ${money(p.price)}</small><small class="bulk-feedback" data-add-feedback></small></div></div></article>`).join(""):`<div class="catalog-empty"><strong>No encontramos ese producto</strong><span>Prueba otro nombre o cambia de categoría.</span></div>`;
+  $("productGrid").onclick=e=>{const preset=e.target.closest("[data-add-preset]");if(preset){addToCart(preset.dataset.addPreset,Number(preset.dataset.quantity));return}const b=e.target.closest("[data-add]");if(b)submitProductQuantity(b.closest(".bulk-add").querySelector("[data-bulk-qty]"))};
+  $("productGrid").oninput=e=>{if(e.target.matches("[data-bulk-qty]")){updateBulkPreview(e.target);e.target.closest(".product-card").querySelector("[data-add-feedback]").textContent=""}};
+  $("productGrid").onfocusin=e=>{if(e.target.matches("[data-bulk-qty]"))e.target.select()};
+  $("productGrid").onkeydown=e=>{if(e.key==="Enter"&&e.target.matches("[data-bulk-qty]")){e.preventDefault();submitProductQuantity(e.target)}};
   updateProductSelection();
 }
 // Convenios: a percentage of eligible lines, or a special unit price (e.g. Caja Feliz a $200).

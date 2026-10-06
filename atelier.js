@@ -9,4 +9,3 @@ const receipt=document.createElement('div');receipt.className='atelier-receipt-f
 const heroDecor=document.createElement('div');heroDecor.className='atelier-global-ribbon';heroDecor.innerHTML='<span class="atelier-ribbon-thread"></span><i></i><span>HALLOWEEN & DÍA DE MUERTOS</span><i></i>';document.querySelector('.topbar').append(heroDecor);
 const glow=document.createElement('div');glow.className='atelier-ambient';glow.setAttribute('aria-hidden','true');glow.innerHTML='<i></i><i></i><i></i>';hero.append(glow);
 })();
-document.addEventListener('click',e=>{const button=e.target.closest('[data-add],[data-add-qty],[data-quick-add]');if(!button)return;const card=button.closest('.product-card');if(card){card.classList.remove('atelier-added');void card.offsetWidth;card.classList.add('atelier-added')}});

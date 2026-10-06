@@ -4,8 +4,21 @@
   'use strict';
   const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)');
   const still=()=>Boolean(reduced?.matches)||document.body.classList.contains('motion-off');
+  const effects=new Set();
+  const animateEffect=(el,frames,options,done)=>{
+    const animation=el.animate(frames,options),record={el,animation};effects.add(record);
+    animation.finished.catch(()=>{}).then(()=>{effects.delete(record);el.remove();done?.()});
+  };
+  const stopEffects=()=>{
+    if(!still())return;
+    for(const {el,animation} of effects){animation.cancel();el.remove()}
+    document.querySelectorAll('.bs-receipt').forEach(el=>el.remove());
+    for(const cls of ['atelier-added','bs-pop','bs-tick','bs-line-in','bs-enter','is-jelly','is-poked'])document.querySelectorAll('.'+cls).forEach(el=>el.classList.remove(cls));
+  };
+  reduced?.addEventListener('change',stopEffects);
+  new MutationObserver(stopEffects).observe(document.body,{attributes:true,attributeFilter:['class']});
   const replay=(el,cls)=>{
-    if(!el)return;
+    if(!el||still())return;
     el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);
     const done=e=>{if(e.target!==el)return;el.classList.remove(cls);el.removeEventListener('animationend',done)};
     el.addEventListener('animationend',done);
@@ -19,11 +32,11 @@
       const petal=document.createElement('i'),angle=k/14*Math.PI*2+Math.random()*.4,reach=38+Math.random()*34,x=Math.cos(angle)*reach,y=Math.sin(angle)*reach;
       petal.className='bs-burst';petal.style.left=cx+'px';petal.style.top=cy+'px';
       document.body.append(petal);
-      petal.animate([
+      animateEffect(petal,[
         {transform:'translate(0,0) scale(.4) rotate(0deg)',opacity:1},
         {transform:`translate(${x}px,${y}px) scale(1) rotate(${200+Math.random()*200}deg)`,opacity:1,offset:.45},
         {transform:`translate(${x*1.25}px,${y*1.25+46}px) scale(.8) rotate(${420+Math.random()*240}deg)`,opacity:0}
-      ],{duration:1100+Math.random()*400,easing:'cubic-bezier(.2,.7,.3,1)'}).finished.then(()=>petal.remove(),()=>petal.remove());
+      ],{duration:1100+Math.random()*400,easing:'cubic-bezier(.2,.7,.3,1)'});
     }
   };
 
@@ -61,6 +74,7 @@
     const cards=[...grid.querySelectorAll('.product-card')],list=cards.map(card=>card.dataset.product).join('|');
     if(list===shownList)return;
     shownList=list;
+    if(still())return;
     cards.forEach((card,i)=>{
       card.style.setProperty('--i',Math.min(i,10));card.classList.add('bs-enter');
       card.addEventListener('animationend',e=>{if(e.target===card&&e.animationName==='bsRise')card.classList.remove('bs-enter')});
@@ -69,36 +83,35 @@
 
   // Added products fly from their photo to the order counter.
   const orderCount=document.getElementById('orderCount');
-  const countNow=()=>Number(orderCount?.textContent)||0;
-  let pending=null,flying=0;
-  const fly=(img,from)=>{
-    if(still()||!img||!from?.width||!orderCount)return false;
+  let flying=0;
+  const fly=(img,from,quantity)=>{
+    if(still()||!img||!from?.width||!orderCount||flying>=3||from.bottom<0||from.top>innerHeight)return false;
     const to=orderCount.getBoundingClientRect();
     if(!to.width||to.bottom<0||to.top>innerHeight)return false;
-    const ghost=img.cloneNode(false);
-    ghost.className='bs-fly';ghost.removeAttribute('loading');ghost.alt='';ghost.setAttribute('aria-hidden','true');
+    const ghost=document.createElement('div'),photo=img.cloneNode(false);
+    ghost.className='bs-fly';ghost.setAttribute('aria-hidden','true');
+    photo.removeAttribute('loading');photo.alt='';ghost.append(photo);
+    if(quantity>1){const badge=document.createElement('span');badge.className='bs-fly-quantity';badge.textContent=`×${quantity.toLocaleString('es-MX')}`;ghost.append(badge)}
     Object.assign(ghost.style,{left:from.left+'px',top:from.top+'px',width:from.width+'px',height:from.height+'px'});
     document.body.append(ghost);
     const dx=to.left+to.width/2-(from.left+from.width/2),dy=to.top+to.height/2-(from.top+from.height/2),end=Math.max(.05,30/from.width),mid=Math.max(end*2.5,.32);
     flying++;
-    ghost.animate([
+    animateEffect(ghost,[
       {transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1,borderRadius:'12px'},
       {transform:`translate(${dx*.5}px,${dy*.5-90}px) scale(${mid}) rotate(-10deg)`,opacity:1,borderRadius:'28px',offset:.5},
       {transform:`translate(${dx}px,${dy}px) scale(${end}) rotate(14deg)`,opacity:.25,borderRadius:'50%'}
-    ],{duration:780,easing:'cubic-bezier(.5,0,.3,1)'}).finished.catch(()=>{}).then(()=>{ghost.remove();flying--;replay(orderCount,'bs-pop')});
+    ],{duration:650,easing:'cubic-bezier(.5,0,.3,1)'},()=>{flying--;replay(orderCount,'bs-pop')});
     return true;
   };
-  document.addEventListener('click',e=>{
-    const button=e.target.closest?.('#productGrid [data-add],#productGrid [data-add-preset]'),card=button?.closest('.product-card');
-    pending=button?{button,id:card?.dataset.product,before:countNow(),from:card?.querySelector('.food-photo')?.getBoundingClientRect()}:null;
-  },true);
-  document.addEventListener('click',()=>{
-    const added=pending;pending=null;
-    if(!added||countNow()<=added.before)return;
-    replay(added.button,'bs-pop');
-    const card=added.id&&grid?.querySelector(`.product-card[data-product="${CSS.escape(added.id)}"]`);
+  document.addEventListener('bs:cart-added',e=>{
+    const {id,quantity=1}=e.detail||{};
+    const card=id&&Array.from(grid?.querySelectorAll('.product-card')||[]).find(el=>el.dataset.product===id);
+    if(!card||!card.getBoundingClientRect().width)return;
+    replay(card,'atelier-added');
+    replay(card.querySelector('[data-add]'),'bs-pop');
     replay(card?.querySelector('.in-cart-count'),'bs-pop');
-    if(!fly(card?.querySelector('.food-photo'),added.from))replay(orderCount,'bs-pop');
+    const img=card.querySelector('.food-photo');
+    if(!fly(img,img?.getBoundingClientRect(),quantity))replay(orderCount,'bs-pop');
   });
 
   // A registered sale prints a receipt above the checkout button and releases petals.
@@ -141,7 +154,7 @@
       if(el.textContent===last)return;
       last=el.textContent;
       if(id!=='orderCount')replay(el,'bs-tick');
-      else if(!pending&&!flying)replay(el,'bs-pop');
+      else if(!flying)replay(el,'bs-pop');
     }).observe(el,{childList:true,characterData:true,subtree:true});
   }
 })();

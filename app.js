@@ -480,7 +480,7 @@ async function saveSale(){
     if(c.promotion){payload.promotion_id=c.promotion.id;payload.promotion_code=c.promotion.code||null;payload.discount_id=null;payload.discount_name=c.promotion.name;payload.discount_percent=c.promotion.kind==="percent"?Number(c.promotion.value):0;}
     const {data:createdSale,error}=await sb.from("sales").insert(payload).select("id").single();if(error)throw error;
     if(createdSale?.id)notifyDiscord("sale_created",{sale_id:createdSale.id});
-    cart={};v6?.resetOrder();checkoutSnapshot=null;$("checkoutModal").classList.add("hidden");companion?.saved();renderCart();await loadData();toast("Venta registrada");
+    cart={};v6?.resetOrder();checkoutSnapshot=null;$("checkoutModal").classList.add("hidden");companion?.saved();renderCart();document.dispatchEvent(new CustomEvent("bs:sale-registered",{detail:{total:c.total,client:saleClient,items:c.lines.reduce((sum,x)=>sum+x.qty,0)}}));await loadData();toast("Venta registrada");
   }catch(error){toast(error.message||"No se pudo registrar. Tu orden sigue disponible.")}
   finally{saleSaving=false;button.disabled=false;button.textContent=label;updateCheckoutClientState();companion?.refresh()}
 }

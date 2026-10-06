@@ -56,6 +56,23 @@
   details.append(document.querySelector('.coupon-row'),document.getElementById('orderPromotion'),document.getElementById('promotionHint'),templates);
   document.querySelector('.order-options').before(details);
 
+  // Ticket de cobro claro (crema) u oscuro; la preferencia queda en este navegador.
+  const orderPanel=document.querySelector('.order-panel');
+  const themeBtn=document.createElement('button');
+  themeBtn.type='button';themeBtn.id='ticketThemeBtn';themeBtn.className='icon-btn soft ticket-theme-btn';
+  themeBtn.setAttribute('aria-label','Ticket oscuro');
+  themeBtn.innerHTML='<svg class="ui-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg><svg class="ui-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  const setTicketTheme=dark=>{orderPanel.classList.toggle('ticket-dark',dark);themeBtn.setAttribute('aria-pressed',String(dark));themeBtn.title=dark?'Cambiar a ticket claro':'Cambiar a ticket oscuro'};
+  let savedTheme=null;try{savedTheme=localStorage.getItem('bs_ticket_theme')}catch{}
+  setTicketTheme(savedTheme==='dark');
+  themeBtn.onclick=()=>{
+    const dark=!orderPanel.classList.contains('ticket-dark');
+    orderPanel.classList.add('ticket-switching');setTicketTheme(dark);
+    try{localStorage.setItem('bs_ticket_theme',dark?'dark':'light')}catch{}
+    setTimeout(()=>orderPanel.classList.remove('ticket-switching'),450);
+  };
+  document.querySelector('.order-head-actions').prepend(themeBtn);
+
   const tabIcons={
     all:'<rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/>',
     combos:'<path d="M3 9h18M4 12h16M5 16h14M5 6c2-4 12-4 14 0M4 19h16"/>',

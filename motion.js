@@ -101,6 +101,25 @@
     if(!fly(card?.querySelector('.food-photo'),added.from))replay(orderCount,'bs-pop');
   });
 
+  // A registered sale prints a receipt above the checkout button and releases petals.
+  const money=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(n)||0);
+  document.addEventListener('bs:sale-registered',e=>{
+    if(still())return;
+    const {total=0,client='',items=0}=e.detail||{},button=document.getElementById('checkoutBtn'),r=button?.getBoundingClientRect();
+    const visible=Boolean(r?.width)&&r.top>160&&r.bottom<innerHeight,width=Math.min(250,Math.max(210,r?.width||230));
+    const slip=document.createElement('div');
+    slip.className='bs-receipt'+(document.querySelector('.order-panel')?.classList.contains('ticket-dark')?' dark':'');
+    slip.setAttribute('aria-hidden','true');
+    Object.assign(slip.style,{width:width+'px',left:(visible?r.left+r.width/2:innerWidth/2)-width/2+'px',bottom:(visible?innerHeight-r.top+8:innerHeight/2-100)+'px'});
+    slip.innerHTML='<div class="bs-receipt-paper"><span class="bs-receipt-brand">BURGER SHOT</span><strong>Venta registrada</strong><div><span>Cliente</span><b></b></div><div><span>Productos</span><b></b></div><div class="bs-receipt-total"><span>Total</span><b></b></div><i class="bs-receipt-stamp">PAGADO</i><small>Gracias por compartir la mesa.</small></div>';
+    const [clientValue,itemsValue,totalValue]=slip.querySelectorAll('b');
+    clientValue.textContent=client||'Cliente general';itemsValue.textContent=String(Number(items)||0);totalValue.textContent=money(total);
+    document.body.append(slip);
+    slip.addEventListener('animationend',ev=>{if(ev.target===slip)slip.remove()});
+    setTimeout(()=>slip.remove(),4000);
+    if(visible)burst(button);
+  });
+
   // New order lines slide in; changed quantities and totals give a small tick.
   const cartList=document.getElementById('cartList');
   let known=new Map();

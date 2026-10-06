@@ -4,7 +4,10 @@
 
 - **Logo animado.** El emblema hamburguesa-calavera (`assets/burgershot-muertos.webp`) entra con un rebote y flota suavemente. Tiene un halo de cempasúchil, un brillo que lo recorre y gotas de queso que caen. Al pasar el cursor se sacude y al hacer clic suelta pétalos. El nombre «SHOT» también brilla.
 - **Papel picado vivo.** Las banderas usan rosa, naranja y morado, con calabazas, calaveras y flores. Caen al cargar, ondean con el viento y reciben ráfagas que recorren la cuerda. La luz de vela parpadea a través de los recortes, y una bandera se columpia al pasar el cursor. Caen pétalos por la cabecera.
-- **Caja.** Las tarjetas aparecen escalonadas al cambiar de categoría, y la foto de un producto agregado vuela hasta «Tu pedido». Las líneas nuevas entran deslizándose y los totales hacen un pequeño pulso al cambiar. El botón de cobro tiene un destello.
+- **Caja.** Las tarjetas aparecen escalonadas al cambiar de categoría, y la foto de un producto agregado vuela hasta «Tu pedido». Las líneas nuevas entran deslizándose y los totales hacen un pulso al cambiar. El botón de cobro tiene un destello.
+- **Ticket claro u oscuro.** El botón de luna/sol en «Tu pedido» cambia el panel de cobro entre el ticket crema y un tema oscuro. La elección se guarda en ese navegador.
+- **Cobro registrado.** Al registrar una venta se imprime un ticket sobre el botón de cobro con el cliente, los productos, el total y un sello de «PAGADO». Después suelta pétalos.
+- **Inicio en tablet y móvil.** El saludo y el reloj ya no quedan empujados a la derecha; lo mismo se corrigió en los títulos de las demás secciones.
 - Todas las animaciones se desactivan en **Ajustes → Animaciones** y respetan el movimiento reducido del sistema.
 
 ## Convenios

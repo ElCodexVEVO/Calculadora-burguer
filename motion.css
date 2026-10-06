@@ -29,7 +29,27 @@
 .checkout::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,transparent 30%,#ffffff3d 50%,transparent 70%);transform:translateX(-110%);pointer-events:none}
 .checkout:disabled::after,.motion-off .checkout::after{display:none}
 
+/* Cobro registrado: el ticket se imprime sobre el botón con sello de pagado. */
+.bs-receipt{position:fixed;z-index:9998;overflow:hidden;pointer-events:none;filter:drop-shadow(0 0 1px #8a6a4c) drop-shadow(0 14px 22px #0009)}
+.bs-receipt.dark{filter:drop-shadow(0 0 1px #f2a23980) drop-shadow(0 14px 22px #000b)}
+.bs-receipt-paper{position:relative;padding:20px 18px 16px;background:#fffdf8;color:#3b2a35;font:500 11px/1.4 Inter,"Segoe UI",sans-serif;text-align:center;-webkit-mask:radial-gradient(circle 5px at 50% 0,#0000 96%,#000) 0 0/12px 100% repeat-x;mask:radial-gradient(circle 5px at 50% 0,#0000 96%,#000) 0 0/12px 100% repeat-x}
+.bs-receipt-brand{display:block;font-size:8px;font-weight:700;letter-spacing:2.5px;color:#b0702f}
+.bs-receipt-paper strong{display:block;margin:4px 0 10px;font-size:16px;font-weight:650;letter-spacing:-.3px}
+.bs-receipt-paper div{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px dashed #e0d2c0;color:#7b6470}
+.bs-receipt-paper div b{max-width:62%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#3b2a35;font-weight:600}
+.bs-receipt-paper .bs-receipt-total{align-items:baseline;padding-top:9px;border-bottom:0;font-size:12px}
+.bs-receipt-paper .bs-receipt-total b{font-size:21px;letter-spacing:-.6px}
+.bs-receipt-stamp{position:relative;display:inline-block;margin-top:8px;padding:4px 10px;border:2px solid #d2523a;border-radius:4px;color:#d2523a;font:800 12px/1 Inter,sans-serif;font-style:normal;letter-spacing:2px;transform:rotate(-14deg);opacity:0}
+.bs-receipt-paper small{display:block;margin-top:9px;font:italic 11px Georgia,serif;color:#a08670}
+.bs-receipt.dark .bs-receipt-paper{background:#241b2b;color:#f3e7f0}
+.bs-receipt.dark .bs-receipt-paper div{border-color:#46344e;color:#b9a3b1}.bs-receipt.dark .bs-receipt-paper div b{color:#f6eaf1}
+.bs-receipt.dark .bs-receipt-brand{color:#e0a564}.bs-receipt.dark .bs-receipt-stamp{border-color:#f2a239;color:#f2a239}.bs-receipt.dark .bs-receipt-paper small{color:#9c8592}
+
 @media (prefers-reduced-motion:no-preference){
+  .bs-receipt{animation:bsReceiptOut 3.1s ease-in forwards}
+  .bs-receipt-paper{animation:bsReceiptPrint .95s cubic-bezier(.25,.8,.3,1) both}
+  .bs-receipt-stamp{animation:bsStamp .45s cubic-bezier(.3,1.5,.5,1) .9s both}
+  .ticket-switching .ticket-theme-btn svg{animation:bsThemeSpin .45s cubic-bezier(.3,1.4,.5,1)}
   .bs-logo{animation:bsLogoIn 1.05s cubic-bezier(.2,1.45,.4,1) backwards,bsLogoFloat 6s ease-in-out 1.05s infinite}
   .bs-logo-art.is-jelly{animation:bsJelly .85s ease-out}
   .bs-logo-halo{animation:bsHalo 3.8s ease-in-out infinite}
@@ -89,11 +109,15 @@
 @keyframes bsPetal{0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}8%{opacity:.85}50%{transform:translate3d(calc(var(--drift)*.6),80px,0) rotate(calc(var(--spin)*.5))}85%{opacity:.75}100%{transform:translate3d(var(--drift),168px,0) rotate(var(--spin));opacity:0}}
 @keyframes bsRise{from{opacity:0;transform:translateY(16px) scale(.985)}}
 @keyframes bsPop{0%{transform:scale(1)}40%{transform:scale(1.28)}70%{transform:scale(.94)}100%{transform:scale(1)}}
-@keyframes bsLineIn{0%{opacity:0;transform:translateX(24px);background-color:#f3d6ad}55%{opacity:1;transform:translateX(-3px);background-color:#f6e2c6}100%{transform:none}}
+@keyframes bsLineIn{0%{opacity:0;transform:translateX(24px);background-color:var(--bs-line-flash,#f3d6ad)}55%{opacity:1;transform:translateX(-3px);background-color:var(--bs-line-flash-2,#f6e2c6)}100%{transform:none}}
 @keyframes bsTick{0%{transform:scale(1)}35%{transform:scale(1.14);color:#d9822b}100%{transform:scale(1)}}
 @keyframes bsSweep{0%{transform:translateX(-110%)}38%,100%{transform:translateX(110%)}}
 @keyframes bsReceipt{from{clip-path:inset(0 0 100% 0 round 13px);transform:translateY(-10px)}to{clip-path:inset(0 0 0 0 round 13px);transform:none}}
 @keyframes bsKenBurns{from{transform:scale(1)}to{transform:scale(1.08) translate(-1.5%,1%)}}
 @keyframes bsSlideIn{from{opacity:0;transform:translateX(-14px)}}
 @keyframes bsTabIcon{from{transform:scale(.4) rotate(-90deg)}}
+@keyframes bsReceiptOut{0%,82%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-36px) scale(.96)}}
+@keyframes bsReceiptPrint{from{transform:translateY(100%)}to{transform:none}}
+@keyframes bsStamp{0%{opacity:0;transform:rotate(-14deg) scale(2.2)}60%{opacity:.95;transform:rotate(-14deg) scale(.92)}100%{opacity:.9;transform:rotate(-14deg) scale(1)}}
+@keyframes bsThemeSpin{from{transform:rotate(-120deg) scale(.5)}}
 @keyframes bsBell{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-11deg)}60%{transform:rotate(7deg)}80%{transform:rotate(-3deg)}}

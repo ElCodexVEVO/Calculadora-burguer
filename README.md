@@ -1,118 +1,77 @@
-# BurgerShot — Punto de Venta
+# Burger Shot V6
 
-## V6.0.1: menú completo de temporada y cabecera corregida
+**Empieza por [LEEME_V6.md](LEEME_V6.md).** Incluye actualización, reglas de promociones y vista previa interactiva en DEMO_V6.html. Conserva tu config.js al actualizar.
 
-Las 12 fotografías del menú tienen la temática de Halloween y Día de Muertos: hamburguesa, burrito, nuggets, alitas, sus cuatro combos, bebida, papitas, helado y caja feliz. Se muestran completas en proporción 3:2, también en el carrito, los accesos rápidos, la caja auxiliar y la administración de productos. Las 12 fotos y sus 12 miniaturas suman 959 492 bytes. Los archivos y prompts se encuentran en [assets/seasonal/menu](assets/seasonal/menu/PROMPTS.md).
+---
 
-La cabecera mantiene visible el papel picado completo y separa el nombre, los controles y las decoraciones laterales en escritorio y móvil. Se actualiza la versión de CSS y JavaScript para cargar estos cambios. La vista previa ahora incluye los 12 tipos de producto con datos de ejemplo; los precios y productos reales no se modifican. **No requiere SQL ni cambios en Supabase.**
+## Documentación de la base V5.5
 
-![Menú de temporada y cabecera corregida, con datos de ejemplo](docs/seasonal-menu.webp)
+# BurgerShot V5.5 — POS, empleado de la semana, caja auxiliar, OCR y Discord
 
-## V6: Halloween y Día de Muertos
+Proyecto completo HTML, CSS y JavaScript con Supabase. No necesita compilación.
 
-Rediseño basado en la propuesta aprobada: cabecera con papel picado, cempasúchil y calaveritas; catálogo con fotografías de temporada; ticket de cobro separado; navegación por Caja, Ventas, Equipo, Anuncios y Ajustes. Caja es la pantalla inicial. Las secciones secundarias conservan sus permisos.
+## Si tu app ya funciona
 
-El cliente se puede escribir en el pedido y pasa a la confirmación de cobro. Cupones, plantillas y cantidades de mayoreo están en controles desplegables. Empleados utiliza un directorio de filas; ventas, reportes, formularios, acceso y caja auxiliar comparten la apariencia de temporada.
+Sigue **ACTUALIZAR_V5_5_EMPLEADO.md**. Esta versión conserva las actualizaciones anteriores y agrega el panel de empleado de la semana con foto, métricas, gráfica diaria y ranking. Si ya tienes V5.4.1, reemplaza solamente index.html, app.js y pos.css, y conserva tu config.js configurado. Ejecuta el contenido de `supabase_patch_v5_5_employee_week.sql` en Supabase. Si no instalaste la caja auxiliar y las cantidades rápidas, consulta también **ACTUALIZAR_V5_4_AUXILIAR.md**.
 
-**Esta actualización de interfaz no requiere SQL ni volver a desplegar funciones de Supabase.** Se conservan los cálculos, las validaciones del servidor y la conexión existente. Para un despliegue manual, incluye `index.html`, `app.js`, `seasonal.css` y la carpeta `assets/seasonal/`, además de los archivos existentes. No reemplaces tu configuración de conexión. En GitHub Pages se aplicará cuando la rama se integre y el alojamiento publique el commit.
+## Novedades
 
-Abre **VISTA_PREVIA.html** para recorrer el diseño con datos de ejemplo. Utiliza un simulador local y muestra una advertencia visible; no conecta con tu Supabase. Sus ventas y cambios solo duran durante esa sesión. `index.html` sigue siendo la aplicación operativa.
+- Emblema BurgerShot recreado a partir de la referencia del usuario: hamburguesa con volumen, aro azul y gotas rojas, fondo transparente. Se aplica en la marca de la app, acceso, panel lateral y orden vacía. Asset WebP local optimizado.
+- **Edición completa de órdenes:** las órdenes activas sin corte permiten corregir cliente, tipo de cliente, método de pago y nota, además de agregar/quitar productos o cambiar cantidades. Se recalculan subtotal, convenio, total, comisión y neto; el backend protege ventas pagadas.
+- **Cantidades personalizadas:** en el POS puedes escribir una cantidad entre 1 y 9,999 en cada tarjeta y añadirla de una vez. También puedes editar directamente la cantidad de una línea en la orden. La caja auxiliar ofrece el mismo control.
+- **Cantidades rápidas y plantillas:** botones `+10`, `+25`, `+50` y `+100`, vista previa del importe, Enter para añadir, confirmación de cantidades grandes y plantillas de pedidos frecuentes guardadas por cuenta y negocio.
+- **Permisos específicos:** el administrador puede asignar editar órdenes, catálogo, empleados, reportes/clientes, pagos e historial. Las políticas RLS y la Edge Function aplican los permisos también fuera de la interfaz.
+- **Historial de clientes:** clientes agrupados por Cliente / ID con compras activas, acumulado, convenios usados y detalle de órdenes. El administrador ve la negocio completa; un empleado autorizado ve sus ventas.
+- **Detalle de cortes:** ventas, productos, importe, comisión original y neto. Botón Ver corte y exportación de sus ventas. Los cortes nuevos guardan snapshots al pagarse. Los cortes anteriores siguen consultándose por payout_id; se avisa si sus ventas disponibles no coinciden con los importes guardados.
+- **Filtros:** Hoy, semana de lunes a domingo, mes natural o rango personalizado; empleado y estado donde corresponde. Mis ventas, Todas las ventas, Estadísticas y Pagos/cortes comparten filtros coherentes con sus totales. Los límites de fecha usan la hora local del dispositivo, indicada en pantalla. Los cortes se filtran por fecha del pago, las ventas por fecha de venta.
+- **CSV filtrado:** incluye todas las filas que cumplen el filtro y la búsqueda, no solo la página visible. Los importes son numéricos, la fecha está en UTC y se neutralizan fórmulas en campos de texto.
+- **Historial para administradores:** cambios de productos/precios, convenios, perfiles/comisiones/bajas, creación/anulación/borrado de ventas y registro de cortes. Autor, fecha y valores antes/después. Se consulta por fecha, responsable, registro y acción, con paginación.
+- Las consultas de ventas, empleados, catálogo y cortes recorren las páginas de la API; no se recortan silenciosamente a 1000/3000 registros. Las tablas muestran 25 registros por página. Estadísticas muestra hasta 12 grupos de fechas y el ranking del período.
+- **Webhook de Discord:** registra ventas nuevas, ediciones, anulaciones y pagos/cortes en embeds compactos con folio, cliente, empleado, importe, comisión y neto. Puedes usar un canal único o separar ventas, órdenes, anulaciones y pagos mediante secretos `DISCORD_WEBHOOK_*_URL`; las URLs quedan únicamente en la Edge Function.
+- **Identidad por evento en Discord:** incluye cuatro logos SVG en `assets/discord/` para venta, orden, anulación y pago. Son opcionales: se activan guardando sus URLs públicas como secretos `DISCORD_ICON_*_URL`.
+- **Caja auxiliar:** abre una vista lateral con favoritos por empleado, clientes frecuentes, repetición de la última compra con precios vigentes, copiar total para el chat de FiveM y revisión manual del importe antes de guardar.
+- **Lectura local de pagos:** pega una captura del aviso, selecciona el área y deja que Tesseract.js rellene cliente e importe. La captura se procesa en el dispositivo y los datos se pueden corregir; siempre requiere confirmación manual.
+- **Empleado de la semana:** el dashboard destaca automáticamente al empleado con mayor venta activa de lunes a domingo. Un administrador puede elegir manualmente a cualquier empleado activo, añadir una URL de foto o subirla al bucket protegido; se muestran ventas, total generado, comisión, ticket promedio, gráfica por día y ranking de la negocio.
 
-Verificación: 18 pruebas de lógica y base de datos, regresión de anuncios/cupones/caja auxiliar, y navegación de las 14 pantallas en 1536, 1024, 768, 390 y 320 px. Se comprobó cliente prellenado, cobro, limpieza del pedido, mayoreo, plantillas, permisos, cierre de sesión, imágenes y ausencia de errores JavaScript. Las pruebas utilizan datos aislados, sin operaciones en la base real.
+## Alcance del historial
 
-```bash
-npm test
-npm run test:ui
-npm run test:seasonal
-npm run preview:build
-```
+Los triggers registran las operaciones posteriores a instalar V5.1, en la misma transacción del cambio. No inventan eventos antiguos. RLS permite leerlos solo al administrador activo de su tienda; desde la app no existe permiso para insertar, editar o borrar eventos directamente.
 
-![Caja de temporada con datos de ejemplo](docs/seasonal-pos.webp)
+Los cambios hechos por un usuario autenticado muestran su perfil. Las operaciones con service role o desde el SQL Editor, incluida creación/borrado de perfiles mediante la Edge Function existente, aparecen como **Servicio / SQL de administración**: esa función no transmite el actor al trigger. Los cambios de contraseña ocurren en Auth y no forman parte de este historial. No se copian contraseñas, tokens ni correos al historial.
 
-Si Playwright usa un Chromium del sistema, configura `BURGERSHOT_CHROMIUM` con su ruta. Las instrucciones siguientes documentan versiones anteriores.
+El propietario de la base de datos mantiene sus facultades de administración. El historial no es un registro externo resistente a modificaciones del propietario de Supabase.
 
-## V5.6.1: anuncios listos para copiar y cupones
-
-20 anuncios predefinidos con emojis y botón de copiar, sin ubicación ni horario por rellenar; cupones por porcentaje o importe fijo con vigencia, compra mínima, productos y límite de usos. Disponibles en el POS y la caja auxiliar, con validación y canje atómico en Supabase.
-
-**Si actualizas desde V5.6, no necesitas volver a ejecutar SQL.** Para instalar cupones por primera vez sí debes aplicar la migración incluida antes de publicar los archivos. Sigue [la guía de activación y uso](ANUNCIOS_CUPONES.md). Las instrucciones de versiones anteriores que dicen «no hay migración SQL nueva» corresponden únicamente a esas versiones.
-
-Rework sobre el ZIP completo BurgerShot_V4_4_Professional_Images.zip.
-
-## Corrección V5.0.5
-
-Se corrigieron las tarjetas comprimidas en Todos, Mayoreo y el resto de categorías. Las filas conservan la altura de su contenido y el catálogo se desplaza verticalmente. Las fotografías tienen un espacio reservado que no se reduce al aumentar el número de productos; precios y botones permanecen dentro de cada tarjeta.
-
-Se añadió gestión segura de usuarios desde Administración > Empleados: dar de baja/reactivar conserva el historial y Borrar perfil elimina el acceso solo cuando no existen ventas, cortes, anulaciones, referencias de propietario o cuando no se elimina al último administrador. También se corrigieron las tarjetas comprimidas en Todos, Mayoreo y el resto de categorías.
-
-Los errores de employee-admin ahora muestran el motivo devuelto por Supabase. Si un perfil tiene historial, la pantalla explica que debe darse de baja para conservar sus ventas. Dashboard, Estadísticas y Empleados recibieron una jerarquía visual más clara, métricas más legibles, estados tipo píldora y tarjetas con mejor profundidad. La tabla de Pagos y cortes ahora conserva una escala legible en escritorio y móvil.
-
-Para actualizar desde V5, reemplaza index.html, app.js, styles.css, pos.css, la carpeta assets/ y VISTA_PREVIA.html. Después vuelve a desplegar la función employee-admin incluida en supabase/. No hay migración SQL nueva.
-
-## Actualizar tu app existente
-
-1. Descomprime el proyecto.
-2. Reemplaza index.html, app.js y styles.css. Añade pos.css y la carpeta assets/ completa en tu alojamiento actual, respetando la estructura.
-3. Conserva tu config.js si ya contiene la URL y la clave pública de Supabase. El archivo recibido para este rework estaba vacío y el incluido sigue vacío.
-4. Si configuraste la conexión desde la pantalla de la app, permanece guardada en ese navegador y dominio, usando la misma clave bs_v3_cloud. Si cambias de navegador o dominio, vuelve a introducirla.
-5. Recarga con Ctrl + F5.
-
-**No recrees la tienda ni los empleados al actualizar.** La nueva acción de borrado vive en employee-admin y requiere redeploy de esa función.
-
-Si aún no habías habilitado el borrado de órdenes, ejecuta una vez supabase_patch_v4_2.sql en el SQL Editor. Los patches V4.1 y V4.2 son alternativas para el mismo permiso: no necesitas ejecutar ambos. Se corrigió la cláusula duplicada del archivo V4.1 original.
-
-## Nuevo Punto de Venta
-
-- 12 imágenes con aspecto de fotografía comercial: cuatro individuales, cuatro combos, bebida, papitas, helado y caja feliz.
-- 24 WebP optimizados: catálogo de 720 px y miniaturas de 160 px; aproximadamente 1 MB en total.
-- Cajas EMS/Policía con etiquetas diferenciadas; mayoreo con la cantidad del paquete. La fotografía de mayoreo representa el producto, no todas las unidades del paquete.
-- Catálogo con categorías, búsqueda, cantidades añadidas y precios destacados.
-- Orden actual con miniatura, nombre, precio unitario, controles −/+, subtotal por producto, eliminación individual y vaciado.
-- Convenio, tipo de cliente, total y comisión reunidos junto al botón de cobro.
-- Acceso rápido del inicio agrega el producto y abre el POS.
-- Protección frente a doble clic, errores al guardar y cambios de precio mientras está abierto el resumen de cobro.
-- Reglas de presentación para escritorio, tablet y móvil.
-
-En Administración > Productos > Imagen del producto puedes seleccionar una foto. La opción Automática usa el nombre y la categoría. Los productos existentes no requieren editarse. La selección se guarda como una clave photo:... dentro del campo de texto emoji ya existente; no se añaden columnas. Los valores heredados siguen siendo compatibles.
+Los cortes nuevos bloquean las ventas seleccionadas y guardan sus detalles originales. Una venta que llega después de seleccionar las ventas del corte queda pendiente para el siguiente. La anulación posterior no cambia el importe ya pagado ni su snapshot.
 
 ## Funciones conservadas
 
-Supabase Auth, administrador inicial, acceso de empleados, roles, activación y baja/reactivación, borrado protegido de perfiles, restablecimiento de contraseña mediante Edge Function, comisiones individuales e históricas, convenios y exclusiones, restricciones EMS/Policía, ventas con cliente/nota/método de pago, historial personal/general, exportación CSV, estadísticas, pagos/cortes y Realtime.
+Supabase Auth, acceso fijo para empleados, creación inicial de administrador, roles, comisiones, baja/reactivación, borrado protegido de perfiles, recuperación de contraseñas mediante employee-admin, convenios, restricciones EMS/Policía, descuentos, cobro y prevención de doble clic, ventas, anulación y borrado de órdenes, cortes y Realtime.
 
-Se conservan la anulación y el borrado de órdenes por administrador, incluida la protección que impide borrar una orden ya incluida en un pago. El esquema, employee-admin, config.js y el patch V4.2 son idénticos a los originales recibidos.
-
-## Revisar el diseño sin Supabase
-
-Abre VISTA_PREVIA.html. Es una vista estática del HTML y CSS reales, con datos de ejemplo; sus botones no operan. Para registrar ventas y trabajar usa index.html con tu conexión habitual.
+El POS conserva las 12 fotografías comerciales y sus miniaturas WebP, categorías, mayoreo, cantidades, búsqueda, orden compacta y selección manual de imagen de producto. No se sustituyen las fotos del menú por el logo.
 
 ## Instalar desde cero
 
-1. Ejecuta supabase_schema_v3.sql y después supabase_patch_v4_2.sql en Supabase > SQL Editor.
-2. Con Supabase CLI configurada, despliega la función incluida:
+1. En Supabase SQL Editor ejecuta, en este orden: **supabase_schema_v3.sql**, **supabase_patch_v4_2.sql**, **supabase_patch_v5_1.sql**, **supabase_patch_v5_2.sql**, **supabase_patch_v5_3_discord.sql**, **supabase_patch_v5_4_quantities.sql** y **supabase_patch_v5_5_employee_week.sql**. V4.1 y V4.2 son alternativas del mismo permiso; usa V4.2.
+2. Despliega `supabase/functions/employee-admin/index.ts` en **employee-admin** y `supabase/functions/discord-notify/index.ts` en **discord-notify**, usando Supabase Dashboard o la CLI.
+3. Rellena config.js con la URL y la clave pública publishable/anon de tu proyecto. Nunca uses service role en el navegador.
+4. Para crear el primer administrador con conexión fija, añade temporalmente `allowInitialSetup: true` a window.BURGERSHOT_CLOUD. Crea la cuenta y retira esta propiedad al terminar. Si Supabase pide confirmación por correo, complétala para terminar la creación del perfil.
+5. Publica los archivos de la carpeta burgershot con index.html en la raíz del alojamiento. Incluye reports.css, pos.css y assets/ completos. Crea los empleados desde Administración.
+6. En Discord crea un webhook para el canal de avisos y copia su URL. En Supabase ve a **Edge Functions → discord-notify → Secrets** y guarda `DISCORD_WEBHOOK_URL` con esa URL. Nunca la pegues en `config.js`, `app.js` ni en GitHub.
 
-```bash
-supabase login
-supabase link --project-ref TU_PROJECT_REF
-supabase functions deploy employee-admin
+## Ejecutar localmente en Windows
+
+Dentro de la carpeta que contiene index.html, abre CMD y ejecuta, si tienes Python instalado:
+
+```cmd
+py -m http.server 8000 --bind 127.0.0.1
 ```
 
-3. Publica la carpeta como web estática en tu alojamiento o GitHub Pages. La app no necesita compilación ni npm. Incluye assets/ y pos.css.
-4. Configura Project URL y publishable/anon key desde la app o config.js. No uses la service role en el navegador.
-5. Pulsa Crear administrador inicial y usa un correo real. Si se solicita confirmación por correo, complétala y vuelve a iniciar sesión para terminar de crear la tienda.
-6. Crea empleados y asigna sus comisiones en Administración > Empleados.
+Abre **http://localhost:8000**. Se conecta a tu Supabase existente; no necesitas montar otra base local.
 
-La Edge Function utiliza las variables de Supabase del entorno del servidor; la service role no se incorpora al frontend. Para actualizar un proyecto existente, ejecuta `supabase functions deploy employee-admin` después de enlazar tu proyecto.
+## Vista previa
 
-Para trabajar localmente, si tienes Python 3 instalado:
+**VISTA_PREVIA.html** muestra el POS con datos de ejemplo y una orden preparada. **VISTA_PREVIA_LOGO.html** muestra el nuevo logo con la orden vacía. Son vistas estáticas: para operar usa index.html con tu configuración.
 
-```bash
-python -m http.server 8000 --bind 127.0.0.1
-```
+## Verificación
 
-Abre http://localhost:8000 en tu navegador. Opera la app mediante HTTP/HTTPS; la vista previa estática puede abrirse directamente como archivo.
-
-## Verificación y alcance
-
-Consulta VERIFICACION.md. Se probaron 28 escenarios con datos simulados. El ZIP recibido no incluía configuración de acceso a Supabase: no se realizaron operaciones sobre tu base real.
-
-La comprobación visual en navegador quedó bloqueada en el entorno de entrega. Se incluye VISTA_PREVIA.html para revisar el resultado. La app operativa utiliza Supabase y no carga el simulador de pruebas.
+Consulta **VERIFICACION.md** y **VERIFICACION_AUXILIAR.md**. Se verificaron el frontend con Supabase simulado, las cantidades rápidas, los permisos y el OCR local. No se hicieron operaciones sobre tu cuenta real. La ventana de Windows junto a FiveM se comprueba en el equipo de uso.

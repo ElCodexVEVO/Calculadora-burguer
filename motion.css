@@ -1,0 +1,99 @@
+/* V6.5 · Movimiento de temporada: logo vivo, papel picado al viento, pétalos y respuesta del pedido.
+   Se apaga con «Animaciones» en Ajustes (.motion-off) y con la preferencia de movimiento reducido. */
+
+/* Logo: halo, brillo, gotas de queso y destellos. */
+.bs-logo{position:relative;display:block;flex:none;line-height:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.bs-logo-art{position:relative;display:block;transform-origin:50% 70%}
+.header-brand .bs-logo-shine{position:absolute;inset:0;filter:brightness(1.9) saturate(1.25);opacity:.85;pointer-events:none;-webkit-mask-image:linear-gradient(110deg,transparent 42%,#000 50%,transparent 58%);mask-image:linear-gradient(110deg,transparent 42%,#000 50%,transparent 58%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:100% 0;mask-position:100% 0}
+.bs-logo-halo{position:absolute;inset:-16%;border-radius:50%;background:radial-gradient(circle,#ffa23a59 0%,#f0661a26 42%,transparent 68%);z-index:-1;pointer-events:none}
+.bs-drip{position:absolute;width:7%;height:9%;border-radius:50% 50% 50% 50%/60% 60% 42% 42%;background:radial-gradient(circle at 35% 30%,#ffd08a,#f4681c 58%,#b8400f);opacity:0;pointer-events:none}
+.bs-drip.d1{left:46.3%;top:89%}.bs-drip.d2{left:32.8%;top:77.5%}.bs-drip.d3{left:59.1%;top:77%}
+.bs-spark{position:absolute;width:13%;height:13%;background:#ffe3a3;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);opacity:0;pointer-events:none}
+.bs-spark.s1{right:-3%;top:3%}.bs-spark.s2{left:-9%;top:36%;width:10%;height:10%}.bs-spark.s3{right:-11%;top:57%;width:9%;height:9%}
+.header-brand strong span,.gate .brand strong span{background:linear-gradient(100deg,#f2a236 0%,#f2a236 40%,#fff0c8 50%,#f2a236 60%,#f2a236 100%) 100% 0/300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 2px 0 #7a391b35)}
+.atelier-season strong{background:linear-gradient(100deg,#f0d0aa 0%,#f0d0aa 40%,#fff6e4 50%,#f0d0aa 60%,#f0d0aa 100%) 100% 0/300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+/* Pétalos de cempasúchil en la cabecera y en la ráfaga del logo. */
+.bs-petals{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.bs-petals i,.bs-burst{position:absolute;display:block;border-radius:0 80% 0 80%;background:linear-gradient(135deg,#ffc552,#f2711c 68%,#c5480f);pointer-events:none}
+.bs-petals i{top:-14px;left:var(--x);width:var(--s);height:calc(var(--s)*.6);opacity:0}
+.bs-burst{position:fixed;z-index:9999;width:9px;height:6px}
+
+/* Pedido: tarjeta que vuela a la orden y contadores. */
+.bs-fly{position:fixed;z-index:9999;margin:0;object-fit:cover;pointer-events:none;border-radius:12px;box-shadow:0 12px 30px #000a;will-change:transform,opacity}
+#orderCount{display:inline-block}
+#grandTotal,#checkoutTotal,#commissionPreview{transform-origin:100% 50%}
+.add-product:active{transform:scale(.9)}
+.category-tab:active{transform:scale(.96)}
+.checkout{position:relative;overflow:hidden;isolation:isolate}
+.checkout::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,transparent 30%,#ffffff3d 50%,transparent 70%);transform:translateX(-110%);pointer-events:none}
+.checkout:disabled::after,.motion-off .checkout::after{display:none}
+
+@media (prefers-reduced-motion:no-preference){
+  .bs-logo{animation:bsLogoIn 1.05s cubic-bezier(.2,1.45,.4,1) backwards,bsLogoFloat 6s ease-in-out 1.05s infinite}
+  .bs-logo-art.is-jelly{animation:bsJelly .85s ease-out}
+  .bs-logo-halo{animation:bsHalo 3.8s ease-in-out infinite}
+  .header-brand .bs-logo-shine{animation:bsShine 6s ease-in-out 1.3s infinite}
+  .header-brand strong span,.gate .brand strong span{animation:bsWordShine 6s ease-in-out 1.75s infinite}
+  .atelier-season strong{animation:bsWordShine 7s ease-in-out 3s infinite}
+  .bs-drip{animation:bsDrip 4.2s cubic-bezier(.55,0,.8,.6) 1.6s infinite}
+  .bs-drip.d2{animation-duration:5.3s;animation-delay:3.1s}.bs-drip.d3{animation-duration:4.9s;animation-delay:4.4s}
+  .bs-spark{animation:bsTwinkle 4.6s ease-in-out .9s infinite}
+  .bs-spark.s2{animation-duration:5.4s;animation-delay:2.4s}.bs-spark.s3{animation-duration:5s;animation-delay:3.7s}
+  .gate .brand .logo img{animation:bsFloatSoft 5.5s ease-in-out infinite,bsGlow 3.8s ease-in-out infinite}
+  #cartEmpty img{animation:bsFloatSoft 4.6s ease-in-out infinite}
+
+  .festival-bunting .bs-flag{animation:bsFlagDrop .95s cubic-bezier(.25,1.5,.45,1) calc(var(--i,0)*70ms) backwards,bsGust 13s ease-in-out calc(2.4s + var(--i,0)*90ms) infinite}
+  .bs-flag-paper{animation:bsFlutter var(--flutter,3.6s) ease-in-out calc(var(--i,0)*-.31s) infinite}
+  .bs-flag-swing.is-poked{animation:bsPoke 1.15s cubic-bezier(.3,.6,.3,1)}
+  .bs-flag-glow{animation:bsEmber var(--flicker,2.6s) ease-in-out var(--glow-delay,0s) infinite}
+  .bs-flag-glow.flor{animation-name:bsEmberSoft}
+  .bs-petals i{animation:bsPetal var(--d) linear var(--delay) infinite}
+
+  .product-card.bs-enter:not(.atelier-added){animation:bsRise .55s cubic-bezier(.2,.8,.2,1) calc(var(--i,0)*45ms) backwards}
+  .product-card .food-photo{transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .4s}
+  .product-card:hover .food-photo{transform:scale(1.07);filter:saturate(1.12) brightness(1.04)}
+  .add-product.bs-pop,.in-cart-count.bs-pop,#orderCount.bs-pop{animation:bsPop .5s cubic-bezier(.3,1.6,.5,1)}
+  .cart-item.bs-line-in{animation:bsLineIn .55s cubic-bezier(.2,.9,.25,1.15) calc(var(--i,0)*60ms) backwards}
+  .line-total strong.bs-tick,#grandTotal.bs-tick,#checkoutTotal.bs-tick,#commissionPreview.bs-tick{animation:bsTick .5s cubic-bezier(.3,1.5,.5,1)}
+  .checkout:not(:disabled)::after{animation:bsSweep 5s ease-in-out 1.5s infinite}
+  .page.active .order-panel{animation:bsReceipt .75s cubic-bezier(.2,.8,.2,1) backwards}
+  .page.active .metric{animation:bsRise .55s cubic-bezier(.2,.8,.2,1) backwards}
+  .page.active .metric:nth-child(2){animation-delay:.07s}.page.active .metric:nth-child(3){animation-delay:.14s}.page.active .metric:nth-child(4){animation-delay:.21s}
+  .atelier-photo{animation:bsKenBurns 26s ease-in-out infinite alternate}
+  .sidebar nav .nav-item{animation:bsSlideIn .5s cubic-bezier(.2,.8,.2,1) calc(var(--i,0)*35ms + .15s) backwards}
+  .sidebar .nav-item .nav-svg{transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+  .sidebar .nav-item:hover .nav-svg{transform:translateX(2px) rotate(-8deg) scale(1.08)}
+  .category-tab.active svg{animation:bsTabIcon .55s cubic-bezier(.3,1.6,.5,1)}
+  #notificationsBtn:hover svg{transform-origin:50% 15%;animation:bsBell .8s ease-in-out}
+  #refreshBtn svg{transition:transform .6s cubic-bezier(.3,1.4,.5,1)}
+  #refreshBtn:hover svg{transform:rotate(180deg)}
+}
+
+@keyframes bsLogoIn{0%{opacity:0;transform:translateY(-36px) rotate(-24deg) scale(.4)}55%{opacity:1;transform:translateY(4px) rotate(7deg) scale(1.1)}78%{transform:translateY(-2px) rotate(-3deg) scale(.97)}100%{transform:none}}
+@keyframes bsLogoFloat{0%,100%{transform:translateY(0) rotate(-1.6deg)}50%{transform:translateY(-4px) rotate(1.6deg)}}
+@keyframes bsJelly{0%{transform:none}22%{transform:scale(1.16,.86) rotate(-3deg)}42%{transform:scale(.9,1.1) rotate(2deg)}62%{transform:scale(1.06,.95)}80%{transform:scale(.98,1.02)}100%{transform:none}}
+@keyframes bsHalo{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes bsShine{0%{-webkit-mask-position:100% 0;mask-position:100% 0}32%,100%{-webkit-mask-position:0% 0;mask-position:0% 0}}
+@keyframes bsWordShine{0%{background-position:100% 0}32%,100%{background-position:0% 0}}
+@keyframes bsDrip{0%{opacity:0;transform:translateY(-40%) scale(.3)}14%{opacity:1;transform:translateY(-20%) scale(.65)}46%{opacity:1;transform:translateY(0) scale(1,1.18)}72%{opacity:1;transform:translateY(240%) scale(.9,1.05)}86%,100%{opacity:0;transform:translateY(330%) scale(.6)}}
+@keyframes bsTwinkle{0%,62%,100%{opacity:0;transform:scale(0) rotate(0deg)}72%{opacity:1;transform:scale(1) rotate(45deg)}84%{opacity:.85;transform:scale(.55) rotate(90deg)}}
+@keyframes bsFloatSoft{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+@keyframes bsGlow{0%,100%{filter:drop-shadow(0 4px 7px #0007) drop-shadow(0 0 0 #ff9a2e00)}50%{filter:drop-shadow(0 4px 7px #0007) drop-shadow(0 0 14px #ff9a2e90)}}
+@keyframes bsFlagDrop{from{translate:0 -90px;opacity:0}}
+@keyframes bsGust{0%,68%,100%{rotate:0deg}74%{rotate:8deg}81%{rotate:-5deg}88%{rotate:2.5deg}94%{rotate:-1deg}}
+@keyframes bsFlutter{0%,100%{transform:perspective(240px) rotateX(3deg) rotate(-2deg) skewX(-1.5deg)}25%{transform:perspective(240px) rotateX(22deg) rotate(.5deg) skewX(2deg)}50%{transform:perspective(240px) rotateX(7deg) rotate(2deg) skewX(1.5deg)}75%{transform:perspective(240px) rotateX(26deg) rotate(-.5deg) skewX(-2deg)}}
+@keyframes bsPoke{0%{transform:none}14%{transform:rotate(-16deg) scale(1.08)}32%{transform:rotate(11deg)}52%{transform:rotate(-6deg)}72%{transform:rotate(3deg)}100%{transform:none}}
+@keyframes bsEmber{0%,100%{opacity:.5}17%{opacity:.95}30%{opacity:.6}46%{opacity:1}61%{opacity:.48}79%{opacity:.88}}
+@keyframes bsEmberSoft{0%,100%{opacity:.3}50%{opacity:.55}}
+@keyframes bsPetal{0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}8%{opacity:.85}50%{transform:translate3d(calc(var(--drift)*.6),80px,0) rotate(calc(var(--spin)*.5))}85%{opacity:.75}100%{transform:translate3d(var(--drift),168px,0) rotate(var(--spin));opacity:0}}
+@keyframes bsRise{from{opacity:0;transform:translateY(16px) scale(.985)}}
+@keyframes bsPop{0%{transform:scale(1)}40%{transform:scale(1.28)}70%{transform:scale(.94)}100%{transform:scale(1)}}
+@keyframes bsLineIn{0%{opacity:0;transform:translateX(24px);background-color:#f3d6ad}55%{opacity:1;transform:translateX(-3px);background-color:#f6e2c6}100%{transform:none}}
+@keyframes bsTick{0%{transform:scale(1)}35%{transform:scale(1.14);color:#d9822b}100%{transform:scale(1)}}
+@keyframes bsSweep{0%{transform:translateX(-110%)}38%,100%{transform:translateX(110%)}}
+@keyframes bsReceipt{from{clip-path:inset(0 0 100% 0 round 13px);transform:translateY(-10px)}to{clip-path:inset(0 0 0 0 round 13px);transform:none}}
+@keyframes bsKenBurns{from{transform:scale(1)}to{transform:scale(1.08) translate(-1.5%,1%)}}
+@keyframes bsSlideIn{from{opacity:0;transform:translateX(-14px)}}
+@keyframes bsTabIcon{from{transform:scale(.4) rotate(-90deg)}}
+@keyframes bsBell{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-11deg)}60%{transform:rotate(7deg)}80%{transform:rotate(-3deg)}}

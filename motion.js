@@ -1,0 +1,128 @@
+/* V6.5 · Animaciones de temporada: logo, papel picado, pétalos y respuesta del pedido.
+   Solo decora: no cambia el carrito, los importes ni los manejadores originales. */
+(()=>{
+  'use strict';
+  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  const still=()=>Boolean(reduced?.matches)||document.body.classList.contains('motion-off');
+  const replay=(el,cls)=>{
+    if(!el)return;
+    el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);
+    const done=e=>{if(e.target!==el)return;el.classList.remove(cls);el.removeEventListener('animationend',done)};
+    el.addEventListener('animationend',done);
+  };
+
+  // A burst of marigold petals from the logo when it is clicked.
+  const burst=host=>{
+    if(still())return;
+    const r=host.getBoundingClientRect(),cx=r.left+r.width/2-4,cy=r.top+r.height*.45-3;
+    for(let k=0;k<14;k++){
+      const petal=document.createElement('i'),angle=k/14*Math.PI*2+Math.random()*.4,reach=38+Math.random()*34,x=Math.cos(angle)*reach,y=Math.sin(angle)*reach;
+      petal.className='bs-burst';petal.style.left=cx+'px';petal.style.top=cy+'px';
+      document.body.append(petal);
+      petal.animate([
+        {transform:'translate(0,0) scale(.4) rotate(0deg)',opacity:1},
+        {transform:`translate(${x}px,${y}px) scale(1) rotate(${200+Math.random()*200}deg)`,opacity:1,offset:.45},
+        {transform:`translate(${x*1.25}px,${y*1.25+46}px) scale(.8) rotate(${420+Math.random()*240}deg)`,opacity:0}
+      ],{duration:1100+Math.random()*400,easing:'cubic-bezier(.2,.7,.3,1)'}).finished.then(()=>petal.remove(),()=>petal.remove());
+    }
+  };
+
+  const logo=document.querySelector('.header-brand>img');
+  if(logo){
+    const wrap=document.createElement('span'),art=document.createElement('span'),shine=logo.cloneNode(false);
+    wrap.className='bs-logo';art.className='bs-logo-art';
+    shine.className='bs-logo-shine';shine.alt='';shine.setAttribute('aria-hidden','true');
+    logo.replaceWith(wrap);
+    art.append(logo,shine);
+    wrap.innerHTML='<i class="bs-logo-halo" aria-hidden="true"></i>';
+    wrap.append(art);
+    wrap.insertAdjacentHTML('beforeend','<i class="bs-drip d1" aria-hidden="true"></i><i class="bs-drip d2" aria-hidden="true"></i><i class="bs-drip d3" aria-hidden="true"></i><i class="bs-spark s1" aria-hidden="true"></i><i class="bs-spark s2" aria-hidden="true"></i><i class="bs-spark s3" aria-hidden="true"></i>');
+    wrap.addEventListener('pointerenter',()=>{if(!still())replay(art,'is-jelly')});
+    wrap.addEventListener('click',()=>{if(still())return;replay(art,'is-jelly');burst(wrap)});
+  }
+
+  // Papel picado: a passing hand makes a flag swing.
+  document.querySelectorAll('.festival-bunting .bs-flag').forEach(flag=>flag.addEventListener('pointerenter',()=>{if(!still())replay(flag.querySelector('.bs-flag-swing'),'is-poked')}));
+
+  const headerArt=document.querySelector('.festival-header-art');
+  if(headerArt){
+    const petals=document.createElement('div');
+    petals.className='bs-petals';
+    petals.innerHTML=Array.from({length:10},(_,i)=>`<i style="--x:${(6+i*9.7+i%3*2.5).toFixed(1)}%;--s:${(6+i%4*1.7).toFixed(1)}px;--d:${(7.5+i%5*1.4).toFixed(1)}s;--delay:-${(i*1.9).toFixed(1)}s;--drift:${i%2?'':'-'}${16+i%4*10}px;--spin:${i%2?520:-460}deg"></i>`).join('');
+    headerArt.append(petals);
+  }
+
+  document.querySelectorAll('.sidebar nav .nav-item').forEach((item,i)=>item.style.setProperty('--i',Math.min(i,12)));
+
+  // Catalog cards rise in only when the visible list changes (category or search).
+  const grid=document.getElementById('productGrid');
+  let shownList='';
+  if(grid)new MutationObserver(()=>{
+    const cards=[...grid.querySelectorAll('.product-card')],list=cards.map(card=>card.dataset.product).join('|');
+    if(list===shownList)return;
+    shownList=list;
+    cards.forEach((card,i)=>{
+      card.style.setProperty('--i',Math.min(i,10));card.classList.add('bs-enter');
+      card.addEventListener('animationend',e=>{if(e.target===card&&e.animationName==='bsRise')card.classList.remove('bs-enter')});
+    });
+  }).observe(grid,{childList:true});
+
+  // Added products fly from their photo to the order counter.
+  const orderCount=document.getElementById('orderCount');
+  const countNow=()=>Number(orderCount?.textContent)||0;
+  let pending=null,flying=0;
+  const fly=(img,from)=>{
+    if(still()||!img||!from?.width||!orderCount)return false;
+    const to=orderCount.getBoundingClientRect();
+    if(!to.width||to.bottom<0||to.top>innerHeight)return false;
+    const ghost=img.cloneNode(false);
+    ghost.className='bs-fly';ghost.removeAttribute('loading');ghost.alt='';ghost.setAttribute('aria-hidden','true');
+    Object.assign(ghost.style,{left:from.left+'px',top:from.top+'px',width:from.width+'px',height:from.height+'px'});
+    document.body.append(ghost);
+    const dx=to.left+to.width/2-(from.left+from.width/2),dy=to.top+to.height/2-(from.top+from.height/2),end=Math.max(.05,30/from.width),mid=Math.max(end*2.5,.32);
+    flying++;
+    ghost.animate([
+      {transform:'translate(0,0) scale(1) rotate(0deg)',opacity:1,borderRadius:'12px'},
+      {transform:`translate(${dx*.5}px,${dy*.5-90}px) scale(${mid}) rotate(-10deg)`,opacity:1,borderRadius:'28px',offset:.5},
+      {transform:`translate(${dx}px,${dy}px) scale(${end}) rotate(14deg)`,opacity:.25,borderRadius:'50%'}
+    ],{duration:780,easing:'cubic-bezier(.5,0,.3,1)'}).finished.catch(()=>{}).then(()=>{ghost.remove();flying--;replay(orderCount,'bs-pop')});
+    return true;
+  };
+  document.addEventListener('click',e=>{
+    const button=e.target.closest?.('#productGrid [data-add],#productGrid [data-add-preset]'),card=button?.closest('.product-card');
+    pending=button?{button,id:card?.dataset.product,before:countNow(),from:card?.querySelector('.food-photo')?.getBoundingClientRect()}:null;
+  },true);
+  document.addEventListener('click',()=>{
+    const added=pending;pending=null;
+    if(!added||countNow()<=added.before)return;
+    replay(added.button,'bs-pop');
+    const card=added.id&&grid?.querySelector(`.product-card[data-product="${CSS.escape(added.id)}"]`);
+    replay(card?.querySelector('.in-cart-count'),'bs-pop');
+    if(!fly(card?.querySelector('.food-photo'),added.from))replay(orderCount,'bs-pop');
+  });
+
+  // New order lines slide in; changed quantities and totals give a small tick.
+  const cartList=document.getElementById('cartList');
+  let known=new Map();
+  if(cartList)new MutationObserver(()=>{
+    const next=new Map();let fresh=0;
+    cartList.querySelectorAll('.cart-item').forEach(item=>{
+      const id=item.querySelector('[data-remove]')?.dataset.remove,qty=item.querySelector('[data-q-input]')?.value;
+      if(!id)return;
+      next.set(id,qty);
+      if(!known.has(id)){item.style.setProperty('--i',Math.min(fresh++,8));replay(item,'bs-line-in')}
+      else if(known.get(id)!==qty)replay(item.querySelector('.line-total strong'),'bs-tick');
+    });
+    known=next;
+  }).observe(cartList,{childList:true});
+  for(const id of ['grandTotal','checkoutTotal','commissionPreview','orderCount']){
+    const el=document.getElementById(id);if(!el)continue;
+    let last=el.textContent;
+    new MutationObserver(()=>{
+      if(el.textContent===last)return;
+      last=el.textContent;
+      if(id!=='orderCount')replay(el,'bs-tick');
+      else if(!pending&&!flying)replay(el,'bs-pop');
+    }).observe(el,{childList:true,characterData:true,subtree:true});
+  }
+})();

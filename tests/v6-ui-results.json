@@ -1,0 +1,4 @@
+{
+  "passed": 9,
+  "environment": "JSDOM + Supabase simulado; no remoto"
+}

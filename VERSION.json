@@ -1,0 +1,18 @@
+{
+  "version": "6.5.0",
+  "base": "5.5",
+  "menu_images": "20 archivos originales suministrados por el usuario",
+  "database_patch": "supabase_patch_v6.sql + supabase_patch_v6_5_convenios.sql",
+  "verification": {
+    "logic_scenarios": 139,
+    "browser": "Chromium; escritorio 1440x1000 y móvil 390x844",
+    "live_supabase_tested": false,
+    "seasonal_browser": "Chromium: escritorio 1600x1160, móvil 390x844 y anchos 320–1440; menú, cantidades, cupones, pedidos guardados, cobro demo, navegación y movimiento reducido",
+    "branding_browser": "Chromium; logo cargado en demo, configuración, auxiliar y orden vacía; anchos 320, 360, 390, 768, 900, 1120, 1440 y 1600 px; sin solapamiento ni desbordamiento",
+    "motion_browser": "Chromium 1600x1173 y 800x600: logo, papel picado, pétalos, tarjetas, vuelo al pedido y contadores sin errores de JavaScript",
+    "convenios": "Cálculo en demo para los 20 convenios; parche SQL verificado en PGlite (tests/v6-5-convenios-db.cjs)"
+  },
+  "seasonal_design": "Encabezado festivo adaptado a la referencia; velas, calaveras y cempasúchil; papel picado con calabazas, calaveras y flores que ondea con el viento y brilla por sus recortes; catálogo con fotos grandes; ticket crema de V6.2",
+  "branding": "Logo hamburguesa-calavera (assets/burgershot-muertos.webp) con halo, brillo, gotas de queso y destellos; cabecera, acceso, caja auxiliar, orden vacía y favicon",
+  "convenios": "Porcentaje o precio especial por unidad; alcance por menú, hamburguesas, Caja Feliz o combos; exclusivos por tipo de cliente"
+}

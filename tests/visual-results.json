@@ -1,0 +1,14 @@
+{
+  "desktop": "1440x1000",
+  "mobile": "390x844",
+  "horizontalOverflow": false,
+  "pageErrors": [],
+  "flows": [
+    "navegación",
+    "cupón y cobro en móvil",
+    "crear promoción",
+    "tabla administrativa",
+    "roles"
+  ],
+  "environment": "Chromium headless + datos simulados; no cuenta real"
+}

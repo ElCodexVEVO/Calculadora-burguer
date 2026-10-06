@@ -1,0 +1,16 @@
+{
+  "desktop": "1600x1160",
+  "mobile": "390x844",
+  "horizontalOverflow": false,
+  "pageErrors": [],
+  "flows": [
+    "cantidad indicada en tarjeta",
+    "guardar y cargar pedido desde ticket",
+    "cupón 15%",
+    "ajuste de cantidad en móvil",
+    "registro de venta en demo",
+    "navegación administrativa"
+  ],
+  "environment": "Chromium headless y Supabase simulado; sin conexión a cuenta real",
+  "motionSettings": "La opción Animaciones suaves y la preferencia del sistema detienen el papel y la iluminación"
+}

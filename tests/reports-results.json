@@ -1,0 +1,5 @@
+{
+  "tests": 17,
+  "timezone": "default",
+  "environment": "JSDOM + mock Supabase"
+}

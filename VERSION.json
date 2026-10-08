@@ -1,5 +1,5 @@
 {
-  "version": "6.7.0",
+  "version": "6.8.0",
   "base": "5.5",
   "menu_images": "20 archivos originales suministrados por el usuario",
   "database_patch": "supabase_patch_v6.sql + supabase_patch_v6_5_convenios.sql",
@@ -15,12 +15,15 @@
     "quick_quantity_browser": "Chromium con archivos locales y Supabase simulado: cantidades por clic y Enter, +5/+10/+25/+50, validación, límite acumulado, cancelación, cobro, movimiento reducido y anchos 320, 360, 390, 768, 1120, 1440 y 1600 px; sin errores JavaScript ni desbordamiento",
     "polish_motion_review": "Revisión aislada de archivos locales: luz y giro de tarjeta, posición de guía de categorías, ondas y limpieza, entrada de ventana, cancelación por movimiento reducido y ajuste de animaciones; vista móvil sin desbordamiento. Resultado: preview/revision-animaciones.json",
     "auth_browser_scenarios": 21,
-    "auth_browser": "Chromium aislado con datos simulados: acceso, carga real, errores, reintentos, sesión persistida, deduplicación, cierre de sesión durante consultas, movimiento reducido y ocho anchos 320–1600 px. Resultado: tests/auth-browser-results.json."
+    "auth_browser": "Chromium aislado con datos simulados: acceso, carga real, errores, reintentos, sesión persistida, deduplicación, cierre de sesión durante consultas, movimiento reducido y ocho anchos 320–1600 px. Resultado: tests/auth-browser-results.json.",
+    "dashboard_browser_scenarios": 12,
+    "dashboard_browser": "Chromium aislado con datos simulados: ranking, métricas, reconocimiento, gráfico proporcional con consulta por teclado, semana vacía, permisos de cajero, movimiento reducido y nueve anchos 320–1720 px. Resultado: tests/dashboard-browser-results.json."
   },
   "seasonal_design": "Encabezado festivo adaptado a la referencia; velas, calaveras y cempasúchil; papel picado con calabazas, calaveras y flores que ondea con el viento y brilla por sus recortes; catálogo con fotos grandes; ticket crema de V6.2",
   "branding": "Logo hamburguesa-calavera (assets/burgershot-muertos.webp) con halo, brillo, gotas de queso y destellos; cabecera, acceso, caja auxiliar, orden vacía y favicon",
   "convenios": "Porcentaje o precio especial por unidad; alcance por menú, hamburguesas, Caja Feliz o combos; exclusivos por tipo de cliente",
   "quick_quantity": "Cantidad visible por tarjeta, botón Agregar con cantidad, total antes de agregar, accesos +5/+10/+25/+50, confirmación y animación por lote con soporte de Enter",
   "visual_motion": "Luz dorada e inclinación suave de tarjetas al mover el cursor; ondas en botones; línea luminosa que sigue la categoría; entrada de ventanas y avisos; barra de tiempo en avisos; transición de páginas, títulos y desplegables; destello en pedido, importe y confirmación",
-  "seasonal_access": "Altar nocturno de Día de Muertos y Halloween; logo original independiente; papel picado, velas y pétalos; mostrar contraseña; carga por etapas reales y bienvenida al panel."
+  "seasonal_access": "Altar nocturno de Día de Muertos y Halloween; logo original independiente; papel picado, velas y pétalos; mostrar contraseña; carga por etapas reales y bienvenida al panel.",
+  "dashboard_design": "Inicio en ciruela y dorado; indicadores más legibles, banner compacto y acceso a Caja; rendimiento del equipo reemplaza a Cliente de la semana, junto al empleado destacado; gráfico semanal a todo el ancho con consulta por día y movimiento accesible."
 }

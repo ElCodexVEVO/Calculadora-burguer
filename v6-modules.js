@@ -27,7 +27,7 @@ function render(){
  if(!state().profile)return;
  for(const id of ['v6Status','loyaltyStatus','promoStatus']){$(id).textContent=loadError;$(id).classList.toggle('hidden',available)}
  if(isAdmin()){renderAdmins();renderRoles()}
- if(can('manage_customers'))renderCustomers();if(can('manage_promotions'))renderPromotions();renderOrder();renderHighlights();
+ if(can('manage_customers'))renderCustomers();if(can('manage_promotions'))renderPromotions();renderOrder();
 }
 function renderAdmins(){
  const {employees}=state(),q=normalize($('adminSearch').value),filter=$('adminFilter').value;
@@ -90,14 +90,6 @@ function renderOrder(){
  $('discountSelect').disabled=allowed&&!!selectedPromotion;
  $('promotionHint').textContent=!available?'Promociones disponibles al activar V6.':!can('apply_promotions')?'Tu rol no tiene permiso para aplicar promociones.':selectedPromotion?'Promoción activa · sustituye al convenio.':'';
  $('customerSuggestions').innerHTML=customers.map(c=>`<option value="${esc(c.identifier)}">${esc(c.name)}</option>`).join('');
-}
-function renderHighlights(){
- let host=$('customerWeek');if(!host){host=document.createElement('section');host.id='customerWeek';host.className='panel';$('dashboardMetrics').after(host)}
- const now=new Date(),start=new Date(now);start.setHours(0,0,0,0);start.setDate(start.getDate()-(start.getDay()+6)%7);
- const rows=state().sales.filter(s=>s.status==='active'&&new Date(s.created_at)>=start&&new Date(s.created_at)<=now),groups=new Map();
- rows.forEach(s=>{const key=normalize(s.client).trim();if(!key||key==='cliente general')return;const r=groups.get(key)||{name:s.client,total:0,count:0};r.total+=Number(s.total);r.count++;groups.set(key,r)});
- const best=[...groups.values()].sort((a,b)=>b.total-a.total)[0];host.hidden=!can('view_reports');
- host.innerHTML=`<div class="panel-head"><div><span class="eyebrow">CLIENTE DE LA SEMANA</span><h2>${esc(best?.name||'Tu próximo cliente destacado')}</h2><span>${best?`${best.count} compras · ${money(best.total)} esta semana`:'Se calcula con las ventas activas de lunes a domingo.'}</span></div><button class="row-btn" id="weekCustomers">Ver clientes →</button></div>`;$('weekCustomers').onclick=()=>api.switchPage('customers');host.style.marginBottom='24px';
 }
 $('newAdminBtn').onclick=()=>{$('addEmployeeBtn').click();$('employeeRole').value='admin'};
 $('newCustomerBtn').onclick=()=>customerEditor();$('newPromoBtn').onclick=()=>promoEditor();

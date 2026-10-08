@@ -1,0 +1,19 @@
+{
+  "passed": 12,
+  "scenarios": [
+    "Ranking reemplaza al cliente destacado junto al empleado; gráfico ocupa todo el ancho",
+    "Totales, comisión, neto, reconocimiento y ticket promedio conservan los datos reales de la fixture",
+    "Gráfico usa importes proporcionales, identifica al empleado y no dibuja ventas en días con cero",
+    "Consulta por clic y teclado muestra el importe, incluido cero, sin modificar totales",
+    "Ir a caja abre el POS y volver o renderizar no duplica el ranking ni recrea Cliente de la semana",
+    "Elección manual del empleado actualiza el gráfico y mantiene el ranking independiente",
+    "Nueve anchos de 320 a 1720 px conservan contenido y controles dentro de la pantalla",
+    "Movimiento reducido desactiva las animaciones del panel",
+    "El ajuste de animaciones de la app también cancela los efectos nuevos",
+    "Semana vacía tiene estados coherentes y no inventa un líder ni ventas",
+    "Vista de cajero conserva métricas personales y permisos del reconocimiento",
+    "Sin errores de JavaScript en las vistas revisadas"
+  ],
+  "errors": [],
+  "liveSupabase": false
+}

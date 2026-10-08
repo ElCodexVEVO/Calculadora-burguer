@@ -6,6 +6,7 @@ const PENDING_BOOTSTRAP_KEY="bs_v3_pending_admin";
 const TEMPLATE_KEY="bs_order_templates_v1";
 let saleSaving=false,checkoutSnapshot=null,loadVersion=0,saleEditId=null,saleEditDraft=null;
 let employeeWeekSaving=false,employeeWeekPreviewUrl=null;
+let loginBusy=false,loginAttempt=0,authSequence=0,authTask=null,readyAuthUser=null;
 let sb,user=null,profile=null,store=null,products=[],discounts=[],sales=[],employees=[],payouts=[],cart={},employeeWeek=null,activeCategory="all",realtime=null,resetTarget=null;
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(n)||0);
@@ -140,19 +141,40 @@ function paidFor(employeeId){return payouts.filter(p=>p.employee_id===employeeId
 async function init(){
   bind();initReports();renderSetupActions();renderCategories();tick();setInterval(tick,1000);
   const c=cfg();if(!c?.url||!c?.key){showOnly("cloudSetup");return}
+  showOnly("authScreen");window.BurgerAuthUI?.loading("Comprobando tu sesión…");
   try{
     sb=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true}});
-    const {data:{session}}=await sb.auth.getSession();user=session?.user||null;
-    sb.auth.onAuthStateChange(async(_event,s)=>{user=s?.user||null;if(user)await afterAuth();else{profile=null;employeeWeek=null;cart={};v6?.resetOrder();checkoutSnapshot=null;companion?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];document.querySelectorAll(".modal-backdrop").forEach(x=>x.classList.add("hidden"));showOnly("authScreen")}});
-    if(user)await afterAuth();else showOnly("authScreen");
-  }catch(e){console.error(e);showOnly("cloudSetup");toast("No se pudo conectar a Supabase")}
+    // Keep the auth callback synchronous; defer database work outside Supabase's auth lock.
+    sb.auth.onAuthStateChange((_event,s)=>{
+      user=s?.user||null;
+      if(user){const id=user.id;setTimeout(()=>{if(user?.id===id)afterAuth()},0)}
+      else resetAuthSession();
+    });
+    const {data,error}=await sb.auth.getSession();if(error)throw error;user=data?.session?.user||null;
+    if(user)await afterAuth();else{window.BurgerAuthUI?.reset();showOnly("authScreen")}
+  }catch(e){console.error(e);window.BurgerAuthUI?.reset();showOnly("authScreen");$("loginError").textContent="No se pudo comprobar tu sesión. Revisa la conexión e intenta entrar de nuevo."}
+}
+function setLoginBusy(busy){
+  loginBusy=busy;$("loginBtn").disabled=busy;
+  $("loginUsername").disabled=busy;$("loginPassword").disabled=busy;
+  if($("toggleLoginPassword"))$("toggleLoginPassword").disabled=busy;
+  $("loginForm")?.setAttribute("aria-busy",String(busy));
+}
+function resetAuthSession(){
+  authSequence++;loginAttempt++;authTask=null;readyAuthUser=null;
+  profile=null;employeeWeek=null;cart={};v6?.resetOrder();checkoutSnapshot=null;companion?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];
+  if(realtime){sb.removeChannel(realtime);realtime=null}
+  document.querySelectorAll(".modal-backdrop").forEach(x=>x.classList.add("hidden"));
+  setLoginBusy(false);window.BurgerAuthUI?.reset();showOnly("authScreen");
 }
 function bind(){
   let auditSearchTimer; $("auditSearch")?.addEventListener("input",()=>{clearTimeout(auditSearchTimer);auditSearchTimer=setTimeout(()=>loadAudit(0),250)});
   $("saveConfigBtn").onclick=()=>{const url=$("configUrl").value.trim(),key=$("configKey").value.trim();if(!url||!key)return toast("Completa URL y Publishable key");localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));location.reload()};
   $("changeCloudBtn").onclick=()=>{if(hasFixedCloudConfig())return;localStorage.removeItem(CONFIG_KEY);location.reload()};
   $("openAdminSetupBtn").onclick=()=>{if(initialSetupAllowed())$("adminSetupModal").classList.remove("hidden")};
-  $("createAdminBtn").onclick=createInitialAdmin;$("loginBtn").onclick=login;$("loginPassword").onkeydown=e=>{if(e.key==="Enter")login()};
+  $("createAdminBtn").onclick=createInitialAdmin;
+  if($("loginForm"))$("loginForm").onsubmit=e=>{e.preventDefault();login()};
+  else{$("loginBtn").onclick=login;$("loginPassword").onkeydown=e=>{if(e.key==="Enter")login()}}
   $("logoutBtn").onclick=()=>sb.auth.signOut();$("mobileMenu").onclick=()=>$("sidebar").classList.toggle("open");$("refreshBtn").onclick=loadData;$("accountBtn").onclick=openAccount;
   document.querySelectorAll(".nav-item").forEach(b=>b.onclick=()=>switchPage(b.dataset.page));document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>switchPage(b.dataset.go));document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
   $("editEmployeeWeekBtn").onclick=openEmployeeWeekEditor;
@@ -182,18 +204,33 @@ function bind(){
 }
 function tick(){const n=new Date();if($("todayDate"))$("todayDate").textContent=new Intl.DateTimeFormat("es-MX",{weekday:"short",day:"2-digit",month:"short",year:"numeric"}).format(n);if($("todayTime"))$("todayTime").textContent=new Intl.DateTimeFormat("es-MX",{hour:"2-digit",minute:"2-digit"}).format(n)}
 async function login(){
+  if(loginBusy)return;
   $("loginError").textContent="";
   const raw=$("loginUsername").value.trim(),p=$("loginPassword").value;
   if(!raw||!p)return $("loginError").textContent="Escribe usuario/correo y contraseña";
-  let email=raw;
-  if(!raw.includes("@")){
-    const u=uname(raw);
-    const {data,error:rerr}=await sb.rpc("resolve_login_email",{p_username:u});
-    if(rerr||!data)return $("loginError").textContent="Usuario o contraseña incorrectos";
-    email=data;
+  if(!sb)return $("loginError").textContent="No se pudo conectar. Recarga la página e intenta de nuevo.";
+  const attempt=++loginAttempt;setLoginBusy(true);window.BurgerAuthUI?.loading("Verificando acceso…");
+  try{
+    let email=raw;
+    if(!raw.includes("@")){
+      const {data,error}=await sb.rpc("resolve_login_email",{p_username:uname(raw)});
+      if(attempt!==loginAttempt)return;
+      if(error||!data)throw new Error("Usuario o contraseña incorrectos");
+      email=data;
+    }
+    const {data,error}=await sb.auth.signInWithPassword({email,password:p});
+    if(attempt!==loginAttempt)return;
+    if(error)throw new Error("Usuario o contraseña incorrectos");
+    user=data?.user||data?.session?.user||user;
+    if(!user)throw new Error("No se pudo iniciar la sesión. Intenta de nuevo.");
+    await afterAuth();
+  }catch(error){
+    if(attempt!==loginAttempt)return;
+    window.BurgerAuthUI?.reset();showOnly("authScreen");
+    $("loginError").textContent=error.message==="Usuario o contraseña incorrectos"?error.message:"No se pudo conectar. Revisa tu conexión e intenta de nuevo.";
+  }finally{
+    if(attempt===loginAttempt)setLoginBusy(false);
   }
-  const {error}=await sb.auth.signInWithPassword({email,password:p});
-  if(error)$("loginError").textContent="Usuario o contraseña incorrectos";
 }
 async function createInitialAdmin(){
   if(!initialSetupAllowed())return;
@@ -252,25 +289,48 @@ async function finishPendingBootstrap(){
   localStorage.removeItem(PENDING_BOOTSTRAP_KEY);
   return true;
 }
-async function afterAuth(){
-  let {data,error}=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();
-  if(error){await sb.auth.signOut();toast(error.message);return}
+function afterAuth(){
+  const id=user?.id;if(!id)return Promise.resolve(false);
+  if(readyAuthUser===id&&profile?.user_id===id&&!$("app").classList.contains("hidden"))return Promise.resolve(true);
+  if(authTask?.id===id)return authTask.promise;
+  const task={id,promise:loadAuthenticatedSession(id,++authSequence)};authTask=task;
+  task.promise.then(()=>{if(authTask===task)authTask=null});return task.promise;
+}
+async function loadAuthenticatedSession(id,sequence){
+  const current=()=>sequence===authSequence&&user?.id===id;
+  window.BurgerAuthUI?.loading("Comprobando tu cuenta…");
+  try{
+  let {data,error}=await sb.from("profiles").select("*").eq("user_id",id).maybeSingle();
+  if(!current())return false;
+  if(error)throw error;
 
   if(!data){
     const completed=await finishPendingBootstrap();
+    if(!current())return false;
     if(completed){
-      const retry=await sb.from("profiles").select("*").eq("user_id",user.id).maybeSingle();
+      const retry=await sb.from("profiles").select("*").eq("user_id",id).maybeSingle();
       data=retry.data; error=retry.error;
     }
   }
-
+  if(!current())return false;
   if(error||!data){
     await sb.auth.signOut();
-    toast("La cuenta existe pero aún no tiene perfil BurgerShot. Si acabas de confirmar el correo, vuelve a iniciar sesión con ese correo.");
-    return;
+    $("loginError").textContent="Tu cuenta aún no tiene perfil BurgerShot. Si acabas de confirmar el correo, vuelve a entrar con ese correo.";
+    return false;
   }
-  if(!data.active){await sb.auth.signOut();toast("Cuenta desactivada");return}
-  profile=data;await loadData();if(!user||!profile)return;showOnly("app");refreshUser();setupRealtime();companion?.afterAuth();
+  if(!data.active){await sb.auth.signOut();$("loginError").textContent="Cuenta desactivada. Consulta con tu administrador.";return false}
+  profile=data;window.BurgerAuthUI?.loading("Cargando tu negocio…");
+  const loaded=await loadData();if(!current())return false;
+  if(!loaded)throw new Error("No se pudieron cargar los datos");
+  readyAuthUser=id;showOnly("app");refreshUser();setupRealtime();companion?.afterAuth();
+  window.BurgerAuthUI?.complete(profile.name);return true;
+  }catch(error){
+    if(current()){
+      window.BurgerAuthUI?.reset();showOnly("authScreen");setLoginBusy(false);
+      $("loginError").textContent="No se pudo cargar tu negocio. Revisa la conexión e intenta entrar de nuevo.";
+    }
+    return false;
+  }
 }
 async function loadData(){
   if(!profile)return;const version=++loadVersion,sid=profile.store_id;setSync("","Sincronizando");
@@ -296,7 +356,8 @@ async function loadData(){
     if(guarded.some(x=>$('page-'+x)?.classList.contains('active'))){const activePage=guarded.find(x=>$('page-'+x)?.classList.contains('active'));if(!pageAllowed(activePage))switchPage('dashboard')}
     setSync("online","Sincronizado");renderAll();
     if($('page-audit').classList.contains('active'))loadAudit(auditPage);
-  }catch(error){if(version===loadVersion){setSync("error","Error");toast(error.message||"No se pudieron cargar los datos")}}
+    return true;
+  }catch(error){if(version===loadVersion){setSync("error","Error");toast(error.message||"No se pudieron cargar los datos")}return false}
 }
 function setupRealtime(){
   if(realtime)sb.removeChannel(realtime);

@@ -1,6 +1,10 @@
-# Burger Shot V6.7
+# Burger Shot V6.8
 
-Nuevo acceso de Día de Muertos y Halloween con el logo original, altar nocturno, velas, pétalos y papel picado animados. La pantalla de carga sigue la comprobación de sesión y la carga del negocio; los errores permiten volver a intentar.
+Inicio renovado con cifras más legibles, una paleta uniforme de ciruela y dorado, banner compacto y acceso directo a Caja. **Rendimiento del equipo** reemplaza a Cliente de la semana, junto al empleado destacado; la actividad semanal ocupa todo el ancho y permite consultar cada día con clic, foco o teclado.
+
+Incluye animación de entrada de las barras y transición de los importes al actualizarse, con soporte para movimiento reducido y el ajuste de animaciones de la app. Consulta [la actualización V6.8](ACTUALIZAR_V6_8_PANEL.md) y prueba **[DEMO_V6.html](DEMO_V6.html)** con datos simulados.
+
+El acceso de Día de Muertos y Halloween conserva el logo original, altar nocturno, velas, pétalos y papel picado animados. La pantalla de carga sigue la comprobación de sesión y la carga del negocio; los errores permiten volver a intentar.
 
 Prueba el acceso en **[DEMO_ACCESO.html](DEMO_ACCESO.html)** con usuario `demo` y contraseña `demo`. Usa datos simulados. Consulta [la actualización V6.7](ACTUALIZAR_V6_7_ACCESO.md) para instalarla.
 

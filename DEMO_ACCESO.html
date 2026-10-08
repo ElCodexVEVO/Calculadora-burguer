@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="caja-rapida.css?v=6.5.2">
   <link rel="stylesheet" href="polish-motion.css?v=6.6.0">
   <link rel="stylesheet" href="auth-scene.css?v=6.7.0">
+  <link rel="stylesheet" href="dashboard.css?v=6.8.0">
   <link rel="icon" type="image/webp" href="assets/burgershot-muertos.webp">
 </head>
 <body>
@@ -155,7 +156,20 @@
         <div class="command-card"><span class="command-label">CONTROL DEL DÍA</span><strong>Todo listo para operar</strong><small>Ventas, caja, convenios y rendimiento sincronizados.</small></div>
       </div>
       <div id="dashboardMetrics" class="metrics"></div>
-      <section class="employee-week panel"><div class="panel-head"><div><span class="eyebrow">RECONOCIMIENTO DEL EQUIPO</span><h2>Empleado de la semana</h2><span>Rendimiento de lunes a domingo.</span></div><button id="editEmployeeWeekBtn" class="btn secondary admin-only">Configurar</button></div><div id="employeeWeekContent" class="employee-week-content"></div></section>
+      <div class="dashboard-team-grid">
+        <section id="teamPerformance" class="panel employee-week-ranking" aria-labelledby="teamPerformanceTitle">
+          <div class="dashboard-panel-head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-7h3v7Zm6 0V8h3v12Zm6 0V3h3v17Z"/></svg><div><h2 id="teamPerformanceTitle">Rendimiento del equipo</h2><p>Por generado · esta semana</p></div></div>
+          <div id="teamPerformanceContent" role="region" aria-label="Ranking de ventas de la semana" tabindex="0"></div>
+        </section>
+        <section class="employee-week panel" aria-labelledby="employeeWeekTitle">
+          <div class="panel-head"><div><span class="eyebrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/></svg> EMPLEADO DE LA SEMANA</span><h2 id="employeeWeekTitle" class="sr-only">Empleado de la semana</h2></div><button id="editEmployeeWeekBtn" class="btn secondary admin-only">Configurar</button></div>
+          <div id="employeeWeekContent" class="employee-week-content"></div>
+        </section>
+      </div>
+      <section id="weeklyActivity" class="panel employee-week-chart-wrap" aria-labelledby="weeklyActivityTitle">
+        <div class="dashboard-panel-head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-7h3v7Zm6 0V8h3v12Zm6 0V3h3v17Z"/></svg><div><h2 id="weeklyActivityTitle">Actividad semanal</h2><p id="weeklyActivityName">Generado por día</p></div><div class="dashboard-chart-total"><span>Total de la semana</span><strong id="weeklyActivityTotal">$0</strong></div></div>
+        <div id="weeklyActivityContent"></div>
+      </section>
       <div class="dashboard-grid">
         <div class="panel">
           <div class="panel-head"><div><span class="eyebrow">PRODUCTOS DESTACADOS</span><h2>Acceso rápido</h2><span>Agrega un producto y empieza una orden.</span></div><button class="text-action" data-go="pos">Abrir POS →</button></div>
@@ -413,13 +427,14 @@
 <script src="companion-core.js?v=5.5.0"></script>
 <script src="companion.js?v=6.5.1"></script>
 <script src="v6-core.js?v=6.0.0"></script>
-<script src="v6-modules.js?v=6.0.0"></script>
+<script src="v6-modules.js?v=6.8.0"></script>
 <script src="demo/auth-preview.js?v=6.7.0"></script>
 <script src="auth-scene.js?v=6.7.0"></script>
-<script src="app.js?v=6.7.0"></script>
+<script src="app.js?v=6.8.0"></script>
 <script src="atelier.js?v=6.5.2"></script>
 <script src="festival.js?v=6.5.1"></script>
 <script src="motion.js?v=6.5.2"></script>
 <script src="polish-motion.js?v=6.6.0"></script>
+<script src="dashboard.js?v=6.8.0"></script>
 </body>
 </html>

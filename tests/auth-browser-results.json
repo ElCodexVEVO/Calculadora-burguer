@@ -1,0 +1,27 @@
+{
+  "passed": 21,
+  "scenarios": [
+    "Acceso temático usa el archivo del logo original en ambas pantallas",
+    "Campos vacíos no inician peticiones ni muestran carga",
+    "Mostrar y ocultar contraseña mantiene etiquetas accesibles",
+    "Contraseña incorrecta devuelve el formulario, libera los controles y permite reintentar",
+    "Enter inicia sesión, muestra bienvenida y elimina la contraseña del formulario",
+    "Renovar el token o repetir el evento de acceso conserva el panel sin duplicar carga",
+    "Cerrar sesión vuelve al acceso y limpia el estado de carga",
+    "Carga real bloquea envíos repetidos y aísla el formulario del teclado",
+    "La sesión y sus eventos concurrentes cargan el catálogo una sola vez",
+    "Cuenta desactivada recupera el acceso sin dejar la carga bloqueada",
+    "Cuenta sin perfil recupera el acceso sin dejar la carga bloqueada",
+    "Error al cargar catálogo recupera el acceso sin dejar la carga bloqueada",
+    "Error de red recupera controles y el siguiente intento puede completar la sesión",
+    "Sesión guardada carga el negocio sin pedir credenciales",
+    "Fallo al restaurar sesión deja un acceso utilizable",
+    "Cerrar sesión durante una petición impide que el resultado tardío abra el panel",
+    "Movimiento reducido mantiene la carga visible sin animaciones",
+    "El ajuste de animaciones también desactiva el acceso y la bienvenida",
+    "Formulario sin desbordamiento en ocho anchos y accesible con poca altura",
+    "La demo de acceso permite probar demo / demo con sus propios datos locales",
+    "Sin errores JavaScript en los escenarios de acceso"
+  ],
+  "environment": "Chromium aislado; Supabase y red simulados; sin cuentas reales"
+}

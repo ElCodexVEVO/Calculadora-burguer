@@ -1,4 +1,8 @@
-# Burger Shot V6.6
+# Burger Shot V6.7
+
+Nuevo acceso de Día de Muertos y Halloween con el logo original, altar nocturno, velas, pétalos y papel picado animados. La pantalla de carga sigue la comprobación de sesión y la carga del negocio; los errores permiten volver a intentar.
+
+Prueba el acceso en **[DEMO_ACCESO.html](DEMO_ACCESO.html)** con usuario `demo` y contraseña `demo`. Usa datos simulados. Consulta [la actualización V6.7](ACTUALIZAR_V6_7_ACCESO.md) para instalarla.
 
 La caja permite agregar varias comidas de una vez: escribe la cantidad, pulsa Agregar o Enter, o usa los accesos +5, +10, +25 y +50. Incluye nuevas animaciones de tarjetas, botones, categorías, ventanas y avisos, con soporte para movimiento reducido.
 

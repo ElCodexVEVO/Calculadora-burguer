@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="motion.css?v=6.5.1">
   <link rel="stylesheet" href="caja-rapida.css?v=6.5.2">
   <link rel="stylesheet" href="polish-motion.css?v=6.6.0">
+  <link rel="stylesheet" href="auth-scene.css?v=6.7.0">
   <link rel="icon" type="image/webp" href="assets/burgershot-muertos.webp">
 </head>
 <body>
@@ -55,31 +56,47 @@
 </section>
 
 <!-- LOGIN -->
-<section id="authScreen" class="gate hidden">
+<section id="authScreen" class="gate seasonal-access hidden" aria-labelledby="authTitle">
+  <div class="auth-scene" aria-hidden="true"></div>
+  <div class="auth-bunting" aria-hidden="true"></div>
   <div class="gate-art auth-art">
-    <div class="brand big"><div class="logo"><img src="assets/burgershot-muertos.webp" alt=""></div><div><strong>BURGER <span>SHOT</span></strong><small>GOOD BURGERS. BETTER DAYS.</small></div></div>
+    <div class="brand big auth-brand"><div class="logo"><img src="assets/burgershot-muertos.webp" alt="Logo de Burger Shot" width="1280" height="1280"></div><div><strong>BURGER <span>SHOT</span></strong><small>PUNTO DE VENTA</small></div></div>
     <div class="gate-copy">
-      <span class="eyebrow gold">BURGER SHOT · COMMAND CENTER POS</span>
-      <h1>Punto de venta.<br>Estética profesional.</h1>
-      <p>Ingresa con el usuario y contraseña que te dio el administrador.</p>
+      <span class="eyebrow gold">EL SABOR DE NUESTRAS TRADICIONES</span>
+      <h1>Bienvenido<br> al turno</h1>
+      <p>Tu negocio, listo para una gran noche.</p>
     </div>
-    <div class="quote">“Una buena burger siempre es un buen negocio.”</div>
   </div>
   <div class="gate-form">
-    <div class="auth-card">
-      <span class="eyebrow">ACCESO</span>
-      <h2>Iniciar sesión</h2>
-      <p class="muted">Usa tu usuario y contraseña.</p>
-      <label>Usuario o correo</label><input id="loginUsername" autocomplete="username" placeholder="ej. juanp">
-      <label>Contraseña</label><input id="loginPassword" autocomplete="current-password" type="password" placeholder="••••••••">
-      <div id="loginError" class="error"></div>
-      <button class="btn primary block" id="loginBtn">Entrar</button>
+    <form id="loginForm" class="auth-card" novalidate>
+      <span class="eyebrow">ACCESO AL SISTEMA</span>
+      <h2 id="authTitle">Iniciar sesión</h2>
+      <p class="muted">Ingresa con tu cuenta de Burger Shot.</p>
+      <label for="loginUsername">Usuario o correo</label><input id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Tu usuario" required aria-describedby="loginError">
+      <label for="loginPassword">Contraseña</label>
+      <div class="auth-password"><input id="loginPassword" autocomplete="current-password" type="password" placeholder="••••••••" required aria-describedby="loginError"><button id="toggleLoginPassword" class="auth-password-toggle" type="button" aria-label="Mostrar contraseña" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m4 4 16 16"/></svg></button></div>
+      <div id="loginError" class="error" role="alert"></div>
+      <button class="btn primary block" id="loginBtn" type="submit">Entrar <span aria-hidden="true">→</span></button>
       <div id="initialSetupActions" class="hidden">
         <div class="auth-sep"><span>PRIMERA CONFIGURACIÓN</span></div>
-        <button class="btn secondary block" id="openAdminSetupBtn">Crear administrador inicial</button>
+        <button class="btn secondary block" id="openAdminSetupBtn" type="button">Crear administrador inicial</button>
       </div>
-      <button class="text-link hidden" id="changeCloudBtn">Cambiar conexión de Supabase</button>
-    </div>
+      <button class="text-link hidden" id="changeCloudBtn" type="button">Cambiar conexión de Supabase</button>
+      <div class="auth-season-note"><span aria-hidden="true">✺</span> Día de Muertos · Halloween</div>
+    </form>
+  </div>
+</section>
+
+<section id="authLoading" class="auth-loading hidden" tabindex="-1" aria-labelledby="authLoadingTitle" aria-busy="true">
+  <div class="auth-scene" aria-hidden="true"></div>
+  <div class="auth-bunting" aria-hidden="true"></div>
+  <div class="auth-loading-content">
+    <div class="auth-loading-emblem"><div class="auth-flower-orbit" aria-hidden="true"></div><img src="assets/burgershot-muertos.webp" alt="Logo de Burger Shot" width="1280" height="1280"></div>
+    <div class="auth-loading-wordmark">BURGER <span>SHOT</span></div>
+    <h2 id="authLoadingTitle">Preparando tu turno…</h2>
+    <p id="authLoadingMessage" role="status" aria-live="polite" aria-atomic="true">Verificando acceso…</p>
+    <div class="auth-loading-spinner" aria-hidden="true"></div>
+    <p id="authSlowNotice" class="auth-slow-notice hidden">La conexión está tardando un poco. Seguimos preparando tu negocio.</p>
   </div>
 </section>
 
@@ -397,7 +414,8 @@
 <script src="companion.js?v=6.5.1"></script>
 <script src="v6-core.js?v=6.0.0"></script>
 <script src="v6-modules.js?v=6.0.0"></script>
-<script src="app.js?v=6.5.2"></script>
+<script src="auth-scene.js?v=6.7.0"></script>
+<script src="app.js?v=6.7.0"></script>
 <script src="atelier.js?v=6.5.2"></script>
 <script src="festival.js?v=6.5.1"></script>
 <script src="motion.js?v=6.5.2"></script>

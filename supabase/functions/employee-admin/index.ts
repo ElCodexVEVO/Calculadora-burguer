@@ -23,8 +23,17 @@ export default {
           .eq("user_id", user.id)
           .single();
 
+      if (profileError) {
+        return Response.json(
+          {
+            code: "PROFILE_LOOKUP_FAILED",
+            error: `No se pudo consultar el perfil: ${profileError.message}`,
+          },
+          { status: 503 },
+        );
+      }
+
       if (
-        profileError ||
         !adminProfile ||
         !adminProfile.active ||
         adminProfile.role !== "admin" && adminProfile.can_manage_employees !== true
@@ -74,11 +83,21 @@ export default {
           );
         }
 
-        const { data: existing } = await ctx.supabaseAdmin
+        const { data: existing, error: existingError } = await ctx.supabaseAdmin
           .from("profiles")
           .select("user_id")
-          .ilike("username", username)
+          .eq("username", username)
           .maybeSingle();
+
+        if (existingError) {
+          return Response.json(
+            {
+              code: "USERNAME_LOOKUP_FAILED",
+              error: `No se pudo comprobar el usuario: ${existingError.message}`,
+            },
+            { status: 503 },
+          );
+        }
 
         if (existing) {
           return Response.json(

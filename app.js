@@ -114,15 +114,26 @@ const synthEmail=u=>`${uname(u)}.${crypto.randomUUID().slice(0,8)}@burgershot.ap
 
 function toast(msg){const d=document.createElement("div");d.className="toast";d.textContent=msg;$("toastHost").appendChild(d);setTimeout(()=>d.remove(),3200)}
 async function edgeErrorMessage(error,data,fallback="No se pudo completar la operación"){
-  if(data?.error)return String(data.error);
+  const messageFrom=body=>[body?.error?.message,body?.error,body?.message,body?.msg].find(value=>typeof value==="string"&&value.trim());
+  let body=data;
+  const response=error?.context,status=Number(response?.status)||0;
   try{
-    const response=error?.context;
-    if(response?.json){
-      const body=await (response.clone?response.clone():response).json();
-      if(body?.error)return String(body.error);
+    if(!messageFrom(body)&&response?.json){
+      body=await (response.clone?response.clone():response).json();
     }
   }catch{}
-  return error?.message&&error.message!=="Edge Function returned a non-2xx status code"?error.message:fallback;
+  const code=typeof body?.code==="string"?body.code:"";
+  let message=messageFrom(body);
+  if(!message){
+    if(error?.name==="FunctionsFetchError"||error?.message==="Failed to send a request to the Edge Function")message="No se pudo conectar con la función de Supabase. Revisa la conexión y el despliegue de employee-admin.";
+    else if(status===401)message="Supabase rechazó la sesión.";
+    else if(status===403)message="No tienes permiso para realizar esta operación.";
+    else if(status===404)message="No se encontró employee-admin en el proyecto de Supabase configurado.";
+    else message=error?.message&&error.message!=="Edge Function returned a non-2xx status code"?error.message:fallback;
+  }
+  if(status===401)message+=" Cierra sesión y vuelve a entrar; si persiste, revisa la autenticación de employee-admin.";
+  const context=[status?`HTTP ${status}`:"",code].filter(Boolean).join(" · ");
+  return context?`${context}: ${message}`:message;
 }
 function cfg(){const x=window.BURGERSHOT_CLOUD||{};if(x.supabaseUrl&&x.supabaseAnonKey)return{url:x.supabaseUrl,key:x.supabaseAnonKey};try{return JSON.parse(localStorage.getItem(CONFIG_KEY)||"null")}catch{return null}}
 function hasFixedCloudConfig(){const c=window.BURGERSHOT_CLOUD||{};return Boolean(c.supabaseUrl&&c.supabaseAnonKey)}

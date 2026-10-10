@@ -56,14 +56,31 @@ function renderOrderTemplates(){
   select.innerHTML=rows.length?`<option value="">Selecciona una plantilla</option>`+rows.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join(""):"<option value=\"\">Sin plantillas guardadas</option>";
   if(rows.some(x=>x.id===selected))select.value=selected;
   const has=Boolean(select.value);if(load)load.disabled=!has;if(del)del.disabled=!has;if(save)save.disabled=!Object.keys(cart).length;
+  if(!Object.keys(cart).length)showTemplateSaveForm(false);if(!has)showTemplateDeleteConfirm(false);
 }
-function saveOrderTemplate(nameArg){
+function updateTemplateSaveForm(){
+  const name=$("templateName")?.value.trim().toLowerCase(),exists=Boolean(name&&readOrderTemplates().some(x=>x.name.toLowerCase()===name));
+  const submit=$("templateSaveSubmit"),feedback=$("templateSaveFeedback");
+  if(submit)submit.textContent=exists?"Actualizar plantilla":"Guardar plantilla";
+  if(feedback)feedback.textContent=exists?"Este nombre ya existe. Se actualizará con el pedido actual.":"";
+}
+function showTemplateSaveForm(show){
+  const form=$("templateSaveForm");if(!form)return;
+  form.classList.toggle("hidden",!show);$("saveTemplateBtn")?.setAttribute("aria-expanded",String(show));
+  if(show){showTemplateDeleteConfirm(false);$("templateName").value="";updateTemplateSaveForm();$("templateName").focus()}
+}
+function showTemplateDeleteConfirm(show){
+  const confirm=$("templateDeleteConfirm");if(!confirm)return;
+  confirm.classList.toggle("hidden",!show);
+  if(show){showTemplateSaveForm(false);const row=readOrderTemplates().find(x=>x.id===$("templateSelect").value);$("templateDeleteText").textContent=`¿Eliminar la plantilla «${row?.name||"seleccionada"}»?`;$("cancelDeleteTemplateBtn").focus()}
+}
+function saveOrderTemplate(nameArg,overwriteConfirmed=false){
   if(!Object.keys(cart).length)return toast("Agrega productos antes de guardar una plantilla");
   const name=String(nameArg??window.prompt?.("Nombre de la plantilla:","Pedido frecuente")??"").trim();if(!name)return;
   const lines=Object.entries(cart).map(([id,qty])=>({id,qty})),rows=readOrderTemplates(),existing=rows.find(x=>x.name.toLowerCase()===name.toLowerCase());
-  if(existing&&!window.confirm?.("Ya existe una plantilla con ese nombre. ¿Reemplazarla?"))return;
+  if(existing&&!overwriteConfirmed&&!window.confirm?.("Ya existe una plantilla con ese nombre. ¿Reemplazarla?"))return;
   const item={id:existing?.id||`tpl-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,name:name.slice(0,50),lines,clientType:$("clientType").value,discountId:$("discountSelect").value,updatedAt:new Date().toISOString()};
-  const next=existing?rows.map(x=>x.id===existing.id?item:x):[item,...rows];if(!writeOrderTemplates(next))return toast("No se pudo guardar la plantilla en este navegador");renderOrderTemplates();$("templateSelect").value=item.id;renderOrderTemplates();toast(`Plantilla «${item.name}» guardada`);
+  const next=existing?rows.map(x=>x.id===existing.id?item:x):[item,...rows];if(!writeOrderTemplates(next))return toast("No se pudo guardar la plantilla en este navegador");renderOrderTemplates();$("templateSelect").value=item.id;renderOrderTemplates();toast(`Plantilla «${item.name}» guardada`);return true;
 }
 function loadOrderTemplate(templateId){
   const id=templateId||$("templateSelect")?.value,row=readOrderTemplates().find(x=>x.id===id);if(!row)return;
@@ -72,8 +89,8 @@ function loadOrderTemplate(templateId){
   if(!Object.keys(next).length)return toast("Los productos de esta plantilla ya no están disponibles");
   cart=next;if(discounts.some(x=>x.id===row.discountId&&x.active))$("discountSelect").value=row.discountId;$("clientType").value=row.clientType||"general";renderCart();toast(skipped?`Plantilla cargada; ${skipped} producto${skipped===1?"":"s"} no disponible${skipped===1?"":"s"}.`:`Plantilla «${row.name}» cargada`);
 }
-function deleteOrderTemplate(templateId){
-  const id=templateId||$("templateSelect")?.value,row=readOrderTemplates().find(x=>x.id===id);if(!row)return;if(!window.confirm?.(`¿Eliminar la plantilla «${row.name}»?`))return;writeOrderTemplates(readOrderTemplates().filter(x=>x.id!==id));renderOrderTemplates();toast("Plantilla eliminada");
+function deleteOrderTemplate(templateId,deletionConfirmed=false){
+  const id=templateId||$("templateSelect")?.value,row=readOrderTemplates().find(x=>x.id===id);if(!row)return;if(!deletionConfirmed&&!window.confirm?.(`¿Eliminar la plantilla «${row.name}»?`))return;writeOrderTemplates(readOrderTemplates().filter(x=>x.id!==id));renderOrderTemplates();toast("Plantilla eliminada");
 }
 function confirmBulkQuantity(id,quantity){
   if(quantity<100)return true;const p=products.find(x=>x.id===id);return typeof window.confirm!=="function"||window.confirm(`Vas a agregar ${quantity} unidades de ${p?.name||"este producto"} (${money(Number(p?.price||0)*quantity)}). ¿Continuar?`);
@@ -195,7 +212,15 @@ function bind(){
   document.addEventListener("input",e=>{if(!saleEditId||!e.target.matches("[data-edit-qty]"))return;const item=saleEditDraft?.items.find(i=>i.id===e.target.dataset.editQty),p=products.find(x=>x.id===e.target.dataset.editQty);if(item){const line=e.target.closest('.edit-order-line');if(line)line.querySelector('.edit-line-total').textContent=money(Number(p?.price??item.price??0)*(Number(e.target.value)||0));const s=sales.find(x=>x.id===saleEditId);if(s)updateSaleEditTotals(s)}});
   $("globalSearch").onkeydown=e=>{if(e.key==="Enter"){switchPage("pos");$("productSearch").value=e.target.value;renderProducts()}};
   $("productSearch").oninput=renderProducts;$("clearCartBtn").onclick=()=>{cart={};renderCart()};$("clientType").onchange=renderCart;$("discountSelect").onchange=renderCart;
-  $("saveTemplateBtn").onclick=()=>saveOrderTemplate();$("loadTemplateBtn").onclick=()=>loadOrderTemplate();$("deleteTemplateBtn").onclick=()=>deleteOrderTemplate();$("templateSelect").onchange=renderOrderTemplates;
+  $("saveTemplateBtn").onclick=()=>showTemplateSaveForm($("templateSaveForm").classList.contains("hidden"));
+  $("templateName").oninput=updateTemplateSaveForm;
+  $("templateSaveForm").onsubmit=e=>{e.preventDefault();const name=$("templateName").value.trim();if(!name){$("templateName").focus();return}if(saveOrderTemplate(name,true))showTemplateSaveForm(false)};
+  $("cancelSaveTemplateBtn").onclick=()=>showTemplateSaveForm(false);
+  $("loadTemplateBtn").onclick=()=>loadOrderTemplate();
+  $("deleteTemplateBtn").onclick=()=>showTemplateDeleteConfirm(true);
+  $("confirmDeleteTemplateBtn").onclick=()=>{deleteOrderTemplate(undefined,true);showTemplateDeleteConfirm(false)};
+  $("cancelDeleteTemplateBtn").onclick=()=>showTemplateDeleteConfirm(false);
+  $("templateSelect").onchange=()=>{showTemplateDeleteConfirm(false);renderOrderTemplates()};
   $("checkoutBtn").onclick=openCheckout;$("confirmSaleBtn").onclick=saveSale;$("saleClient").oninput=updateCheckoutClientState;$("mySalesSearch").oninput=renderMySales;$("allSalesSearch").oninput=renderAllSales;$("customerSearch").oninput=()=>{customerPage=0;renderCustomers()};$("csvBtn").onclick=exportCSV;
   $("addProductBtn").onclick=()=>can("manage_catalog")?openProduct():toast("No tienes permiso para gestionar el catálogo");$("saveProductBtn").onclick=()=>can("manage_catalog")&&saveProduct();$("deleteProductBtn").onclick=()=>can("manage_catalog")&&deleteProduct();
   $("addDiscountBtn").onclick=()=>can("manage_catalog")?openDiscount():toast("No tienes permiso para gestionar convenios");$("saveDiscountBtn").onclick=()=>can("manage_catalog")&&saveDiscount();$("deleteDiscountBtn").onclick=()=>can("manage_catalog")&&deleteDiscount();

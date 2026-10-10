@@ -74,7 +74,8 @@ burgershot-logo.bs-logo--loader .bs-mark-fill{position:absolute;inset:0;z-index:
 .header-brand.bs-logo .bs-mark img{width:46px;height:46px}
 .sidebar burgershot-logo .bs-mark{width:40px;height:40px}
 /* La base fijaba 96×102 px por id: el emblema se ciñe a su hueco para no pisar el texto. */
-#cartEmpty burgershot-logo .bs-mark img{width:100%;height:100%;margin:0;opacity:.95}
+#cartEmpty burgershot-logo .bs-mark img{width:100%;height:100%;margin:0;opacity:1;filter:none}
+#cartEmpty burgershot-logo .bs-mark-shadow,#cartEmpty burgershot-logo .bs-mark-glow{display:none}
 /* En pantallas bajas el ticket deja poco hueco: emblema y márgenes más pequeños para que quepa sin desplazamiento. */
 @media (min-width:1101px) and (max-height:940px){#cartEmpty{padding:8px 10px}#cartEmpty burgershot-logo{--bs-logo-size:60px}}
 @media (min-width:1101px) and (max-height:800px){#cartEmpty burgershot-logo{display:none}}

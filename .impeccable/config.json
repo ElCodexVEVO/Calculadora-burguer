@@ -47,6 +47,17 @@
         ],
         "createdAt": "2026-10-09T18:14:54.836Z",
         "reason": "Regla base V5 .employee-card::before anulada por ofrenda.css (display:none); verificado en la captura de Equipo"
+      },
+      {
+        "rule": "buried-raster",
+        "value": "*",
+        "files": [
+          "DEMO_ACCESO.html",
+          "DEMO_V6.html",
+          "index.html"
+        ],
+        "createdAt": "2026-10-10T02:56:41.530Z",
+        "reason": "Agente: son las imágenes de <burgershot-logo>, ocultas solo mientras cargan (logo.css :not(.is-loaded)); logo.js las muestra al cargar con un marcador del mismo tamaño. tests/logo-browser.py comprueba que el logo se ve y que nunca queda vacío"
       }
     ]
   }

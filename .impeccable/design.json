@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-09T13:00:00Z",
+  "generatedAt": "2026-10-10T02:56:39Z",
   "title": "Design System: Burger Shot V7 · Ofrenda nocturna",
   "extensions": {
     "colorMeta": {
@@ -76,7 +76,10 @@
       { "name": "logo-intro-quick", "value": "320ms (icon y repeticiones), 360ms (compact y mobile)", "purpose": "Entradas breves del logo." },
       { "name": "logo-loader", "value": "900ms en bucle", "purpose": "Relleno del emblema mientras dura la carga." },
       { "name": "flag-sway", "value": "±2.2°, 4.4s a 6.6s, ease-in-out", "purpose": "Banderas de papel picado en la cabecera." },
-      { "name": "motion-off", "value": "animation: none; transition-duration: 0s", "purpose": "Con prefers-reduced-motion: reduce o «Animaciones suaves» desactivado (body.motion-off). El logo solo funde en 200ms." }
+      { "name": "season-flame", "value": "tres senos superpuestos, 30 fps; luz puntual hasta ±24 %", "purpose": "Llama y luz de la vela en la escena 3D de la insignia de temporada; se pausa fuera de pantalla o con la pestaña oculta." },
+      { "name": "season-tilt", "value": "máx. 10° horizontal y 4° vertical, amortiguación 0.08 por fotograma", "purpose": "Cambio de perspectiva de la escena 3D al mover el cursor (solo puntero fino)." },
+      { "name": "season-glow", "value": "3.4s ease-in-out en bucle; +35 % de luz al pasar el cursor", "purpose": "Resplandor tras la vela de la insignia; el texto nunca se mueve." },
+      { "name": "motion-off", "value": "animation: none; transition-duration: 0s", "purpose": "Con prefers-reduced-motion: reduce o «Animaciones suaves» desactivado (body.motion-off). El logo solo funde en 200ms. La insignia de temporada no carga el 3D y muestra su imagen estática." }
     ],
     "breakpoints": [
       { "name": "ticket-estrecho", "value": "1380px" },
@@ -167,6 +170,13 @@
       "description": "Informes: cabecera pegajosa sin mayúsculas, cifras tabulares y detalle en segunda línea.",
       "html": "<table class=\"ds-table\"><thead><tr><th>Venta</th><th>Cliente</th><th>Total</th></tr></thead><tbody><tr><td><strong>#1042</strong><small>Hoy, 22:14</small></td><td>Cliente 318</td><td><strong>$1,020</strong></td></tr><tr><td><strong>#1041</strong><small>Hoy, 21:58</small></td><td>Cliente 77</td><td><strong>$450</strong></td></tr></tbody></table>",
       "css": ".ds-table{width:100%;border-collapse:separate;border-spacing:0;font:400 14px var(--o-font);background:var(--o-surface);border:1px solid var(--o-line);border-radius:var(--o-r-lg);overflow:hidden}.ds-table th{padding:11px 14px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--o-muted);background:var(--o-surface-2);border-bottom:1px solid var(--o-line-2);white-space:nowrap}.ds-table td{padding:11px 14px;border-bottom:1px solid var(--o-line);color:var(--o-cream-2);vertical-align:middle;font-variant-numeric:tabular-nums}.ds-table td strong{color:var(--o-cream);font-weight:700}.ds-table td small{display:block;margin-top:2px;font-size:12px;color:var(--o-faint)}.ds-table tbody tr{transition:background var(--o-fast)}.ds-table tbody tr:hover{background:rgba(246,235,217,.035)}.ds-table tbody tr:last-child td{border-bottom:0}"
+    },
+    {
+      "name": "Insignia de temporada",
+      "kind": "custom",
+      "description": "Menú lateral: escena 3D pequeña de vela, cempasúchil y calabaza (Blender → .glb → Three.js, cargada solo cuando se ve) con los cuatro textos en HTML. La imagen estática de este ejemplo es su respaldo: queda con movimiento reducido o si falla el modelo, Three.js o WebGL. Única excepción aceptada a la regla de antetítulos.",
+      "html": "<div class=\"ds-season\"><div class=\"ds-season-art\"><img src=\"assets/season/escena-temporada.webp\" alt=\"\" width=\"396\" height=\"330\"></div><div class=\"ds-season-copy\"><span>Burger Shot</span><strong>Día de Muertos <em>y Halloween</em></strong><small>Edición de temporada</small></div></div>",
+      "css": ".ds-season{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;column-gap:8px;width:207px;padding:12px 8px 11px;border-radius:14px;border:1px solid rgba(168,104,48,.6);background:#1c1416;overflow:hidden;font-family:var(--o-font);transition:border-color 260ms var(--o-ease),background 260ms var(--o-ease)}.ds-season::after{content:\"\";position:absolute;right:-1px;top:-1px;width:30px;height:30px;background:url('assets/season/papel-esquina.svg') top right/contain no-repeat;pointer-events:none}.ds-season:hover{border-color:rgba(214,138,66,.85);background:#1f1618}.ds-season-art{position:relative;width:68px;aspect-ratio:6/5;margin:0 -6px 0 -4px}.ds-season-art::before{content:\"\";position:absolute;left:24%;top:16%;width:74%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,170,70,.42),rgba(242,140,27,.14) 45%,rgba(242,140,27,0) 70%);pointer-events:none}.ds-season-art img{position:relative;display:block;width:100%;height:100%;object-fit:contain}.ds-season-copy span{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#e0a03a;white-space:nowrap}.ds-season-copy strong{display:block;margin-top:3px;font:800 15px/1.15 var(--o-font);letter-spacing:-.01em;color:var(--o-cream);white-space:nowrap}.ds-season-copy strong em{display:block;font-style:normal;color:var(--o-mari)}.ds-season-copy small{display:block;margin-top:4px;font-size:12px;color:var(--o-muted);white-space:nowrap}"
     }
   ],
   "narrative": {

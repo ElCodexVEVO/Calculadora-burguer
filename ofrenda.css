@@ -1332,19 +1332,22 @@ body:not(.bs-focused) .bs-header{justify-content:flex-end;padding-top:10px;paddi
 .v6-shortcuts button:hover .ui-icon{transform:translateX(3px)}
 .employee-open .ui-icon,.mini-sale em .ui-icon{width:15px;height:15px;vertical-align:-3px}
 .employee-open{display:inline-flex;align-items:center;gap:6px}
-/* 11 · Inicio: franja de temporada fina, la acción a la derecha y los indicadores suben. */
-.dash-hero{min-height:0;margin-bottom:16px}
-.dash-hero-content{max-width:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 22px 18px}
-.dash-hero h2{font-size:21px;margin:0 0 2px}
-.dash-hero p{margin:0;font-size:14px}
-.dash-hero-photo{inset:0 0 0 52%;background-position:60% 55%}
-.dash-hero::before{background:linear-gradient(90deg,#211418 0%,#211418 48%,#211418cc 60%,rgba(33,20,24,.25) 100%)}
+/* 11 · Inicio: imagen de temporada amplia y contenido en columna. */
+.dash-hero{min-height:252px;margin-bottom:24px}
+.dash-hero-content{max-width:560px;min-height:252px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;padding:34px 36px 38px}
+.dash-hero h2{max-width:460px;font-size:32px;line-height:1.14;margin:0}
+.dash-hero p{max-width:420px;margin:0;font-size:15px;line-height:1.65}
+.dash-hero #dashboardPosBtn{min-height:46px;min-width:144px;margin-top:4px}
+.dash-hero-photo{inset:0 0 0 40%;background-position:60% 55%}
+.dash-hero::before{background:linear-gradient(90deg,#211418 0%,#211418f5 30%,#211418b3 48%,rgba(33,20,24,.12) 78%),linear-gradient(0deg,rgba(20,12,15,.4),transparent 60%)}
 #dashboardPosBtn{flex:none}
 @media (max-width:760px){
-  .dash-hero-photo{display:none}
-  .dash-hero::before{background:var(--o-surface)}
-  .dash-hero-content{flex-direction:column;align-items:flex-start;padding:16px}
-  .dash-hero h2{font-size:19px}
+  .dash-hero{min-height:240px}
+  .dash-hero-photo{display:block;inset:0;opacity:.55;background-position:65% 50%}
+  .dash-hero::before{background:linear-gradient(90deg,#211418f5 0%,#211418d9 42%,#21141866 100%)}
+  .dash-hero-content{min-height:240px;max-width:none;padding:26px 24px 30px}
+  .dash-hero h2{max-width:330px;font-size:27px}
+  .dash-hero p{max-width:300px;font-size:14px}
 }
 /* Acceso: velo bajo el texto para contraste AA sobre la foto. */
 #authScreen .auth-scene::after{background:linear-gradient(90deg,rgba(14,8,12,.82) 0%,rgba(14,8,12,.62) 34%,rgba(14,8,12,.1) 58%,rgba(14,8,12,.45) 100%),linear-gradient(180deg,rgba(14,8,12,.4),transparent 40%)}

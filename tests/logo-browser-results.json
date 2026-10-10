@@ -1,0 +1,24 @@
+{
+ "date": "2026-10-09T20:40:20",
+ "browser": "Microsoft Edge (Chromium) headless",
+ "passed": [
+  "Entrada completa del acceso en 1180 ms a 54 fps, sin saltos ni canvas",
+  "Acceso por etapas: logo → título (120 ms) → formulario (220 ms)",
+  "Recarga en la misma sesión: entrada breve de 380 ms (no repite la completa)",
+  "Paralaje: inclinación 0.42° cerca del logo, vuelve a 0 y el bucle se detiene",
+  "Cabecera: entrada de 360 ms, reflejo y escala 1,015 al pasar, 0,98 al pulsar",
+  "30 navegaciones: 7 logos sin duplicar, memoria -0.33 MB, sin canvas",
+  "Redimensionado 1440 → 390 → 768 → 1440: logo de cabecera 46/38 px sin errores",
+  "API BurgerShotLogo (Animated, Compact, Icon, Loader, Mobile) y temporada desacoplada de la marca",
+  "Móvil táctil: sin paralaje, logo de 72 px en el acceso",
+  "Movimiento reducido: solo fundido de opacidad, sin reflejo, sin velo y cargador estático",
+  "Respaldo: sin las copias usa el logo original; sin ningún archivo muestra el monograma BS (nunca vacío)",
+  "Conexión lenta: marcador del tamaño final mientras carga, sin desplazamientos",
+  "Sin errores de JavaScript"
+ ],
+ "notes": [
+  "Entrada completa: 16 animaciones, 1180 ms, 54 fps (en reposo, 75 fps en la misma página); CLS acceso 0.0105",
+  "Navegación ×30: 7 logos estables, memoria -0.33 MB; CLS inicio 0.0149",
+  "Conexión lenta (400 ms, 60 KB/s): marcador visible=False, CLS 0.0000"
+ ]
+}

@@ -30,14 +30,16 @@ const seed=`(()=>{
    return page;
   }
   let page=await open();await page.waitForTimeout(950);
-  assert.equal(await page.locator('#customerWeek').count(),0);
+  // Cliente de la semana vive en Clientes, no en el inicio (decisión del usuario, V7).
+  assert.equal(await page.locator('#page-dashboard #customerWeek').count(),0);
   assert.equal(await page.locator('#page-dashboard').getByText('Cliente de la semana',{exact:false}).count(),0);
+  assert.equal(await page.locator('#page-loyalty #customerWeek').count(),1);
   assert.equal(await page.locator('.employee-week-ranking').count(),1);
   const ranking=await page.locator('#teamPerformance').boundingBox(),employee=await page.locator('.employee-week').boundingBox(),chart=await page.locator('#weeklyActivity').boundingBox();
   assert.ok(Math.abs(ranking.y-employee.y)<2&&ranking.x+ranking.width<employee.x+1);
   assert.ok(chart.y>=employee.y+employee.height&&Math.abs(chart.width-(employee.x+employee.width-ranking.x))<2);
   pass('Ranking reemplaza al cliente destacado junto al empleado; gráfico ocupa todo el ancho');
-  const hero=await page.locator('#page-dashboard>.atelier-hero').boundingBox(),entry=await page.locator('#dashboardPosBtn').boundingBox();
+  const hero=await page.locator('#page-dashboard>.dash-hero').boundingBox(),entry=await page.locator('#dashboardPosBtn').boundingBox();
   assert.ok(entry.y+entry.height<hero.y+hero.height-5,'Botón del banner completamente visible con espacio inferior');
   assert.deepEqual(await page.locator('#dashboardMetrics .metric strong').allTextContents(),['2','$354,240','$53,136','$301,104']);
   assert.equal(await page.locator('.employee-week-person h3').innerText(),'María López');
@@ -63,7 +65,7 @@ const seed=`(()=>{
   await page.screenshot({path:path.join(base,'preview/panel-v6-8-escritorio.png')});
   await page.locator('#dashboardPosBtn').click();assert.equal(await page.locator('#page-pos').isVisible(),true);
   await page.locator('[data-page="dashboard"]').click();
-  assert.equal(await page.locator('#customerWeek').count(),0);assert.equal(await page.locator('.employee-week-ranking').count(),1);
+  assert.equal(await page.locator('#page-dashboard #customerWeek').count(),0);assert.equal(await page.locator('.employee-week-ranking').count(),1);
   pass('Ir a caja abre el POS y volver o renderizar no duplica el ranking ni recrea Cliente de la semana');
   await page.locator('#editEmployeeWeekBtn').click();await page.locator('#employeeWeekEmployee').selectOption('admin-1');await page.locator('#saveEmployeeWeekBtn').click();await page.locator('#employeeWeekModal').waitFor({state:'hidden'});
   assert.equal(await page.locator('.employee-week-person h3').innerText(),'Alex Rivera');

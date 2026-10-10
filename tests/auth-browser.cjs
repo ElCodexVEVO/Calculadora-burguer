@@ -59,8 +59,10 @@ const mock=fs.readFileSync(path.join(base,'demo/mock-supabase.js'),'utf8')+'\n'+
   }
   let page=await open();
   assert.equal(await page.locator('#authScreen').isVisible(),true);
-  assert.equal(await page.locator('#authScreen .logo img').getAttribute('src'),'assets/burgershot-muertos.webp');
-  assert.equal(await page.locator('#authLoading img').getAttribute('src'),'assets/burgershot-muertos.webp');
+  // V7: copias redimensionadas del mismo logo original (assets/burgershot-muertos.webp).
+  assert.equal(await page.locator('#authScreen .logo img').getAttribute('src'),'assets/logo/burgershot-muertos-320.webp');
+  assert.equal(await page.locator('#authLoading img').getAttribute('src'),'assets/logo/burgershot-muertos-320.webp');
+  assert.ok(await page.locator('#authScreen .logo img').evaluate(img=>img.complete&&img.naturalWidth===320));
   await page.waitForTimeout(650);await page.screenshot({path:path.join(preview,'acceso-v6-7-escritorio.png')});
   pass('Acceso temático usa el archivo del logo original en ambas pantallas');
   await page.locator('#loginBtn').click();assert.match(await page.locator('#loginError').innerText(),/Escribe usuario/);
@@ -132,7 +134,9 @@ const mock=fs.readFileSync(path.join(base,'demo/mock-supabase.js'),'utf8')+'\n'+
   assert.equal(animations,false);await page.evaluate(()=>fixture.releaseAuth());await page.locator('#authLoading').waitFor({state:'hidden'});
   pass('Movimiento reducido mantiene la carga visible sin animaciones');await page.close();
   page=await open({holdAuth:true});await page.evaluate(()=>document.body.classList.add('motion-off'));await login(page);
-  assert.equal(await page.locator('.auth-loading-spinner').evaluate(el=>getComputedStyle(el).animationName),'none');
+  // V7.1: el cargador es el propio emblema (burgershot-logo variant=loader); sin animación debe verse completo.
+  assert.equal(await page.locator('#authLoading .bs-mark-fill').evaluate(el=>getComputedStyle(el).animationName),'none');
+  assert.equal(await page.locator('#authLoading .bs-mark-fill').evaluate(el=>getComputedStyle(el).clipPath),'none');
   await page.evaluate(()=>fixture.releaseAuth());await page.locator('#authLoading').waitFor({state:'hidden'});
   pass('El ajuste de animaciones también desactiva el acceso y la bienvenida');await page.close();
 

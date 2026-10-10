@@ -2,13 +2,8 @@
 (()=>{
   'use strict';
   const dashboard=document.getElementById('page-dashboard');if(!dashboard)return;
-  const hero=dashboard.querySelector('.atelier-hero-content');
-  if(hero){
-    const button=document.createElement('button');button.id='dashboardPosBtn';button.type='button';
-    button.innerHTML='Ir a caja <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>';
-    button.addEventListener('click',()=>document.querySelector('.nav-item[data-page="pos"]')?.click());
-    hero.append(button);
-  }
+  // V7: el botón «Ir a caja» forma parte del banner estático del inicio.
+  document.getElementById('dashboardPosBtn')?.addEventListener('click',()=>document.querySelector('.nav-item[data-page="pos"]')?.click());
   const chart=document.getElementById('weeklyActivityContent');
   chart?.addEventListener('click',e=>{
     const button=e.target.closest('.employee-week-bar');if(!button)return;

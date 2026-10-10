@@ -1,0 +1,53 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "organic-clip-path",
+        "value": "*",
+        "files": [
+          "auth-scene.css"
+        ],
+        "createdAt": "2026-10-09T17:56:17.374Z",
+        "reason": "Flor de cempasúchil estilizada del cargador (auth-orbit-flower), icono de temporada pedido en el brief, no recorte de una foto"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "ofrenda.css"
+        ],
+        "createdAt": "2026-10-09T17:56:24.306Z",
+        "reason": "Brief del usuario: papel picado en marcos, cabeceras y separadores; los pseudo-elementos son festones superiores/inferiores, no franjas laterales"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "auth-scene.css"
+        ],
+        "createdAt": "2026-10-09T17:56:24.476Z",
+        "reason": "Brief del usuario: festón de papel picado en el borde superior de la tarjeta de acceso"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "auth-scene.css"
+        ],
+        "createdAt": "2026-10-09T17:56:24.657Z",
+        "reason": "Llama de vela dibujada sobre las velas reales de la foto del altar; motivo literal del brief"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "styles.css"
+        ],
+        "createdAt": "2026-10-09T18:14:54.836Z",
+        "reason": "Regla base V5 .employee-card::before anulada por ofrenda.css (display:none); verificado en la captura de Equipo"
+      }
+    ]
+  }
+}

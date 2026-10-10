@@ -9,7 +9,7 @@
   const outline='M5 2H115V77L105 84 95 82 85 90 75 87 60 95 45 87 35 90 25 82 15 84 5 77Z';
   document.querySelectorAll('.auth-bunting').forEach((el,row)=>{
     el.innerHTML=Array.from({length:12},(_,i)=>{
-      const id=`authPaper-${row}-${i}`,color=i%2?'#ae5424':'#754080';
+      const id=`authPaper-${row}-${i}`,color=i%2?'#c96a0a':'#6a3270';
       const motif=i%3===0?'<path d="M60 24c-14 0-22 9-22 23 0 8 4 14 9 17v10h26V64c5-3 9-9 9-17 0-14-8-23-22-23Z"/><circle cx="51" cy="46" r="6" fill="white"/><circle cx="69" cy="46" r="6" fill="white"/><path d="m60 53-4 7h8Z" fill="white"/><path d="M53 65v7m7-7v7m7-7v7" stroke="white" stroke-width="2"/>':Array.from({length:8},(_,k)=>`<ellipse cx="60" cy="33" rx="5" ry="14" transform="rotate(${k*45} 60 49)"/>`).join('')+'<circle cx="60" cy="49" r="6" fill="white"/>';
       const holes=Array.from({length:8},(_,k)=>`<circle cx="15" cy="${13+k*8}" r="2"/><circle cx="105" cy="${13+k*8}" r="2"/>`).join('');
       return `<span class="auth-flag" style="--flag-drop:${i%3*5}px;--flag-rotation:${i%2?2:-2}deg;--flag-duration:${3.7+i%4*.6}s;--flag-delay:-${i*.43}s"><svg viewBox="0 0 120 96" focusable="false"><defs><mask id="${id}"><path d="${outline}" fill="white"/><g fill="black">${holes}${motif}</g></mask></defs><path d="${outline}" fill="${color}" mask="url(#${id})"/></svg></span>`;
@@ -20,7 +20,7 @@
     scene.innerHTML=Array.from({length:8},(_,i)=>`<i class="auth-petal" style="--petal-x:${7+i*12}%;--petal-drift:${i%2?35:-45}px;--petal-duration:${12+i%3*3}s;--petal-delay:-${i*2.6}s"></i>`).join('')+Array.from({length:3},(_,i)=>`<i class="auth-flame" style="--flame-delay:-${i*.7}s"></i>`).join('');
   }
   // Match flame positions to the candle wicks as the cover image scales/crops.
-  const art=new Image();art.src='assets/auth-altar.png';
+  const art=new Image();art.src='assets/auth-altar.webp';
   function placeFlames(){
     if(!art.naturalWidth)return;
     const points=[[.108,.527],[.160,.597],[.114,.738]];

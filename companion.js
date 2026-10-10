@@ -25,7 +25,7 @@
     panel.id = 'page-companion'; panel.className = 'page';
     panel.innerHTML = `
       <div class="bs-shell">
-        <header class="bs-header"><div class="bs-brand"><img src="assets/burgershot-muertos.webp" alt=""><div><strong>BURGER <span>SHOT</span></strong><small>CAJA AUXILIAR</small></div></div><div class="bs-tools">
+        <header class="bs-header"><burgershot-logo variant="compact" class="bs-brand"><span class="bs-mark"><img src="assets/logo/burgershot-muertos-96.webp" alt="" width="96" height="96"></span><span class="bs-type"><strong>BURGER <span>SHOT</span></strong><small>Caja auxiliar</small></span></burgershot-logo><div class="bs-tools">
           <button id="bsPin" class="bs-icon" title="Mantener encima" aria-label="Mantener encima" hidden>${icon('pin')}</button>
           <button id="bsWindow" class="bs-icon" title="Abrir ventana compacta" aria-label="Abrir ventana compacta">${icon('window')}</button>
           <button id="bsExit" class="bs-icon" title="Volver al panel" aria-label="Volver al panel">${icon('exit')}</button></div></header>
@@ -93,7 +93,7 @@
       customerGroups = core.customers(s.sales);
       renderProducts(); clientInfo(); renderTemplates();
       $('bsCount').textContent = s.calc.lines.reduce((sum,p)=>sum+p.qty,0);
-      $('bsLines').innerHTML = s.calc.lines.map(p => `<div class="bs-line"><img src="assets/food/${api.photo(p)}-thumb.webp" alt=""><div><strong>${e(p.name)}</strong><small>${m(p.price)} c/u</small></div><div class="bs-qty"><button data-bs-qty="${e(p.id)}" data-delta="-1" aria-label="Restar ${e(p.name)}">${icon('minus')}</button><input class="bs-qty-input" data-bs-line-qty="${e(p.id)}" type="number" min="1" max="9999" step="1" value="${p.qty}" inputmode="numeric" aria-label="Cantidad de ${e(p.name)}"><button data-bs-qty="${e(p.id)}" data-delta="1" aria-label="Sumar ${e(p.name)}">${icon('plus')}</button></div><strong>${m(p.lineTotal)}</strong></div>`).join('') || '<div class="bs-empty-order"><img src="assets/burgershot-muertos.webp" alt=""><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>';
+      $('bsLines').innerHTML = s.calc.lines.map(p => `<div class="bs-line"><img src="assets/menu/thumb/${api.photo(p)}.webp" alt="" width="240" height="160"><div><strong>${e(p.name)}</strong><small>${m(p.price)} c/u</small></div><div class="bs-qty"><button data-bs-qty="${e(p.id)}" data-delta="-1" aria-label="Restar ${e(p.name)}">${icon('minus')}</button><input class="bs-qty-input" data-bs-line-qty="${e(p.id)}" type="number" min="1" max="9999" step="1" value="${p.qty}" inputmode="numeric" aria-label="Cantidad de ${e(p.name)}"><button data-bs-qty="${e(p.id)}" data-delta="1" aria-label="Sumar ${e(p.name)}">${icon('plus')}</button></div><strong>${m(p.lineTotal)}</strong></div>`).join('') || '<div class="bs-empty-order"><img src="assets/logo/burgershot-muertos-96.webp" alt="" width="96" height="96"><strong>Tu próxima orden</strong><span>Elige algo del menú para empezar.</span></div>';
       $('bsDiscount').innerHTML = $('discountSelect').innerHTML;
       $('bsDiscount').value = $('discountSelect').value; $('bsType').value = s.calc.client;
       $('bsDiscountName').textContent = s.calc.blocked ? 'Sin convenio' : s.calc.d.name;

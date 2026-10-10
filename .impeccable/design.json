@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-09T13:00:00Z",
+  "title": "Design System: Burger Shot V7 · Ofrenda nocturna",
+  "extensions": {
+    "colorMeta": {
+      "ground": { "role": "neutral", "displayName": "Carbón cálido", "canonical": "#141012", "tonalRamp": ["#141012", "#191316", "#1f181b", "#272023", "#31282c", "#4a3c40", "#5d4b50", "#9d8f83"] },
+      "shell-solid": { "role": "neutral", "displayName": "Carbón de cáscara", "canonical": "#191316" },
+      "surface": { "role": "neutral", "displayName": "Superficie de panel", "canonical": "#1f181b" },
+      "surface-2": { "role": "neutral", "displayName": "Superficie de control", "canonical": "#272023" },
+      "surface-3": { "role": "neutral", "displayName": "Superficie elevada", "canonical": "#31282c" },
+      "inset": { "role": "neutral", "displayName": "Hueco de campo", "canonical": "#161113" },
+      "line": { "role": "neutral", "displayName": "Divisor crema 10%", "canonical": "rgba(246,235,217,.10)" },
+      "line-2": { "role": "neutral", "displayName": "Borde de control 17%", "canonical": "rgba(246,235,217,.17)" },
+      "line-3": { "role": "neutral", "displayName": "Borde en hover 28%", "canonical": "rgba(246,235,217,.28)" },
+      "cream": { "role": "neutral", "displayName": "Crema", "canonical": "#f6ebd9", "tonalRamp": ["#2b1d1f", "#4a3530", "#6b564c", "#9d8f83", "#b8a999", "#ddd0bf", "#f6ebd9", "#fffaf2"] },
+      "cream-2": { "role": "neutral", "displayName": "Crema de cuerpo", "canonical": "#ddd0bf" },
+      "muted": { "role": "neutral", "displayName": "Crema apagada", "canonical": "#b8a999" },
+      "faint": { "role": "neutral", "displayName": "Crema tenue", "canonical": "#9d8f83" },
+      "mari": { "role": "primary", "displayName": "Naranja cempasúchil", "canonical": "#f28c1b", "tonalRamp": ["#1c0f05", "#2c1d12", "#6b3a08", "#9d4e05", "#c96a0a", "#f28c1b", "#ffa53d", "#ffc163"] },
+      "mari-hi": { "role": "primary", "displayName": "Cempasúchil encendido", "canonical": "#ffa53d" },
+      "mari-deep": { "role": "primary", "displayName": "Cempasúchil hondo", "canonical": "#c96a0a" },
+      "mari-ink": { "role": "primary", "displayName": "Tinta sobre naranja", "canonical": "#1c0f05" },
+      "mari-soft": { "role": "primary", "displayName": "Velo naranja 14%", "canonical": "rgba(242,140,27,.14)" },
+      "mari-line": { "role": "primary", "displayName": "Línea naranja 42%", "canonical": "rgba(242,140,27,.42)" },
+      "gold": { "role": "primary", "displayName": "Oro de vela", "canonical": "#ffc163" },
+      "teal": { "role": "secondary", "displayName": "Turquesa de papel picado", "canonical": "#52cfaa", "tonalRamp": ["#062a20", "#0c4a39", "#13775d", "#1f9c7c", "#38b995", "#52cfaa", "#8fe2c9", "#d3f5ea"] },
+      "teal-soft": { "role": "secondary", "displayName": "Velo turquesa 13%", "canonical": "rgba(82,207,170,.13)" },
+      "wine": { "role": "tertiary", "displayName": "Vino", "canonical": "#7a1e3a", "tonalRamp": ["#211418", "#3a1320", "#5a182c", "#7a1e3a", "#8e2846", "#b03a62", "#d98aa3", "#f4dbe3"] },
+      "plum": { "role": "tertiary", "displayName": "Ciruela", "canonical": "#5b2a5e", "tonalRamp": ["#1e1020", "#3a1c3d", "#5b2a5e", "#6a3270", "#8a4c8f", "#a76aac", "#cda3d0", "#e3c5e6"] },
+      "plum-hi": { "role": "tertiary", "displayName": "Ciruela clara", "canonical": "#a76aac" },
+      "plum-soft": { "role": "tertiary", "displayName": "Velo ciruela 16%", "canonical": "rgba(167,106,172,.16)" },
+      "red": { "role": "tertiary", "displayName": "Coral de error", "canonical": "#ff7a6b", "tonalRamp": ["#2a0805", "#3a1a1c", "#6e2f31", "#8e3c3e", "#b3261e", "#ff7a6b", "#ffb0a6", "#ffd9d3"] },
+      "red-soft": { "role": "tertiary", "displayName": "Velo coral 13%", "canonical": "rgba(255,122,107,.13)" },
+      "ticket-paper": { "role": "neutral", "displayName": "Papel de ticket claro", "canonical": "#f6ecdc" },
+      "ticket-ink": { "role": "neutral", "displayName": "Tinta de ticket claro", "canonical": "#2b1d1f" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Titular de acceso", "purpose": "Solo el titular de la pantalla de acceso." },
+      "headline": { "displayName": "Título de página", "purpose": "h1 de cada sección; 24px en móvil. Ticket y ventanas usan 22px." },
+      "title": { "displayName": "Cabecera de panel", "purpose": "h2 de panel; nombre de producto a 16px y anchura 104." },
+      "body": { "displayName": "Cuerpo", "purpose": "Texto general y celdas; 15px en móvil, campos a 16px." },
+      "label": { "displayName": "Etiqueta", "purpose": "Etiquetas de campo, notas y cabeceras de tabla (12px, 700). Mínimo 12px." },
+      "total": { "displayName": "Total", "purpose": "Total del ticket en oro, siempre tabular." },
+      "wordmark": { "displayName": "Rótulo", "purpose": "BURGER SHOT en mayúsculas a anchura 125; SHOT en naranja." }
+    },
+    "shadows": [
+      { "name": "o-shadow-1", "value": "0 1px 0 rgba(255,240,220,.035) inset, 0 10px 24px -14px rgba(0,0,0,.7)", "purpose": "Reposo: paneles, tarjetas, franja de indicadores." },
+      { "name": "o-shadow-2", "value": "0 1px 0 rgba(255,240,220,.05) inset, 0 24px 48px -20px rgba(0,0,0,.78)", "purpose": "Elevado: ticket, tarjeta de producto en hover, caja auxiliar." },
+      { "name": "o-shadow-pop", "value": "0 18px 50px -12px rgba(0,0,0,.72), 0 2px 8px rgba(0,0,0,.35)", "purpose": "Flotante: ventanas, avisos, notificaciones, cajón lateral." },
+      { "name": "action", "value": "0 1px 0 rgba(255,236,200,.35) inset, 0 8px 18px -10px rgba(242,140,27,.55)", "purpose": "Botón principal." },
+      { "name": "checkout", "value": "0 1px 0 rgba(255,236,200,.35) inset, 0 12px 24px -12px rgba(242,140,27,.6)", "purpose": "Botón Cobrar." },
+      { "name": "dock", "value": "0 18px 40px -12px rgba(0,0,0,.8), 0 1px 0 rgba(255,236,200,.35) inset", "purpose": "Barra de pedido móvil." },
+      { "name": "focus-field", "value": "0 0 0 3px rgba(242,140,27,.22)", "purpose": "Anillo de foco de campos, junto al borde naranja." },
+      { "name": "focus-ring", "value": "outline: 2px solid #ffc163; outline-offset: 2px", "purpose": "Foco visible global." }
+    ],
+    "motion": [
+      { "name": "o-ease", "value": "cubic-bezier(.22,1,.36,1)", "purpose": "Curva de salida para estados, entradas y respuestas." },
+      { "name": "o-ease-in", "value": "cubic-bezier(.55,0,1,.45)", "purpose": "Solo cierres: ventana y aviso al salir." },
+      { "name": "ease-travel", "value": "cubic-bezier(.45,0,.25,1)", "purpose": "Vuelo de la foto al pedido y reflejo del logo." },
+      { "name": "press", "value": "80ms", "purpose": "Pulsación: scale(.97)." },
+      { "name": "o-fast", "value": "160ms", "purpose": "Hover, foco, color y borde." },
+      { "name": "o-base", "value": "220ms", "purpose": "Sombra, velo, desplegables, logo en hover." },
+      { "name": "o-enter", "value": "480ms", "purpose": "Entradas lentas y cambio de tema del ticket." },
+      { "name": "modal-in", "value": "280ms", "purpose": "Entrada de ventana; salida en 150ms con o-ease-in." },
+      { "name": "toast", "value": "280ms entrada, 200ms salida, 3.2s de barra de tiempo", "purpose": "Avisos." },
+      { "name": "dock", "value": "380ms entrada, 320ms salida, 300ms de bote", "purpose": "Barra de pedido móvil." },
+      { "name": "added", "value": "520ms", "purpose": "Anillo naranja en la tarjeta al añadir." },
+      { "name": "fly", "value": "620ms", "purpose": "Vuelo de la foto al pedido." },
+      { "name": "success", "value": "700ms", "purpose": "Anillo turquesa de éxito." },
+      { "name": "shake", "value": "380ms", "purpose": "Sacudida de error." },
+      { "name": "receipt", "value": "2.6s, sello 360ms con retraso de 260ms", "purpose": "Recibo de venta." },
+      { "name": "page-in", "value": "240ms fundido, 380ms título", "purpose": "Cambio de sección." },
+      { "name": "stagger-card", "value": "360ms con escalón de 32ms", "purpose": "Entrada de tarjetas de producto." },
+      { "name": "logo-intro-full", "value": "1150ms; letras 420ms cada 34ms; reflejo 560ms a los 620ms", "purpose": "Entrada completa del logo, una vez por sesión y clave." },
+      { "name": "logo-intro-quick", "value": "320ms (icon y repeticiones), 360ms (compact y mobile)", "purpose": "Entradas breves del logo." },
+      { "name": "logo-loader", "value": "900ms en bucle", "purpose": "Relleno del emblema mientras dura la carga." },
+      { "name": "flag-sway", "value": "±2.2°, 4.4s a 6.6s, ease-in-out", "purpose": "Banderas de papel picado en la cabecera." },
+      { "name": "motion-off", "value": "animation: none; transition-duration: 0s", "purpose": "Con prefers-reduced-motion: reduce o «Animaciones suaves» desactivado (body.motion-off). El logo solo funde en 200ms." }
+    ],
+    "breakpoints": [
+      { "name": "ticket-estrecho", "value": "1380px" },
+      { "name": "paneles-apilados", "value": "1240px" },
+      { "name": "cajon-y-barra-de-pedido", "value": "1100px" },
+      { "name": "tableta", "value": "900px" },
+      { "name": "movil", "value": "760px" },
+      { "name": "movil-estrecho", "value": "380px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción principal de una zona; una sola naranja rellena por zona de trabajo.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Registrar venta</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border-radius:var(--o-r-sm);font:700 14px/1.15 var(--o-font);letter-spacing:.005em;cursor:pointer;transition:transform var(--o-fast) var(--o-ease),background var(--o-fast),border-color var(--o-fast),box-shadow var(--o-base) var(--o-ease)}.ds-btn:hover{transform:translateY(-1px)}.ds-btn:active{transform:scale(.97);transition-duration:80ms}.ds-btn:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}.ds-btn-primary{color:var(--o-mari-ink);background:var(--o-mari);border:1px solid var(--o-mari-hi);box-shadow:0 1px 0 rgba(255,236,200,.35) inset,0 8px 18px -10px rgba(242,140,27,.55)}.ds-btn-primary:hover{background:var(--o-mari-hi)}.ds-btn-primary:disabled{background:var(--o-surface-3);border-color:var(--o-line-2);color:var(--o-faint);box-shadow:none;transform:none;cursor:not-allowed}"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acción de apoyo junto a la principal.",
+      "html": "<button class=\"ds-btn2\">Cancelar</button>",
+      "css": ".ds-btn2{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border-radius:var(--o-r-sm);font:700 14px/1.15 var(--o-font);color:var(--o-cream);background:var(--o-surface-2);border:1px solid var(--o-line-2);cursor:pointer;transition:transform var(--o-fast) var(--o-ease),background var(--o-fast),border-color var(--o-fast)}.ds-btn2:hover{background:var(--o-surface-3);border-color:var(--o-line-3);transform:translateY(-1px)}.ds-btn2:active{transform:scale(.97);transition-duration:80ms}.ds-btn2:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}"
+    },
+    {
+      "name": "Campo de texto",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo con etiqueta encima; foco con borde naranja y anillo.",
+      "html": "<label class=\"ds-field\"><span>Cliente / ID</span><input class=\"ds-input\" placeholder=\"Nombre o identificador\"></label>",
+      "css": ".ds-field{display:grid;gap:7px;font:600 13px var(--o-font);color:var(--o-cream-2)}.ds-input{font:400 14px var(--o-font);color:var(--o-cream);background:var(--o-inset);border:1px solid var(--o-line-2);border-radius:var(--o-r-sm);padding:10px 12px;min-height:42px;caret-color:var(--o-mari-hi);transition:border-color var(--o-fast) var(--o-ease),box-shadow var(--o-fast) var(--o-ease)}.ds-input::placeholder{color:var(--o-faint)}.ds-input:hover{border-color:var(--o-line-3)}.ds-input:focus{outline:none;border-color:var(--o-mari);box-shadow:0 0 0 3px rgba(242,140,27,.22)}"
+    },
+    {
+      "name": "Pestañas de categoría",
+      "kind": "chip",
+      "refersTo": "category-tab",
+      "description": "Filtro del catálogo; la activa va en naranja relleno.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab-active\">Todo</button><button class=\"ds-tab\">Hamburguesas</button><button class=\"ds-tab\">Bebidas</button></div>",
+      "css": ".ds-tabs{display:flex;flex-wrap:wrap;gap:8px}.ds-tab{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 14px;border-radius:999px;font:600 14px var(--o-font);color:var(--o-cream-2);background:var(--o-surface);border:1px solid var(--o-line-2);cursor:pointer;transition:background var(--o-fast),color var(--o-fast),border-color var(--o-fast),transform var(--o-fast) var(--o-ease)}.ds-tab:hover{background:var(--o-surface-2);border-color:var(--o-line-3);color:var(--o-cream);transform:translateY(-1px)}.ds-tab:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}.ds-tab-active,.ds-tab-active:hover{background:var(--o-mari);border-color:var(--o-mari-hi);color:var(--o-mari-ink)}"
+    },
+    {
+      "name": "Etiqueta de estado",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Estado de una venta, empleado o cupón. Turquesa solo para éxito.",
+      "html": "<span class=\"ds-badge ds-badge-green\">Activa</span> <span class=\"ds-badge ds-badge-red\">Anulada</span> <span class=\"ds-badge ds-badge-gold\">Destacado</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:6px;min-height:24px;padding:3px 9px;border-radius:999px;font:600 12px/1.2 var(--o-font);letter-spacing:.01em;border:1px solid transparent;white-space:nowrap}.ds-badge::before{content:\"\";width:6px;height:6px;border-radius:50%;background:currentColor}.ds-badge-green{color:var(--o-teal);background:var(--o-teal-soft);border-color:rgba(82,207,170,.3)}.ds-badge-red{color:var(--o-red);background:var(--o-red-soft);border-color:rgba(255,122,107,.3)}.ds-badge-gold{color:var(--o-gold);background:var(--o-mari-soft);border-color:var(--o-mari-line)}"
+    },
+    {
+      "name": "Tarjeta de producto",
+      "kind": "card",
+      "refersTo": "product-card",
+      "description": "Foto 3:2, nombre, precio en oro, cantidad con Añadir y atajos de cantidad.",
+      "html": "<article class=\"ds-product\"><div class=\"ds-product-photo\"></div><div class=\"ds-product-copy\"><h3>Burger doble</h3><div class=\"ds-product-price\"><strong>$450</strong><span>por pieza</span></div><div class=\"ds-product-add\"><div class=\"ds-product-row\"><input class=\"ds-product-qty\" value=\"1\" inputmode=\"numeric\" aria-label=\"Cantidad\"><button class=\"ds-product-btn\">Añadir</button></div><div class=\"ds-product-presets\"><button>+5</button><button>+10</button><button>+25</button><button>+50</button></div></div></div></article>",
+      "css": ".ds-product{display:flex;flex-direction:column;width:232px;overflow:hidden;background:var(--o-surface);border:1px solid var(--o-line);border-radius:var(--o-r-lg);box-shadow:var(--o-shadow-1);font-family:var(--o-font);transition:border-color var(--o-base),transform var(--o-base) var(--o-ease),box-shadow var(--o-base) var(--o-ease)}.ds-product:hover{border-color:var(--o-line-3);transform:translateY(-2px);box-shadow:var(--o-shadow-2)}.ds-product-photo{aspect-ratio:3/2;background:linear-gradient(180deg,rgba(20,16,18,0) 55%,rgba(20,16,18,.45)),var(--o-inset)}.ds-product-copy{padding:12px 14px 14px}.ds-product h3{margin:0 0 6px;font:750 16px/1.25 var(--o-font);font-stretch:104%;color:var(--o-cream)}.ds-product-price{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}.ds-product-price strong{font:800 23px/1 var(--o-font);font-stretch:104%;color:var(--o-gold);font-variant-numeric:tabular-nums}.ds-product-price span{font-size:12px;color:var(--o-faint)}.ds-product-add{display:grid;gap:7px;padding-top:10px;border-top:1px dashed var(--o-line-2)}.ds-product-row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px}.ds-product-qty{height:44px;min-width:0;text-align:center;border-radius:var(--o-r-sm);font:800 17px var(--o-font);background:var(--o-inset);border:1px solid var(--o-line-2);color:var(--o-cream);font-variant-numeric:tabular-nums}.ds-product-qty:focus{outline:none;border-color:var(--o-mari);box-shadow:0 0 0 3px rgba(242,140,27,.22)}.ds-product-btn{height:44px;border-radius:var(--o-r-sm);font:750 14px/1.1 var(--o-font);color:var(--o-mari-ink);background:var(--o-mari);border:1px solid var(--o-mari-hi);box-shadow:0 1px 0 rgba(255,236,200,.3) inset;cursor:pointer;transition:background var(--o-fast),transform var(--o-fast) var(--o-ease)}.ds-product-btn:hover{background:var(--o-mari-hi)}.ds-product-btn:active{transform:scale(.97)}.ds-product-presets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.ds-product-presets button{min-height:34px;border-radius:8px;font:700 13px var(--o-font);color:var(--o-cream-2);background:var(--o-surface-2);border:1px solid var(--o-line-2);font-variant-numeric:tabular-nums;cursor:pointer;transition:background var(--o-fast),border-color var(--o-fast),color var(--o-fast)}.ds-product-presets button:hover{color:var(--o-cream);background:var(--o-surface-3);border-color:var(--o-mari-line)}.ds-product button:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}"
+    },
+    {
+      "name": "Ticket",
+      "kind": "custom",
+      "refersTo": "order-panel",
+      "description": "Pedido en curso: festón naranja arriba, líneas de recibo, total en oro bajo su festón y Cobrar al pie.",
+      "html": "<section class=\"ds-ticket\"><header class=\"ds-ticket-head\"><h2>Pedido <small>3</small></h2></header><div class=\"ds-ticket-lines\"><div class=\"ds-ticket-line\"><span>2 × Burger doble</span><strong>$900</strong></div><div class=\"ds-ticket-line\"><span>1 × Refresco</span><strong>$120</strong></div></div><div class=\"ds-ticket-pay\"><div class=\"ds-ticket-row\"><span>Subtotal</span><strong>$1,020</strong></div><div class=\"ds-ticket-grand\"><span>Total</span><strong>$1,020</strong></div><button class=\"ds-ticket-checkout\"><span>Cobrar</span><strong>$1,020</strong></button></div></section>",
+      "css": ".ds-ticket{--ds-edge:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 7'%3E%3Cpath d='M0 0h22v3.2c-1.8 0-2.6 3.8-5.5 3.8S13.3 3.2 11 3.2 7.4 7 5.5 7 1.8 3.2 0 3.2Z' fill='%23000'/%3E%3C/svg%3E\");position:relative;width:340px;overflow:hidden;border:1px solid var(--o-line-2);border-radius:var(--o-r-lg);background:linear-gradient(180deg,#221a1d,#1c1518);box-shadow:var(--o-shadow-2);color:var(--o-cream);font-family:var(--o-font)}.ds-ticket::before{content:\"\";position:absolute;left:0;right:0;top:0;height:7px;background:var(--o-mari);-webkit-mask:var(--ds-edge) repeat-x left top/22px 7px;mask:var(--ds-edge) repeat-x left top/22px 7px;transform:scaleY(-1)}.ds-ticket-head{padding:20px 18px 14px;border-bottom:1px dashed var(--o-line-2)}.ds-ticket-head h2{display:flex;align-items:center;gap:10px;margin:0;font:800 22px/1.1 var(--o-font);font-stretch:110%;letter-spacing:-.01em}.ds-ticket-head small{display:inline-grid;place-items:center;min-width:28px;height:26px;padding:0 8px;border-radius:999px;font:800 13px var(--o-font);color:var(--o-mari-ink);background:var(--o-gold)}.ds-ticket-lines{padding:4px 16px}.ds-ticket-line{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;border-bottom:1px dashed var(--o-line-2);font-size:14px;font-weight:700}.ds-ticket-line:last-child{border-bottom:0}.ds-ticket-line strong{font:800 15px var(--o-font);font-variant-numeric:tabular-nums}.ds-ticket-pay{position:relative;padding:14px 18px 16px;background:rgba(0,0,0,.14)}.ds-ticket-pay::before{content:\"\";position:absolute;left:0;right:0;top:-1px;height:6px;background:var(--o-line-3);-webkit-mask:var(--ds-edge) repeat-x left top/18px 6px;mask:var(--ds-edge) repeat-x left top/18px 6px}.ds-ticket-row,.ds-ticket-grand{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.ds-ticket-row span{font-size:13px;color:var(--o-muted)}.ds-ticket-row strong{font:700 14px var(--o-font);color:var(--o-cream-2);font-variant-numeric:tabular-nums}.ds-ticket-grand{position:relative;margin-top:6px;padding-top:14px}.ds-ticket-grand::before{content:\"\";position:absolute;left:0;right:0;top:0;height:5px;background:var(--o-mari-line);-webkit-mask:var(--ds-edge) repeat-x left top/16px 5px;mask:var(--ds-edge) repeat-x left top/16px 5px}.ds-ticket-grand span{font-size:15px;font-weight:700}.ds-ticket-grand strong{font:900 34px/1 var(--o-font);font-stretch:108%;letter-spacing:-.02em;color:var(--o-gold);font-variant-numeric:tabular-nums}.ds-ticket-checkout{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;margin-top:12px;padding:10px 16px;border-radius:var(--o-r-md);border:1px solid var(--o-mari-hi);background:var(--o-mari);color:var(--o-mari-ink);box-shadow:0 1px 0 rgba(255,236,200,.35) inset,0 12px 24px -12px rgba(242,140,27,.6);cursor:pointer;transition:background var(--o-fast),transform var(--o-fast) var(--o-ease)}.ds-ticket-checkout:hover{background:var(--o-mari-hi);transform:translateY(-1px)}.ds-ticket-checkout:active{transform:scale(.97);transition-duration:80ms}.ds-ticket-checkout:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}.ds-ticket-checkout span{font:800 15px var(--o-font)}.ds-ticket-checkout strong{font:900 20px var(--o-font);font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Barra de pedido móvil",
+      "kind": "custom",
+      "refersTo": "order-dock",
+      "description": "Por debajo de 1100px: piezas, «Ver pedido» y total, fija al pie.",
+      "html": "<button class=\"ds-dock\"><span class=\"ds-dock-count\">3</span><span class=\"ds-dock-label\"><b>Ver pedido</b><small>3 piezas</small></span><strong>$1,020</strong></button>",
+      "css": ".ds-dock{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;width:340px;min-height:58px;padding:8px 10px 8px 8px;border-radius:16px;border:1px solid var(--o-mari-hi);background:var(--o-mari);color:var(--o-mari-ink);box-shadow:0 18px 40px -12px rgba(0,0,0,.8),0 1px 0 rgba(255,236,200,.35) inset;text-align:left;font-family:var(--o-font);cursor:pointer}.ds-dock:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}.ds-dock:active{transform:scale(.98)}.ds-dock-count{display:grid;place-items:center;min-width:42px;height:42px;padding:0 8px;border-radius:11px;background:var(--o-mari-ink);color:var(--o-gold);font:900 17px var(--o-font);font-variant-numeric:tabular-nums}.ds-dock-label{display:grid;line-height:1.15}.ds-dock-label b{font:800 15px var(--o-font)}.ds-dock-label small{font-size:12px;font-weight:600;opacity:.8}.ds-dock strong{font:900 21px var(--o-font);font-variant-numeric:tabular-nums;padding-right:4px}"
+    },
+    {
+      "name": "Aviso",
+      "kind": "custom",
+      "refersTo": "toast",
+      "description": "Aviso temporal con icono SVG y barra de tiempo; turquesa en éxito, coral en error.",
+      "html": "<div class=\"ds-toast\">Venta registrada</div>",
+      "css": ".ds-toast{position:relative;display:flex;align-items:flex-start;gap:10px;min-width:240px;max-width:420px;padding:12px 14px 13px 12px;overflow:hidden;border-radius:var(--o-r-md);border:1px solid var(--o-line-2);background:#2a2125;color:var(--o-cream);font:400 14px/1.4 var(--o-font);box-shadow:var(--o-shadow-pop)}.ds-toast::before{content:\"\";flex:none;width:20px;height:20px;margin-top:-1px;border-radius:50%;background:var(--o-teal) center/12px no-repeat url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23062a20' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E\")}.ds-toast::after{content:\"\";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--o-teal);opacity:.7}"
+    },
+    {
+      "name": "Tabla",
+      "kind": "custom",
+      "refersTo": "table-header",
+      "description": "Informes: cabecera pegajosa sin mayúsculas, cifras tabulares y detalle en segunda línea.",
+      "html": "<table class=\"ds-table\"><thead><tr><th>Venta</th><th>Cliente</th><th>Total</th></tr></thead><tbody><tr><td><strong>#1042</strong><small>Hoy, 22:14</small></td><td>Cliente 318</td><td><strong>$1,020</strong></td></tr><tr><td><strong>#1041</strong><small>Hoy, 21:58</small></td><td>Cliente 77</td><td><strong>$450</strong></td></tr></tbody></table>",
+      "css": ".ds-table{width:100%;border-collapse:separate;border-spacing:0;font:400 14px var(--o-font);background:var(--o-surface);border:1px solid var(--o-line);border-radius:var(--o-r-lg);overflow:hidden}.ds-table th{padding:11px 14px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--o-muted);background:var(--o-surface-2);border-bottom:1px solid var(--o-line-2);white-space:nowrap}.ds-table td{padding:11px 14px;border-bottom:1px solid var(--o-line);color:var(--o-cream-2);vertical-align:middle;font-variant-numeric:tabular-nums}.ds-table td strong{color:var(--o-cream);font-weight:700}.ds-table td small{display:block;margin-top:2px;font-size:12px;color:var(--o-faint)}.ds-table tbody tr{transition:background var(--o-fast)}.ds-table tbody tr:hover{background:rgba(246,235,217,.035)}.ds-table tbody tr:last-child td{border-bottom:0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "La mesa de la ofrenda nocturna",
+    "overview": "La caja se usa de noche, en una ventana junto al juego o en el móvil con el pulgar, alternando la vista entre el chat de FiveM y el total. Por eso el tema es oscuro: carbón cálido con un punto de vino, texto crema y un solo color que pide acción. La mesa de trabajo (catálogo, ticket, tablas, ventanas) queda limpia; la temporada vive en el marco: papel picado colgando de la cabecera, una vela en el margen del menú lateral, festones recortados en los bordes.\n\nEl sistema vive en `ofrenda.css` (tokens `--o-*` en `:root`), que sustituyó a ocho capas anteriores; `logo.css` y `logo.js` llevan la marca y `auth-scene.css` la escena del acceso. Es denso y directo: indicadores en franja dividida en lugar de tarjetas sueltas, listas con divisor en lugar de tarjetas anidadas, y cifras siempre tabulares.",
+    "keyCharacteristics": [
+      "Fondo plano carbón (`ground`) con tres escalones de superficie y bordes crema translúcidos.",
+      "Naranja cempasúchil para acción, selección y total; turquesa solo para éxito.",
+      "Una sola familia, Archivo variable; la jerarquía se hace con peso y anchura, no con otra tipografía.",
+      "Festón de papel picado con máscara como borde de ticket, ventana, franja de inicio y tarjeta de acceso.",
+      "Movimiento corto con una única curva de salida; todo se apaga con movimiento reducido o «Animaciones suaves» desactivado.",
+      "La decoración de temporada no intercepta clics y va separada de la marca."
+    ],
+    "rules": [
+      { "name": "La regla del turquesa", "body": "Turquesa significa «salió bien» o «en línea» y nada más. Los importes, comisiones y descuentos van en crema; el total, en oro.", "section": "colors" },
+      { "name": "La regla del naranja", "body": "Naranja relleno significa «pulsa aquí» o «esto está seleccionado». Una sola acción naranja rellena por zona de trabajo: Añadir en la tarjeta, Cobrar en el ticket.", "section": "colors" },
+      { "name": "La regla tabular", "body": "Toda cifra que pueda cambiar o alinearse (importes, cantidades, contadores, celdas de tabla, reloj) lleva `font-variant-numeric: tabular-nums`.", "section": "typography" },
+      { "name": "La regla de la anchura", "body": "La jerarquía sube ensanchando: 100 cuerpo, 104–108 cifras y títulos menores, 110–112 títulos, 125 solo la marca. Las mayúsculas quedan para la marca y la etiqueta de grupo del menú lateral (12px, tracking .06em).", "section": "typography" },
+      { "name": "La regla de la sombra blanda", "body": "Ninguna sombra dura con desplazamiento, ni en cajas ni en el rótulo. La luz naranja aparece solo bajo acciones naranjas y en pulsos de respuesta que se desvanecen.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** reservar el naranja relleno para la acción principal y lo seleccionado, con texto `mari-ink`; el total y los precios van en oro.",
+      "**Do** usar turquesa solo para éxito y estado en línea.",
+      "**Do** poner `tabular-nums` en toda cifra y mantener el texto en 12px o más.",
+      "**Do** separar con divisores y festones; una lista dentro de un panel son filas, no tarjetas.",
+      "**Do** usar iconos SVG en línea de trazo, con `currentColor`.",
+      "**Do** dar `pointer-events: none` y `aria-hidden` a cualquier decoración, y condicionar todo movimiento a `body:not(.motion-off)` y a `prefers-reduced-motion`.",
+      "**Do** mantener la decoración en el marco: cabecera, márgenes, separadores y acceso."
+    ],
+    "donts": [
+      "**Don't** poner antetítulos: ninguna etiqueta pequeña encima de un título. El título va primero; si hace falta una insignia, va debajo del nombre.",
+      "**Don't** usar glifos o emoji como iconos (flechas, aspas, marcas de verificación tipográficas); siempre SVG.",
+      "**Don't** poner animaciones infinitas decorativas en zonas de trabajo (catálogo, ticket, tablas, ventanas, caja auxiliar). Los bucles existen solo en el marco (banderas, vela), en el acceso y en indicadores de carga.",
+      "**Don't** redibujar, recolorear ni recortar el emblema del logo, ni mezclar adornos de temporada dentro de él.",
+      "**Don't** usar sombras duras con desplazamiento, degradados morados de fondo ni tarjetas dentro de tarjetas.",
+      "**Don't** dejar que un efecto retrase u oculte el total."
+    ]
+  }
+}

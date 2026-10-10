@@ -20,7 +20,7 @@ async function setup(role='admin'){
  const t=await setup();const {dom,w,$,click,change,fill,errors}=t;
  assert.equal($('#app').classList.contains('hidden'),false);assert.equal($('#productGrid').children.length,30);ok('Inicio, seis categorías y catálogo completo de 30 productos');
  click('[data-page="pos"]');assert.equal($('#checkoutBtn').disabled,true);click('[data-add="p3"]');click('[data-q="p3"][data-d="1"]');
- assert.equal($('#grandTotal').textContent,'$560');assert.equal($('#orderCount').textContent,'2');assert.equal($('.cart-photo img').getAttribute('src'),'assets/menu/combo-burrito.png');ok('Agregar, sumar, miniatura y total por producto');
+ assert.equal($('#grandTotal').textContent,'$560');assert.equal($('#orderCount').textContent,'2');assert.equal($('.cart-photo img').getAttribute('src'),'assets/menu/thumb/combo-burrito.webp');assert.ok(fs.existsSync(path.join(base,'assets/menu/thumb/combo-burrito.webp')));ok('Agregar, sumar, miniatura y total por producto');
  click('[data-q="p3"][data-d="-1"]');assert.equal($('#grandTotal').textContent,'$280');assert.equal(w.document.activeElement.dataset.d,'-1');click('[data-q="p3"][data-d="-1"]');assert.equal($('#checkoutBtn').disabled,true);ok('Restar hasta cero y conservar foco de teclado');
  click('#bulkQty-p3');$('#bulkQty-p3').value='100';click('[data-add="p3"]');assert.equal($('#orderCount').textContent,'100');assert.equal($('#grandTotal').textContent,'$28,000');
  const directQty=$('[data-q-input="p3"]');directQty.value='125';directQty.dispatchEvent(new w.Event('change',{bubbles:true}));assert.equal($('#orderCount').textContent,'125');assert.equal($('#grandTotal').textContent,'$35,000');ok('Cantidades personalizadas se agregan y editan de una vez');click('#clearCartBtn');

@@ -1,0 +1,43 @@
+{
+ "date": "2026-10-09T20:39:51",
+ "browser": "Microsoft Edge (Chromium) headless",
+ "passed": [
+  "Acceso inválido muestra error y deja el formulario utilizable",
+  "Acceso válido abre el inicio",
+  "Cerrar sesión vuelve al acceso",
+  "Permisos: la cajera no ve secciones de administración",
+  "Agregar por botón, por acceso rápido +5 y por Enter",
+  "Cambiar cantidades, quitar y vaciar mantienen contador y total exactos",
+  "Seis pedidos de ejemplo coinciden con las reglas de precios, convenios y comisión",
+  "Convenio exclusivo bloqueado muestra aviso y no descuenta",
+  "Cobro fallido: aviso de error, ventana abierta y orden intacta",
+  "Cobro correcto: aviso de éxito, orden vacía y venta en el historial con su importe",
+  "Inicio: gráfica semanal visible con barras proporcionales",
+  "Estadísticas: gráfica del período y productos más vendidos",
+  "Cliente de la semana en Clientes coincide con las ventas de la demo (CARO-08, $3,360)",
+  "Teclado: salto al contenido, foco visible, Enter agrega y Escape cierra devolviendo el foco",
+  "Animación de agregar: vuelo al pedido sin bloquear clics y con total exacto",
+  "Papel picado, pétalos y fondo del menú no interceptan clics",
+  "Rendimiento: sin tareas largas al agregar en ráfaga",
+  "Movimiento reducido: sin animaciones en curso, sin pétalos y total exacto",
+  "390px: sin desbordes, controles dentro de pantalla, texto ≥11px, objetivos ≥32px, logo cargado (38px)",
+  "768px: sin desbordes, controles dentro de pantalla, texto ≥11px, objetivos ≥32px, logo cargado (46px)",
+  "1440px: sin desbordes, controles dentro de pantalla, texto ≥11px, objetivos ≥32px, logo cargado (46px)",
+  "Recursos: favicon, logo y fotos del menú cargan; fotos mantienen proporción 3:2",
+  "Sin errores de JavaScript ni recursos locales faltantes"
+ ],
+ "notes": [
+  "Sin convenio (general) {'p0': 2, 'p8': 1}: subtotal 660, descuento 0, total 660",
+  "Talleres (general) {'p11': 2, 'p8': 1}: subtotal 900, descuento 200, total 700",
+  "SecuroServ (general) {'p11': 2}: subtotal 800, descuento 400, total 400",
+  "Precio Sheriff (general) {'p0': 2, 'p1': 1}: subtotal 840, descuento 0, total 840",
+  "Precio Sheriff (police) {'p0': 2, 'p1': 1}: subtotal 840, descuento 240, total 600",
+  "Redline Mechanics (general) {'p0': 1, 'p4': 2, 'p9': 1}: subtotal 780, descuento 68, total 712",
+  "Tareas largas durante 15 altas rápidas: 0 (máx. 0 ms)",
+  "Animaciones ambientales en bucle en el inicio (1440 px): 23"
+ ],
+ "external_blocked": [
+  "fonts.googleapis.com"
+ ],
+ "supabase_real": false
+}

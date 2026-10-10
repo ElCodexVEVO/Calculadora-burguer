@@ -1,4 +1,38 @@
-# Burger Shot V6.8
+# Burger Shot V7 · Ofrenda nocturna
+
+Renovación visual completa con un solo sistema de diseño: fondos carbón, texto crema, acentos naranja cempasúchil y detalles vino y ciruela, con la temática de Día de Muertos y Halloween en el marco (papel picado, velas, cempasúchil) y las zonas de trabajo despejadas. Conserva el logo ilustrado original, todas las funciones, cálculos y permisos.
+
+- **Caja** más densa y rápida, ticket fijo en escritorio y barra de pedido con el total real en móvil y tableta.
+- **Cliente de la semana** en la sección Clientes; la actividad semanal sigue en el inicio.
+- **Logo como sistema**: componente `<burgershot-logo>` con entrada de marca, cargador propio, reflejo al pasar y respaldo, sobre el emblema original.
+- **Insignia de temporada en 3D**: vela, cempasúchil y calabaza modelados en Blender y mostrados con Three.js solo cuando se ven, con imagen de respaldo.
+- **Movimiento** ligado a acciones reales (agregar, cambiar cantidades, cobrar, errores) con soporte de movimiento reducido.
+- **Imágenes WebP**: el menú pasa de 12 MB a 1,7 MB sin cambiar proporciones.
+
+Consulta [la actualización V7](ACTUALIZAR_V7.md), el sistema visual en [DESIGN.md](DESIGN.md) y prueba **[DEMO_V6.html](DEMO_V6.html)** (datos simulados) o **[DEMO_ACCESO.html](DEMO_ACCESO.html)** (usuario `demo`, contraseña `demo`).
+
+### Ejecutar y revisar en local
+
+```
+py -m http.server 8000 --bind 127.0.0.1
+```
+
+Abre http://localhost:8000/DEMO_V6.html para la demo o http://localhost:8000 para tu Supabase configurado.
+
+### Pruebas
+
+```
+cd tests
+npm install
+npm test
+```
+
+Las pruebas de navegador necesitan Playwright y un Chromium o Edge instalado (`CHROMIUM_EXECUTABLE`): `node auth-browser.cjs`, `node caja-rapida-browser.cjs`, `node dashboard-browser.cjs` y, con Python desde la raíz, `py tests/v7-browser.py`, `py tests/logo-browser.py` y `py tests/season-browser.py`.
+
+---
+
+## Notas de V6.8
+
 
 Inicio renovado con cifras más legibles, una paleta uniforme de ciruela y dorado, banner compacto y acceso directo a Caja. **Rendimiento del equipo** reemplaza a Cliente de la semana, junto al empleado destacado; la actividad semanal ocupa todo el ancho y permite consultar cada día con clic, foco o teclado.
 

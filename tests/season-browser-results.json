@@ -1,0 +1,23 @@
+{
+ "date": "2026-10-09T20:42:00",
+ "browser": "Microsoft Edge (Chromium) headless, WebGL por software",
+ "passed": [
+  "Escritorio 1440: bloque compacto, cuatro textos en HTML, sin cortes ni solapes",
+  "Escena 3D: un solo lienzo, en marcha, cargada bajo demanda",
+  "Llama y luz animadas con variación irregular",
+  "Perspectiva: variación pequeña y amortiguada al mover el cursor",
+  "Al pasar el cursor sube la luz de la llama y el texto queda quieto",
+  "Se pausa cuando no es visible o se apagan las animaciones y se reanuda después",
+  "Movimiento reducido: imagen estática, sin 3D ni animaciones",
+  "Respaldo: imagen estática si falla el modelo, Three.js o WebGL",
+  "Móvil 390: la insignia cabe en el menú, carga al abrirlo y se pausa al cerrarlo",
+  "Sin errores de JavaScript"
+ ],
+ "notes": [
+  "Escena: 9308 triángulos; tarjeta 207×100 px; ilustración 68×57 px",
+  "Oscilación de la luz: 23 % alrededor de la media; 4 de 4 capturas de la llama son distintas",
+  "Perspectiva: giro máximo 9.2° horizontal, 3.8° vertical",
+  "CLS en escritorio con la escena: 0.0190",
+  "Móvil: la escena se carga al abrir el menú y se pausa al cerrarlo"
+ ]
+}

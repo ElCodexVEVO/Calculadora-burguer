@@ -2,3 +2,9 @@ node_modules/
 test-results/
 .claude/
 .qa-browser-temp/
+.impeccable/config.local.json
+.impeccable/live/
+
+# Python
+__pycache__/
+*.pyc

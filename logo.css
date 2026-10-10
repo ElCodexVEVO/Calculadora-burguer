@@ -1,0 +1,107 @@
+/* Burger Shot · Sistema de logo (logo.js). Marca base arriba; temporada en su propio bloque. */
+
+burgershot-logo{display:inline-flex;align-items:center;gap:11px;min-width:0;position:relative;-webkit-tap-highlight-color:transparent}
+burgershot-logo .bs-type{display:block;min-width:0}
+burgershot-logo strong .bs-type-visual,burgershot-logo strong .bs-ch{color:inherit;-webkit-text-fill-color:currentColor}
+burgershot-logo strong .bs-type-visual .bs-accent{color:var(--o-mari,#f28c1b)}
+burgershot-logo .bs-ch{display:inline-block}
+
+/* Emblema: el <img> original sobre capas de luz y sombra. Medidas fijas: sin saltos de maquetación. */
+burgershot-logo .bs-mark{
+  --tilt-x:0deg;--tilt-y:0deg;--lift:0px;--scale:1;--light:50%;
+  position:relative;display:grid;place-items:center;flex:none;isolation:isolate;
+  transform:perspective(600px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift)) scale(var(--scale));
+  transition:transform 220ms cubic-bezier(.22,1,.36,1),filter 220ms cubic-bezier(.22,1,.36,1);
+}
+burgershot-logo .bs-mark img{position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));transition:opacity 240ms ease}
+/* Mientras carga: un círculo tenue del tamaño final (nada de huecos). */
+burgershot-logo .bs-mark::before{content:"";position:absolute;inset:8%;z-index:1;border-radius:50%;background:radial-gradient(circle at 50% 42%,#3a2a2e,#211719 70%);opacity:1;transition:opacity 300ms ease}
+burgershot-logo.is-loaded .bs-mark::before{opacity:0}
+burgershot-logo:not(.is-loaded) .bs-mark img{opacity:0}
+/* Respaldo final si ninguna imagen carga: monograma legible. */
+burgershot-logo.is-fallback .bs-mark img{display:none}
+burgershot-logo.is-fallback .bs-mark::after{content:attr(data-monogram);position:relative;z-index:3;display:grid;place-items:center;width:84%;aspect-ratio:1;border-radius:50%;background:#2a1d20;border:2px solid var(--o-mari,#f28c1b);color:var(--o-cream,#f6ebd9);font:900 clamp(12px,38cqw,46px)/1 var(--o-font,system-ui);font-stretch:125%}
+burgershot-logo.is-fallback .bs-mark{container-type:inline-size}
+burgershot-logo.is-fallback .bs-mark::before{opacity:0}
+
+/* Sombra de contacto bajo el emblema: da profundidad sin “plástico”. */
+burgershot-logo .bs-mark-shadow{position:absolute;left:50%;bottom:-4%;z-index:0;width:72%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,0));transform:translateX(-50%) translateX(calc(var(--tilt-y) * -1.6));transition:transform 260ms cubic-bezier(.22,1,.36,1),opacity 260ms ease;pointer-events:none}
+/* Reflejo: banda de luz recortada a la silueta del logo. */
+burgershot-logo .bs-mark-sheen{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,244,222,.55) 48%,rgba(255,214,150,.28) 54%,transparent 66%) -120% 0/250% 100% no-repeat;
+  -webkit-mask:var(--bs-logo-src) center/contain no-repeat;mask:var(--bs-logo-src) center/contain no-repeat;mix-blend-mode:screen}
+/* Luz ambiental (solo con temporada activa; ver más abajo). */
+burgershot-logo .bs-mark-glow{position:absolute;inset:-18%;z-index:0;border-radius:50%;opacity:0;pointer-events:none}
+
+/* Interacción: elevación mínima, brillo leve y pulsación. */
+burgershot-logo[interactive]{cursor:pointer}
+@media (hover:hover) and (pointer:fine){
+  burgershot-logo[interactive]:hover .bs-mark{--lift:-1px;--scale:1.015;filter:brightness(1.05)}
+}
+burgershot-logo[interactive]:active .bs-mark{--scale:.98;transition-duration:90ms}
+burgershot-logo.is-near .bs-mark{filter:brightness(1.03)}
+
+/* ── Variantes ── */
+burgershot-logo.bs-logo--full .bs-mark{width:var(--bs-logo-size,128px);height:var(--bs-logo-size,128px)}
+burgershot-logo.bs-logo--compact .bs-mark{width:var(--bs-logo-size,46px);height:var(--bs-logo-size,46px)}
+burgershot-logo.bs-logo--mobile .bs-mark{width:var(--bs-logo-size,38px);height:var(--bs-logo-size,38px)}
+burgershot-logo.bs-logo--icon .bs-mark{width:var(--bs-logo-size,76px);height:var(--bs-logo-size,76px)}
+burgershot-logo.bs-logo--loader{display:grid;place-items:center}
+burgershot-logo.bs-logo--loader .bs-mark{width:var(--bs-logo-size,150px);height:var(--bs-logo-size,150px)}
+burgershot-logo.bs-logo--mobile small{display:none}
+
+/* Cargador: la silueta tenue se rellena de color de abajo arriba (900 ms) y vuelve a empezar. */
+burgershot-logo.bs-logo--loader .bs-mark img{filter:brightness(.22) saturate(0) drop-shadow(0 4px 10px rgba(0,0,0,.45));opacity:.7}
+burgershot-logo.bs-logo--loader .bs-mark-fill{position:absolute;inset:0;z-index:2;background:var(--bs-logo-src) center/contain no-repeat;clip-path:inset(100% 0 0 0);pointer-events:none}
+@media (prefers-reduced-motion:no-preference){
+  body:not(.motion-off) burgershot-logo.bs-logo--loader .bs-mark-fill{animation:bs-logo-build 900ms cubic-bezier(.22,1,.36,1) infinite}
+}
+@keyframes bs-logo-build{0%{clip-path:inset(100% 0 0 0);opacity:1}62%{clip-path:inset(0 0 0 0);opacity:1}86%{clip-path:inset(0 0 0 0);opacity:1}100%{clip-path:inset(0 0 0 0);opacity:0}}
+/* Sin movimiento: el emblema se muestra completo y la carga se explica con el texto. */
+@media (prefers-reduced-motion:reduce){burgershot-logo.bs-logo--loader .bs-mark-fill{clip-path:none}}
+.motion-off burgershot-logo.bs-logo--loader .bs-mark-fill{clip-path:none}
+.hidden burgershot-logo *{animation-play-state:paused!important}
+
+/* Velo breve sobre el acceso mientras entra el logo (“las luces se encienden”). */
+.gate.is-logo-intro::after{content:"";position:absolute;inset:0;z-index:1;background:#0c0709;pointer-events:none;animation:bs-logo-veil 900ms cubic-bezier(.22,1,.36,1) both}
+@keyframes bs-logo-veil{from{opacity:.6}to{opacity:0}}
+
+/* Integración con las pantallas existentes. */
+#authScreen burgershot-logo.brand{display:flex}
+#authScreen burgershot-logo .bs-mark.logo{width:128px;height:128px;overflow:visible}
+#authScreen burgershot-logo .bs-mark img{filter:drop-shadow(0 10px 22px rgba(0,0,0,.6))}
+.header-brand.bs-logo .bs-mark{width:46px;height:46px}
+.header-brand.bs-logo .bs-mark img{width:46px;height:46px}
+.sidebar burgershot-logo .bs-mark{width:40px;height:40px}
+.empty-cart burgershot-logo .bs-mark img{opacity:.95}
+.auth-loading-emblem.bs-logo{width:auto;height:auto;margin:0 auto 18px}
+#cloudSetup burgershot-logo .bs-mark{width:96px;height:96px}
+@media (max-width:900px){
+  #authScreen burgershot-logo .bs-mark.logo{width:72px;height:72px}
+  #authScreen burgershot-logo.brand{flex-direction:row}
+}
+@media (max-width:760px){
+  .header-brand.bs-logo .bs-mark,.header-brand.bs-logo .bs-mark img{width:38px;height:38px}
+  burgershot-logo.bs-logo--loader .bs-mark{width:120px;height:120px}
+}
+
+/* ── Temporada (decoración separada de la marca) ── */
+/* Día de Muertos: luz cálida de cempasúchil detrás del emblema y tres pétalos quietos. */
+[data-season~="dia-de-muertos"] burgershot-logo .bs-mark-glow{opacity:1;background:radial-gradient(circle,rgba(255,168,64,.30),rgba(242,140,27,.10) 45%,rgba(242,140,27,0) 70%)}
+[data-season~="dia-de-muertos"] burgershot-logo.bs-logo--compact .bs-mark-glow,[data-season~="dia-de-muertos"] burgershot-logo.bs-logo--mobile .bs-mark-glow{inset:-30%;background:radial-gradient(circle,rgba(255,168,64,.26),rgba(242,140,27,0) 66%)}
+burgershot-logo .bs-accents{position:absolute;inset:-14%;z-index:1;pointer-events:none}
+burgershot-logo .bs-accents i{position:absolute;width:12%;aspect-ratio:3/2;background:url('assets/season/petalo.svg') center/contain no-repeat;opacity:.85}
+burgershot-logo .bs-accents i:nth-child(1){left:2%;top:58%;transform:rotate(-28deg)}
+burgershot-logo .bs-accents i:nth-child(2){right:4%;top:18%;transform:rotate(152deg) scale(.8)}
+burgershot-logo .bs-accents i:nth-child(3){right:10%;bottom:6%;transform:rotate(18deg) scale(.7)}
+/* Halloween: un filo morado muy leve en la luz, nunca en el emblema. */
+[data-season~="halloween"] burgershot-logo.bs-logo--full .bs-mark-glow,[data-season~="halloween"] burgershot-logo.bs-logo--loader .bs-mark-glow{background:radial-gradient(circle at 50% 46%,rgba(255,168,64,.28),rgba(242,140,27,.08) 44%,rgba(140,80,150,.07) 58%,rgba(140,80,150,0) 70%)}
+
+/* Movimiento reducido: sin inclinación ni elevación; solo un fundido simple. */
+@media (prefers-reduced-motion:reduce){
+  burgershot-logo .bs-mark{transform:none!important;transition:none}
+  burgershot-logo .bs-mark-sheen{display:none}
+}
+.motion-off burgershot-logo .bs-mark{transform:none!important}
+.motion-off burgershot-logo .bs-mark-sheen{display:none}
+@media (hover:none),(pointer:coarse){burgershot-logo .bs-mark{--tilt-x:0deg!important;--tilt-y:0deg!important}}

@@ -20,6 +20,7 @@ Abre `DEMO_V6.html` para probar el diseño con datos de ejemplo. La sección Caj
 - Nueva identidad de la barra lateral: cabecera tipográfica, secciones numeradas, selección crema con acento cempasúchil y detalles de menú impreso. Se conservan el emblema, las velas, las flores y la calabaza de temporada.
 - Barra lateral más espaciosa: 272 px en escritorio y hasta 300 px en móvil, tipografía sin condensar en la marca, opciones de 48 px y textos secundarios más legibles. La lista se desplaza de forma independiente y el perfil queda visible al pie. En pantallas bajas se recoge la tarjeta de temporada.
 - Banner de Inicio ampliado: contenido en columna, título de 32 px en escritorio y 27 px en móvil, foto visible también en móvil y más separación entre texto y botón. Se conservan la imagen de temporada y el borde de papel picado. El acceso mantiene su diseño.
+- Fondo de altar nocturno con velas, cempasúchil y calabazas, usando la ilustración de temporada existente con un velo oscuro para conservar la lectura. Caída continua de 24 pétalos en escritorio, 18 en tableta y 12 en móvil, con balanceo y dos luces suaves detrás de los paneles de Inicio. Se pausa fuera de Inicio, al ocultar la página o al desactivar las animaciones o los pétalos.
 
 ## Archivos para actualizar
 
@@ -40,3 +41,5 @@ Barra lateral: revisión a 1440 × 960, 406 × 884 y 320 × 640 px. Navegación 
 Último ajuste de espacio: revisión manual a 1440 × 960, 416 × 884 y 320 × 640 px. Navegación a Ajustes y Estadísticas desde la lista desplazable, apertura y cierre del perfil siempre visible, y ancho coordinado de la barra y el contenido en escritorio. Banner de 254 px de alto en escritorio y adaptación sin recortes de texto a 320 px. El botón Ir a caja abre Caja. Sin desbordamiento horizontal.
 
 Capturas del último ajuste: `preview/menu-mas-espacio.jpg` y `preview/inicio-mas-espacio.jpg`. Los ajustes previos se ven en `preview/menu-identidad-temporada.jpg`, `preview/plantillas-renovadas.jpg` y `preview/logos-animados.jpg`.
+
+Fondo y pétalos: revisión a 1280, 768, 416 y 320 px de ancho, sin desbordamiento horizontal. Se verificó movimiento entre dos lecturas de transformación, cantidades de pétalos por tamaño, navegación a Caja y apagado/encendido de ambas preferencias. El fondo permanece estático al apagar las animaciones. La regla de movimiento reducido conserva los efectos desactivados. Captura: `preview/fondo-temporada.jpg`.

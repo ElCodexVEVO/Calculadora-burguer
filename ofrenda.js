@@ -67,22 +67,24 @@
   const onScroll=()=>{const next=window.scrollY>12;if(next!==scrolled){scrolled=next;topbar.classList.toggle('is-scrolled',next)}};
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
-  /* ── Pétalos de cempasúchil en el fondo (solo escritorio y con movimiento) ── */
+  /* ── Altar de fondo y cempasúchil en dos planos ── */
+  const backdrop=document.createElement('div');backdrop.className='season-backdrop';backdrop.setAttribute('aria-hidden','true');
   const petals=document.createElement('div');petals.className='ambient-petals';petals.setAttribute('aria-hidden','true');
-  petals.innerHTML=Array.from({length:5},(_,i)=>`<i style="--x:${[8,27,49,71,92][i]}%;--s:${12+i%3*3}px;--dur:${22+i%4*5}s;--delay:-${(i*4.3).toFixed(1)}s;--drift:${i%2?'-':''}${40+i%3*25}px;--spin:${i%2?420:-380}deg"></i>`).join('');
-  app.prepend(petals);
+  petals.innerHTML=Array.from({length:24},(_,i)=>`<i style="--x:${((i+.5)*100/24).toFixed(2)}%;--x-tablet:${((i%18+.5)*100/18).toFixed(2)}%;--x-mobile:${((i%12+.5)*100/12).toFixed(2)}%;--s:${16+i%5*3}px;--dur:${12+i*7%9}s;--delay:-${(i*5.7%22).toFixed(1)}s;--drift:${i%2?'-':''}${50+i%5*20}px;--spin:${(i%2?1:-1)*(360+i%4*90)}deg;--alpha:${(i%3===2?.3:.52+i%4*.06).toFixed(2)}"></i>`).join('');
+  app.prepend(backdrop,petals);
   // Solo en el inicio: la caja y la caja auxiliar quedan libres de movimiento ambiental.
   const home=$('page-dashboard');
-  const syncPetals=()=>{petals.hidden=!wide.matches||still()||document.body.classList.contains('season-petals-off')||!home?.classList.contains('active')};
-  wide.addEventListener('change',syncPetals);reduced.addEventListener('change',syncPetals);
+  const syncPetals=()=>{petals.hidden=document.hidden||app.classList.contains('hidden')||still()||document.body.classList.contains('season-petals-off')||!home?.classList.contains('active')};
+  reduced.addEventListener('change',syncPetals);document.addEventListener('visibilitychange',syncPetals);
   new MutationObserver(syncPetals).observe(document.body,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(syncPetals).observe(app,{attributes:true,attributeFilter:['class']});
   if(home)new MutationObserver(syncPetals).observe(home,{attributes:true,attributeFilter:['class']});
   syncPetals();
   // Preferencia de pétalos en Ajustes (se conserva la clave de V6.5).
   const settings=document.querySelector('.v6-settings');
   if(settings&&!$('seasonPetalToggle')){
     const label=document.createElement('label');label.className='permission-row';
-    label.innerHTML='<span><strong>Pétalos en el ambiente</strong><small>Algunos pétalos de cempasúchil caen detrás de los paneles en pantallas grandes.</small></span><input id="seasonPetalToggle" type="checkbox" checked>';
+    label.innerHTML='<span><strong>Pétalos en el ambiente</strong><small>Cempasúchil y luz cálida detrás de los paneles de Inicio.</small></span><input id="seasonPetalToggle" type="checkbox" checked>';
     settings.querySelector('h2').after(label);
     const toggle=label.querySelector('input');
     try{toggle.checked=localStorage.getItem('bs_season_petals')!=='false'}catch{}

@@ -294,8 +294,14 @@ nav{gap:2px}
 .topbar.is-scrolled .papel-picado{transform:translateY(-110%);opacity:0}
 .papel-defs{position:absolute;width:0;height:0;overflow:hidden}
 
-/* Pétalos en el fondo: solo se ven entre paneles; nunca interceptan el puntero. */
+/* Altar nocturno detrás de la interfaz: la foto conserva el velo oscuro para leer. */
+.season-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;contain:strict;background:linear-gradient(180deg,rgba(20,16,18,.7),rgba(20,16,18,.88) 58%,rgba(20,16,18,.58)),linear-gradient(90deg,rgba(20,16,18,.22),rgba(20,16,18,.6) 55%,rgba(20,16,18,.18)),url('assets/auth-altar.webp') 24% 100%/cover no-repeat}
+.season-backdrop::after{content:"";position:absolute;inset:0;background:url('assets/season/papel-artesanal.svg') repeat 0 0/180px 162px;opacity:.035}
+/* Pétalos y luces detrás de los paneles; nunca interceptan el puntero. */
 .ambient-petals{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;contain:strict}
+.ambient-petals::before,.ambient-petals::after{content:"";position:absolute;width:min(640px,75vw);aspect-ratio:1;border-radius:50%;opacity:.45;background:radial-gradient(ellipse,rgba(242,140,27,.18),rgba(242,140,27,.055) 40%,transparent 70%)}
+.ambient-petals::before{left:0;top:14%}
+.ambient-petals::after{right:-10%;bottom:4%;background:radial-gradient(ellipse,rgba(167,106,172,.16),rgba(122,30,58,.06) 42%,transparent 70%)}
 .ambient-petals i{position:absolute;top:-30px;left:var(--x);width:var(--s);height:calc(var(--s) * .62);border-radius:80% 10% 70% 20%;background:linear-gradient(110deg,#ffc255,#f07d16 70%,#c8580a);opacity:0;will-change:transform,opacity}
 
 .page{padding:50px 28px 40px;max-width:1720px}
@@ -845,7 +851,8 @@ tbody td[colspan]{padding:26px 14px;text-align:center;color:var(--o-muted)}
 @keyframes o-drop{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
 @keyframes o-candle{0%,100%{opacity:.7;transform:translateY(-50%) scale(1)}18%{opacity:.92;transform:translateY(-50%) scale(1.05)}36%{opacity:.62;transform:translateY(-50%) scale(.97)}58%{opacity:.86;transform:translateY(-50%) scale(1.03)}80%{opacity:.68;transform:translateY(-50%) scale(.99)}}
 @keyframes o-sway{0%,100%{transform:rotate(calc(var(--tilt,0deg) - 2.2deg))}50%{transform:rotate(calc(var(--tilt,0deg) + 2.2deg))}}
-@keyframes o-petal{0%{opacity:0;transform:translate3d(0,0,0) rotate(0)}10%{opacity:.55}85%{opacity:.4}100%{opacity:0;transform:translate3d(var(--drift),108vh,0) rotate(var(--spin))}}
+@keyframes o-petal{0%{opacity:0;transform:translate3d(0,-4vh,0) rotate(0)}12%{opacity:var(--alpha,.6)}25%{transform:translate3d(calc(var(--drift) * -.3),24vh,0) rotate(calc(var(--spin) * .22))}50%{transform:translate3d(calc(var(--drift) * .6),52vh,0) rotate(calc(var(--spin) * .5))}75%{transform:translate3d(calc(var(--drift) * .2),80vh,0) rotate(calc(var(--spin) * .76))}88%{opacity:var(--alpha,.6)}100%{opacity:0;transform:translate3d(var(--drift),112vh,0) rotate(var(--spin))}}
+@keyframes o-ambient-light{0%{opacity:.3;transform:translate3d(-3vw,-2vh,0) scale(.92)}50%{opacity:.7;transform:translate3d(6vw,4vh,0) scale(1.08)}100%{opacity:.4;transform:translate3d(2vw,-4vh,0) scale(.96)}}
 @keyframes o-toast-in{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes o-toast-out{to{opacity:0;transform:translateY(6px) scale(.98)}}
 @keyframes o-toast-time{from{transform:scaleX(1)}to{transform:scaleX(0)}}
@@ -872,6 +879,8 @@ tbody td[colspan]{padding:26px 14px;text-align:center;color:var(--o-muted)}
   body:not(.motion-off) .page.active>.page-title-row,body:not(.motion-off) .page.active>.hero-row,body:not(.motion-off) .page.active .pos-head{animation:o-rise 380ms var(--o-ease) both}
   body:not(.motion-off) .papel-picado .flag{animation:o-sway var(--dur,5s) ease-in-out var(--delay,0s) infinite}
   body:not(.motion-off) .ambient-petals i{animation:o-petal var(--dur) linear var(--delay) infinite}
+  body:not(.motion-off) .ambient-petals::before{animation:o-ambient-light 22s ease-in-out -8s infinite alternate}
+  body:not(.motion-off) .ambient-petals::after{animation:o-ambient-light 29s ease-in-out -17s infinite alternate-reverse}
   body:not(.motion-off) .product-card.bs-enter{animation:o-rise 360ms var(--o-ease) calc(var(--i,0) * 32ms) both}
   body:not(.motion-off) .product-card.is-added{animation:o-added 520ms var(--o-ease)}
   body:not(.motion-off) .bs-pop{animation:o-pop 320ms var(--o-ease)}
@@ -1050,7 +1059,6 @@ tbody td[colspan]{padding:26px 14px;text-align:center;color:var(--o-muted)}
   .customer-week-content{grid-template-columns:1fr 1fr}
   .customer-week-stat{border-left:0;padding:0}
   .customer-week-stat:last-child{grid-column:1/-1}
-  .ambient-petals{display:none}
 }
 @media (max-width:380px){
   .topbar{padding:0 8px;gap:6px}
@@ -1359,8 +1367,19 @@ body:not(.bs-focused) .bs-header{justify-content:flex-end;padding-top:10px;paddi
 .order-checkout::before{content:"";position:absolute;left:0;right:0;top:-1px;height:6px;background:var(--o-line-3);-webkit-mask:var(--papel-edge) repeat-x left top/18px 6px;mask:var(--papel-edge) repeat-x left top/18px 6px}
 .order-panel .totals .grand{position:relative;border-top:0;padding-top:14px}
 .order-panel .totals .grand::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--o-mari-line);-webkit-mask:var(--papel-edge) repeat-x left top/16px 5px;mask:var(--papel-edge) repeat-x left top/16px 5px}
-/* 8 · Pétalos reales (assets/season/petalo.svg), pocos y solo en el inicio. */
-.ambient-petals i{width:var(--s);height:calc(var(--s) * .66);border-radius:0;background:url('assets/season/petalo.svg') center/contain no-repeat;filter:none}
+/* 8 · Caída continua de cempasúchil: 24 pétalos en escritorio, 18 en tableta y 12 en móvil. */
+.ambient-petals i{--petal-size:var(--s);width:var(--petal-size);height:calc(var(--petal-size) * .66);border-radius:0;background:url('assets/season/petalo.svg') center/contain no-repeat;filter:none}
+.ambient-petals i:nth-child(3n){filter:blur(.6px)}
+@media (min-width:1101px){.season-backdrop,.ambient-petals{left:272px}}
+@media (max-width:1100px){
+  .ambient-petals i{left:var(--x-tablet)}
+  .ambient-petals i:nth-child(n+19){display:none}
+}
+@media (max-width:760px){
+  .season-backdrop{background-position:20% 100%}
+  .ambient-petals i{--petal-size:min(var(--s),22px);left:var(--x-mobile)}
+  .ambient-petals i:nth-child(n+13){display:none}
+}
 
 .employee-week-kpis>div strong{color:var(--o-cream)}
 /* styles.css fija .green con !important; solo así se recupera el color neutro. */

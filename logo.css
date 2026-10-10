@@ -14,6 +14,8 @@ burgershot-logo .bs-mark{
   transition:transform 220ms cubic-bezier(.22,1,.36,1),filter 220ms cubic-bezier(.22,1,.36,1);
 }
 burgershot-logo .bs-mark img{position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45));transition:opacity 240ms ease}
+burgershot-logo .bs-mark-face{position:relative;display:block;grid-area:1/1;width:100%;height:100%;z-index:2;transform-origin:50% 65%}
+burgershot-logo.is-fallback .bs-mark-face{display:none}
 /* Mientras carga: un círculo tenue del tamaño final (nada de huecos). */
 burgershot-logo .bs-mark::before{content:"";position:absolute;inset:8%;z-index:1;border-radius:50%;background:radial-gradient(circle at 50% 42%,#3a2a2e,#211719 70%);opacity:1;transition:opacity 300ms ease}
 burgershot-logo.is-loaded .bs-mark::before{opacity:0}
@@ -71,11 +73,17 @@ burgershot-logo.bs-logo--loader .bs-mark-fill{position:absolute;inset:0;z-index:
 #authScreen burgershot-logo .bs-mark.logo{width:128px;height:128px;overflow:visible}
 #authScreen burgershot-logo .bs-mark img{filter:drop-shadow(0 10px 22px rgba(0,0,0,.6))}
 .header-brand.bs-logo .bs-mark{width:46px;height:46px}
-.header-brand.bs-logo .bs-mark img{width:46px;height:46px}
+.header-brand.bs-logo .bs-mark img{width:46px;height:46px;filter:none}
+.header-brand.bs-logo .bs-mark-shadow{display:none}
+.header-brand.bs-logo .bs-mark-glow{opacity:.45}
 .sidebar burgershot-logo .bs-mark{width:40px;height:40px}
 /* La base fijaba 96×102 px por id: el emblema se ciñe a su hueco para no pisar el texto. */
 #cartEmpty burgershot-logo .bs-mark img{width:100%;height:100%;margin:0;opacity:1;filter:none}
-#cartEmpty burgershot-logo .bs-mark-shadow,#cartEmpty burgershot-logo .bs-mark-glow{display:none}
+#cartEmpty burgershot-logo{padding-bottom:10px}
+#cartEmpty burgershot-logo .bs-mark-glow{display:none}
+/* Sombra sobre el suelo: separada de la silueta y con espacio propio antes del texto. */
+#cartEmpty burgershot-logo .bs-mark-shadow{display:block;bottom:-6px;width:58%;height:10%;background:radial-gradient(ellipse at center,rgba(0,0,0,.65),rgba(0,0,0,.24) 45%,transparent 75%);filter:blur(1px);transform:translateX(-50%) scale(1);opacity:.78}
+.ticket-light #cartEmpty burgershot-logo .bs-mark-shadow{background:radial-gradient(ellipse at center,rgba(58,32,20,.34),rgba(58,32,20,.14) 45%,transparent 75%)}
 /* En pantallas bajas el ticket deja poco hueco: emblema y márgenes más pequeños para que quepa sin desplazamiento. */
 @media (min-width:1101px) and (max-height:940px){#cartEmpty{padding:8px 10px}#cartEmpty burgershot-logo{--bs-logo-size:60px}}
 @media (min-width:1101px) and (max-height:800px){#cartEmpty burgershot-logo{display:none}}
@@ -102,11 +110,42 @@ burgershot-logo .bs-accents i:nth-child(3){right:10%;bottom:6%;transform:rotate(
 /* Halloween: un filo morado muy leve en la luz, nunca en el emblema. */
 [data-season~="halloween"] burgershot-logo.bs-logo--full .bs-mark-glow,[data-season~="halloween"] burgershot-logo.bs-logo--loader .bs-mark-glow{background:radial-gradient(circle at 50% 46%,rgba(255,168,64,.28),rgba(242,140,27,.08) 44%,rgba(140,80,150,.07) 58%,rgba(140,80,150,0) 70%)}
 
+/* Movimiento en reposo: solo el emblema y su reflejo, cuando están visibles. */
+@keyframes bs-logo-header-idle{
+  0%,10%,58%,100%{transform:translateY(0) rotate(0)}
+  24%{transform:translateY(-2px) rotate(-4deg)}
+  36%{transform:translateY(0) rotate(3deg)}
+  46%{transform:translateY(-1px) rotate(-1deg)}
+}
+@keyframes bs-logo-float{
+  0%,100%{transform:translateY(0) rotate(0)}
+  25%{transform:translateY(-3px) rotate(-2deg)}
+  50%{transform:translateY(-5px) rotate(0)}
+  75%{transform:translateY(-3px) rotate(2deg)}
+}
+@keyframes bs-logo-ground-shadow{
+  0%,100%{transform:translateX(-50%) scale(1);opacity:.78}
+  25%,75%{transform:translateX(-50%) scale(.87);opacity:.62}
+  50%{transform:translateX(-50%) scale(.72);opacity:.43}
+}
+@keyframes bs-logo-idle-sheen{
+  0%,72%{opacity:0;background-position:-120% 0}
+  77%{opacity:.6}
+  86%,100%{opacity:0;background-position:220% 0}
+}
+@media (prefers-reduced-motion:no-preference){
+  body:not(.motion-off) burgershot-logo[animated][motion="header"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-face{animation:bs-logo-header-idle 7s ease-in-out infinite}
+  body:not(.motion-off) burgershot-logo[animated][motion="float"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-face{animation:bs-logo-float 4.8s ease-in-out infinite}
+  body:not(.motion-off) #cartEmpty burgershot-logo[animated][motion="float"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-shadow{animation:bs-logo-ground-shadow 4.8s ease-in-out infinite}
+  body:not(.motion-off) burgershot-logo[animated][motion][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-sheen{animation:bs-logo-idle-sheen 9s ease-in-out infinite}
+}
 /* Movimiento reducido: sin inclinación ni elevación; solo un fundido simple. */
 @media (prefers-reduced-motion:reduce){
   burgershot-logo .bs-mark{transform:none!important;transition:none}
+  burgershot-logo .bs-mark-face{animation:none;transform:none!important}
   burgershot-logo .bs-mark-sheen{display:none}
 }
 .motion-off burgershot-logo .bs-mark{transform:none!important}
+.motion-off burgershot-logo .bs-mark-face{animation:none;transform:none!important}
 .motion-off burgershot-logo .bs-mark-sheen{display:none}
 @media (hover:none),(pointer:coarse){burgershot-logo .bs-mark{--tilt-x:0deg!important;--tilt-y:0deg!important}}

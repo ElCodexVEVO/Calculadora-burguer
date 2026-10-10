@@ -9,7 +9,7 @@
      icon     solo emblema (pedido vacío)
      loader   emblema que se construye por capas (pantalla de carga)
      mobile   compacto reducido, sin interacción
-   Atributos: animated (entrada), interactive (brillo al pasar y pulsación),
+   Atributos: animated (entrada), motion="header" o "float" (movimiento en reposo), interactive (brillo al pasar y pulsación),
    parallax (inclinación de 2,5° cerca del cursor, solo escritorio), intro-key
    (la entrada completa se ve una vez por sesión y clave), decorative (sin texto alternativo).
    Temporada: <html data-season="dia-de-muertos halloween">. Sin el atributo, la marca base. */
@@ -57,6 +57,11 @@
       mark.prepend(this.shadow);mark.prepend(this.glow);
       if(variant==='loader'){this.fill=layer('bs-mark-fill');mark.append(this.fill)}
       mark.append(this.sheen);
+      // Emblema y reflejo se mueven juntos; la marca escrita y las medidas quedan fijas.
+      if(['header','float'].includes(this.getAttribute('motion'))){
+        this.face=document.createElement('span');this.face.className='bs-mark-face';
+        this.face.append(img,this.sheen);mark.append(this.face);
+      }
       if(variant==='full'||variant==='loader')this.addSeasonAccents();
       this.splitWordmark();
       this.applySource(img.currentSrc||img.src);
@@ -134,7 +139,21 @@
         go(this,[{opacity:0},{opacity:1}],{duration:200});
         return Promise.allSettled(run.map(a=>a.finished));
       }
-      if(variant==='compact'||variant==='mobile'){
+      if(this.getAttribute('motion')==='header'){
+        go(this.face||this.mark,[
+          {opacity:0,transform:'translateY(5px) rotate(-8deg) scale(.9)'},
+          {opacity:1,transform:'translateY(-1px) rotate(2deg) scale(1.025)',offset:.65},
+          {opacity:1,transform:'none'}
+        ],{duration:620});
+        this.sweep(400,700);
+      }else if(this.getAttribute('motion')==='float'){
+        go(this.face||this.mark,[
+          {opacity:0,transform:'translateY(7px) rotate(-5deg) scale(.94)'},
+          {opacity:1,transform:'translateY(-3px) rotate(2deg) scale(1.02)',offset:.65},
+          {opacity:1,transform:'none'}
+        ],{duration:720});
+        this.sweep(460,760);
+      }else if(variant==='compact'||variant==='mobile'){
         // Cabecera: discreta, 360 ms.
         go(this,[{opacity:0,transform:'translateY(-4px)'},{opacity:1,transform:'none'}],{duration:360});
       }else if(variant==='icon'||!full){
@@ -210,6 +229,7 @@
     const el=document.createElement('burgershot-logo');
     el.setAttribute('variant',options.variant||'full');
     for(const flag of ['animated','interactive','parallax','decorative'])if(options[flag])el.setAttribute(flag,'');
+    if(['header','float'].includes(options.motion))el.setAttribute('motion',options.motion);
     if(options.introKey)el.setAttribute('intro-key',options.introKey);
     if(options.variant!=='icon'&&options.variant!=='loader'&&options.wordmark!==false){
       const type=document.createElement('span');type.className='bs-type';

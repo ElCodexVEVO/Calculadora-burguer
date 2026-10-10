@@ -60,7 +60,7 @@ def page_for(browser, entry, width=1440, height=900, reduced=False, mobile=False
       window.__cls=0;new PerformanceObserver(l=>{for(const e of l.getEntries())if(!e.hadRecentInput)window.__cls+=e.value}).observe({type:'layout-shift',buffered:true});
       // Registro de las animaciones lanzadas por código: permite comprobarlas aunque ya hayan terminado.
       window.__anims=[];const animate=Element.prototype.animate;
-      Element.prototype.animate=function(k,o){try{if(window.__anims.length<300)window.__anims.push({tag:this.tagName,top:!!this.closest('.topbar'),k:Array.isArray(k)?k.map(x=>x.transform||''):[],d:typeof o==='number'?o:o&&o.duration})}catch(e){}return animate.call(this,k,o)};
+      Element.prototype.animate=function(k,o){try{if(window.__anims.length<300)window.__anims.push({tag:this.tagName,top:!!this.closest('.topbar'),face:this.classList.contains('bs-mark-face'),wordmark:!!this.closest('.bs-type'),k:Array.isArray(k)?k.map(x=>x.transform||''):[],d:typeof o==='number'?o:o&&o.duration})}catch(e){}return animate.call(this,k,o)};
     """)
     page.goto(BASE + entry, wait_until="domcontentloaded")
     return ctx, page
@@ -134,9 +134,11 @@ with sync_playwright() as pw:
         # ── Inicio: cabecera discreta, brillo al pasar y pulsación ──
         ctx, page = page_for(browser, "DEMO_V6.html")
         page.locator("#app").wait_for(state="visible")
-        head = page.evaluate("window.__anims.filter(a=>a.tag==='BURGERSHOT-LOGO'&&a.top).map(a=>({d:a.d,k:a.k}))")
-        check(head and 300 <= head[0]["d"] <= 400 and "translateY(-4px)" in (head[0]["k"][0] or ""), f"Entrada de cabecera 300–400 ms y −4 px: {head}")
-        page.wait_for_timeout(600)
+        head = page.evaluate("window.__anims.filter(a=>a.top)")
+        check(any(a.get("face") for a in head), f"El emblema de cabecera tiene una entrada animada: {head}")
+        check(not any(a.get("wordmark") for a in head), "El texto de la marca permanece quieto")
+        page.wait_for_function("!document.querySelector('.topbar burgershot-logo').classList.contains('is-intro')", timeout=3000)
+        check(page.evaluate("document.querySelector('.topbar .bs-mark-face').getAnimations().some(a=>a.playState==='running')"), "El emblema mantiene su movimiento suave al terminar la entrada")
         page.locator(".topbar burgershot-logo .bs-mark").hover()
         page.wait_for_timeout(80)
         sweeping = page.evaluate("document.querySelector('.topbar .bs-mark-sheen').getAnimations().length")
@@ -152,7 +154,7 @@ with sync_playwright() as pw:
         pressed = page.evaluate("getComputedStyle(document.querySelector('.topbar .bs-mark')).getPropertyValue('--scale').trim()")
         page.mouse.up()
         check(pressed == ".98" or pressed == "0.98", f"Escala al pulsar: {pressed}")
-        ok("Cabecera: entrada de 360 ms, reflejo y escala 1,015 al pasar, 0,98 al pulsar")
+        ok("Cabecera: emblema animado, texto quieto, reflejo y escala 1,015 al pasar, 0,98 al pulsar")
         cls_home = page.evaluate("window.__cls")
         check(cls_home < 0.05, f"CLS del inicio: {cls_home}")
         # Navegación repetida: sin duplicados ni crecimiento de memoria.

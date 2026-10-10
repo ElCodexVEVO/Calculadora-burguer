@@ -14,11 +14,12 @@ Abre `DEMO_V6.html` para probar el diseño con datos de ejemplo. La sección Caj
 - Cupones y promociones con etiquetas claras; selectores con una sola flecha y colores del tema del ticket.
 - Plantillas en una fila completa, con Guardar, Cargar pedido y eliminar separados. El nombre y la confirmación de borrado se muestran dentro del bloque.
 - Al desplegar estas opciones en escritorio, el ticket crece y se recorre con la página.
-- Logo del pedido vacío sin sombra ni resplandor; se retiró el texto de ayuda sobre cantidades del catálogo.
+- Logo del pedido vacío con sombra ovalada suave debajo, separada de la imagen y sincronizada con la flotación, sin resplandor. Se retiró el texto de ayuda sobre cantidades del catálogo.
+- Logo de cabecera con entrada y balanceo breve; emblema del pedido vacío con entrada y flotación suave. El texto de la marca permanece quieto. Ambos reflejos se recortan a la silueta y el movimiento se detiene fuera de pantalla o al desactivar animaciones.
 
 ## Archivos para actualizar
 
-`index.html`, `ofrenda.css`, `ofrenda.js`, `logo.css`, `app.js`, `DEMO_V6.html` y `DEMO_ACCESO.html`.
+`index.html`, `ofrenda.css`, `ofrenda.js`, `logo.css`, `logo.js`, `app.js`, `DEMO_V6.html` y `DEMO_ACCESO.html`.
 
 El ZIP contiene el proyecto completo. Se conserva el comportamiento de los cálculos y las integraciones.
 
@@ -28,4 +29,6 @@ Revisión visual en navegador de escritorio y móvil; tamaños entre 320 y 1440 
 
 Revisión adicional de plantillas: guardar, actualizar sin duplicar, vaciar y volver a cargar el pedido, abrir y cancelar la confirmación de borrado. Comprobación de campos a 320 px, ambos temas y cupón NOCHE15 ($280 → $238).
 
-Capturas del último ajuste: `preview/plantillas-renovadas.jpg` y `preview/logo-pedido-sin-sombra.jpg`.
+Animaciones: verificación del movimiento visible, pausa del emblema fuera de pantalla y apagado/encendido mediante Animaciones suaves. La sombra del pedido vacío acompaña la flotación y permanece estática con el movimiento desactivado.
+
+Capturas del último ajuste: `preview/plantillas-renovadas.jpg` y `preview/logos-animados.jpg`.

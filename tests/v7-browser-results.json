@@ -1,5 +1,5 @@
 {
- "date": "2026-10-09T20:39:51",
+ "date": "2026-10-09T20:47:17",
  "browser": "Microsoft Edge (Chromium) headless",
  "passed": [
   "Acceso inválido muestra error y deja el formulario utilizable",
@@ -23,7 +23,7 @@
   "390px: sin desbordes, controles dentro de pantalla, texto ≥11px, objetivos ≥32px, logo cargado (38px)",
   "768px: sin desbordes, controles dentro de pantalla, texto ≥11px, objetivos ≥32px, logo cargado (46px)",
   "1440px: sin desbordes, controles dentro de pantalla, texto ≥11px, objetivos ≥32px, logo cargado (46px)",
-  "Recursos: favicon, logo y fotos del menú cargan; fotos mantienen proporción 3:2",
+  "Recursos: favicon, logo y fotos del menú cargan; fotos mantienen proporción 3:2; el emblema del pedido vacío no pisa el texto",
   "Sin errores de JavaScript ni recursos locales faltantes"
  ],
  "notes": [

@@ -367,7 +367,9 @@ with sync_playwright() as pw:
         check(fav.startswith("200 image/png"), f"Favicon: {fav}")
         ratios = page.evaluate("[...document.querySelectorAll('#productGrid .food-photo')].slice(0,6).map(i=>(i.getBoundingClientRect().width/i.getBoundingClientRect().height).toFixed(2))")
         check(all(abs(float(r) - 1.5) < 0.03 for r in ratios), f"Proporción 3:2 de las fotos: {ratios}")
-        ok("Recursos: favicon, logo y fotos del menú cargan; fotos mantienen proporción 3:2")
+        empty = page.evaluate("(()=>{const c=document.querySelector('#cartEmpty'),i=c.querySelector('img').getBoundingClientRect(),m=c.querySelector('.bs-mark').getBoundingClientRect(),s=c.querySelector('strong').getBoundingClientRect();return {img:[i.width,i.height,i.bottom],mark:[m.width,m.height],text:s.top}})()")
+        check(empty["img"][:2] == empty["mark"] and empty["img"][2] <= empty["text"], f"Pedido vacío: el emblema no pisa el texto: {empty}")
+        ok("Recursos: favicon, logo y fotos del menú cargan; fotos mantienen proporción 3:2; el emblema del pedido vacío no pisa el texto")
         ctx.close()
     finally:
         browser.close()

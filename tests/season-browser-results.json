@@ -1,5 +1,5 @@
 {
- "date": "2026-10-09T20:42:00",
+ "date": "2026-10-09T20:48:12",
  "browser": "Microsoft Edge (Chromium) headless, WebGL por software",
  "passed": [
   "Escritorio 1440: bloque compacto, cuatro textos en HTML, sin cortes ni solapes",
@@ -16,8 +16,8 @@
  "notes": [
   "Escena: 9308 triángulos; tarjeta 207×100 px; ilustración 68×57 px",
   "Oscilación de la luz: 23 % alrededor de la media; 4 de 4 capturas de la llama son distintas",
-  "Perspectiva: giro máximo 9.2° horizontal, 3.8° vertical",
-  "CLS en escritorio con la escena: 0.0190",
+  "Perspectiva: giro máximo 8.9° horizontal, 3.6° vertical",
+  "CLS en escritorio con la escena: 0.0191",
   "Móvil: la escena se carga al abrir el menú y se pausa al cerrarlo"
  ]
 }

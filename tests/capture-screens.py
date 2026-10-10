@@ -23,7 +23,8 @@ def shot(page, name):
 
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True, executable_path=EDGE)
+    # WebGL por software: permite capturar también la escena 3D de la insignia de temporada.
+    browser = p.chromium.launch(headless=True, executable_path=EDGE, args=["--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"])
     errors = []
     for label, (w, h) in WIDTHS.items():
         ctx = browser.new_context(viewport={"width": w, "height": h}, device_scale_factor=1)

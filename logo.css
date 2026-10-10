@@ -6,7 +6,7 @@ burgershot-logo strong .bs-type-visual,burgershot-logo strong .bs-ch{color:inher
 burgershot-logo strong .bs-type-visual .bs-accent{color:var(--o-mari,#f28c1b)}
 burgershot-logo .bs-ch{display:inline-block}
 
-/* Emblema: el <img> original sobre capas de luz y sombra. Medidas fijas: sin saltos de maquetación. */
+/* Emblema aprobado sobre capas de luz y sombra. Medidas fijas: sin saltos de maquetación. */
 burgershot-logo .bs-mark{
   --tilt-x:0deg;--tilt-y:0deg;--lift:0px;--scale:1;--light:50%;
   position:relative;display:grid;place-items:center;flex:none;isolation:isolate;
@@ -149,3 +149,29 @@ burgershot-logo .bs-accents i:nth-child(3){right:10%;bottom:6%;transform:rotate(
 .motion-off burgershot-logo .bs-mark-face{animation:none;transform:none!important}
 .motion-off burgershot-logo .bs-mark-sheen{display:none}
 @media (hover:none),(pointer:coarse){burgershot-logo .bs-mark{--tilt-x:0deg!important;--tilt-y:0deg!important}}
+
+/* Logo 3D completo: se conserva el arte aprobado y su proporción, incluida la marca. */
+burgershot-logo.bs-logo--full .bs-mark{width:192px;height:162px}
+#authScreen burgershot-logo .bs-mark.logo{width:192px;height:162px}
+burgershot-logo.bs-logo--full .bs-type strong,.auth-loading-wordmark{display:none}
+.header-brand.bs-logo .bs-mark{width:64px;height:54px}
+.header-brand.bs-logo .bs-mark img{width:100%;height:100%}
+.sidebar burgershot-logo .bs-mark{width:56px;height:48px}
+#cartEmpty burgershot-logo .bs-mark{width:120px;height:102px}
+burgershot-logo.bs-logo--loader .bs-mark{width:180px;height:152px}
+#cloudSetup burgershot-logo .bs-mark{width:160px;height:135px}
+.bs-brand.bs-logo .bs-mark{width:64px;height:54px}
+.bs-brand.bs-logo .bs-mark img{width:100%;height:100%}
+.bs-empty-order img{width:96px;height:81px;opacity:1}
+@media (min-width:1101px) and (max-height:940px){#cartEmpty burgershot-logo .bs-mark{width:96px;height:81px}}
+@media (max-width:900px){
+  #authScreen burgershot-logo .bs-mark.logo{width:136px;height:115px}
+  #authScreen burgershot-logo.brand{flex-direction:column;gap:3px}
+  #authScreen burgershot-logo .bs-type small{margin-top:0;text-align:center}
+}
+@media (max-width:760px){
+  .header-brand.bs-logo .bs-mark{width:56px;height:48px}
+  .header-brand.bs-logo .bs-mark img{width:100%;height:100%}
+  burgershot-logo.bs-logo--loader .bs-mark{width:148px;height:125px}
+}
+@media (max-width:380px){.header-brand.bs-logo .bs-mark{width:46px;height:39px}}

@@ -92,18 +92,11 @@
     toggle.onchange=()=>{apply();try{localStorage.setItem('bs_season_petals',String(toggle.checked))}catch{}};
   }
 
-  /* ── Insignia de temporada: la escena 3D se carga solo cuando se ve y con movimiento; si no, queda la imagen de respaldo ── */
-  const seasonArt=document.querySelector('.season-card-art');
-  if(seasonArt&&'IntersectionObserver' in window){
-    let seasonStarted=false;
-    const startScene=()=>{
-      if(seasonStarted||still()||navigator.connection?.saveData||navigator.deviceMemory<=2)return;
-      seasonStarted=true;
-      import('./season-scene.js').then(m=>m.mount(seasonArt,{still})).then(scene=>{window.BurgerShotSeasonScene=scene;seasonArt.dataset.scene='3d'})
-        .catch(()=>{seasonArt.classList.remove('is-3d');seasonArt.querySelector('canvas')?.remove();seasonArt.dataset.scene='respaldo'});
-    };
-    const seasonIO=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){startScene();if(seasonStarted)seasonIO.disconnect()}});
-    seasonIO.observe(seasonArt);
+  /* ── Insignia con arte 3D: luz CSS solo mientras se ve, sin sustituir la ilustración por el modelo anterior. ── */
+  const seasonCard=document.querySelector('.season-card');
+  if(seasonCard&&'IntersectionObserver' in window){
+    const seasonIO=new IntersectionObserver(entries=>seasonCard.toggleAttribute('data-visible',entries.some(e=>e.isIntersecting)));
+    seasonIO.observe(seasonCard);
   }
 
   /* ── Menú lateral en móvil ── */

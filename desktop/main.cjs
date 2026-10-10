@@ -27,6 +27,7 @@ function toggle() { if (!win || win.isDestroyed()) return; if (win.isVisible() &
 function createWindow() {
   win = new BrowserWindow({
     ...dimensions(), minWidth: 380, minHeight: 550, title: 'BurgerShot · Caja auxiliar',
+    icon: path.join(__dirname, '../assets/logo/favicon-3d-180.png'),
     backgroundColor: '#0e161e', show: false, autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'), nodeIntegration: false,

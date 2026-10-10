@@ -21,10 +21,12 @@ Abre `DEMO_V6.html` para probar el diseño con datos de ejemplo. La sección Caj
 - Barra lateral más espaciosa: 272 px en escritorio y hasta 300 px en móvil, tipografía sin condensar en la marca, opciones de 48 px y textos secundarios más legibles. La lista se desplaza de forma independiente y el perfil queda visible al pie. En pantallas bajas se recoge la tarjeta de temporada.
 - Banner de Inicio ampliado: contenido en columna, título de 32 px en escritorio y 27 px en móvil, foto visible también en móvil y más separación entre texto y botón. Se conservan la imagen de temporada y el borde de papel picado. El acceso mantiene su diseño.
 - Fondo de altar nocturno con velas, cempasúchil y calabazas, usando la ilustración de temporada existente con un velo oscuro para conservar la lectura. Caída continua de 24 pétalos en escritorio, 18 en tableta y 12 en móvil, con balanceo y dos luces suaves detrás de los paneles de Inicio. Se pausa fuera de Inicio, al ocultar la página o al desactivar las animaciones o los pétalos.
+- Logo 3D aprobado aplicado en acceso, configuración, pantalla de carga, cabecera, barra lateral, pedido vacío, caja auxiliar y favicons; también se asignó al icono de la ventana de escritorio. PNG maestro íntegro y WebP optimizados con transparencia. Se conservan las animaciones, el reflejo y la sombra del pedido; el acceso muestra el nombre incorporado en el arte sin duplicarlo debajo.
+- Tarjeta de temporada ampliada a 154 px, título más visible, fondo vino, borde de papel picado y nueva ilustración 3D detallada de vela, cempasúchil y calabaza. La luz suave usa CSS y se pausa al ocultarse, entrar a Caja o apagar el movimiento. El modelo GLB anterior queda conservado como material de diseño.
 
 ## Archivos para actualizar
 
-`index.html`, `ofrenda.css`, `ofrenda.js`, `logo.css`, `logo.js`, `sidebar.css`, `app.js`, `DEMO_V6.html` y `DEMO_ACCESO.html`.
+`index.html`, `ofrenda.css`, `ofrenda.js`, `logo.css`, `logo.js`, `sidebar.css`, `app.js`, `companion.js`, `VERSION.json`, `desktop/main.cjs`, `DEMO_V6.html`, `DEMO_ACCESO.html`, los nuevos archivos `assets/logo/*3d*` y `assets/season/ofrenda-premium.webp`. Los maestros y prompts se describen en `design/logo-3d/README.md`.
 
 El ZIP contiene el proyecto completo. Se conserva el comportamiento de los cálculos y las integraciones.
 
@@ -43,3 +45,5 @@ Barra lateral: revisión a 1440 × 960, 406 × 884 y 320 × 640 px. Navegación 
 Capturas del último ajuste: `preview/menu-mas-espacio.jpg` y `preview/inicio-mas-espacio.jpg`. Los ajustes previos se ven en `preview/menu-identidad-temporada.jpg`, `preview/plantillas-renovadas.jpg` y `preview/logos-animados.jpg`.
 
 Fondo y pétalos: revisión a 1280, 768, 416 y 320 px de ancho, sin desbordamiento horizontal. Se verificó movimiento entre dos lecturas de transformación, cantidades de pétalos por tamaño, navegación a Caja y apagado/encendido de ambas preferencias. El fondo permanece estático al apagar las animaciones. La regla de movimiento reducido conserva los efectos desactivados. Captura: `preview/fondo-temporada.jpg`.
+
+Logo y tarjeta 3D: revisión de acceso a 1280 y 320 px, inicio de sesión de demostración y logo visible durante la carga; cabecera y menú lateral a 416 y 320 px, pedido vacío a 1280 × 1000 px y caja auxiliar compacta a 320 px. El emblema flotante y su sombra conservan las animaciones; Animaciones suaves detiene tanto el logo como la luz de la tarjeta. Los PNG/WebP cargan con transparencia y no quedan imágenes del logo anterior en el DOM. No se detectaron errores de consola ni desbordamiento horizontal. Se verificó sintaxis de la ventana de escritorio; no se inició Electron. Captura final: `preview/logo-y-temporada-3d.jpg`.

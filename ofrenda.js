@@ -147,7 +147,7 @@
       themeBtn.setAttribute('aria-label',light?'Ticket oscuro':'Ticket claro');themeBtn.title=light?'Cambiar a ticket oscuro':'Cambiar a ticket claro';
     };
     let saved=null;try{saved=localStorage.getItem('bs_ticket_theme')}catch{}
-    setTicket(saved==='light');
+    setTicket(saved!=='dark');
     themeBtn.addEventListener('click',()=>{
       const light=!orderPanel.classList.contains('ticket-light');
       orderPanel.classList.add('ticket-switching');setTicket(light);
@@ -171,6 +171,11 @@
 
   /* ── Barra de pedido en móvil y tableta ── */
   const page=$('page-pos'),count=$('orderCount'),grand=$('grandTotal');
+  // En Caja, la decoración queda quieta y las confirmaciones son breves.
+  const syncOperation=()=>document.body.classList.toggle('pos-active',Boolean(page?.classList.contains('active')&&!app.classList.contains('hidden')));
+  if(page)new MutationObserver(syncOperation).observe(page,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(syncOperation).observe(app,{attributes:true,attributeFilter:['class']});
+  syncOperation();
   const dock=document.createElement('div');dock.className='order-dock';dock.id='orderDock';
   dock.innerHTML='<button type="button" aria-controls="orderPanel"><span class="dock-count" id="orderDockCount">0</span><span class="dock-label"><b>Ver pedido</b><small>Total a cobrar</small></span><strong id="orderDockTotal">$0</strong></button>';
   app.append(dock);
@@ -222,7 +227,7 @@
     cards.forEach((card,i)=>{card.style.setProperty('--i',Math.min(i,10));replay(card,'bs-enter')});
   }).observe(grid,{childList:true});
 
-  /* ── Añadir al pedido: confirmación en la tarjeta y vuelo hacia el contador visible ── */
+  /* ── Añadir al pedido: confirmación breve y una miniatura hacia el contador ── */
   let flying=0;
   const target=()=>dock.classList.contains('is-visible')?dockCount:count;
   const fly=(img,quantity)=>{
@@ -232,15 +237,15 @@
     const ghost=document.createElement('div'),photo=img.cloneNode(false);
     ghost.className='bs-fly';ghost.setAttribute('aria-hidden','true');photo.removeAttribute('loading');photo.alt='';ghost.append(photo);
     if(quantity>1){const badge=document.createElement('span');badge.className='bs-fly-quantity';badge.textContent=`×${quantity.toLocaleString('es-MX')}`;ghost.append(badge)}
-    Object.assign(ghost.style,{left:from.left+'px',top:from.top+'px',width:from.width+'px',height:from.height+'px'});
+    const size=48,startX=from.left+from.width/2-size/2,startY=from.top+from.height/2-size/2;
+    Object.assign(ghost.style,{left:startX+'px',top:startY+'px',width:size+'px',height:size+'px'});
     document.body.append(ghost);
-    const dx=end.left+end.width/2-(from.left+from.width/2),dy=end.top+end.height/2-(from.top+from.height/2),scale=Math.max(.06,34/from.width);
+    const dx=end.left+end.width/2-(startX+size/2),dy=end.top+end.height/2-(startY+size/2);
     flying++;
     animate(ghost,[
-      {transform:'translate(0,0) scale(1)',opacity:1,borderRadius:'12px'},
-      {transform:`translate(${dx*.45}px,${dy*.45-70}px) scale(${Math.max(scale*2.4,.34)}) rotate(-6deg)`,opacity:1,borderRadius:'22px',offset:.5},
-      {transform:`translate(${dx}px,${dy}px) scale(${scale}) rotate(8deg)`,opacity:.2,borderRadius:'50%'}
-    ],{duration:620,easing:'cubic-bezier(.45,0,.25,1)'},()=>{flying--;replay(to,'bs-pop');if(to===dockCount)replay(dock,'is-bumping')});
+      {transform:'translate(0,0) scale(1)',opacity:.85,borderRadius:'10px'},
+      {transform:`translate(${dx}px,${dy}px) scale(.45)`,opacity:0,borderRadius:'10px'}
+    ],{duration:280,easing:'cubic-bezier(.2,.65,.3,1)'},()=>{flying--;replay(to,'bs-pop')});
     return true;
   };
   // Vista previa del importe visible mientras la cantidad no es 1; confirmación breve sobre la foto.
@@ -249,12 +254,12 @@
   document.addEventListener('bs:cart-added',e=>{
     const {id,quantity=1}=e.detail||{};
     const card=id&&[...(grid?.querySelectorAll('.product-card')||[])].find(el=>el.dataset.product===id);
-    if(card){card.classList.remove('has-qty');card.classList.add('feedback-on');clearTimeout(feedbackTimers.get(card));feedbackTimers.set(card,setTimeout(()=>card.classList.remove('feedback-on'),2200))}
+    if(card){card.classList.remove('has-qty');card.classList.add('feedback-on');clearTimeout(feedbackTimers.get(card));feedbackTimers.set(card,setTimeout(()=>card.classList.remove('feedback-on'),1400))}
     if(card&&card.getBoundingClientRect().width){
       replay(card,'is-added');replay(card.querySelector('[data-add]'),'bs-pop');replay(card.querySelector('.in-cart-count'),'bs-pop');
       if(fly(card.querySelector('.food-photo'),Number(quantity)||1))return;
     }
-    replay(target(),'bs-pop');if(target()===dockCount)replay(dock,'is-bumping');
+    replay(target(),'bs-pop');
   });
 
   /* ── Pedido: líneas nuevas entran; cantidades e importes cambiados hacen un «tic» ── */
@@ -275,15 +280,6 @@
   }
 
   /* ── Resultado real de cada acción ── */
-  const burst=(host,n=12)=>{
-    if(still()||!host)return;
-    const r=host.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-    for(let k=0;k<n;k++){
-      const petal=document.createElement('i'),angle=k/n*Math.PI*2+Math.random()*.4,reach=34+Math.random()*30,x=Math.cos(angle)*reach,y=Math.sin(angle)*reach;
-      petal.className='bs-burst';petal.style.left=cx+'px';petal.style.top=cy+'px';document.body.append(petal);
-      animate(petal,[{transform:'translate(0,0) scale(.4)',opacity:1},{transform:`translate(${x}px,${y}px) scale(1) rotate(${180+Math.random()*180}deg)`,opacity:1,offset:.45},{transform:`translate(${x*1.2}px,${y*1.2+40}px) scale(.8) rotate(${400+Math.random()*200}deg)`,opacity:0}],{duration:1000+Math.random()*300,easing:'cubic-bezier(.2,.7,.3,1)'});
-    }
-  };
   document.addEventListener('bs:sale-registered',e=>{
     if(still())return;
     const {total=0,client='',items=0}=e.detail||{},button=$('checkoutBtn'),r=button?.getBoundingClientRect();
@@ -294,7 +290,7 @@
     const [c,i,t]=slip.querySelectorAll('b');c.textContent=client||'Cliente general';i.textContent=String(Number(items)||0);t.textContent=money(total);
     document.body.append(slip);
     slip.addEventListener('animationend',ev=>{if(ev.target===slip)slip.remove()});setTimeout(()=>slip.remove(),3200);
-    if(visible){burst(button);replay(button,'is-success')}
+    if(visible)replay(button,'is-success');
   });
   document.addEventListener('bs:sale-failed',()=>replay(document.querySelector('#checkoutModal .modal'),'is-shaking'));
   const loginError=$('loginError');

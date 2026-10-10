@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="reports.css?v=7.0.0">
   <link rel="stylesheet" href="companion.css?v=7.0.0">
   <link rel="stylesheet" href="auth-scene.css?v=7.0.0">
-  <link rel="stylesheet" href="ofrenda.css?v=7.0.0">
+  <link rel="stylesheet" href="ofrenda.css?v=7.2.0">
   <link rel="stylesheet" href="logo.css?v=7.1.1">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32.png">
@@ -194,6 +194,7 @@
             <div id="cartList" class="cart-list" aria-label="Productos de la orden"></div>
           </div>
           <div class="order-checkout">
+            <div class="order-fields">
             <label class="v6-label" for="orderClient">Cliente / ID</label><input id="orderClient" maxlength="120" placeholder="Nombre o identificador" list="customerSuggestions" autocomplete="off"><datalist id="customerSuggestions"></datalist>
             <details class="order-extras">
               <summary><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 14-14"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg><span>Cupones y pedidos guardados</span><svg class="ui-icon order-extras-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></summary>
@@ -205,9 +206,12 @@
             </details>
             <div class="order-options"><div><label for="clientType">Tipo de cliente</label><select id="clientType"><option value="general">Cliente general</option><option value="police">Policía</option><option value="sheriff">Sheriff</option><option value="ems">EMS</option></select></div><div><label for="discountSelect">Convenio</label><select id="discountSelect"></select></div></div>
             <small id="discountNote" class="field-note" aria-live="polite"></small>
+            </div>
+            <div class="order-payment">
             <div class="totals"><div><span>Subtotal</span><strong id="subtotal">$0</strong></div><div><span>Descuento</span><strong id="discountAmount" class="green">-$0</strong></div><div class="grand"><span>Total a cobrar</span><strong id="grandTotal" aria-live="polite">$0</strong></div></div>
             <div class="commission-preview"><div><span>Tu ganancia</span><small id="commissionPercentText">0% comisión</small></div><strong id="commissionPreview">$0</strong></div>
             <button id="checkoutBtn" class="checkout" disabled><span>Cobrar y registrar <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></span><strong id="checkoutTotal">$0</strong></button>
+            </div>
           </div>
         </aside>
       </div>
@@ -434,6 +438,6 @@
 <script src="auth-scene.js?v=7.0.0"></script>
 <script src="app.js?v=7.0.0"></script>
 <script src="dashboard.js?v=7.0.0"></script>
-<script src="ofrenda.js?v=7.0.0"></script>
+<script src="ofrenda.js?v=7.2.0"></script>
 </body>
 </html>

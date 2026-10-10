@@ -17,10 +17,11 @@ Abre `DEMO_V6.html` para probar el diseño con datos de ejemplo. La sección Caj
 - Logo del pedido vacío con sombra ovalada suave debajo, separada de la imagen y sincronizada con la flotación, sin resplandor. Se retiró el texto de ayuda sobre cantidades del catálogo.
 - Logo de cabecera con entrada y balanceo breve; emblema del pedido vacío con entrada y flotación suave. El texto de la marca permanece quieto. Ambos reflejos se recortan a la silueta y el movimiento se detiene fuera de pantalla o al desactivar animaciones.
 - Barra lateral con una sola tarjeta de identidad y el logo real, opciones de 44 px, selección naranja tenue y división clara entre Operación y Gestión. Tarjeta de temporada simplificada, estado de conexión en una línea y perfil compacto.
+- Nueva identidad de la barra lateral: cabecera tipográfica, secciones numeradas, selección crema con acento cempasúchil y detalles de menú impreso. Se conservan el emblema, las velas, las flores y la calabaza de temporada. Este ajuste afecta únicamente a la barra lateral; el acceso y las páginas mantienen su diseño.
 
 ## Archivos para actualizar
 
-`index.html`, `ofrenda.css`, `ofrenda.js`, `logo.css`, `logo.js`, `app.js`, `DEMO_V6.html` y `DEMO_ACCESO.html`.
+`index.html`, `ofrenda.css`, `ofrenda.js`, `logo.css`, `logo.js`, `sidebar.css`, `app.js`, `DEMO_V6.html` y `DEMO_ACCESO.html`.
 
 El ZIP contiene el proyecto completo. Se conserva el comportamiento de los cálculos y las integraciones.
 
@@ -34,4 +35,6 @@ Animaciones: verificación del movimiento visible, pausa del emblema fuera de pa
 
 Barra lateral: revisión a 1440 × 960, 406 × 884 y 320 × 640 px. Navegación a Caja y Estadísticas, despliegue de Más herramientas y acceso al perfil. Sin desbordamiento horizontal; el menú completo cabe a 884 px de alto y se recorre en pantallas más bajas.
 
-Captura del último ajuste: `preview/menu-renovado-movil.jpg`. Los ajustes previos se ven en `preview/plantillas-renovadas.jpg` y `preview/logos-animados.jpg`.
+Nueva barra lateral: revisión manual a 1440 × 960, 416 × 884 y 320 × 640 px. Navegación a Caja y Estadísticas, apertura y cierre del perfil, y desplazamiento del menú en pantalla baja. Sin desbordamiento horizontal. Los estilos nuevos están limitados a `.sidebar`.
+
+Captura del último ajuste: `preview/menu-identidad-temporada.jpg`. Los ajustes previos se ven en `preview/menu-renovado-movil.jpg`, `preview/plantillas-renovadas.jpg` y `preview/logos-animados.jpg`.

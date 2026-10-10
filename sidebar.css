@@ -1,0 +1,97 @@
+/* Identidad del menú lateral. El acceso y las páginas conservan Ofrenda nocturna. */
+.sidebar{
+  background:radial-gradient(ellipse at 0 0,rgba(122,30,58,.16),transparent 38%),#181214;
+  border-right-color:rgba(242,140,27,.16);
+  scrollbar-width:thin;
+  scrollbar-color:#594135 transparent;
+}
+.sidebar .store-chip{
+  grid-template-columns:52px minmax(0,1fr) 6px;
+  gap:10px;
+  padding:4px 4px 12px;
+  margin:0 0 6px;
+  border:0;
+  border-bottom:1px dashed rgba(242,140,27,.3);
+  border-radius:0;
+  background:none;
+}
+.sidebar .store-icon{width:52px;height:52px}
+.sidebar .store-chip strong{
+  font-size:17px;
+  font-weight:900;
+  font-stretch:condensed;
+  letter-spacing:-.035em;
+  text-transform:uppercase;
+}
+.sidebar .store-chip .store-copy span{margin-top:5px;font-size:10px;letter-spacing:.035em;color:var(--o-faint)}
+.sidebar .store-chip>i{width:5px;height:5px;box-shadow:0 0 0 3px rgba(82,207,170,.08)}
+.sidebar>nav{counter-reset:nav-section;gap:2px}
+.sidebar .nav-label{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 10px 8px;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.16em;
+  color:var(--o-faint);
+  counter-increment:nav-section;
+}
+.sidebar .nav-label::before{content:"0" counter(nav-section);font-size:10px;letter-spacing:0;color:var(--o-mari);font-variant-numeric:tabular-nums}
+.sidebar .nav-label::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,rgba(242,140,27,.2),transparent)}
+.sidebar .nav-label~.nav-label{margin-top:6px;padding-top:10px;border-top:0}
+.sidebar .nav-item{
+  min-height:44px;
+  gap:10px;
+  padding:6px 10px;
+  border-radius:5px;
+  color:#d6c6b9;
+}
+.sidebar .nav-item .nav-svg{width:28px;height:28px;border-radius:0;color:#ac9385}
+.sidebar .nav-item .nav-svg svg{width:18px;height:18px;stroke-width:1.65}
+.sidebar .nav-item b{font-size:13px;font-weight:550;letter-spacing:.005em}
+.sidebar .nav-item.active{
+  color:#352014;
+  background:#f0d8b1;
+  border-color:#f0d8b1;
+  box-shadow:inset 3px 0 #f28c1b;
+}
+.sidebar .nav-item.active .nav-svg{background:none;color:#8d4613}
+.sidebar .nav-item.active b{font-weight:750}
+.sidebar .nav-item.active::before{display:none}
+.sidebar .nav-item.active::after{content:"";width:5px;height:5px;margin-left:auto;margin-right:4px;border-top:1.5px solid #8d4613;border-right:1.5px solid #8d4613;transform:rotate(45deg)}
+.sidebar .nav-item:focus-visible,.sidebar .nav-tools summary:focus-visible,.sidebar .account-card:focus-visible{outline:2px solid var(--o-gold);outline-offset:-2px}
+.sidebar .nav-tools{margin-top:8px}
+.sidebar .nav-tools summary{min-height:44px;border:1px dashed rgba(246,235,217,.13);border-radius:5px;font-size:11px;color:var(--o-faint)}
+.sidebar .nav-tools summary::before{width:5px;height:5px;margin:0 8px 0 8px;border-width:1.5px}
+.sidebar .nav-tools[open] summary{margin-bottom:5px;color:var(--o-cream)}
+.sidebar .season-card{
+  grid-template-columns:50px minmax(0,1fr);
+  column-gap:10px;
+  margin:10px 0;
+  padding:12px 9px;
+  border-radius:5px;
+  border:1px solid rgba(242,140,27,.24);
+  background:linear-gradient(115deg,rgba(122,30,58,.15),rgba(242,140,27,.035));
+}
+.sidebar .season-card-art{width:50px}
+.sidebar .season-card-copy span{font-size:8px;letter-spacing:.16em;color:#e6a557}
+.sidebar .season-card-copy strong{font-size:13px;font-weight:750;line-height:1.35}
+.sidebar .season-card-copy strong em{font-size:12px;color:#d9bd9e}
+.sidebar .sidebar-bottom{gap:6px;padding-top:10px;border-top:1px dashed rgba(246,235,217,.12)}
+.sidebar .sync{gap:8px;padding:4px 7px}
+.sidebar .sync i{width:5px;height:5px;flex:none;box-shadow:0 0 0 3px rgba(255,193,99,.12)}
+.sidebar .sync.online i{box-shadow:0 0 0 3px var(--o-teal-soft)}
+.sidebar .sync.error i{box-shadow:0 0 0 3px var(--o-red-soft)}
+.sidebar .sync strong{font-size:10px;font-weight:600;color:var(--o-faint)}
+.sidebar .sync small{max-width:122px;font-size:10px;text-align:right;line-height:1.35}
+.sidebar .account-card{grid-template-columns:32px minmax(0,1fr) 12px;gap:9px;padding:10px 8px;background:rgba(246,235,217,.025);border:1px solid rgba(246,235,217,.09);border-radius:5px}
+.sidebar .account-card .avatar{border-radius:4px;background:#4a2230;border-color:rgba(242,140,27,.2);color:#f0d8b1}
+.sidebar .account-card strong{font-size:12px;font-weight:650}
+.sidebar .account-card span{font-size:10px;color:var(--o-faint)}
+.sidebar .account-card em svg{width:15px;height:15px}
+@media (hover:hover){
+  .sidebar .nav-item:not(.active):hover{background:rgba(242,140,27,.055);border-color:rgba(242,140,27,.09);color:var(--o-cream)}
+  .sidebar .nav-item:not(.active):hover .nav-svg{color:var(--o-gold)}
+  .sidebar .account-card:hover{background:rgba(242,140,27,.055);border-color:rgba(242,140,27,.22)}
+}

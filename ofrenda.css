@@ -204,45 +204,49 @@ legend small{font-weight:400;color:var(--o-faint)}
   overflow-y:auto;overscroll-behavior:contain;z-index:80;
 }
 .sidebar>.brand{padding:4px 6px 16px}
-.store-chip{grid-template-columns:34px 1fr 10px;gap:10px;padding:10px;margin:0 2px 8px;border-radius:var(--o-r-md);background:var(--o-surface);border:1px solid var(--o-line)}
-.store-icon{width:34px;height:34px;border-radius:9px;background:var(--o-wine);color:var(--o-cream);font-weight:800;font-size:14px}
-.store-chip span{font-size:12px;letter-spacing:.02em;text-transform:none;font-weight:500;color:var(--o-muted)}
-.store-chip strong{font-size:14px;font-weight:700;margin-top:1px;color:var(--o-cream)}
-.store-chip i{width:8px;height:8px;background:var(--o-teal);box-shadow:0 0 0 4px var(--o-teal-soft)}
-.nav-label{padding:16px 10px 6px;color:var(--o-faint);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.store-chip{grid-template-columns:42px minmax(0,1fr) 8px;gap:10px;padding:10px;margin:0 0 8px;border-radius:var(--o-r-md);background:rgba(246,235,217,.025);border:1px solid var(--o-line)}
+.store-icon{width:42px;height:42px;background:none;border-radius:0}
+.sidebar .store-icon .bs-mark img{filter:none}
+.sidebar .store-icon .bs-mark-shadow,.sidebar .store-icon .bs-mark-glow{display:none}
+.store-copy{min-width:0}
+.store-chip .store-copy span{display:block;margin-top:3px;font-size:11px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--o-muted)}
+.store-chip strong{font-size:14px;font-weight:700;margin:0;color:var(--o-cream);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.store-chip>i{width:6px;height:6px;background:var(--o-teal);box-shadow:0 0 0 3px rgba(62,191,158,.1)}
+.nav-label{padding:8px 12px 6px;color:var(--o-muted);font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:700}
+.nav-label~.nav-label{margin-top:10px;padding-top:12px;border-top:1px solid var(--o-line)}
 nav{gap:2px}
 .nav-item{
-  position:relative;gap:11px;min-height:42px;padding:8px 10px;margin:0;border-radius:var(--o-r-sm);border:1px solid transparent;
+  position:relative;gap:10px;min-height:44px;padding:6px 10px;margin:0;border-radius:var(--o-r-sm);border:1px solid transparent;
   color:var(--o-cream-2);background:transparent;font-size:14px;
   transition:background var(--o-fast),color var(--o-fast),border-color var(--o-fast);
 }
 .nav-item:hover{background:var(--o-surface);color:var(--o-cream);transform:none}
-.nav-item span,.nav-item .nav-svg{width:30px;height:30px;border-radius:8px;background:transparent;border:0;color:var(--o-muted);flex:none;display:grid;place-items:center;transition:color var(--o-fast),background var(--o-fast)}
-.nav-item b{font-size:14px;font-weight:600}
-.nav-item.active{background:var(--o-mari-soft);border-color:rgba(242,140,27,.28);color:var(--o-cream);box-shadow:none}
-.nav-item.active span,.nav-item.active .nav-svg{background:var(--o-mari);color:var(--o-mari-ink);box-shadow:none;border:0}
-.nav-item.active::before{content:"";position:absolute;left:-12px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--o-mari)}
-.nav-tools{margin-top:8px}
-.nav-tools summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:38px;padding:6px 10px;border-radius:var(--o-r-sm);color:var(--o-muted);font-size:13px;font-weight:600;cursor:pointer}
+.nav-item span,.nav-item .nav-svg{width:28px;height:28px;border-radius:8px;background:transparent;border:0;color:var(--o-muted);flex:none;display:grid;place-items:center;transition:color var(--o-fast),background var(--o-fast)}
+.nav-item b{font-size:13px;font-weight:600}
+.nav-item.active{background:rgba(242,140,27,.09);border-color:transparent;color:var(--o-cream);box-shadow:none}
+.nav-item.active span,.nav-item.active .nav-svg{background:rgba(242,140,27,.1);color:var(--o-mari);box-shadow:none;border:0}
+.nav-item.active::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--o-mari)}
+.nav-tools{margin-top:6px}
+.nav-tools summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px;border-radius:var(--o-r-sm);color:var(--o-muted);font-size:12px;font-weight:600;cursor:pointer}
 .nav-tools summary::-webkit-details-marker{display:none}
 .nav-tools summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform var(--o-base) var(--o-ease);margin:0 6px 0 4px}
 .nav-tools[open] summary::before{transform:rotate(45deg)}
 .nav-tools summary:hover{color:var(--o-cream);background:var(--o-surface)}
 .nav-tools[open]>.nav-item{animation:o-rise var(--o-base) var(--o-ease) both}
-  position:relative;margin:18px 2px 12px;padding:14px 14px 14px 64px;min-height:0;border-radius:var(--o-r-md);overflow:hidden;
-  display:block;background:linear-gradient(135deg,rgba(122,30,58,.32),rgba(91,42,94,.22) 60%,rgba(242,140,27,.12));border:1px solid rgba(242,140,27,.22);
-}
-.sidebar-bottom{gap:8px;padding-top:10px}
-.sync{padding:8px 10px;border:0;background:none;border-radius:var(--o-r-sm)}
+.sidebar-bottom{gap:6px;padding-top:10px;border-top:1px solid var(--o-line)}
+.sync{gap:8px;padding:5px 10px;border:0;background:none;border-radius:var(--o-r-sm)}
+.sync>div{display:flex;align-items:baseline;justify-content:space-between;gap:8px;min-width:0;flex:1}
 .sync i{width:8px;height:8px;box-shadow:0 0 0 4px rgba(255,193,99,.16)}
 .sync.online i{background:var(--o-teal);box-shadow:0 0 0 4px var(--o-teal-soft)}
 .sync.error i{background:var(--o-red);box-shadow:0 0 0 4px var(--o-red-soft)}
-.sync strong{font-size:13px;font-weight:600;color:var(--o-cream-2)}
-.sync small{font-size:12px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--o-faint)}
-.account-card{grid-template-columns:38px 1fr 16px;gap:10px;padding:9px 10px;border-radius:var(--o-r-md);border:1px solid var(--o-line);background:var(--o-surface);transition:background var(--o-fast),border-color var(--o-fast)}
+.sync strong{font-size:11px;font-weight:600;color:var(--o-muted)}
+.sync small{font-size:11px;line-height:1.4;letter-spacing:0;text-transform:none;font-weight:500;color:var(--o-faint)}
+.account-card{grid-template-columns:32px minmax(0,1fr) 14px;gap:10px;padding:9px 8px;border-radius:var(--o-r-md);border:1px solid transparent;background:transparent;transition:background var(--o-fast),border-color var(--o-fast)}
 .account-card:hover{background:var(--o-surface-2);border-color:var(--o-line-2);transform:none}
-.account-card strong{font-size:14px;font-weight:700}
-.account-card span{font-size:12px;color:var(--o-muted);margin-top:1px}
+.account-copy{min-width:0}
+.account-card strong{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-card span{font-size:11px;color:var(--o-muted);margin-top:2px}
+.account-card .avatar{width:32px;height:32px;border-radius:9px;background:#34262d;border:1px solid var(--o-line);font-size:11px}
 .account-card small{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--o-faint);margin-top:2px}
 .account-card small i{width:6px;height:6px;border-radius:50%;background:var(--o-teal)}
 .account-card em{color:var(--o-faint);display:grid;place-items:center}
@@ -1320,7 +1324,7 @@ body:not(.bs-focused) .bs-header{justify-content:flex-end;padding-top:10px;paddi
 /* 9 · Sin antetítulos: la insignia del empleado va debajo del nombre y el nombre del negocio va primero. */
 .employee-week-person>div:not(.employee-week-avatar){display:flex;flex-direction:column;align-items:flex-start}
 .employee-week-person .employee-week-kicker{order:4;margin-top:8px}
-.store-chip>div{display:flex;flex-direction:column-reverse}
+.store-chip>.store-copy{display:flex;flex-direction:column}
 /* 10 · Sombra del rótulo suave, sin desplazamiento duro. */
 .brand strong,.header-brand strong,.auth-loading-wordmark,.bs-brand strong{text-shadow:0 1px 0 rgba(0,0,0,.35),0 2px 12px rgba(0,0,0,.35)}
 #authScreen .brand strong{text-shadow:0 2px 18px rgba(0,0,0,.65)}
@@ -1364,10 +1368,9 @@ body:not(.bs-focused) .bs-header{justify-content:flex-end;padding-top:10px;paddi
 .header-brand>.bs-type{position:relative}
 
 
-/* ───────── Tarjeta de temporada del menú lateral (diseño indicado por el usuario) ───────── */
-.season-card{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;column-gap:8px;margin:18px 0 12px;padding:12px 8px 11px 8px;border-radius:14px;border:1px solid rgba(168,104,48,.6);background:#1c1416;overflow:hidden}
-.season-card::after{content:"";position:absolute;right:-1px;top:-1px;width:30px;height:30px;background:url('assets/season/papel-esquina.svg') top right/contain no-repeat;pointer-events:none}
-.season-card-art{position:relative;width:68px;aspect-ratio:6/5;flex:none;margin:0 -6px 0 -4px}
+/* ───────── Tarjeta de temporada del menú lateral ───────── */
+.season-card{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr);align-items:center;column-gap:10px;margin:10px 0;padding:10px;border-radius:12px;border:1px solid var(--o-line);background:rgba(242,140,27,.035);overflow:hidden}
+.season-card-art{position:relative;width:52px;aspect-ratio:6/5;flex:none;margin:0}
 .season-card-art img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;transition:opacity 420ms var(--o-ease)}
 /* Resplandor de la llama: detrás de la ilustración, respira con la vela. */
 .season-card-art::before{content:"";position:absolute;z-index:0;left:24%;top:16%;width:74%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,170,70,.42),rgba(242,140,27,.14) 45%,rgba(242,140,27,0) 70%);pointer-events:none;transition:opacity 260ms var(--o-ease)}
@@ -1375,14 +1378,14 @@ body:not(.bs-focused) .bs-header{justify-content:flex-end;padding-top:10px;paddi
 .season-card-art.is-3d .season-card-canvas{opacity:1}
 .season-card-art.is-3d img{opacity:0}
 .season-card-copy{position:relative;z-index:1;min-width:0}
-.season-card-copy span{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#e0a03a;white-space:nowrap}
-.season-card-copy strong{display:block;margin-top:3px;font:800 15px/1.15 var(--o-font);font-stretch:96%;letter-spacing:-.01em;color:var(--o-cream);white-space:nowrap}
-.season-card-copy strong em{display:block;font-style:normal;color:var(--o-mari)}
+.season-card-copy span{display:block;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--o-muted);white-space:nowrap}
+.season-card-copy strong{display:block;margin-top:4px;font:650 13px/1.3 var(--o-font);letter-spacing:0;color:var(--o-cream);white-space:nowrap}
+.season-card-copy strong em{display:block;font-style:normal;font-weight:500;color:var(--o-cream-2)}
 .season-card-copy small{display:block;margin-top:4px;font-size:12px;font-stretch:96%;color:var(--o-muted);white-space:nowrap}
 /* Movimiento: entrada breve, resplandor que respira (también con la imagen de respaldo) y luz al pasar. El texto no se mueve. */
 .season-card{transition:border-color 260ms var(--o-ease),background 260ms var(--o-ease)}
 @media (hover:hover) and (pointer:fine){
-  .season-card:hover{border-color:rgba(214,138,66,.85);background:#1f1618}
+  .season-card:hover{border-color:var(--o-line-2);background:rgba(242,140,27,.055)}
   .season-card:hover .season-card-art::before{opacity:1;filter:brightness(1.35)}
 }
 @media (prefers-reduced-motion:no-preference){
@@ -1390,4 +1393,4 @@ body:not(.bs-focused) .bs-header{justify-content:flex-end;padding-top:10px;paddi
   body:not(.motion-off) .season-card-art::before{animation:sc-glow 3.4s ease-in-out infinite}
 }
 @keyframes sc-glow{0%,100%{opacity:.74;transform:translate(-50%,-50%) scale(.96)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}41%{opacity:.68;transform:translate(-50%,-50%) scale(.94)}63%{opacity:.93;transform:translate(-50%,-50%) scale(1.02)}84%{opacity:.8;transform:translate(-50%,-50%) scale(.98)}}
-@media (max-width:1100px){.season-card{grid-template-columns:72px minmax(0,1fr);column-gap:10px;padding:13px 12px}.season-card-art{width:82px}.season-card::after{width:40px;height:40px}.season-card-copy strong{font-size:16px}}
+@media (max-width:1100px){.season-card-copy strong{font-size:14px}}

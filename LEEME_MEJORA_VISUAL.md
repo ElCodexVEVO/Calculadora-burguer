@@ -16,6 +16,7 @@ Abre `DEMO_V6.html` para probar el diseño con datos de ejemplo. La sección Caj
 - Al desplegar estas opciones en escritorio, el ticket crece y se recorre con la página.
 - Logo del pedido vacío con sombra ovalada suave debajo, separada de la imagen y sincronizada con la flotación, sin resplandor. Se retiró el texto de ayuda sobre cantidades del catálogo.
 - Logo de cabecera con entrada y balanceo breve; emblema del pedido vacío con entrada y flotación suave. El texto de la marca permanece quieto. Ambos reflejos se recortan a la silueta y el movimiento se detiene fuera de pantalla o al desactivar animaciones.
+- Barra lateral con una sola tarjeta de identidad y el logo real, opciones de 44 px, selección naranja tenue y división clara entre Operación y Gestión. Tarjeta de temporada simplificada, estado de conexión en una línea y perfil compacto.
 
 ## Archivos para actualizar
 
@@ -31,4 +32,6 @@ Revisión adicional de plantillas: guardar, actualizar sin duplicar, vaciar y vo
 
 Animaciones: verificación del movimiento visible, pausa del emblema fuera de pantalla y apagado/encendido mediante Animaciones suaves. La sombra del pedido vacío acompaña la flotación y permanece estática con el movimiento desactivado.
 
-Capturas del último ajuste: `preview/plantillas-renovadas.jpg` y `preview/logos-animados.jpg`.
+Barra lateral: revisión a 1440 × 960, 406 × 884 y 320 × 640 px. Navegación a Caja y Estadísticas, despliegue de Más herramientas y acceso al perfil. Sin desbordamiento horizontal; el menú completo cabe a 884 px de alto y se recorre en pantallas más bajas.
+
+Captura del último ajuste: `preview/menu-renovado-movil.jpg`. Los ajustes previos se ven en `preview/plantillas-renovadas.jpg` y `preview/logos-animados.jpg`.

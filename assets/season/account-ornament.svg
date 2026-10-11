@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <path id="petal" d="M120 109C102 94 100 67 120 47C140 67 138 94 120 109Z"/>
+    <path id="leaf" d="M120 33C109 19 114 7 120 2C126 7 131 19 120 33Z"/>
+  </defs>
+  <g stroke="#e8ae68" stroke-width="1" opacity=".34">
+    <circle cx="120" cy="120" r="85" stroke-dasharray="1 6" stroke-linecap="round"/>
+    <circle cx="120" cy="120" r="105" opacity=".35"/>
+    <g fill="#e8ae68" fill-opacity=".08">
+      <use href="#petal"/><use href="#petal" transform="rotate(45 120 120)"/>
+      <use href="#petal" transform="rotate(90 120 120)"/><use href="#petal" transform="rotate(135 120 120)"/>
+      <use href="#petal" transform="rotate(180 120 120)"/><use href="#petal" transform="rotate(225 120 120)"/>
+      <use href="#petal" transform="rotate(270 120 120)"/><use href="#petal" transform="rotate(315 120 120)"/>
+    </g>
+    <g opacity=".7">
+      <use href="#leaf"/><use href="#leaf" transform="rotate(45 120 120)"/>
+      <use href="#leaf" transform="rotate(90 120 120)"/><use href="#leaf" transform="rotate(135 120 120)"/>
+      <use href="#leaf" transform="rotate(180 120 120)"/><use href="#leaf" transform="rotate(225 120 120)"/>
+      <use href="#leaf" transform="rotate(270 120 120)"/><use href="#leaf" transform="rotate(315 120 120)"/>
+    </g>
+    <circle cx="120" cy="120" r="22"/>
+    <circle cx="120" cy="120" r="15" stroke-dasharray="1 4" stroke-linecap="round"/>
+    <path d="m120 112 3 5 5 3-5 3-3 5-3-5-5-3 5-3Z" fill="#e8ae68" fill-opacity=".3"/>
+  </g>
+</svg>

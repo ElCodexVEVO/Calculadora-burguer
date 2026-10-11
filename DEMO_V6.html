@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="pos.css?v=7.0.0">
   <link rel="stylesheet" href="reports.css?v=7.0.0">
   <link rel="stylesheet" href="companion.css?v=7.0.0">
-  <link rel="stylesheet" href="auth-scene.css?v=7.0.0">
+  <link rel="stylesheet" href="auth-scene.css?v=7.5.0">
   <link rel="stylesheet" href="ofrenda.css?v=7.2.8">
   <link rel="stylesheet" href="logo.css?v=7.2.1">
   <link rel="stylesheet" href="sidebar.css?v=7.4.2">
@@ -55,20 +55,24 @@
 <section id="authScreen" class="gate seasonal-access hidden" aria-labelledby="authTitle">
   <div class="auth-scene" aria-hidden="true"></div>
   <div class="auth-bunting" aria-hidden="true"></div>
+  <div class="auth-composition">
   <div class="gate-art auth-art">
     <burgershot-logo variant="full" animated interactive parallax intro-key="login" class="brand big auth-brand"><span class="logo bs-mark"><img src="assets/logo/burgershot-3d-512.webp" alt="Logo de Burger Shot" width="512" height="431"></span><span class="bs-type"><strong>BURGER <span>SHOT</span></strong><small>Punto de venta</small></span></burgershot-logo>
     <div class="gate-copy">
-      <h1>Bienvenido<br> al turno</h1>
+      <h1>Bienvenido<br> <span>al turno.</span></h1>
       <p>Tu negocio, listo para una gran noche.</p>
+      <div class="auth-tradition"><span aria-hidden="true">✦</span> El sabor de nuestras tradiciones.</div>
     </div>
   </div>
   <div class="gate-form">
     <form id="loginForm" class="auth-card" novalidate>
+      <div class="auth-card-kicker"><span aria-hidden="true"></span> ACCESO AL EQUIPO</div>
       <h2 id="authTitle">Iniciar sesión</h2>
-      <p class="muted">Ingresa con tu cuenta de Burger Shot.</p>
-      <label for="loginUsername">Usuario o correo</label><input id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Tu usuario" required aria-describedby="loginError">
+      <p class="muted">Ingresa con tu cuenta de Burger Shot para comenzar el turno.</p>
+      <label for="loginUsername">Usuario o correo</label>
+      <div class="auth-field"><svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20v-2a7 7 0 0 1 14 0v2"/></svg><input id="loginUsername" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Tu usuario o correo" required aria-describedby="loginError"></div>
       <label for="loginPassword">Contraseña</label>
-      <div class="auth-password"><input id="loginPassword" autocomplete="current-password" type="password" placeholder="••••••••" required aria-describedby="loginError"><button id="toggleLoginPassword" class="auth-password-toggle" type="button" aria-label="Mostrar contraseña" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m4 4 16 16"/></svg></button></div>
+      <div class="auth-field auth-password"><svg class="auth-field-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/></svg><input id="loginPassword" autocomplete="current-password" type="password" placeholder="Tu contraseña" required aria-describedby="loginError"><button id="toggleLoginPassword" class="auth-password-toggle" type="button" aria-label="Mostrar contraseña" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m4 4 16 16"/></svg></button></div>
       <div id="loginError" class="error" role="alert"></div>
       <button class="btn primary block" id="loginBtn" type="submit"><span>Entrar</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button>
       <div id="initialSetupActions" class="hidden">
@@ -78,6 +82,7 @@
       <button class="text-link hidden" id="changeCloudBtn" type="button">Cambiar conexión de Supabase</button>
       <div class="auth-season-note"><svg class="marigold-mark" viewBox="0 0 24 24" aria-hidden="true"><g><ellipse cx="12" cy="5.5" rx="2.6" ry="3.6"/><ellipse cx="12" cy="18.5" rx="2.6" ry="3.6"/><ellipse cx="5.5" cy="12" rx="3.6" ry="2.6"/><ellipse cx="18.5" cy="12" rx="3.6" ry="2.6"/><ellipse cx="7.4" cy="7.4" rx="2.6" ry="3.4" transform="rotate(-45 7.4 7.4)"/><ellipse cx="16.6" cy="16.6" rx="2.6" ry="3.4" transform="rotate(-45 16.6 16.6)"/><ellipse cx="16.6" cy="7.4" rx="2.6" ry="3.4" transform="rotate(45 16.6 7.4)"/><ellipse cx="7.4" cy="16.6" rx="2.6" ry="3.4" transform="rotate(45 7.4 16.6)"/></g><circle cx="12" cy="12" r="3.2"/></svg> Día de Muertos · Halloween</div>
     </form>
+  </div>
   </div>
 </section>
 

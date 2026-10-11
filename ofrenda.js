@@ -116,21 +116,53 @@
   const tools=document.querySelector('.nav-tools');
   if(tools)new MutationObserver(()=>{if(tools.querySelector('.nav-item.active'))tools.open=true}).observe(sidebar.querySelector('nav'),{attributes:true,subtree:true,attributeFilter:['class']});
 
+  // Las guías siguen la selección real, incluso si el menú se desplaza o sus filas cambian de tamaño.
+  const followSelection=(container,selector,vertical=false)=>{
+    if(!container)return;
+    let frame=0,ready=false;
+    const update=()=>{
+      frame=0;
+      const selected=container.querySelector(selector),r=selected?.getBoundingClientRect(),box=container.getBoundingClientRect();
+      const visible=Boolean(r?.width&&r?.height&&box.width&&box.height);
+      container.toggleAttribute('data-guide',visible);
+      if(!visible){ready=false;container.removeAttribute('data-guide-ready');return}
+      const inset=vertical?8:14;
+      const position=(vertical?r.top-box.top+container.scrollTop:r.left-box.left+container.scrollLeft)+inset;
+      container.style.setProperty('--guide-position',position+'px');
+      container.style.setProperty('--guide-size',Math.max(0,(vertical?r.height:r.width)-inset*2)+'px');
+      if(!vertical)container.style.setProperty('--guide-row',(r.bottom-box.top+container.scrollTop+3)+'px');
+      if(!ready){ready=true;requestAnimationFrame(()=>{if(container.hasAttribute('data-guide'))container.setAttribute('data-guide-ready','')})}
+    };
+    const queue=()=>{if(!frame)frame=requestAnimationFrame(update)};
+    new MutationObserver(queue).observe(container,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden','open','aria-pressed']});
+    new ResizeObserver(queue).observe(container);
+    container.addEventListener('toggle',queue,true);
+    window.addEventListener('resize',queue,{passive:true});
+    document.fonts?.ready.then(queue);queue();
+  };
+  followSelection(sidebar.querySelector('nav'),'.nav-item.active',true);
+
   /* ── Escape cierra la ventana superior y el foco vuelve a quien la abrió ── */
   const handled=new Set(['v6Modal','payoutDetailModal','auditDetailModal']);
   const visibleModals=()=>[...document.querySelectorAll('.modal-backdrop:not(.hidden)')];
   document.addEventListener('keydown',e=>{
     if(e.key!=='Escape'||e.defaultPrevented)return;
-    if(sidebar.classList.contains('open')&&!wide.matches){sidebar.classList.remove('open');menuBtn?.focus();return}
-    const top=visibleModals().at(-1);if(!top||handled.has(top.id))return;
-    top.querySelector('[data-close]')?.click();
-  });
+    const top=visibleModals().at(-1);
+    if(top){
+      if(handled.has(top.id))return;
+      const close=top.querySelector('[data-close]');
+      if(close){e.preventDefault();e.stopPropagation();close.click()}
+      return;
+    }
+    if(sidebar.classList.contains('open')&&!wide.matches){e.preventDefault();e.stopPropagation();sidebar.classList.remove('open');menuBtn?.focus()}
+  },true);
   // La app enfoca un campo de la ventana al abrirla, así que se recuerda el último foco fuera de las ventanas.
   const openers=new WeakMap();let lastOutside=null;
   document.addEventListener('focusin',e=>{if(!e.target.closest('.modal-backdrop'))lastOutside=e.target});
   document.querySelectorAll('.modal-backdrop').forEach(modal=>{
     new MutationObserver(()=>{
       const open=!modal.classList.contains('hidden');
+      if(modal.id==='accountModal')$('accountBtn')?.setAttribute('aria-expanded',String(open));
       if(open){if(!openers.has(modal)&&lastOutside)openers.set(modal,lastOutside)}
       else{
         const opener=openers.get(modal);openers.delete(modal);
@@ -169,6 +201,7 @@
   const tabs=$('categoryTabs');
   const decorateTabs=()=>tabs?.querySelectorAll('.category-tab').forEach(b=>{if(!b.querySelector('svg'))b.insertAdjacentHTML('afterbegin',`<svg viewBox="0 0 24 24" aria-hidden="true">${tabIcons[b.dataset.cat]||tabIcons.cajas}</svg>`)});
   if(tabs){decorateTabs();new MutationObserver(decorateTabs).observe(tabs,{childList:true})}
+  followSelection(tabs,'.category-tab.active');
 
   /* ── Barra de pedido en móvil y tableta ── */
   const page=$('page-pos'),count=$('orderCount'),grand=$('grandTotal');

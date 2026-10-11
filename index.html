@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="reports.css?v=7.0.0">
   <link rel="stylesheet" href="companion.css?v=7.0.0">
   <link rel="stylesheet" href="auth-scene.css?v=7.0.0">
-  <link rel="stylesheet" href="ofrenda.css?v=7.2.7">
+  <link rel="stylesheet" href="ofrenda.css?v=7.2.8">
   <link rel="stylesheet" href="logo.css?v=7.2.1">
-  <link rel="stylesheet" href="sidebar.css?v=7.4.1">
+  <link rel="stylesheet" href="sidebar.css?v=7.4.2">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-3d-32.png">
   <link rel="apple-touch-icon" href="assets/logo/favicon-3d-180.png">
@@ -119,8 +119,8 @@
       <div class="season-card-copy"><span>Edición de temporada</span><strong>Día de Muertos <em>y Halloween</em></strong></div>
     </div>
     <div class="sidebar-bottom">
-      <div id="sync" class="sync"><i aria-hidden="true"></i><div><strong>Cloud</strong><small id="syncText">Sincronizando</small></div></div>
-      <button id="accountBtn" class="account-card" aria-label="Mi cuenta"><div id="avatar" class="avatar" aria-hidden="true">BS</div><div class="account-copy"><strong id="accountName">—</strong><span id="accountRole">—</span></div><em aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></em></button>
+      <div id="sync" class="sync" role="status" aria-atomic="true"><span class="sync-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .7-7.9A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/><path class="sync-check" d="m9 13 2 2 4-4"/></svg></span><div><strong>Cloud <i aria-hidden="true"></i></strong><small id="syncText">Sincronizando</small></div></div>
+      <button id="accountBtn" class="account-card" aria-label="Mi cuenta" aria-haspopup="dialog" aria-controls="accountModal" aria-expanded="false"><div id="avatar" class="avatar" aria-hidden="true">BS</div><div class="account-copy"><span class="account-eyebrow">Mi cuenta</span><strong id="accountName">—</strong><span id="accountRole">—</span></div><em aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></em></button>
     </div>
   </aside>
   <div class="sidebar-scrim" aria-hidden="true"></div>
@@ -448,9 +448,9 @@
 
 <!-- ACCOUNT -->
 <div id="accountModal" class="modal-backdrop hidden"><div class="modal narrow" role="dialog" aria-modal="true" aria-labelledby="accountModalName">
-  <div class="modal-head"><div><h2 id="accountModalName">—</h2></div><button class="icon-btn" data-close="accountModal" aria-label="Cerrar"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="modal-head"><div><span class="account-modal-eyebrow">Tu cuenta</span><h2 id="accountModalName">—</h2></div><button class="icon-btn" data-close="accountModal" aria-label="Cerrar"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
   <div id="accountDetail" class="account-detail"></div>
-  <div class="modal-actions"><button id="logoutBtn" class="btn danger">Cerrar sesión</button></div>
+  <div class="modal-actions"><button id="logoutBtn" class="btn danger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v16h5M10 12h11m-4-4 4 4-4 4"/></svg>Cerrar sesión</button></div>
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -461,8 +461,8 @@
 <script src="v6-modules.js?v=7.0.0"></script>
 <script src="logo.js?v=7.2.1"></script>
 <script src="auth-scene.js?v=7.0.0"></script>
-<script src="app.js?v=7.2.3"></script>
+<script src="app.js?v=7.2.4"></script>
 <script src="dashboard.js?v=7.0.0"></script>
-<script src="ofrenda.js?v=7.2.3"></script>
+<script src="ofrenda.js?v=7.2.4"></script>
 </body>
 </html>

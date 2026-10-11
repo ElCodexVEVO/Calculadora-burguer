@@ -21,18 +21,21 @@
   };
   const animate=(el,frames,options,done)=>{
     const a=el.animate(frames,options),record={el,a};effects.add(record);
-    a.finished.catch(()=>{}).then(()=>{effects.delete(record);el.remove();done?.()});
+    a.finished.then(()=>true,()=>false).then(completed=>{effects.delete(record);el.remove();done?.(completed)});
     return a;
   };
   // Con movimiento reducido o «Animaciones suaves» desactivado, todo efecto en curso se retira al instante.
-  const stopEffects=()=>{
-    if(!still())return;
+  const stopEffects=(force=false)=>{
+    if(force!==true&&!still()&&!document.hidden&&!app.classList.contains('hidden'))return;
     for(const {el,a} of effects){a.cancel();el.remove()}
     effects.clear();
     document.querySelectorAll('.bs-receipt,.bs-burst,.bs-fly').forEach(el=>el.remove());
   };
   reduced.addEventListener('change',stopEffects);
   new MutationObserver(stopEffects).observe(document.body,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(stopEffects).observe(app,{attributes:true,attributeFilter:['class']});
+  const syncVisibility=()=>{document.documentElement.toggleAttribute('data-page-hidden',document.hidden);stopEffects()};
+  document.addEventListener('visibilitychange',syncVisibility);syncVisibility();
 
   /* ── Papel picado ── */
   const PAPER='M4 1h112v74l-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-5-2-5 4-4-4Z';
@@ -92,11 +95,14 @@
     toggle.onchange=()=>{apply();try{localStorage.setItem('bs_season_petals',String(toggle.checked))}catch{}};
   }
 
-  /* ── Insignia con arte 3D: luz CSS solo mientras se ve, sin sustituir la ilustración por el modelo anterior. ── */
+  /* ── Insignia con arte 3D: llama y luz solo mientras la tarjeta está visible. ── */
   const seasonCard=document.querySelector('.season-card');
-  if(seasonCard&&'IntersectionObserver' in window){
-    const seasonIO=new IntersectionObserver(entries=>seasonCard.toggleAttribute('data-visible',entries.some(e=>e.isIntersecting)));
-    seasonIO.observe(seasonCard);
+  if(seasonCard){
+    let cardVisible=true;
+    const syncCard=()=>seasonCard.toggleAttribute('data-visible',cardVisible&&!document.hidden&&!app.classList.contains('hidden'));
+    if('IntersectionObserver' in window)new IntersectionObserver(entries=>{cardVisible=entries.some(e=>e.isIntersecting);syncCard()}).observe(seasonCard);
+    document.addEventListener('visibilitychange',syncCard);
+    new MutationObserver(syncCard).observe(app,{attributes:true,attributeFilter:['class']});syncCard();
   }
 
   /* ── Menú lateral en móvil ── */
@@ -225,22 +231,30 @@
   /* ── Añadir al pedido: confirmación breve y una miniatura hacia el contador ── */
   let flying=0;
   const target=()=>dock.classList.contains('is-visible')?dockCount:count;
+  if(page)new MutationObserver(()=>{if(!page.classList.contains('active'))stopEffects(true)}).observe(page,{attributes:true,attributeFilter:['class']});
   const fly=(img,quantity)=>{
-    const to=target();if(still()||!img||!to||flying>=3)return false;
+    const to=target();if(still()||document.hidden||!img||!to||flying>=3)return false;
     const from=img.getBoundingClientRect(),end=to.getBoundingClientRect();
-    if(!from.width||from.bottom<0||from.top>innerHeight||!end.width||end.bottom<0||end.top>innerHeight)return false;
+    // La barra móvil acaba de aparecer al añadir la primera unidad: apuntar a su posición final.
+    const dockShift=to===dockCount?Math.max(0,dock.getBoundingClientRect().bottom-(innerHeight-parseFloat(getComputedStyle(dock).bottom))):0;
+    const endY=end.top-dockShift;
+    if(!from.width||from.bottom<0||from.top>innerHeight||!end.width||endY+end.height<0||endY>innerHeight)return false;
     const ghost=document.createElement('div'),photo=img.cloneNode(false);
     ghost.className='bs-fly';ghost.setAttribute('aria-hidden','true');photo.removeAttribute('loading');photo.alt='';ghost.append(photo);
     if(quantity>1){const badge=document.createElement('span');badge.className='bs-fly-quantity';badge.textContent=`×${quantity.toLocaleString('es-MX')}`;ghost.append(badge)}
     const size=48,startX=from.left+from.width/2-size/2,startY=from.top+from.height/2-size/2;
     Object.assign(ghost.style,{left:startX+'px',top:startY+'px',width:size+'px',height:size+'px'});
     document.body.append(ghost);
-    const dx=end.left+end.width/2-(startX+size/2),dy=end.top+end.height/2-(startY+size/2);
+    const dx=end.left+end.width/2-(startX+size/2),dy=endY+end.height/2-(startY+size/2);
+    const arc=Math.min(64,Math.max(24,Math.abs(dx)*.12)),turn=dx<0?-6:6;
+    const frames=Array.from({length:9},(_,i)=>{
+      const t=i/8,lift=Math.sin(Math.PI*t);
+      return {offset:t,transform:`translate(${dx*t}px,${dy*t-arc*lift}px) rotate(${turn*lift}deg) scale(${1-.7*t})`,opacity:t<.65?.92:Math.max(0,.92*(1-t)/.35)};
+    });
     flying++;
-    animate(ghost,[
-      {transform:'translate(0,0) scale(1)',opacity:.85,borderRadius:'10px'},
-      {transform:`translate(${dx}px,${dy}px) scale(.45)`,opacity:0,borderRadius:'10px'}
-    ],{duration:280,easing:'cubic-bezier(.2,.65,.3,1)'},()=>{flying--;replay(to,'bs-pop')});
+    animate(ghost,frames,{duration:Math.min(480,Math.max(380,300+Math.hypot(dx,dy)*.3)),easing:'cubic-bezier(.3,.65,.35,1)'},completed=>{
+      flying--;if(completed&&page?.classList.contains('active'))replay(to,'bs-count-arrive');
+    });
     return true;
   };
   // Vista previa del importe visible mientras la cantidad no es 1; confirmación breve sobre la foto.
@@ -248,13 +262,14 @@
   const feedbackTimers=new WeakMap();
   document.addEventListener('bs:cart-added',e=>{
     const {id,quantity=1}=e.detail||{};
+    syncDock();
     const card=id&&[...(grid?.querySelectorAll('.product-card')||[])].find(el=>el.dataset.product===id);
     if(card){card.classList.remove('has-qty');card.classList.add('feedback-on');clearTimeout(feedbackTimers.get(card));feedbackTimers.set(card,setTimeout(()=>card.classList.remove('feedback-on'),1400))}
     if(card&&card.getBoundingClientRect().width){
-      replay(card,'is-added');replay(card.querySelector('[data-add]'),'bs-pop');replay(card.querySelector('.in-cart-count'),'bs-pop');
+      replay(card,'is-added');replay(card.querySelector('[data-add]'),'bs-add-confirm');replay(card.querySelector('.in-cart-count'),'bs-count-arrive');
       if(fly(card.querySelector('.food-photo'),Number(quantity)||1))return;
     }
-    replay(target(),'bs-pop');
+    replay(target(),'bs-count-arrive');
   });
 
   /* ── Pedido: líneas nuevas entran; cantidades e importes cambiados hacen un «tic» ── */

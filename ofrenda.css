@@ -859,7 +859,9 @@ tbody td[colspan]{padding:26px 14px;text-align:center;color:var(--o-muted)}
 @keyframes o-pop{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
 @keyframes o-tick{0%{opacity:.25;transform:translateY(-35%)}100%{opacity:1;transform:none}}
 @keyframes o-flash{0%{color:var(--o-mari-hi)}100%{color:inherit}}
-@keyframes o-added{0%{box-shadow:var(--o-shadow-1),0 0 0 0 rgba(242,140,27,.55)}100%{box-shadow:var(--o-shadow-1),0 0 0 10px rgba(242,140,27,0)}}
+@keyframes o-added{0%,100%{box-shadow:var(--o-shadow-1),0 0 0 0 rgba(242,140,27,0)}32%{box-shadow:var(--o-shadow-1),0 0 0 2px rgba(242,140,27,.38)}}
+@keyframes o-add-confirm{0%,100%{transform:scale(1)}35%{transform:scale(.97)}70%{transform:scale(1.015)}}
+@keyframes o-count-arrive{0%,100%{transform:scale(1)}38%{transform:scale(1.15)}70%{transform:scale(.98)}}
 @keyframes o-line-in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
 @keyframes o-bar{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
 @keyframes o-shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
@@ -882,7 +884,9 @@ tbody td[colspan]{padding:26px 14px;text-align:center;color:var(--o-muted)}
   body:not(.motion-off) .ambient-petals::before{animation:o-ambient-light 22s ease-in-out -8s infinite alternate}
   body:not(.motion-off) .ambient-petals::after{animation:o-ambient-light 29s ease-in-out -17s infinite alternate-reverse}
   body:not(.motion-off) .product-card.bs-enter{animation:o-rise 360ms var(--o-ease) calc(var(--i,0) * 32ms) both}
-  body:not(.motion-off) .product-card.is-added{animation:o-added 520ms var(--o-ease)}
+  body:not(.motion-off) .product-card.is-added{animation:o-added 420ms var(--o-ease)}
+  body:not(.motion-off) .bs-add-confirm{animation:o-add-confirm 240ms var(--o-ease)}
+  body:not(.motion-off) .bs-count-arrive{animation:o-count-arrive 290ms var(--o-ease)}
   body:not(.motion-off) .bs-pop{animation:o-pop 320ms var(--o-ease)}
   body:not(.motion-off) .bs-tick{display:inline-block;animation:o-tick 260ms var(--o-ease),o-flash 700ms var(--o-ease)}
   body:not(.motion-off) .cart-item.bs-line-in{animation:o-line-in 280ms var(--o-ease) calc(var(--i,0) * 40ms) both}
@@ -905,7 +909,7 @@ tbody td[colspan]{padding:26px 14px;text-align:center;color:var(--o-muted)}
   body:not(.motion-off) .sidebar{transition:transform 300ms var(--o-ease)}
   body.pos-active .papel-picado .flag,body.pos-active .season-card-art::before{animation-play-state:paused}
   body.pos-active .product-card.bs-enter{animation:o-fade 160ms var(--o-ease) both}
-  body.pos-active .product-card.is-added,body.pos-active .bs-pop,body.pos-active .bs-tick,body.pos-active .order-panel.is-arrived{animation:o-fade 180ms var(--o-ease)}
+  body.pos-active .bs-pop,body.pos-active .bs-tick,body.pos-active .order-panel.is-arrived{animation:o-fade 180ms var(--o-ease)}
   body.pos-active .cart-item.bs-line-in{animation:o-fade 160ms var(--o-ease) both}
 }
 .motion-off *,.motion-off *::before,.motion-off *::after{transition-duration:0s!important;animation:none!important}
@@ -915,9 +919,9 @@ tbody td[colspan]{padding:26px 14px;text-align:center;color:var(--o-muted)}
 }
 
 /* Movimiento: vuelo al pedido y ticket de venta. */
-.bs-fly{position:fixed;z-index:500;overflow:hidden;border-radius:12px;pointer-events:none;box-shadow:0 14px 30px rgba(0,0,0,.55);border:2px solid var(--o-gold)}
+.bs-fly{position:fixed;z-index:500;overflow:hidden;border-radius:12px;pointer-events:none;box-shadow:0 8px 18px rgba(0,0,0,.32);border:1px solid var(--o-gold)}
 .bs-fly img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
-.bs-fly-quantity{position:absolute;top:8px;right:8px;padding:4px 8px;border-radius:7px;color:var(--o-mari-ink);background:var(--o-gold);font:800 16px var(--o-font);box-shadow:0 3px 12px rgba(0,0,0,.5)}
+.bs-fly-quantity{position:absolute;top:3px;right:3px;padding:3px 4px;border-radius:5px;color:var(--o-mari-ink);background:var(--o-gold);font:800 11px/1 var(--o-font);box-shadow:0 2px 6px rgba(0,0,0,.3)}
 .bs-receipt{position:fixed;z-index:520;pointer-events:none;animation:o-receipt 2.6s var(--o-ease) both}
 .bs-receipt-paper{position:relative;padding:14px 16px 16px;border-radius:12px 12px 4px 4px;background:#f6ecdc;color:#2b1d1f;box-shadow:0 22px 40px rgba(0,0,0,.6);font-size:13px}
 .bs-receipt-paper::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:7px;background:#f6ecdc;-webkit-mask:var(--papel-edge) repeat-x left top/16px 7px;mask:var(--papel-edge) repeat-x left top/16px 7px}

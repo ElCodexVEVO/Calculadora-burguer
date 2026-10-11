@@ -184,15 +184,15 @@
       this.sweep(620,560);
     }
     // Reflejo de luz recortado a la silueta del emblema (máscara con el propio logo).
-    sweep(delay=0,duration=640){
+    sweep(delay=0,duration=900){
       if(still()||!this.sheen.animate)return;
       this._sweep?.cancel();
-      this._sweep=this.sheen.animate([{opacity:0,backgroundPosition:'-120% 0'},{opacity:1,offset:.25},{opacity:1,offset:.75},{opacity:0,backgroundPosition:'220% 0'}],{duration,delay,easing:'cubic-bezier(.45,0,.25,1)',fill:'backwards'});
+      this._sweep=this.sheen.animate([{opacity:0,backgroundPosition:'-120% 0'},{opacity:.4,offset:.3},{opacity:.32,offset:.65},{opacity:0,backgroundPosition:'220% 0'}],{duration,delay,easing:'cubic-bezier(.45,0,.25,1)',fill:'backwards'});
     }
 
     bindInteraction(){
       if(this.hasAttribute('interactive')&&this.variant!=='mobile'){
-        this.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'&&!this.classList.contains('is-intro'))this.sweep(0,620)});
+        this.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'&&!this.classList.contains('is-intro'))this.sweep()});
       }
       if(this.hasAttribute('parallax'))this.startParallaxListener();
     }

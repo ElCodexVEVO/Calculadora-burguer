@@ -31,7 +31,7 @@ burgershot-logo .bs-mark-shadow{position:absolute;left:50%;bottom:-4%;z-index:0;
 /* Reflejo: banda de luz recortada a la silueta del logo. */
 burgershot-logo .bs-mark-sheen{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
   background:linear-gradient(105deg,transparent 35%,rgba(255,244,222,.55) 48%,rgba(255,214,150,.28) 54%,transparent 66%) -120% 0/250% 100% no-repeat;
-  -webkit-mask:var(--bs-logo-src) center/contain no-repeat;mask:var(--bs-logo-src) center/contain no-repeat;mix-blend-mode:screen}
+  -webkit-mask:var(--bs-logo-src) center/contain no-repeat;mask:var(--bs-logo-src) center/contain no-repeat;clip-path:inset(0 0 28%);mix-blend-mode:screen}
 /* Luz ambiental (solo con temporada activa; ver más abajo). */
 burgershot-logo .bs-mark-glow{position:absolute;inset:-18%;z-index:0;border-radius:50%;opacity:0;pointer-events:none}
 
@@ -112,33 +112,34 @@ burgershot-logo .bs-accents i:nth-child(3){right:10%;bottom:6%;transform:rotate(
 
 /* Movimiento en reposo: solo el emblema y su reflejo, cuando están visibles. */
 @keyframes bs-logo-header-idle{
-  0%,10%,58%,100%{transform:translateY(0) rotate(0)}
-  24%{transform:translateY(-2px) rotate(-4deg)}
-  36%{transform:translateY(0) rotate(3deg)}
-  46%{transform:translateY(-1px) rotate(-1deg)}
+  0%,100%{transform:translateY(0) rotate(0)}
+  25%{transform:translateY(-1px) rotate(-.7deg)}
+  50%{transform:translateY(-2px) rotate(0)}
+  75%{transform:translateY(-1px) rotate(.7deg)}
 }
 @keyframes bs-logo-float{
   0%,100%{transform:translateY(0) rotate(0)}
-  25%{transform:translateY(-3px) rotate(-2deg)}
+  25%{transform:translateY(-2.5px) rotate(-.65deg)}
   50%{transform:translateY(-5px) rotate(0)}
-  75%{transform:translateY(-3px) rotate(2deg)}
+  75%{transform:translateY(-2.5px) rotate(.65deg)}
 }
 @keyframes bs-logo-ground-shadow{
   0%,100%{transform:translateX(-50%) scale(1);opacity:.78}
-  25%,75%{transform:translateX(-50%) scale(.87);opacity:.62}
-  50%{transform:translateX(-50%) scale(.72);opacity:.43}
+  25%,75%{transform:translateX(-50%) scale(.91);opacity:.64}
+  50%{transform:translateX(-50%) scale(.82);opacity:.5}
 }
 @keyframes bs-logo-idle-sheen{
-  0%,72%{opacity:0;background-position:-120% 0}
-  77%{opacity:.6}
-  86%,100%{opacity:0;background-position:220% 0}
+  0%,80%{opacity:0;background-position:-120% 0}
+  83%{opacity:.36}
+  89%,100%{opacity:0;background-position:220% 0}
 }
 @media (prefers-reduced-motion:no-preference){
-  body:not(.motion-off) burgershot-logo[animated][motion="header"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-face{animation:bs-logo-header-idle 7s ease-in-out infinite}
-  body:not(.motion-off) burgershot-logo[animated][motion="float"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-face{animation:bs-logo-float 4.8s ease-in-out infinite}
-  body:not(.motion-off) #cartEmpty burgershot-logo[animated][motion="float"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-shadow{animation:bs-logo-ground-shadow 4.8s ease-in-out infinite}
-  body:not(.motion-off) burgershot-logo[animated][motion][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-sheen{animation:bs-logo-idle-sheen 9s ease-in-out infinite}
+  body:not(.motion-off) burgershot-logo[animated][motion="header"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-face{animation:bs-logo-header-idle 9s ease-in-out infinite}
+  body:not(.motion-off) burgershot-logo[animated][motion="float"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-face{animation:bs-logo-float 7.2s ease-in-out infinite}
+  body:not(.motion-off) #cartEmpty burgershot-logo[animated][motion="float"][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-shadow{animation:bs-logo-ground-shadow 7.2s ease-in-out infinite}
+  body:not(.motion-off) burgershot-logo[animated][motion][data-visible]:not(.is-intro):not(.is-fallback) .bs-mark-sheen{animation:bs-logo-idle-sheen 13s ease-in-out infinite}
 }
+[data-page-hidden] burgershot-logo *{animation-play-state:paused!important}
 /* Movimiento reducido: sin inclinación ni elevación; solo un fundido simple. */
 @media (prefers-reduced-motion:reduce){
   burgershot-logo .bs-mark{transform:none!important;transition:none}

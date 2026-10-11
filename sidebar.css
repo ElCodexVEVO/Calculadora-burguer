@@ -89,17 +89,27 @@
   border:1px solid rgba(242,140,27,.36);
   background:radial-gradient(ellipse at 100% 95%,rgba(242,140,27,.18),transparent 70%),linear-gradient(135deg,#30202a,#21161b 65%);
   box-shadow:inset 0 1px 0 rgba(255,222,166,.07),0 8px 24px -16px rgba(0,0,0,.65);
+  transform-origin:50% 65%;
+  transition:transform 360ms var(--o-ease),border-color 260ms var(--o-ease),box-shadow 360ms var(--o-ease);
 }
 .sidebar .season-card::before{content:"";position:absolute;right:-5px;top:-5px;width:62px;height:62px;background:url('assets/season/papel-esquina.svg') center/contain no-repeat;opacity:.2;pointer-events:none}
 .sidebar .season-card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--o-mari);-webkit-mask:var(--papel-edge) repeat-x left bottom/18px 5px;mask:var(--papel-edge) repeat-x left bottom/18px 5px;opacity:.7;pointer-events:none}
 .sidebar .season-card-art{position:absolute;width:122px;aspect-ratio:6/5;right:-2px;bottom:5px;pointer-events:none;filter:drop-shadow(0 7px 8px rgba(0,0,0,.28))}
-.sidebar .season-card .season-card-art::before{left:30%;top:20%;width:90%;animation:none}
+.sidebar .season-card .season-card-art::before{left:23%;top:14%;width:80%;animation:none}
+/* Solo la llama recibe el reflejo: la cera, las flores y la calabaza permanecen nítidas. */
+.sidebar .season-card-art::after{content:"";position:absolute;inset:0;z-index:2;background:url('assets/season/ofrenda-premium.webp') center/contain no-repeat;-webkit-mask:radial-gradient(ellipse 10% 17% at 22% 13%,#000 55%,transparent 90%);mask:radial-gradient(ellipse 10% 17% at 22% 13%,#000 55%,transparent 90%);mix-blend-mode:screen;opacity:0;transform-origin:22% 26%;pointer-events:none}
 .sidebar .season-card-copy span{font-size:8.5px;letter-spacing:.14em;font-weight:700;color:#e6b974}
 .sidebar .season-card-copy strong{max-width:128px;margin-top:12px;font-size:21px;font-weight:850;line-height:1.08;letter-spacing:-.025em;white-space:normal}
 .sidebar .season-card-copy strong em{margin-top:8px;font-size:13px;font-weight:650;letter-spacing:0;color:#ffa844}
 @media (prefers-reduced-motion:no-preference){
-  body:not(.motion-off):not(.pos-active) .sidebar .season-card[data-visible] .season-card-art::before{animation:sc-glow 4.5s ease-in-out infinite}
+  body:not(.motion-off):not(.pos-active) .sidebar .season-card[data-visible] .season-card-art::before{animation:sc-glow 3.7s ease-in-out infinite}
+  body:not(.motion-off):not(.pos-active) .sidebar .season-card[data-visible] .season-card-art::after{animation:season-flame 3.7s ease-in-out infinite}
+  @media (hover:hover) and (pointer:fine){
+    body:not(.motion-off):not(.pos-active) .sidebar .season-card[data-visible]:hover{transform:perspective(700px) rotateY(-2deg) rotateX(1deg) translateY(-2px);border-color:rgba(255,180,80,.65);box-shadow:inset 0 1px 0 rgba(255,222,166,.1),0 12px 24px -14px rgba(0,0,0,.7)}
+  }
 }
+@keyframes season-flame{0%,100%{opacity:.12;transform:scaleX(.96)}12%,61%{opacity:.32;transform:rotate(-.7deg) scaleY(1.03)}29%,78%{opacity:.09;transform:rotate(.6deg) scaleX(.94)}43%,90%{opacity:.24;transform:scaleY(1.02)}}
+[data-page-hidden] .sidebar .season-card .season-card-art::before,[data-page-hidden] .sidebar .season-card-art::after{animation-play-state:paused!important}
 .sidebar .sidebar-bottom{gap:10px;padding-top:12px;border-top:1px dashed rgba(246,235,217,.12)}
 .sidebar .sync{gap:8px;padding:4px 7px}
 .sidebar .sync i{width:5px;height:5px;flex:none;box-shadow:0 0 0 3px rgba(255,193,99,.12)}

@@ -7,6 +7,23 @@
   let exitTimer=0,slowTimer=0,arrivalTimer=0,lastFocus=null;
   const locked=new Map();
   const outline='M5 2H115V77L105 84 95 82 85 90 75 87 60 95 45 87 35 90 25 82 15 84 5 77Z';
+  // La frase mantiene su nombre accesible completo; solo se animan sus letras visuales.
+  let letterIndex=0;
+  document.querySelectorAll('.auth-welcome-word').forEach(word=>{
+    const letters=[...word.textContent].map(character=>{
+      const letter=document.createElement('span');letter.className='auth-letter';
+      letter.textContent=character;letter.style.setProperty('--letter-index',letterIndex++);
+      return letter;
+    });
+    word.replaceChildren(...letters);
+  });
+  const copy=document.querySelector('#authScreen .gate-copy');
+  if(copy&&window.IntersectionObserver){
+    const observer=new IntersectionObserver(entries=>copy.classList.toggle('auth-copy-visible',entries.some(entry=>entry.isIntersecting)));
+    observer.observe(copy);
+  }else copy?.classList.add('auth-copy-visible');
+  const pauseMotion=()=>document.documentElement.classList.toggle('auth-motion-paused',document.hidden);
+  document.addEventListener('visibilitychange',pauseMotion);pauseMotion();
   document.querySelectorAll('.auth-bunting').forEach((el,row)=>{
     el.innerHTML=Array.from({length:12},(_,i)=>{
       const id=`authPaper-${row}-${i}`,color=i%2?'#c96a0a':'#6a3270';

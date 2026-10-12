@@ -380,3 +380,13 @@ Elementos de 42px con icono de 30px; hover en `surface`. Activo: fondo `mari-sof
 - **Don't** redibujar, recolorear ni recortar el emblema del logo, ni mezclar adornos de temporada dentro de él.
 - **Don't** usar sombras duras con desplazamiento, degradados morados de fondo ni tarjetas dentro de tarjetas.
 - **Don't** dejar que un efecto retrase u oculte el total.
+
+### Acceso centrado · 12 de octubre de 2026
+
+El formulario se centra en el viewport y se limita a 440px. El logo 3D aprobado y la bienvenida forman una cabecera sobre él; en móvil se apilan. El fondo de la ofrenda, las velas, los pétalos y el papel picado conservan la temática. Se retiran el antetítulo y la leyenda de temporada del formulario.
+
+La bienvenida usa Archivo 800 de 38px, 34px en escritorio bajo y 30px en móvil. El formulario tiene una superficie opaca vino-carbón, campos de 54px y botones con foco visible. La entrada dura 700ms y el festón superior se ilumina una sola vez durante 850ms; esta es una excepción acotada a la regla del festón estático.
+
+El logo reutiliza `motion="float"` con su sombra acompasada a 7,2s. Las letras de bienvenida ondulan hasta 3px en 4,8s con fases distintas, manteniendo el nombre accesible completo del título. Se detienen fuera de vista, al ocultar la página, con movimiento reducido o al desactivar las animaciones. Los controles del formulario permanecen estables.
+
+Validación: composición centrada sin desbordamiento horizontal a 1280×800, 1280×720, 390×844 y 320×568; las pantallas bajas permiten desplazamiento vertical. Se comprobaron campos vacíos, error de credenciales, mostrar/ocultar contraseña, entrada con Enter, carga y acceso correcto con la demo. Pasaron las 139 comprobaciones de `npm test` con datos simulados y PostgreSQL local. Las advertencias mecánicas de espaciado corresponden a componentes del panel que quedan fuera de este cambio.

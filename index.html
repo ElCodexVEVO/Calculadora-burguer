@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="pos.css?v=7.0.0">
   <link rel="stylesheet" href="reports.css?v=7.0.0">
   <link rel="stylesheet" href="companion.css?v=7.0.0">
-  <link rel="stylesheet" href="auth-scene.css?v=7.5.0">
+  <link rel="stylesheet" href="auth-scene.css?v=7.6.0">
   <link rel="stylesheet" href="ofrenda.css?v=7.2.8">
   <link rel="stylesheet" href="logo.css?v=7.2.1">
   <link rel="stylesheet" href="sidebar.css?v=7.5.1">
@@ -57,16 +57,14 @@
   <div class="auth-bunting" aria-hidden="true"></div>
   <div class="auth-composition">
   <div class="gate-art auth-art">
-    <burgershot-logo variant="full" animated interactive parallax intro-key="login" class="brand big auth-brand"><span class="logo bs-mark"><img src="assets/logo/burgershot-3d-512.webp" alt="Logo de Burger Shot" width="512" height="431"></span><span class="bs-type"><strong>BURGER <span>SHOT</span></strong><small>Punto de venta</small></span></burgershot-logo>
+    <burgershot-logo variant="full" animated motion="float" interactive parallax intro-key="login" class="brand big auth-brand"><span class="logo bs-mark"><img src="assets/logo/burgershot-3d-512.webp" alt="Logo de Burger Shot" width="512" height="431"></span><span class="bs-type"><strong>BURGER <span>SHOT</span></strong><small>Punto de venta</small></span></burgershot-logo>
     <div class="gate-copy">
-      <h1>Bienvenido<br> <span>al turno.</span></h1>
+      <h1 aria-label="Bienvenido al turno."><span class="auth-welcome-word" aria-hidden="true">Bienvenido</span><br> <span class="auth-welcome-word auth-welcome-accent" aria-hidden="true">al turno.</span></h1>
       <p>Tu negocio, listo para una gran noche.</p>
-      <div class="auth-tradition"><span aria-hidden="true">✦</span> El sabor de nuestras tradiciones.</div>
     </div>
   </div>
   <div class="gate-form">
     <form id="loginForm" class="auth-card" novalidate>
-      <div class="auth-card-kicker"><span aria-hidden="true"></span> ACCESO AL EQUIPO</div>
       <h2 id="authTitle">Iniciar sesión</h2>
       <p class="muted">Ingresa con tu cuenta de Burger Shot para comenzar el turno.</p>
       <label for="loginUsername">Usuario o correo</label>
@@ -80,7 +78,6 @@
         <button class="btn secondary block" id="openAdminSetupBtn" type="button">Crear administrador inicial</button>
       </div>
       <button class="text-link hidden" id="changeCloudBtn" type="button">Cambiar conexión de Supabase</button>
-      <div class="auth-season-note"><svg class="marigold-mark" viewBox="0 0 24 24" aria-hidden="true"><g><ellipse cx="12" cy="5.5" rx="2.6" ry="3.6"/><ellipse cx="12" cy="18.5" rx="2.6" ry="3.6"/><ellipse cx="5.5" cy="12" rx="3.6" ry="2.6"/><ellipse cx="18.5" cy="12" rx="3.6" ry="2.6"/><ellipse cx="7.4" cy="7.4" rx="2.6" ry="3.4" transform="rotate(-45 7.4 7.4)"/><ellipse cx="16.6" cy="16.6" rx="2.6" ry="3.4" transform="rotate(-45 16.6 16.6)"/><ellipse cx="16.6" cy="7.4" rx="2.6" ry="3.4" transform="rotate(45 16.6 7.4)"/><ellipse cx="7.4" cy="16.6" rx="2.6" ry="3.4" transform="rotate(45 7.4 16.6)"/></g><circle cx="12" cy="12" r="3.2"/></svg> Día de Muertos · Halloween</div>
     </form>
   </div>
   </div>
@@ -465,7 +462,7 @@
 <script src="v6-core.js?v=6.0.0"></script>
 <script src="v6-modules.js?v=7.0.0"></script>
 <script src="logo.js?v=7.2.1"></script>
-<script src="auth-scene.js?v=7.0.0"></script>
+<script src="auth-scene.js?v=7.6.0"></script>
 <script src="app.js?v=7.2.4"></script>
 <script src="dashboard.js?v=7.0.0"></script>
 <script src="ofrenda.js?v=7.2.4"></script>

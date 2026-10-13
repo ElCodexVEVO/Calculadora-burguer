@@ -1,32 +1,31 @@
 ---
-name: Burger Shot V7 · Ofrenda nocturna
-description: Punto de venta de temporada sobre carbón cálido, con naranja cempasúchil para actuar y festón de papel picado como firma.
+name: Burger Shot V7.7 · Noche cinematográfica
+description: Punto de venta nocturno de Día de Muertos y Halloween, con acciones cálidas y perfiles personales.
 colors:
-  ground: "#141012"
-  shell-solid: "#191316"
-  surface: "#1f181b"
-  surface-2: "#272023"
-  surface-3: "#31282c"
-  inset: "#161113"
+  ground: "#0B050B"
+  secondary: "#140911"
+  wine: "#230910"
+  card: "#211217"
+  neon: "#FF3038"
+  orange: "#FF891C"
+  orange-soft: "#FFA63B"
+  gold: "#FFB347"
+  purple: "#281027"
+  text: "#FFF0DF"
+  muted: "#BCA9A8"
+  success: "#39DFA4"
+  surface-2: "#2c1920"
+  surface-3: "#38232b"
+  inset: "#170d13"
+  cream-2: "#ead6c8"
   line: "rgba(246,235,217,.10)"
   line-2: "rgba(246,235,217,.17)"
   line-3: "rgba(246,235,217,.28)"
-  cream: "#f6ebd9"
-  cream-2: "#ddd0bf"
-  muted: "#b8a999"
-  faint: "#9d8f83"
-  mari: "#f28c1b"
-  mari-hi: "#ffa53d"
-  mari-deep: "#c96a0a"
   mari-ink: "#1c0f05"
   mari-soft: "rgba(242,140,27,.14)"
   mari-line: "rgba(242,140,27,.42)"
-  gold: "#ffc163"
-  wine: "#7a1e3a"
-  plum: "#5b2a5e"
   plum-hi: "#a76aac"
   plum-soft: "rgba(167,106,172,.16)"
-  teal: "#52cfaa"
   teal-soft: "rgba(82,207,170,.13)"
   red: "#ff7a6b"
   red-soft: "rgba(255,122,107,.13)"
@@ -35,17 +34,17 @@ colors:
 typography:
   display:
     fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "clamp(44px, 4.6vw, 72px)"
+    fontSize: "35px"
     fontWeight: 800
-    lineHeight: 1.02
-    letterSpacing: "-0.02em"
-    fontVariation: "'wdth' 112"
+    lineHeight: 1.06
+    letterSpacing: "-0.035em"
+    fontVariation: "'wdth' 108"
   headline:
     fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
     fontSize: "28px"
     fontWeight: 800
     lineHeight: 1.12
-    letterSpacing: "-0.012em"
+    letterSpacing: "-0.03em"
     fontVariation: "'wdth' 112"
   title:
     fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
@@ -66,24 +65,20 @@ typography:
     lineHeight: 1.45
   total:
     fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "34px"
+    fontSize: "38px"
     fontWeight: 900
     lineHeight: 1
     letterSpacing: "-0.02em"
     fontFeature: "'tnum'"
     fontVariation: "'wdth' 108"
-  wordmark:
-    fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "20px"
-    fontWeight: 900
-    lineHeight: 0.95
-    letterSpacing: "0.01em"
-    fontVariation: "'wdth' 125"
 rounded:
   xs: "6px"
   sm: "9px"
   md: "13px"
   lg: "17px"
+  employee: "15px"
+  identity: "18px"
+  auth: "22px"
   pill: "999px"
 spacing:
   control-gap: "8px"
@@ -91,23 +86,21 @@ spacing:
   grid-gap: "14px"
   panel-gap: "16px"
   panel-pad: "20px"
+  profile-gap: "24px"
   page-pad: "28px"
   page-pad-mobile: "14px"
 components:
   button-primary:
-    backgroundColor: "{colors.mari}"
-    textColor: "{colors.mari-ink}"
+    textColor: "{colors.wine}"
     rounded: "{rounded.sm}"
     padding: "10px 16px"
     height: "42px"
-  button-primary-hover:
-    backgroundColor: "{colors.mari-hi}"
   button-primary-disabled:
     backgroundColor: "{colors.surface-3}"
-    textColor: "{colors.faint}"
+    textColor: "{colors.muted}"
   button-secondary:
     backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.cream}"
+    textColor: "{colors.text}"
     rounded: "{rounded.sm}"
     padding: "10px 16px"
     height: "42px"
@@ -118,275 +111,184 @@ components:
     textColor: "#ffd9d3"
     rounded: "{rounded.sm}"
     padding: "10px 16px"
-  button-row:
-    backgroundColor: "{colors.surface-3}"
-    textColor: "{colors.cream}"
-    rounded: "{rounded.xs}"
-    padding: "6px 12px"
-    height: "34px"
-  button-icon:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.cream-2}"
-    rounded: "{rounded.sm}"
-    size: "40px"
-  checkout:
-    backgroundColor: "{colors.mari}"
-    textColor: "{colors.mari-ink}"
-    rounded: "{rounded.md}"
-    padding: "10px 16px"
-    height: "54px"
   input:
     backgroundColor: "{colors.inset}"
-    textColor: "{colors.cream}"
+    textColor: "{colors.text}"
     rounded: "{rounded.sm}"
     padding: "10px 12px"
     height: "42px"
   category-tab:
-    backgroundColor: "{colors.surface}"
+    backgroundColor: "{colors.card}"
     textColor: "{colors.cream-2}"
     rounded: "{rounded.pill}"
     padding: "8px 14px"
     height: "40px"
   category-tab-active:
-    backgroundColor: "{colors.mari}"
+    backgroundColor: "{colors.orange}"
     textColor: "{colors.mari-ink}"
   product-card:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.cream}"
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.text}"
     rounded: "{rounded.lg}"
-    padding: "12px 14px 14px"
   order-panel:
-    backgroundColor: "#221a1d"
-    textColor: "{colors.cream}"
+    textColor: "{colors.text}"
     rounded: "{rounded.lg}"
     width: "372px"
-  order-dock:
-    backgroundColor: "{colors.mari}"
+  checkout:
+    backgroundColor: "{colors.orange}"
     textColor: "{colors.mari-ink}"
-    rounded: "16px"
-    height: "58px"
-  modal:
-    backgroundColor: "#241c1f"
-    textColor: "{colors.cream}"
-    rounded: "{rounded.lg}"
-    padding: "22px 24px"
-    width: "640px"
-  toast:
-    backgroundColor: "#2a2125"
-    textColor: "{colors.cream}"
     rounded: "{rounded.md}"
-    padding: "12px 14px 13px 12px"
-  table-header:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.muted}"
-    padding: "11px 14px"
+    padding: "10px 16px"
+    height: "54px"
+  navigation-item:
+    textColor: "#ddc9bf"
+    rounded: "8px"
+    padding: "8px 10px"
+    height: "46px"
+  navigation-item-active:
+    backgroundColor: "#ffe1b3"
+    textColor: "#31130c"
+  profile-avatar:
+    textColor: "{colors.text}"
+    rounded: "50%"
+  effects-choice:
+    backgroundColor: "{colors.inset}"
+    textColor: "{colors.text}"
+    rounded: "11px"
+    padding: "18px 14px"
+  photo-editor:
+    backgroundColor: "{colors.card}"
+    textColor: "{colors.text}"
+    rounded: "{rounded.lg}"
+    padding: "28px"
+    width: "min(720px, calc(100vw - 32px))"
 ---
 
-# Design System: Burger Shot V7 · Ofrenda nocturna
+# Design System: Burger Shot V7.7 · Noche cinematográfica
 
 ## Overview
 
-**Creative North Star: "La mesa de la ofrenda nocturna"**
+**Creative North Star: "La sucursal durante la ofrenda nocturna"**
 
-La caja se usa de noche, en una ventana junto al juego o en el móvil con el pulgar, alternando la vista entre el chat de FiveM y el total. Por eso el tema es oscuro: carbón cálido con un punto de vino, texto crema y un solo color que pide acción. La mesa de trabajo (catálogo, ticket, tablas, ventanas) queda limpia; la temporada vive en el marco: papel picado colgando de la cabecera, una vela en el margen del menú lateral, festones recortados en los bordes.
+Restaurante americano de noche durante Día de Muertos y Halloween: negro profundo, borgoña, rojo neón moderado, cempasúchil y texto crema. La atmósfera acompaña a una caja rápida y legible; los campos, botones, gráficas y cifras son HTML real. El logo 3D aprobado conserva su arte y proporción.
 
-El sistema vive en `ofrenda.css` (tokens `--o-*` en `:root`), que sustituyó a ocho capas anteriores; `logo.css` y `logo.js` llevan la marca y `auth-scene.css` la escena del acceso. Es denso y directo: indicadores en franja dividida en lugar de tarjetas sueltas, listas con divisor en lugar de tarjetas anidadas, y cifras siempre tabulares.
+`cinematic.css`, cargado al final en `index.html`, fija la paleta `--bs-*` y adapta los alias `--o-*`. `ofrenda.css` conserva los controles de caja, tablas, festones y escalas; `auth-scene.css`, `logo.css` y `sidebar.css` aportan estructura y estados sujetos a la cascada. El sistema combina el restaurante nocturno del acceso con un marco operativo compacto y perfiles personales.
 
 **Key Characteristics:**
-- Fondo plano carbón (`ground`) con tres escalones de superficie y bordes crema translúcidos.
-- Naranja cempasúchil para acción, selección y total; turquesa solo para éxito.
-- Una sola familia, Archivo variable; la jerarquía se hace con peso y anchura, no con otra tipografía.
-- Festón de papel picado con máscara como borde de ticket, ventana, franja de inicio y tarjeta de acceso.
-- Movimiento corto con una única curva de salida; todo se apaga con movimiento reducido o «Animaciones suaves» desactivado.
-- La decoración de temporada no intercepta clics y va separada de la marca.
+- Carbón y borgoña con superficies separadas, bordes cálidos y luz roja discreta.
+- Acción naranja/dorada, navegación seleccionada en crema y éxito en verde.
+- Archivo variable, jerarquía por peso y anchura, cifras tabulares.
+- Logo 3D intacto; papel picado, velas, niebla y pétalos como ambiente separado.
+- Sidebar plegable, avatares circulares y editor de fotografía con vista previa.
+- Tres niveles de efectos; movimiento reducido y pausa de la pestaña oculta.
 
 ## Colors
 
-Carbón cálido, crema y cempasúchil; ciruela y vino solo como detalle.
+La paleta normativa son los doce primeros colores del frontmatter, extraídos de `--bs-*`. Los demás registran auxiliares realmente utilizados por `--o-*`; no son una segunda paleta propuesta.
 
 ### Primary
-- **Naranja cempasúchil** (`mari`, con `mari-hi` para hover y borde, `mari-deep` en degradados de barras): botón principal, Añadir, Cobrar, barra de pedido móvil, pestaña de categoría activa, elemento de navegación activo, foco de campos (borde `mari` más anillo `0 0 0 3px rgba(242,140,27,.22)`), festones. Texto encima siempre `mari-ink`.
-- **Oro de vela** (`gold`): importes que mandan (precio de producto, total, total del resumen de cobro), contadores sobre fondo oscuro, enlaces y acciones de texto, anillo de foco global (`2px`, desplazado `2px`).
-- `mari-soft` y `mari-line`: fondo y borde de lo seleccionado o resaltado (navegación activa, avisos informativos, producto ya en el pedido).
+- **Cempasúchil intenso y suave** (`orange`, `orange-soft`): acciones, categorías y bordes de foco. El botón principal general mezcla oro y naranja; Cobrar y Añadir mantienen naranja sólido.
+- **Dorado de vela** (`gold`): total, precios de caja auxiliar, reconocimiento semanal y foco visible.
+- **Rojo neón** (`neon`): filo del acceso, bordes del marco y resplandores ambientales; el coral conserva el error.
 
 ### Secondary
-- **Turquesa de papel picado** (`teal`, `teal-soft`): éxito y estado en línea. Etiqueta verde, punto de sesión y sincronización, aviso de éxito, píldora «añadido» sobre la foto, pulso `is-success`.
+- **Verde positivo** (`success`): éxito confirmado, conexión y cuenta activa. `teal-soft` conserva el velo auxiliar heredado.
 
 ### Tertiary
-- **Ciruela** (`plum-hi`, `plum-soft`): segunda serie y posiciones no líderes (número de ranking, barra de progreso del equipo).
-- **Vino** (`wine`): avatares e icono del negocio. Plano, sin degradado.
-- **Coral** (`red`, `red-soft`): error, campo inválido, quitar línea, aviso de error. El botón de peligro usa fondo `#3a1a1c` con borde `#6e2f31`.
+- **Morado profundo** (`purple`) y **borgoña oscuro** (`wine`): ambiente y profundidad. Los auxiliares ciruela siguen en gráficas y ranking.
+- **Coral de error** (`red`, `red-soft`): mensajes inválidos, anulación y acciones de quitar. El botón destructivo conserva su fondo vino y texto coral claro.
 
 ### Neutral
-- **Carbón** (`ground`): fondo de página, plano. Menú lateral en `#1b1417` a `#171114`.
-- **Superficies** (`surface`, `surface-2`, `surface-3`): panel, control en reposo, control en hover o elevado. `inset` para campos y huecos.
-- **Líneas** (`line`, `line-2`, `line-3`): divisor interno, borde de control, borde en hover.
-- **Crema** (`cream`, `cream-2`, `muted`, `faint`): título y cifra, texto de cuerpo, texto secundario, texto terciario y marcadores.
-- **Ticket claro** (`ticket-paper`, `ticket-ink`): variante opcional del ticket en papel crema; redefine los tokens dentro del panel (oro pasa a `#9d4e05`, turquesa a `#13775d`, coral a `#b3261e`).
+- **Negro nocturno**, **fondo secundario** y **superficie de tarjeta** (`ground`, `secondary`, `card`): página, marco y paneles. `surface-2`, `surface-3` e `inset` separan controles, hover y campos.
+- **Crema y texto secundario** (`text`, `cream-2`, `muted`): lectura sobre oscuro. `--o-faint` resuelve al mismo texto secundario.
+- **Líneas crema** (`line`, `line-2`, `line-3`): divisores y controles heredados. Paneles nuevos usan borde dorado translúcido; la navegación activa tiene relleno crema.
+- **Papel y tinta** (`ticket-paper`, `ticket-ink`): variante clara del ticket, con sus propios alias locales para contraste.
 
-### Named Rules
-**La regla del turquesa.** Turquesa significa «salió bien» o «en línea» y nada más. Los importes, comisiones y descuentos van en crema; el total, en oro.
+**La regla de la acción.** El naranja y el dorado guían la operación; el rojo neón ilumina el marco. Una selección de navegación usa crema.
 
-**La regla del naranja.** Naranja relleno significa «pulsa aquí» o «esto está seleccionado». Una sola acción naranja rellena por zona de trabajo: Añadir en la tarjeta, Cobrar en el ticket.
+**La regla del éxito.** El verde señala éxito o conexión; importes y comisiones conservan crema, y el total destaca en oro.
 
 ## Typography
 
-**Display Font:** Archivo variable (ejes `wdth` 62–125 y `wght` 400–900; respaldo system-ui, Segoe UI, Roboto)
-**Body Font:** la misma familia a anchura 100
+**Display Font:** Archivo variable, ejes `wdth` 62–125 y `wght` 400–900.
+**Body Font:** Archivo a anchura normal, con respaldo system-ui, Segoe UI y Roboto.
 
-**Character:** rótulo popular hecho con una sola familia: negras anchas para marca y títulos, anchura normal para trabajar. El lettering ilustrado existe únicamente dentro del emblema del logo.
+El carácter procede del rótulo de restaurante y de pesos anchos; el lettering completo de la marca vive en el emblema 3D. La bienvenida usa el rol display (31px en móvil; 30px en escritorio bajo); títulos de página usan headline (24px en móvil). Paneles usan title; productos, 750/16px. El cuerpo sube a 15px bajo 760px y los campos operativos a 16px; los campos del acceso conservan 14px. El total del ticket usa el rol total; cifras de Mi perfil, 750/29px (24px en móvil).
 
-### Hierarchy
-- **Display** (800, `clamp(44px, 4.6vw, 72px)`, 1.02, anchura 112): solo el titular del acceso.
-- **Headline** (800, 28px, 1.12, anchura 112; 24px en móvil): título de página. Título de ticket y de ventana: 800, 22px, anchura 108–110.
-- **Title** (750, 17px, 1.25, anchura 106): cabecera de panel. Nombre de producto: 750, 16px, anchura 104.
-- **Body** (400, 14px, 1.45; 15px en móvil): texto general y celdas. Campos a 16px en móvil para evitar el zoom.
-- **Label** (600, 13px): etiquetas de campo, notas y cabeceras de tabla (700, 12px, tracking .02em, sin mayúsculas). Mínimo 12px.
-- **Total** (900, 34px, 1, anchura 108, tabular): total del ticket. Importes menores: precio 800/23px, indicador 800/26px, Cobrar 900/20px.
-- **Wordmark** (900, anchura 125, mayúsculas, 19–20px; `clamp(28px, 2.6vw, 38px)` en el acceso): BURGER SHOT, con SHOT en naranja y sombra suave `0 1px 0 rgba(0,0,0,.35), 0 2px 12px rgba(0,0,0,.35)`.
-
-### Named Rules
-**La regla tabular.** Toda cifra que pueda cambiar o alinearse (importes, cantidades, contadores, celdas de tabla, reloj) lleva `font-variant-numeric: tabular-nums`.
-
-**La regla de la anchura.** La jerarquía sube ensanchando: 100 cuerpo, 104–108 cifras y títulos menores, 110–112 títulos, 125 solo la marca. Las mayúsculas quedan para la marca y la etiqueta de grupo del menú lateral (12px, tracking .06em).
+**La regla tabular.** Toda cifra que cambia o se alinea usa `font-variant-numeric: tabular-nums`; ningún efecto altera el número real para animarlo.
 
 ## Layout
 
-- **Cáscara:** menú lateral fijo de 232px y cabecera pegajosa de 64px (58px en móvil) translúcida (`rgba(22,17,19,.86)` con desenfoque de 14px). Página con relleno `50px 28px 40px` (el aire superior deja sitio al papel picado) y ancho máximo de 1720px.
-- **Caja:** rejilla `minmax(0,1fr) 372px` con separación de 20px (344px por debajo de 1380px). Catálogo `repeat(auto-fill, minmax(212px, 1fr))` con 14px; modo compacto a 176px y foto 2:1. Ticket pegajoso bajo la cabecera, con altura ajustada por script para que Cobrar nunca quede oculto.
-- **Ritmo:** sin tokens de espaciado; los pasos que se repiten son 8px entre controles, 10–14px entre tarjetas, 16px entre paneles, 18–20px de relleno de panel y 28px de página.
-- **Cortes:** 1380, 1240, 1100, 900, 760 y 380px. A 1100px el menú lateral pasa a cajón de 264px con velo, el ticket baja a flujo normal y aparece la barra de pedido. A 760px el catálogo queda a dos columnas, las categorías se desplazan en horizontal, las ventanas se anclan abajo y se ocultan búsqueda global y pétalos.
-- **Táctil:** en móvil los controles de cantidad miden 40px, campos y Añadir 46px, Cobrar y barra de pedido 58px.
+- **Marco:** sidebar fijo de 252px o carril de 76px en escritorio (>1100px), con preferencia local persistente. A ≤1100px pasa a cajón de `min(280px, calc(100vw - 40px))`, con velo, cierre y contención del foco. Cabecera de 64px (58px a ≤760px), sección, búsqueda, cuenta y reloj; fecha/hora se ocultan a ≤800px. El disparador de búsqueda móvil aparece a ≤760px.
+- **Página y caja:** ancho máximo de 1720px; relleno de página `50px 28px 40px`, y `40px 14px 36px` a ≤760px. Caja en `minmax(0,1fr) 372px` (344px a ≤1380px), con hueco de 20px. Catálogo automático de mínimo 212px, compacto 176px; dos columnas a ≤760px. Ticket en flujo y barra de pedido fija a ≤1100px; el ticket también pasa a flujo en escritorio de poca altura o al expandir opciones.
+- **Perfil:** identidad y contenido en `minmax(220px,.75fr) minmax(0,2fr)`, hueco de 28px; identidad de 240px a ≤1100px, una columna a ≤700px. Estadísticas propias en dos columnas; opciones de efectos en tres, una a ≤1100px.
+- **Acceso:** composición centrada de hasta 440px, relleno `30px 34px 32px`, sobre `assets/restaurant-night.webp`; variante `restaurant-night-960.webp` a ≤960px. En móvil, relleno `26px 26px 28px`; el fondo se encuadra al 38%. Pantallas bajas permiten desplazamiento vertical.
+- **Ritmo y tacto:** 8px entre controles, 10–14px en catálogo, 16–28px entre paneles. En caja móvil: cantidades de 40px, Añadir/campos de 46px, Cobrar y barra de pedido de 58px. Las tablas desplazan su propio contenido horizontal.
 
 ## Elevation & Depth
 
-Híbrido: la profundidad base es tonal (tres superficies y bordes translúcidos); las sombras son negras, muy difusas y con desplazamiento negativo de expansión, más un filo de luz interior de 1px.
+La profundidad combina superficies oscuras, bordes translúcidos y sombras blandas. Los degradados describen luz cálida o vino; los resplandores se reservan al marco, interacción y estados.
 
 ### Shadow Vocabulary
-- **Reposo** (`0 1px 0 rgba(255,240,220,.035) inset, 0 10px 24px -14px rgba(0,0,0,.7)`): paneles, tarjetas, franja de indicadores.
-- **Elevado** (`0 1px 0 rgba(255,240,220,.05) inset, 0 24px 48px -20px rgba(0,0,0,.78)`): ticket, tarjeta de producto en hover, caja auxiliar.
-- **Flotante** (`0 18px 50px -12px rgba(0,0,0,.72), 0 2px 8px rgba(0,0,0,.35)`): ventanas, avisos, panel de notificaciones, cajón lateral.
-- **Acción** (`0 1px 0 rgba(255,236,200,.35) inset, 0 8px 18px -10px rgba(242,140,27,.55)`): botón principal; Cobrar usa `0 12px 24px -12px rgba(242,140,27,.6)`.
+- **Panel moderno:** `0 12px 32px -22px #000`; hover de métricas, empleados y promociones con `0 14px 32px -22px rgba(255,48,56,.55)`.
+- **Acción principal:** `0 7px 20px -13px #ff891c`; hover con `0 9px 26px -12px #ff891c` y brillo 1.06.
+- **Elevado heredado:** `--o-shadow-2`, para caja auxiliar; **flotante heredado:** `--o-shadow-pop`, para avisos y cajón. Ticket y ventanas reciben la sombra moderna por la cascada final, conservando sus degradados locales.
+- **Acceso:** `0 26px 65px -15px rgba(0,0,0,.85), 0 0 0 4px rgba(255,48,56,.025)`, con filo rojo luminoso superior.
 
-### Named Rules
-**La regla de la sombra blanda.** Ninguna sombra dura con desplazamiento, ni en cajas ni en el rótulo. La luz naranja aparece solo bajo acciones naranjas y en pulsos de respuesta que se desvanecen.
+**La regla de la luz blanda.** Los resplandores separan e iluminan sin competir con la lectura ni introducir sombras duras desplazadas.
 
 ## Shapes
 
-Esquinas suaves en cuatro pasos: 6px (botones de fila), 9px (botones, campos, iconos), 13px (avisos, subpaneles, Cobrar), 17px (paneles, tarjetas, ticket, ventanas); píldora para categorías, etiquetas y contadores. Bordes de 1px siempre; las líneas discontinuas marcan cortes de recibo (cabecera y líneas del ticket, resumen de cobro, zonas vacías).
+Se conservan radios `xs`–`lg` en controles, ticket y paneles; empleados, identidad y acceso usan sus radios específicos del frontmatter. Avatares circulares, categorías y etiquetas en píldora. Bordes de 1px predominan; el retrato y la foto del empleado de la semana tienen borde de 2px. Recibos y líneas de pedido usan separadores discontinuos.
 
-**Firma: el festón de papel picado.** Una máscara SVG (`--papel-edge`, tesela de 22×7 con ondas perforadas) recorta una franja de color plano, repetida en horizontal:
-- Ticket: franja superior `mari`, 22×7px, volteada; entre pedido y cobro en `line-3`, 18×6px; sobre el total en `mari-line`, 16×5px.
-- Ventana: franja superior `mari` al 85%, 20×6px, con 18px de margen lateral.
-- Franja de inicio: borde inferior `mari`, 22×7px. Tarjeta de acceso: superior `mari`, 22×7px.
-- Recibo de venta: borde inferior en papel crema, 16×7px.
-
-El festón sustituye a un borde; nunca se suma a otro borde en el mismo lado ni se anima.
+El festón de papel picado (`--papel-edge`) permanece en ticket, separadores de cobro, ventanas y franja del inicio. El acceso actual usa un filo de neón en la composición exterior y oculta el festón de la tarjeta interior. Los motivos decorativos no interceptan clics.
 
 ## Components
 
-Controles compactos y firmes: responden subiendo 1px en hover y encogiendo a `scale(.97)` en 80ms al pulsar. Los iconos son SVG en línea de trazo (18px, grosor 1.9, extremos redondeados, `currentColor`).
-
 ### Buttons
-- **Shape:** 9px de radio, 42px de alto mínimo, relleno `10px 16px`, texto 700/14px.
-- **Primary:** fondo `mari`, borde `mari-hi`, texto `mari-ink`, sombra de acción; hover a `mari-hi`.
-- **Secondary:** `surface-2` con borde `line-2`; hover `surface-3` y `line-3`. **Danger:** `#3a1a1c` con texto `#ffd9d3`.
-- **Fila** (34px, radio 6px, 600/13px) para acciones dentro de tablas; **icono** (40px, 36px en el ticket); **acción de texto** en oro, subrayada en hover.
-- **Disabled:** el principal deshabilitado pasa a `surface-3` con texto `faint` a opacidad plena, y va acompañado de una nota que explica qué falta. El resto baja a opacidad .45.
-- **Cobrar:** 54px (58px en móvil), radio 13px, etiqueta 800/15px a la izquierda e importe 900/20px tabular a la derecha.
+Botón general: mínimo 42px, radio `sm`, relleno `10px 16px`, Archivo 700/14px. Principal con degradado de 110° entre oro y naranja, texto borgoña y borde naranja suave; secundario en `surface-2`; peligro en vino oscuro. Hover sube 1px y pulsación reduce a .97 durante 80ms. Principal deshabilitado: `surface-3`, texto secundario, opacidad plena y sin sombra. El botón específico del acceso conserva mínimo 54px y sus degradados propios: `linear-gradient(110deg,#ffb049,#f28c1b)`, y `linear-gradient(110deg,#ffbd63,#ff9d2e)` en hover; son estilos locales heredados, no tokens de la paleta global.
 
 ### Inputs / Fields
-- **Style:** fondo `inset`, borde `line-2`, radio 9px, 42px, texto 14px; marcador en `faint`. Selector con flecha SVG propia.
-- **Focus:** borde `mari` y anillo `0 0 0 3px rgba(242,140,27,.22)`; hover a `line-3`.
-- **Error:** borde `red` y mensaje 500/13px en `red`. Etiquetas 600/13px en `cream-2` encima del campo.
-- **Búsqueda:** contenedor de 42px con icono; el anillo de foco va en el contenedor.
+Campos operativos: mínimo 42px, radio `sm`, relleno `10px 12px`, fondo `inset`; foco naranja con anillo heredado y error coral. El foco global usa oro (2px, desplazamiento de 3px); los selectores conservan su tratamiento heredado. Acceso: 48px y radio 9px. Búsqueda global: 40px, icono SVG, resultados flotantes y acceso a productos/secciones permitidas.
 
 ### Chips
-- **Categorías:** píldoras de 40px, `surface` con borde `line-2`; activa en naranja relleno.
-- **Etiquetas de estado:** píldora de 24px, 600/12px, con punto de 6px: turquesa (activo), coral (anulado o error), oro (destacado), neutra sin punto.
-- **Pestañas de sección:** grupo de 4px de relleno; la activa en `surface-3` con filo inferior `mari` de 2px.
+Categorías en píldoras de mínimo 40px, activa naranja. Etiquetas de estado de mínimo 24px con punto: verde para activo, coral para anulado/error, oro para destacado. Las pestañas internas mantienen fondo elevado y filo naranja inferior.
 
 ### Cards / Containers
-- **Panel:** `surface`, borde `line`, radio 17px, sombra de reposo; cabecera con relleno `18px 20px` y divisor.
-- **Indicadores:** una franja única dividida por líneas verticales, cifra 800/26px en crema; nunca tarjetas sueltas.
-- **Listas en panel:** filas con divisor inferior, sin caja propia ni tarjetas anidadas.
+Paneles sobre `card`, borde dorado translúcido y sombra moderna; las métricas conservan la franja dividida existente. Listas e historial usan filas con divisores. Tarjeta de producto: fotografía 16:9 (2:1 compacta), precio crema de 22px (20px móvil), cantidad y Añadir, atajos +5/+10/+25/+50; la vista previa y la confirmación aparecen sobre la foto sin mover controles. Tarjetas de empleados: radio 15px, relleno 22px (20px móvil), avatar 64px y hover de −3px; entrada de 400ms con escalón de 35ms.
 
-### Tarjeta de producto
-Foto 3:2 a sangre arriba (recorte `cover`, velo inferior, zoom a 1.04 en hover), nombre 750/16px, precio en oro 800/23px, y bajo una línea discontinua: cantidad (64px de ancho, 44px de alto) junto a Añadir naranja, y cuatro atajos +5/+10/+25/+50 de 34px. La vista previa del importe aparece como píldora oscura sobre la foto al escribir, sin mover la maquetación; la confirmación «añadido» es una píldora turquesa en la esquina de la foto. En el pedido, borde `mari-line` y contador en oro arriba a la derecha.
-
-### Ticket
-Panel de 372px con degradado `#221a1d` a `#1c1518`, borde `line-2` y sombra elevada, coronado por el festón naranja. Cabecera con título 800/22px y contador en oro; líneas separadas por guiones como en un recibo, cada una con foto de 52px, nombre, total y control de cantidad (botones de 32px, el de sumar en naranja). Zona de cobro separada por festón; subtotales en 13–14px, total en oro 900/34px bajo su propio festón, y Cobrar al pie. Admite variante clara de papel crema.
-
-### Barra de pedido móvil
-Por debajo de 1100px: botón fijo a 12px de los bordes y de la zona segura inferior, 58px, radio 16px, naranja. Contador de piezas en caja oscura con cifra oro, «Ver pedido» y total 900/21px. Entra desde abajo en 380ms, sale en 320ms y da un bote de 4px (300ms) al recibir producto. Los avisos se recolocan por encima.
-
-### Ventanas
-Velo `rgba(12,8,10,.66)` con desenfoque de 3px; ventana de 640px (460 estrecha, 1040 ancha), relleno `22px 24px`, radio 17px, sombra flotante y festón superior. Acciones alineadas a la derecha sobre un divisor; la acción destructiva se separa a la izquierda. En móvil se ancla abajo y los botones ocupan el ancho. Entra en 280ms; sale en 150ms con la curva de entrada.
-
-### Avisos
-Abajo a la derecha (ancho completo en móvil). Fondo `#2a2125`, radio 13px, sombra flotante, icono SVG en círculo de 20px (oro información, turquesa éxito, coral error) y barra de tiempo de 2px que se consume en 3,2s. Los avisos en línea usan `mari-soft` con borde `mari-line`; los de error, `red-soft`.
-
-### Tablas
-Cabecera pegajosa sobre `surface-2`, 700/12px en `muted`, tracking .02em, sin mayúsculas. Celdas con relleno `11px 14px`, divisor `line`, cifras tabulares y detalle en segunda línea a 12px. Hover de fila `rgba(246,235,217,.035)`. Estado vacío centrado en una sola celda.
+### Ticket, ventanas y avisos
+Ticket de radio `lg`, degradado oscuro heredado, festón superior y subtotales separados; total oro, Cobrar al pie y variante clara de papel. La altura se ajusta para mantener el cobro disponible. Barra móvil a 12px de los bordes y zona segura inferior. Ventanas con velo y foco contenido; acciones destructivas separadas a la izquierda. Avisos inferiores con icono SVG, texto claro y color de estado; éxito únicamente tras confirmar la operación. Tablas con cabecera pegajosa, texto sin mayúsculas y cifras tabulares.
 
 ### Navigation
-Elementos de 42px con icono de 30px; hover en `surface`. Activo: fondo `mari-soft`, borde naranja translúcido, icono en cuadro naranja relleno y marca vertical de 3px a la izquierda. Etiquetas de grupo en mayúsculas pequeñas `faint`.
+Elementos de mínimo 46px, radio 8px, relleno `8px 10px`; hover rojo translúcido, activo crema con tinta oscura. Iconos SVG de trazo, nombre accesible y `aria-current`; el carril compacto conserva nombres mediante tooltip al hover y al foco. La cuenta del sidebar abre Mi cuenta, con acceso a Mi perfil; la del encabezado abre Mi perfil directamente. La insignia 3D estacional anterior del sidebar está oculta en esta composición.
 
-### Sistema de logo
-`<burgershot-logo>` envuelve el emblema ilustrado original, que no se redibuja; solo se sirven copias redimensionadas (96, 160 y 320px). Si el script no carga, el `<img>` interior se ve igual, quieto. Si la imagen falla, prueba los originales y acaba en un monograma «BS»; nunca queda un hueco.
+### Perfil y editor de fotografía
+Avatar reutilizado en encabezado, sidebar, cuenta, perfil, empleados, reconocimiento semanal y clasificaciones; foto en `cover` o iniciales si falta/falla. Retrato de 156px (120px móvil), vista previa de 92px (72px móvil), aro naranja y énfasis dorado para empleado de la semana. Identidad sobre degradado vino con filo rojo; actividad y preferencias en paneles adyacentes.
 
-- **Variantes:** `full` (emblema de 128px, rótulo y subtítulo: acceso y configuración), `compact` (46px en línea: cabecera y menú lateral), `mobile` (38px, sin subtítulo ni interacción), `icon` (76px, solo emblema: pedido vacío), `loader` (150px, pantalla de carga).
-- **Capas:** `glow` (luz de temporada, detrás), `shadow` (sombra de contacto elíptica), emblema, `fill` (solo cargador) y `sheen` (reflejo recortado a la silueta con el propio logo como máscara).
-- **Atributos:** `animated` (entrada al hacerse visible), `interactive` (reflejo de 620ms al pasar el ratón, elevación de 1px y escala 1.015; pulsación a .98 en 90ms), `parallax` (inclinación máxima de 2,5° cerca del cursor, solo escritorio con puntero fino), `intro-key` (la entrada completa se ve una vez por sesión y clave), `decorative` (sin texto alternativo).
-- **Cuándo se anima:** la entrada completa (≈1,15s: silueta, color, letras una a una cada 34ms, reflejo, sombra) solo en `full` y la primera vez; después, entrada breve de 320ms. `compact` y `mobile` entran en 360ms con 4px de desplazamiento. En reposo el logo está quieto. El único bucle es el cargador: la silueta tenue se rellena de abajo arriba cada 900ms mientras dura la carga, y se pausa si está oculto.
-- **Sin movimiento:** fundido de 200ms, sin inclinación ni reflejo; el cargador muestra el emblema completo y la carga se explica con texto.
-- **API:** `window.BurgerShotLogo` (`create`, `Animated`, `Compact`, `Icon`, `Loader`, `Mobile`, `seasons`) y `window.BurgerShotLoader`.
+Editor de hasta 720px con dos columnas, recorte cuadrado de 300px y guía circular, vista previa, zoom 1–3 y reposición por arrastre o controles. Una columna a ≤700px; eliminar se separa de cancelar/guardar. Conserva progreso, error corregible y foto previa si falla. La disponibilidad real del backend se documenta en `PRODUCT.md` y `docs/PROFILE_DEPLOYMENT.md`.
 
-### Movimiento
-- **Curvas:** salida `cubic-bezier(.22,1,.36,1)` para casi todo; entrada `cubic-bezier(.55,0,1,.45)` solo para cierres; `cubic-bezier(.45,0,.25,1)` para el vuelo al pedido y el reflejo del logo.
-- **Duraciones:** 80ms pulsación, 160ms estados (hover, foco, color), 220ms cambios de panel y sombra, 480ms entradas lentas y cambio de tema del ticket.
-- **Respuesta a acciones:** producto añadido, anillo naranja de 520ms; contador, bote de 320ms; cifra que cambia, 260ms; línea nueva del ticket, 280ms con escalón de 40ms; vuelo de la foto al pedido, 620ms; error, sacudida de 380ms; éxito, anillo turquesa de 700ms; recibo de venta, 2,6s con sello a los 260ms.
-- **Entradas:** página 240ms, título 380ms, tarjetas de producto 360ms con escalón de 32ms, barras de gráfica 560ms con escalón de 40ms, cabecera 360ms. Acceso por etapas: logo, titular a los 120ms, formulario a los 220ms.
-- **El total nunca espera:** todo efecto acompaña al importe real ya pintado.
-- **Apagado:** con `prefers-reduced-motion: reduce` o con «Animaciones suaves» desactivado en Ajustes (clase `motion-off` en `body`), toda animación queda en `none` y toda transición en 0s; los pétalos se ocultan y los scripts omiten vuelo, recibo y estallido. Las animaciones ocultas se pausan.
+### Marca, ambiente y movimiento
+`<burgershot-logo>` conserva `assets/logo/burgershot-3d-*.webp`, originales y monograma de respaldo; variantes full, compact, mobile, icon y loader. Luz, sombra, reflejo y parallax son capas externas al arte. En acceso, el emblema mide 150×126px (118×100px en escritorio bajo), flota en 7.2s y la bienvenida ondula en 4.8s; campos y acciones permanecen estables. Papel picado y velas acompañan la escena del restaurante.
 
-### Decoración estacional
-- **Separada de la marca:** la temporada se declara en `<html data-season="dia-de-muertos halloween">`. Sin el atributo queda la marca base. Añadir una temporada es una entrada en el registro de `logo.js` y un bloque en `logo.css`. La temporada solo toca la luz detrás del emblema (resplandor cálido; en Halloween, un filo morado muy leve), nunca el emblema.
-- **No intercepta clics:** toda capa decorativa lleva `pointer-events: none` y `aria-hidden`.
-- **Papel picado de cabecera:** cuelga del borde inferior de la cabecera con un cordel curvo; banderas de 40×32px (30×24px en móvil) con motivos de flor, calavera y calabaza en naranja, vino, ciruela y crema. Se mecen ±2,2° en ciclos de 4,4 a 6,6s y se recogen en 320ms al desplazar más de 12px.
-- **Insignia de temporada del menú lateral** (diseño indicado por el usuario): a la izquierda, una escena 3D pequeña de vela, cempasúchil y calabaza (68×57px; 82px en el menú móvil); rótulo «BURGER SHOT» en 11px con tracking .14em y oro `#e0a03a`; título en dos líneas, «Día de Muertos» en crema e «y Halloween» en naranja (800/15px); «Edición de temporada» en 12px; fondo `#1c1416`, borde `rgba(168,104,48,.6)`, radio 14px y esquina superior derecha de papel picado (`assets/season/papel-esquina.svg`). Los textos son HTML; la decoración son recursos aparte. Es la única excepción aceptada a la regla de antetítulos.
-  - **Escena:** modelo procedural de Blender (`design/temporada/escena_3d.py` → `assets/season/escena-temporada.glb`, ≈9.300 triángulos, 194 KB, sin texturas) dibujado con Three.js r170 (`season-scene.js`, módulo ES con `importmap`, sin bundler). Luz hemisférica cálida, principal crema, contraluz morado tenue y una luz puntual naranja en la llama.
-  - **Movimiento:** la llama y su núcleo oscilan con tres senos superpuestos (no se percibe el ciclo) y la luz puntual varía como mucho un 24 %; el resplandor CSS respira cada 3,4s. El cursor inclina la escena como máximo 10° en horizontal y 4° en vertical, con amortiguación. Al pasar el cursor la luz sube un 35 % y el borde se aclara; el texto no se mueve. Entrada de 420ms junto al resto del menú.
-  - **Coste:** Three.js y el modelo se piden solo cuando la insignia entra en pantalla (`import()` desde `ofrenda.js`); 30 fps; el bucle se detiene si no es visible, si la pestaña está oculta o con las animaciones apagadas. No se carga con `prefers-reduced-motion`, ahorro de datos o equipos de 2 GB o menos.
-  - **Respaldo:** `assets/season/escena-temporada.webp` (396×330, 22 KB, render de la misma escena) ocupa el hueco desde el primer momento y se queda si falla el modelo, Three.js o WebGL. Se oculta la insignia en pantallas de escritorio bajas (<760px de alto).
-- **Pétalos:** cinco, detrás de los paneles, solo en el inicio y en pantallas anchas; se desactivan en Ajustes. Nunca en la caja ni en la caja auxiliar.
-- **Acceso:** foto del altar bajo un velo que garantiza contraste AA, banderines, llamas y pétalos; es la única pantalla donde la escena ocupa el fondo.
+Estados heredados usan `--o-fast` (160ms), `--o-base` (220ms) y salida `cubic-bezier(.22,1,.36,1)`; cierres usan la curva de entrada. Sidebar cambia en 240ms, entradas modernas usan `cubic-bezier(.16,1,.3,1)`. Los contadores se revelan mediante recorte o entrada del elemento, sin sustituir importes. Éxito, error y recibo acompañan el resultado real.
+
+Cinematográfico activa niebla de 28s y luz ambiental de métricas de 5s; Equilibrado limita a diez pétalos de inicio y cuatro del acceso, sin niebla; móvil limita inicio a ocho. Rendimiento elimina partículas, parallax, animaciones y transiciones. `prefers-reduced-motion` desactiva movimiento; `visual-paused` pausa animaciones con la pestaña oculta. Los pétalos del marco solo aparecen en Inicio, nunca en caja ni caja auxiliar.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** reservar el naranja relleno para la acción principal y lo seleccionado, con texto `mari-ink`; el total y los precios van en oro.
-- **Do** usar turquesa solo para éxito y estado en línea.
-- **Do** poner `tabular-nums` en toda cifra y mantener el texto en 12px o más.
-- **Do** separar con divisores y festones; una lista dentro de un panel son filas, no tarjetas.
-- **Do** usar iconos SVG en línea de trazo, con `currentColor`.
-- **Do** dar `pointer-events: none` y `aria-hidden` a cualquier decoración, y condicionar todo movimiento a `body:not(.motion-off)` y a `prefers-reduced-motion`.
-- **Do** mantener la decoración en el marco: cabecera, márgenes, separadores y acceso.
+- **Do** usar la paleta de `cinematic.css` y respetar los alias locales del ticket claro.
+- **Do** conservar la acción cálida, la selección crema y el éxito verde.
+- **Do** mantener cifras tabulares y mostrar el total real antes de cualquier efecto.
+- **Do** usar SVG de trazo, nombres accesibles, foco visible y divisores en listas.
+- **Do** conservar el logo 3D aprobado, su proporción y sus recursos de respaldo.
+- **Do** mantener decoración con `pointer-events: none` y `aria-hidden`, respetar los modos de efectos y la reducción de movimiento.
 
 ### Don't:
-- **Don't** poner antetítulos: ninguna etiqueta pequeña encima de un título. El título va primero; si hace falta una insignia, va debajo del nombre.
-- **Don't** usar glifos o emoji como iconos (flechas, aspas, marcas de verificación tipográficas); siempre SVG.
-- **Don't** poner animaciones infinitas decorativas en zonas de trabajo (catálogo, ticket, tablas, ventanas, caja auxiliar). Los bucles existen solo en el marco (banderas, vela), en el acceso y en indicadores de carga.
-- **Don't** redibujar, recolorear ni recortar el emblema del logo, ni mezclar adornos de temporada dentro de él.
-- **Don't** usar sombras duras con desplazamiento, degradados morados de fondo ni tarjetas dentro de tarjetas.
-- **Don't** dejar que un efecto retrase u oculte el total.
-
-### Acceso centrado · 12 de octubre de 2026
-
-El formulario se centra en el viewport y se limita a 440px. El logo 3D aprobado y la bienvenida forman una cabecera sobre él; en móvil se apilan. El fondo de la ofrenda, las velas, los pétalos y el papel picado conservan la temática. Se retiran el antetítulo y la leyenda de temporada del formulario.
-
-La bienvenida usa Archivo 800 de 38px, 34px en escritorio bajo y 30px en móvil. El formulario tiene una superficie opaca vino-carbón, campos de 54px y botones con foco visible. La entrada dura 700ms y el festón superior se ilumina una sola vez durante 850ms; esta es una excepción acotada a la regla del festón estático.
-
-El logo reutiliza `motion="float"` con su sombra acompasada a 7,2s. Las letras de bienvenida ondulan hasta 3px en 4,8s con fases distintas, manteniendo el nombre accesible completo del título. Se detienen fuera de vista, al ocultar la página, con movimiento reducido o al desactivar las animaciones. Los controles del formulario permanecen estables.
-
-Validación: composición centrada sin desbordamiento horizontal a 1280×800, 1280×720, 390×844 y 320×568; las pantallas bajas permiten desplazamiento vertical. Se comprobaron campos vacíos, error de credenciales, mostrar/ocultar contraseña, entrada con Enter, carga y acceso correcto con la demo. Pasaron las 139 comprobaciones de `npm test` con datos simulados y PostgreSQL local. Las advertencias mecánicas de espaciado corresponden a componentes del panel que quedan fuera de este cambio.
+- **Don't** reintroducir el antetítulo ni la leyenda estacional retirados del formulario de acceso.
+- **Don't** usar emoji o glifos como sustitutos de iconografía profesional.
+- **Don't** redibujar, recolorear ni recortar el arte del emblema.
+- **Don't** extender los bucles ambientales al catálogo, ticket, tablas o caja auxiliar.
+- **Don't** introducir sombras duras ni cajas anidadas para filas de una lista.
+- **Don't** ocultar, retrasar o recalcular un importe para producir una animación.

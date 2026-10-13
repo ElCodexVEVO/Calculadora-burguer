@@ -1,0 +1,28 @@
+const {PGlite}=require('@electric-sql/pglite');const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+(async()=>{
+ const db=new PGlite();await db.waitReady;let count=0;const ok=s=>{count++;console.log('PASS '+s)};
+ await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key,email text);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;grant usage on schema public,auth to anon,authenticated,service_role;grant execute on function auth.uid() to public;alter default privileges in schema public grant all on tables to anon,authenticated,service_role;alter default privileges in schema public grant all on sequences to anon,authenticated,service_role;create publication supabase_realtime;create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text,name text);alter table storage.objects enable row level security;grant usage on schema storage to anon,authenticated,service_role;grant all on storage.objects to authenticated,service_role;grant select on storage.objects to anon;`);
+ const root=path.resolve(__dirname,'..');for(const f of ['supabase_schema_v3.sql','supabase_patch_v4_2.sql','supabase_patch_v5_1.sql','supabase_patch_v5_2.sql'])await db.exec(fs.readFileSync(path.join(root,f),'utf8').replace('create extension if not exists pgcrypto;',''));
+ const sql=fs.readFileSync(path.join(root,'supabase_patch_v7_7_appearance.sql'),'utf8');await db.exec(sql);
+ const ids=['00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000002','00000000-0000-4000-8000-000000000003'];for(const id of ids)await db.query('insert into auth.users(id) values($1)',[id]);
+ const as=async(id,fn,role='authenticated')=>{await db.exec('set role '+role);await db.query("select set_config('request.jwt.claim.sub',$1,false)",[id||'']);try{return await fn()}finally{await db.exec('reset role');await db.exec("select set_config('request.jwt.claim.sub','',false)")}};
+ const sid=(await as(ids[0],()=>db.query("select public.bootstrap_store('QA','Admin','admin','a@example.invalid') id"))).rows[0].id;
+ const other=(await as(ids[2],()=>db.query("select public.bootstrap_store('Otra','Otro','otro','b@example.invalid') id"))).rows[0].id;
+ await db.query("insert into profiles(user_id,store_id,name,role) values($1,$2,'Empleado','cashier')",[ids[1],sid]);
+ await as(ids[1],()=>db.query("select public.set_my_effects('cinematic')"));assert.equal((await db.query('select effects_mode from employee_appearance where user_id=$1',[ids[1]])).rows[0].effects_mode,'cinematic');ok('Empleado guarda preferencia propia sin permiso para editar perfiles');
+ await assert.rejects(as(ids[1],()=>db.query("select public.set_my_effects('bad')")),/inválido/);ok('Modo no admitido rechazado');
+ assert.equal((await as(ids[2],()=>db.query('select * from employee_appearance'))).rows.length,0);ok('Otra tienda no puede leer fotografías ni preferencias');
+ await assert.rejects(as(ids[0],()=>db.query("update employee_appearance set effects_mode='performance'")),/permission denied/);
+ await assert.rejects(as(ids[1],()=>db.query('select public.commit_profile_photo($1,0,null)',[ids[0]])),/permission denied/);ok('Ni administrador ni empleado pueden sobrescribir fotos desde el cliente');
+ const photo=sid+'/'+ids[1]+'/10000000-0000-4000-8000-000000000001.jpg';
+ await as(null,()=>db.query('select public.commit_profile_photo($1,0,$2)',[ids[1],photo]),'service_role');
+ await assert.rejects(as(null,()=>db.query('select public.commit_profile_photo($1,0,null)',[ids[1]]),'service_role'),/PHOTO_CONFLICT/);ok('Actualización de fotografía usa control de versión entre dispositivos');
+ await assert.rejects(as(null,()=>db.query('select public.commit_profile_photo($1,1,$2)',[ids[1],other+'/'+ids[2]+'/10000000-0000-4000-8000-000000000001.jpg']),'service_role'),/employee_photo_path/);ok('No se puede vincular un archivo de otra cuenta o tienda');
+ await db.query('insert into storage.objects(bucket_id,name) values($1,$2)',['employee-avatars',photo]);
+ assert.equal((await as(ids[0],()=>db.query('select * from storage.objects'))).rows.length,1);assert.equal((await as(ids[2],()=>db.query('select * from storage.objects'))).rows.length,0);assert.equal((await as(null,()=>db.query('select * from storage.objects'),'anon')).rows.length,0);ok('Bucket privado: miembro autorizado lee; otra tienda y anónimo no');
+ await assert.rejects(as(ids[1],()=>db.query('insert into storage.objects(bucket_id,name) values($1,$2)',['employee-avatars',photo])),/row-level security/);ok('Subida directa no puede saltarse la validación del servidor');
+ await as(null,()=>db.query('select public.commit_profile_photo($1,1,null)',[ids[1]]),'service_role');assert.equal((await as(ids[0],()=>db.query('select * from storage.objects'))).rows.length,0);ok('Al eliminar, el objeto anterior deja de ser accesible por RLS');
+ await db.query('update profiles set active=false where user_id=$1',[ids[1]]);await assert.rejects(as(ids[1],()=>db.query("select public.set_my_effects('balanced')")),/Sesión inválida/);ok('Perfil inactivo no puede guardar preferencias');
+ await db.exec(sql);assert.equal((await db.query('select count(*)::int n from employee_appearance')).rows[0].n,1);ok('Migración repetible conserva los datos');
+ await db.close();console.log(`${count} pruebas de seguridad y persistencia SQL superadas.`);
+})().catch(e=>{console.error(e);process.exit(1)});

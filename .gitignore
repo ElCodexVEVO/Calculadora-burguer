@@ -8,3 +8,7 @@ test-results/
 # Python
 __pycache__/
 *.pyc
+.cinematic-*.py
+.env
+.env.*
+supabase/.temp/

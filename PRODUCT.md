@@ -42,7 +42,7 @@ Se opera de noche, en sesiones de roleplay, a menudo con el juego en primer plan
 
 Catálogo, precios y convenios reales viven en Supabase; los de la demo están en `demo/mock-supabase.js` y `demo/data.js` y son simulados. No inventar estadísticas, clientes, reglas ni precios.
 
-Estado de perfiles (12 de octubre de 2026): `employee_appearance`, el bucket privado `employee-avatars`, la RPC `set_my_effects` y Edge Function `profile-photo` están preparados en el repositorio. El Supabase remoto sigue sin la tabla ni la función nuevas; la revisión automática rechazó los cambios persistentes sin autorización explícita. La edición de fotos se comprobó en demo; backend y RLS, con servicios simulados y SQL local. Las 170 comprobaciones documentadas en `docs/CINEMATIC_QA.md` no acreditan persistencia cloud real. Hasta activar y verificar `docs/PROFILE_DEPLOYMENT.md`, la interfaz muestra la limitación, deshabilita el editor y mantiene los efectos locales.
+Estado de perfiles (12 de octubre de 2026): después de la autorización explícita del usuario se aplicó `employee_appearance`, el bucket privado `employee-avatars`, la RPC `set_my_effects` y Edge Function `profile-photo` al Supabase real. Se verificaron RLS, permisos, bucket privado, rechazo de JWT inválido y preferencia propia mediante transacción revertida. Los conteos e importes financieros se conservaron. La edición completa de fotos se comprobó en demo y con backend simulado; falta comprobar el ciclo autenticado y entre dispositivos con cuentas reales. Las 170 pruebas y estos límites se detallan en `docs/CINEMATIC_QA.md` y `docs/PROFILE_DEPLOYMENT.md`. Si el backend no está disponible, la interfaz explica la limitación y conserva las operaciones del punto de venta.
 
 ## Product Principles
 

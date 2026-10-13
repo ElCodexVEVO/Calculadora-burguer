@@ -50,6 +50,6 @@ npm test
 
 La web es estática y no requiere compilación. Se regeneraron ambas demos y pasaron 170 pruebas. No se construyó un instalador Electron nuevo. El detalle de comprobaciones y límites está en [CINEMATIC_QA.md](CINEMATIC_QA.md).
 
-## Pendiente de autorización
+## Activación y límites
 
-El código de fotos privadas y preferencias remotas está implementado y validado localmente, pero **no está activado en Supabase de producción**. La revisión automática bloqueó la migración y el despliegue hasta recibir aprobación explícita. La interfaz informa de esa limitación sin bloquear ventas. No se afirma persistencia real entre dispositivos hasta ejecutar la comprobación cloud descrita en [PROFILE_DEPLOYMENT.md](PROFILE_DEPLOYMENT.md).
+**Supabase de producción ya está actualizado**, después de la autorización explícita del usuario. Se verificaron bucket privado, RLS, permisos, preferencias propias y rechazo de solicitudes sin sesión válida, conservando los datos financieros. El frontend está publicado en [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11); no se ha integrado en main. Falta probar el ciclo fotográfico autenticado entre dispositivos con cuentas reales. Consulta el alcance exacto y los comandos en [PROFILE_DEPLOYMENT.md](PROFILE_DEPLOYMENT.md).

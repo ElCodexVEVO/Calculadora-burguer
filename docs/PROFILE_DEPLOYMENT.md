@@ -1,10 +1,10 @@
 # Fotografías y efectos · despliegue V7.7
 
-Estado: código y pruebas locales listos. La revisión automática rechazó la ejecución remota sin aprobación explícita. **El parche y la función no se han aplicado a producción.** La interfaz explica este estado y conserva las operaciones del punto de venta.
+Estado: **parche y función aplicados a producción el 12 de octubre de 2026**, después de la autorización explícita del usuario. La revisión automática había bloqueado inicialmente los cambios persistentes; la autorización resolvió ese bloqueo. La interfaz y las demos están publicadas en PR #11 y la copia local, sin integrar main.
 
-Proyecto verificado por consulta de solo lectura: `kvcshkzmsbcllplebvpm` (BurgerShot). Antes del cambio: 185 ventas y 12 perfiles; `employee_appearance` no existe. Son cifras de control del 12 de octubre de 2026, no datos de demostración del frontend.
+Proyecto verificado: `kvcshkzmsbcllplebvpm` (BurgerShot). Justo antes y después del cambio: 187 ventas y 12 perfiles; totales de ventas y comisiones idénticos. `employee_appearance` ya existe con RLS, publicación Realtime y bucket privado. Son comprobaciones reales del 12 de octubre de 2026, no datos de demostración del frontend.
 
-## Activación, después de aprobar
+## Comandos de activación ejecutados
 
 Desde la raíz del repositorio:
 
@@ -27,8 +27,10 @@ El parche añade una tabla, dos funciones y un bucket privado. No modifica perfi
 - Las fotos personales tienen prioridad en los avatares compartidos. La foto histórica configurada por administración para Empleado de la semana se conserva como respaldo.
 - Preferencias propias por `set_my_effects`; no se otorga permiso de escritura sobre `profiles` ni de subida directa a Storage.
 
-## Comprobación real pendiente
+## Verificación real y comprobación pendiente
 
-Tras activar, comprobar con dos cuentas de prueba de sucursales distintas: guardar/recargar/cerrar sesión/abrir en otro dispositivo, reemplazar/eliminar, intentar subir un archivo malformado, intentar escribir una ruta ajena, intentar leer desde otra sucursal. Revisar los logs de Edge y que los conteos e importes financieros sigan intactos. Las pruebas actuales de Auth/Storage son simuladas; no acreditan un despliegue cloud realizado.
+La API desplegada respondió OPTIONS 200 y POST sin sesión / DELETE con token inválido 401. Se verificaron políticas, permisos y límites del bucket. Una transacción con rol authenticated guardó/leyó la preferencia propia y rechazó un modo no admitido; se revirtió para no cambiar cuentas reales. No se guardaron fotografías de empleados durante estas comprobaciones.
+
+Pendiente con dos sesiones de prueba reales: guardar/recargar/cerrar sesión/abrir en otro dispositivo, reemplazar/eliminar, intentar subir un archivo malformado, intentar escribir una ruta ajena e intentar leer desde otra sucursal. No se disponía de credenciales/sesiones reales de prueba; no se crearon usuarios ni se restablecieron contraseñas. Las pruebas fotográficas completas actuales de Auth/Storage son simuladas, separadas de las verificaciones cloud anteriores.
 
 Referencias técnicas: [buckets privados y RLS](https://supabase.com/docs/guides/storage/buckets/fundamentals), [lectura y URLs firmadas](https://supabase.com/docs/guides/storage/serving/downloads).

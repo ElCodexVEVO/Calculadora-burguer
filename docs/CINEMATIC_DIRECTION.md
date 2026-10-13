@@ -14,4 +14,4 @@ Calidad exigida: controles táctiles utilizables, sin desbordamiento de página;
 
 Paleta normativa: `#0B050B`, `#140911`, `#230910`, `#211217`, `#FF3038`, `#FF891C`, `#FFA63B`, `#FFB347`, `#281027`, `#FFF0DF`, `#BCA9A8`, `#39DFA4`. Fuente Archivo; cifras tabulares. Fuente CSS: `cinematic.css`.
 
-Entrega cloud: la migración y Edge Function están preparadas y probadas localmente. La revisión automática de permisos rechazó su ejecución en producción sin aprobación explícita; esta limitación debe permanecer visible en la documentación y en el informe final.
+Entrega cloud: la revisión automática bloqueó inicialmente el despliegue; tras la autorización explícita del usuario se aplicó la migración y desplegó la Edge Function. La verificación real de políticas, RPC y rechazo de sesiones inválidas está documentada. No presentar las pruebas simuladas de fotos como un ciclo autenticado entre dispositivos ya ejecutado.

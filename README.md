@@ -2,7 +2,7 @@
 
 Acceso centrado, restaurante nocturno, barra plegable, animaciones configurables y Mi perfil con editor de fotografía privada. Conserva las funciones y cálculos del punto de venta existente.
 
-Consulta [la entrega V7.7](docs/CINEMATIC_DELIVERY.md), [las 170 comprobaciones](docs/CINEMATIC_QA.md) y [la activación de Supabase pendiente de aprobación](docs/PROFILE_DEPLOYMENT.md). Prueba [DEMO_V6.html](DEMO_V6.html) o [DEMO_ACCESO.html](DEMO_ACCESO.html) (usuario y contraseña: demo).
+Consulta [la entrega V7.7](docs/CINEMATIC_DELIVERY.md), [las 170 comprobaciones](docs/CINEMATIC_QA.md) y [el despliegue de Supabase y sus verificaciones](docs/PROFILE_DEPLOYMENT.md). Prueba [DEMO_V6.html](DEMO_V6.html) o [DEMO_ACCESO.html](DEMO_ACCESO.html) (usuario y contraseña: demo).
 
 ---
 

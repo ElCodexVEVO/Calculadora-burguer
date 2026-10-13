@@ -14,7 +14,9 @@
 
 ## Límites de esta validación
 
-**Supabase de producción no se ha actualizado.** La consulta de solo lectura identificó el proyecto y la ausencia de la tabla nueva. La revisión automática rechazó ejecutar la migración sin aprobación explícita. La validación de Storage, políticas y preferencias entre dispositivos se hizo con SQL local/PGlite y servicios simulados, no con cuentas reales.
+**Supabase de producción se actualizó después de la autorización explícita del usuario.** La migración y la función se desplegaron correctamente. Verificación real: RLS activado, bucket privado de 512 KB, RPC de preferencias permitida para miembros y commit de fotografía denegado a clientes; tabla incluida en Realtime. La API respondió OPTIONS 200 y rechazó solicitudes anónimas/JWT inválidos con 401. Una transacción revertida comprobó guardar/leer la preferencia propia y rechazar modos no admitidos, sin persistir cambios en cuentas reales. Las 187 ventas y los 12 perfiles, así como los totales de ventas y comisiones, coincidieron antes y después del despliegue.
+
+No se ejecutó el ciclo fotográfico autenticado en producción ni en dos dispositivos: no se disponía de sesiones de prueba reales. Los tests de procesamiento, reemplazo, eliminación, conflictos y Storage completo usan servicios simulados; no acreditan esa comprobación pendiente. La revisión visual `ship` antecede al despliegue y no se presenta como certificación cloud.
 
 Los perfiles muestran únicamente datos ya disponibles: no inventan fechas de incorporación, premios ni ventas. El reconocimiento actual de administración se muestra si existe; el histórico de reconocimientos no forma parte del esquema actual. Electron conserva su empaquetado existente; no se generó un instalador Windows nuevo.
 

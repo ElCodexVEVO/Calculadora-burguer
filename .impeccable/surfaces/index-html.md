@@ -19,6 +19,6 @@ STORY: El cajero entiende al instante qué vende, cuánto suma y cómo cobrar; c
 
 FIRST VIEWPORT: Barra superior delgada con logo compacto, búsqueda y cuenta; papel picado colgando del borde. Escritorio: menú lateral, catálogo en rejilla densa (3–4 columnas, foto 3:2) y ticket fijo a la derecha con total grande y Cobrar abajo. Móvil: catálogo a una columna doble y barra fija inferior con piezas, total y «Ver pedido».
 
-FORM: dirección fijada por el brief del usuario (paleta y temática obligatorias); concept-seed no se ejecutó.
+FORM: dirección fijada por el brief del usuario (paleta y temática obligatorias); concept-seed no se ejecutó. La ampliación V7.7 se rige por docs/CINEMATIC_DIRECTION.md: restaurante nocturno, paleta del master prompt, barra plegable y perfiles con fotografía. Ese contrato sustituye la paleta y la composición anteriores de este archivo.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

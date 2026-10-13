@@ -179,7 +179,7 @@ function setLoginBusy(busy){
 }
 function resetAuthSession(){
   authSequence++;loginAttempt++;authTask=null;readyAuthUser=null;
-  profile=null;employeeWeek=null;cart={};v6?.resetOrder();checkoutSnapshot=null;companion?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];
+  identity?.clear();profile=null;employeeWeek=null;cart={};v6?.resetOrder();checkoutSnapshot=null;companion?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];
   if(realtime){sb.removeChannel(realtime);realtime=null}
   document.querySelectorAll(".modal-backdrop").forEach(x=>x.classList.add("hidden"));
   setLoginBusy(false);window.BurgerAuthUI?.reset();showOnly("authScreen");
@@ -376,7 +376,7 @@ async function loadData(){
     employeeWeek=employeeWeekResult.error?null:employeeWeekResult.data;
     const current=employees.find(e=>e.user_id===user.id);
     if(!current?.active){await sb.auth.signOut();return}
-    profile=current;await v6?.load();refreshUser();
+    profile=current;await v6?.load();await identity?.load();refreshUser();
     const guarded=['allSales','employees','payouts','discounts','products','audit','customers','administration','promotions','loyalty','settings'];
     if(guarded.some(x=>$('page-'+x)?.classList.contains('active'))){const activePage=guarded.find(x=>$('page-'+x)?.classList.contains('active'));if(!pageAllowed(activePage))switchPage('dashboard')}
     setSync("online","Sincronizado");renderAll();
@@ -395,19 +395,21 @@ function setupRealtime(){
     .on("postgres_changes",{event:"*",schema:"public",table:"promotions",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"*",schema:"public",table:"customers",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"*",schema:"public",table:"pos_roles",filter:`store_id=eq.${profile.store_id}`},loadData)
+    .on("postgres_changes",{event:"*",schema:"public",table:"employee_appearance",filter:`store_id=eq.${profile.store_id}`},()=>identity?.load())
     .on("postgres_changes",{event:"*",schema:"public",table:"employee_of_week",filter:`store_id=eq.${profile.store_id}`},loadData)
     .on("postgres_changes",{event:"INSERT",schema:"public",table:"audit_events",filter:`store_id=eq.${profile.store_id}`},()=>{if($("page-audit").classList.contains("active"))loadAudit(0)}).subscribe();
 }
 function refreshUser(){
   $("storeName").textContent=store?.name||"BurgerShot";$("accountName").textContent=profile.name;$("posCashier").textContent=profile.name;$("topName").textContent=profile.name;const role=isAdmin()?"Administrador":v6?.roleName(profile)||"Cajero";$("accountRole").textContent=role;$("topRole").textContent=role;
-  const ini=profile.name.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();$("avatar").textContent=ini;$("topAvatar").textContent=ini;$("welcomeTitle").textContent=`¡Buenas, ${profile.name.split(" ")[0]}!`;
+  const ini=profile.name.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();if(!identity){$("avatar").textContent=ini;$("topAvatar").textContent=ini;}$("welcomeTitle").textContent=`¡Buenas, ${profile.name.split(" ")[0]}!`;
   $("welcomeSubtitle").textContent=isAdmin()?"Resumen general del BurgerShot.":`Tu comisión actual es ${Number(profile.commission_percent||0)}%.`;
   document.querySelectorAll(".admin-only").forEach(x=>{const permission=x.dataset.permission;x.classList.toggle("hidden",permission?!can(permission):!isAdmin())});
+  identity?.avatars();
 }
 const pagePermissions={allSales:"view_reports",employees:"manage_employees",payouts:"manage_payouts",discounts:"manage_catalog",products:"manage_catalog",audit:"view_audit",customers:"view_reports",administration:"admin",promotions:"manage_promotions",loyalty:"manage_customers",settings:"admin"};
 function pageAllowed(page){return !pagePermissions[page]||can(pagePermissions[page])}
-function switchPage(page){if(!pageAllowed(page))return toast("No tienes permiso para abrir esta sección");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));$(`page-${page}`).classList.add("active");document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add("active");$("sidebar").classList.remove("open");renderAll();if(page==="audit")loadAudit(0)}
-function renderAll(){refreshReportEmployees();renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin();renderCustomers();renderCustomerWeek();v6?.render()}
+function switchPage(page){if(!pageAllowed(page))return toast("No tienes permiso para abrir esta sección");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));$(`page-${page}`).classList.add("active");document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add("active");$("sidebar").classList.remove("open");if(document.scrollingElement)document.scrollingElement.scrollTop=0;$("main").scrollTop=0;renderAll();if(page==="audit")loadAudit(0)}
+function renderAll(){refreshReportEmployees();renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin();renderCustomers();renderCustomerWeek();v6?.render();identity?.render()}
 function employeeWeekBounds(date=new Date()){
   const start=new Date(date);start.setHours(0,0,0,0);start.setDate(start.getDate()-(start.getDay()+6)%7);const end=new Date(start);end.setDate(end.getDate()+7);return{start,end};
 }
@@ -423,7 +425,7 @@ function renderEmployeeWeek(){
   const host=$("employeeWeekContent"),ranking=$("teamPerformanceContent"),chart=$("weeklyActivityContent");if(!host)return;
   const s=employeeWeekStats(),fmt=d=>new Intl.DateTimeFormat('es-MX',{day:'2-digit',month:'short'}).format(d),week=`${fmt(s.start)} – ${fmt(new Date(s.end.getTime()-86400000))}`,selected=s.selected;
   const leading=Math.max(s.rows[0]?.generated||0,1);
-  if(ranking)ranking.innerHTML=s.rows.slice(0,5).map((row,i)=>`<div class="employee-week-rank-row ${i===0?'leading':''} ${row.id===s.selectedId?'selected':''}"><b>${String(i+1).padStart(2,'0')}</b><div><strong>${esc(row.name)}</strong><small>${row.count} venta${row.count===1?'':'s'}</small><span class="dashboard-rank-track" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,row.generated/leading*100))}%"></i></span></div><strong>${money(row.generated)}</strong></div>`).join('')||'<div class="employee-week-empty"><strong>Sin ventas esta semana</strong><span>El rendimiento aparecerá al registrar ventas activas.</span></div>';
+  if(ranking)ranking.innerHTML=s.rows.slice(0,5).map((row,i)=>`<div class="employee-week-rank-row ${i===0?'leading':''} ${row.id===s.selectedId?'selected':''}"><span class="rank-avatar profile-avatar" data-profile-avatar="${esc(row.id)}" data-profile-name="${esc(row.name)}" aria-hidden="true">${esc(initials(row.name))}</span><b>${String(i+1).padStart(2,'0')}</b><div><strong>${esc(row.name)}</strong><small>${row.count} venta${row.count===1?'':'s'}</small><span class="dashboard-rank-track" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,row.generated/leading*100))}%"></i></span></div><strong>${money(row.generated)}</strong></div>`).join('')||'<div class="employee-week-empty"><strong>Sin ventas esta semana</strong><span>El rendimiento aparecerá al registrar ventas activas.</span></div>';
   if(!selected){
     host.innerHTML='<div class="employee-week-empty"><strong>Aún no hay ventas esta semana</strong><span>Cuando se registre una venta aparecerá el líder automático. También puedes elegirlo desde Configurar.</span></div>';
     if(chart)chart.innerHTML='<div class="employee-week-empty"><strong>Tu semana empieza aquí</strong><span>La actividad del empleado destacado aparecerá al registrar ventas.</span></div>';
@@ -432,8 +434,8 @@ function renderEmployeeWeek(){
     return;
   }
   const configured=s.configured===selected.id,photo=configured?String(employeeWeek?.photo_url||'').trim():'';
-  const initials=selected.name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'BS';
-  host.innerHTML=`<div class="employee-week-layout"><div class="employee-week-person"><div class="employee-week-avatar">${photo?`<img src="${esc(photo)}" alt="Foto de ${esc(selected.name)}">`:`<span>${esc(initials)}</span>`}</div><div><span class="employee-week-kicker">${configured?'ELEGIDO POR ADMINISTRACIÓN':'LÍDER DE LA SEMANA'}</span><h3>${esc(selected.name)}</h3><p>${week}</p><small class="employee-week-average">Ticket promedio ${money(selected.count?selected.generated/selected.count:0)}</small></div></div><div class="employee-week-kpis"><div><span>Ventas</span><strong>${selected.count}</strong><small>activas</small></div><div><span>Generado</span><strong>${money(selected.generated)}</strong><small>esta semana</small></div><div><span>Comisión</span><strong>${money(selected.commission)}</strong><small>acumulada</small></div></div></div>`;
+  const selectedInitials=selected.name.split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()||'BS';
+  host.innerHTML=`<div class="employee-week-layout"><div class="employee-week-person"><div class="employee-week-avatar" data-profile-avatar="${esc(selected.id)}" data-profile-name="${esc(selected.name)}" data-profile-fallback="${esc(photo)}">${photo?`<img src="${esc(photo)}" alt="Foto de ${esc(selected.name)}">`:`<span>${esc(selectedInitials)}</span>`}</div><div><span class="employee-week-kicker">${configured?'ELEGIDO POR ADMINISTRACIÓN':'LÍDER DE LA SEMANA'}</span><h3>${esc(selected.name)}</h3><p>${week}</p><small class="employee-week-average">Ticket promedio ${money(selected.count?selected.generated/selected.count:0)}</small></div></div><div class="employee-week-kpis"><div><span>Ventas</span><strong>${selected.count}</strong><small>activas</small></div><div><span>Generado</span><strong>${money(selected.generated)}</strong><small>esta semana</small></div><div><span>Comisión</span><strong>${money(selected.commission)}</strong><small>acumulada</small></div></div></div>`;
   if($("weeklyActivityName"))$("weeklyActivityName").textContent=`Generado por día · ${selected.name} · ${week}`;
   if($("weeklyActivityTotal"))$("weeklyActivityTotal").textContent=money(selected.generated);
   if(chart){
@@ -684,11 +686,11 @@ function renderEmployees(){
   if(!can("manage_employees"))return;
   const active=employees.filter(e=>e.active),m=sums(sales),pending=employees.reduce((a,e)=>a+pendingFor(e.user_id),0);
   $("employeeMetrics").innerHTML=metricHTML([["Empleados activos",active.length,"cuentas"],["Generado total",money(m.generated),"ventas","accent"],["Ganancias acumuladas",money(m.earnings),"comisiones"],["Pendiente por pagar",money(pending),"empleados"]]);
-  $("employeesBody").innerHTML=employees.length?employees.map(e=>{
+  $("employeesBody").innerHTML=employees.length?employees.map((e,i)=>{
     const s=employeeStats(e);
-    return `<article class="employee-card" data-employee="${e.user_id}">
+    return `<article class="employee-card" style="--employee-index:${Math.min(i,10)}" data-employee="${e.user_id}">
       <div class="employee-card-head">
-        <div class="employee-avatar">${initials(e.name)}</div>
+        <div class="employee-avatar" data-profile-avatar="${esc(e.user_id)}" data-profile-name="${esc(e.name)}">${initials(e.name)}</div>
         <div class="employee-main"><strong>${esc(e.name)}</strong><span>${e.role==="admin"?"Administrador":"Empleado"}</span></div>
         ${e.active?`<span class="status-dot active">Activo</span>`:`<span class="status-dot">Inactivo</span>`}
       </div>
@@ -756,10 +758,10 @@ function openAccount(){
   const mine=sums(sales.filter(s=>s.created_by===user.id));
   const role=isAdmin()?"Administrador":v6?.roleName(profile)||"Cajero";
   $("accountDetail").innerHTML=`
-    <div class="account-identity"><span class="account-modal-avatar" aria-hidden="true">${esc(initials(profile.name))}</span><div><strong class="account-username">${profile.username?'@'+esc(profile.username):'Sin usuario'}</strong><span class="account-role">${esc(role)}</span></div><span class="account-session"><i aria-hidden="true"></i>Activa</span></div>
+    <div class="account-identity"><span class="account-modal-avatar" data-profile-avatar="${esc(profile.user_id)}" data-profile-name="${esc(profile.name)}" aria-hidden="true">${esc(initials(profile.name))}</span><div><strong class="account-username">${profile.username?'@'+esc(profile.username):'Sin usuario'}</strong><span class="account-role">${esc(role)}</span></div><span class="account-session"><i aria-hidden="true"></i>Activa</span></div>
     <dl class="account-metrics"><div><dt>Comisión actual</dt><dd>${Number(profile.commission_percent||0)}<small>%</small></dd></div><div><dt>Ventas activas</dt><dd>${mine.count}</dd></div></dl>
     <div class="account-money"><span class="account-summary-label">Resumen de tus ventas activas</span><div><span>Generado</span><strong>${money(mine.generated)}</strong></div><div><span>Tu ganancia</span><strong>${money(mine.earnings)}</strong></div></div>`;
-  $("accountModal").classList.remove("hidden");
+  $("accountDetail").insertAdjacentHTML("beforeend",'<button id="accountProfileBtn" class="btn secondary block" style="margin-top:20px">Abrir Mi perfil</button>');$("accountProfileBtn").onclick=()=>{$("accountModal").classList.add("hidden");switchPage("profile")};$("accountModal").classList.remove("hidden");identity?.avatars();
 }
 // Reports use the same filtered rows for tables, metrics and exports.
 const REPORT_PAGE_SIZE=25;
@@ -991,5 +993,7 @@ const companion=window.BurgerCompanion?.mount({
   checkout:()=>openCheckout(),navigate:switchPage,logout:()=>sb.auth.signOut()
 });
 const v6=window.BurgerV6?.mount({$: $,esc,money,normalize,can,isAdmin,toast,fmtDate,metricHTML,switchPage,openEmployee,loadData,renderCart,calc,state:()=>({sb,user,profile,store,products,sales,employees,discounts}),openCustomer,customerHistory,openSale});
+const identity=window.BurgerProfiles?.mount({$,esc,money,toast,switchPage,roleName:p=>p.role==="admin"?"Administrador":v6?.roleName(p)||"Cajero",state:()=>({sb,user,profile,sales,employees,employeeWeek})});
+$("topProfileBtn")?.addEventListener("click",()=>switchPage("profile"));
 init();
 })();

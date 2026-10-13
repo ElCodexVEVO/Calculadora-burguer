@@ -37,15 +37,15 @@
     scene.innerHTML=Array.from({length:8},(_,i)=>`<i class="auth-petal" style="--petal-x:${7+i*12}%;--petal-drift:${i%2?35:-45}px;--petal-duration:${12+i%3*3}s;--petal-delay:-${i*2.6}s"></i>`).join('')+Array.from({length:3},(_,i)=>`<i class="auth-flame" style="--flame-delay:-${i*.7}s"></i>`).join('');
   }
   // Match flame positions to the candle wicks as the cover image scales/crops.
-  const art=new Image();art.src='assets/auth-altar.webp';
+  const art=new Image();art.src=matchMedia('(max-width:960px)').matches?'assets/restaurant-night-960.webp':'assets/restaurant-night.webp';
   function placeFlames(){
     if(!art.naturalWidth)return;
-    const points=[[.108,.527],[.160,.597],[.114,.738]];
+    const points=[[.106,.529],[.122,.772],[.215,.755]];
     for(const scene of scenes){
       const {width:w,height:h}=scene.getBoundingClientRect();if(!w||!h)continue;
-      const scale=Math.max(w/art.naturalWidth,h/art.naturalHeight),iw=art.naturalWidth*scale,ih=art.naturalHeight*scale;
+      const scale=Math.max(w/art.naturalWidth,h/art.naturalHeight),iw=art.naturalWidth*scale,ih=art.naturalHeight*scale;const pos=getComputedStyle(scene).backgroundPosition.split(',').at(-1).trim().split(/\s+/);const px=parseFloat(pos[0])/100||.5,py=parseFloat(pos[1])/100||.5;
       scene.querySelectorAll('.auth-flame').forEach((flame,i)=>{
-        const [x,y]=points[i];flame.style.left=(x*iw+(w-iw)/2)+'px';flame.style.top=(y*ih+(h-ih)/2)+'px';
+        const [x,y]=points[i];flame.style.left=(x*iw+(w-iw)*px)+'px';flame.style.top=(y*ih+(h-ih)*py)+'px';
       });
     }
   }

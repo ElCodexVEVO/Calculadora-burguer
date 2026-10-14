@@ -1,0 +1,13 @@
+{
+  "origin": "Local in-app browser screenshot of DEMO_V6.html at http://127.0.0.1:8002. Simulated data only.",
+  "captured_on": "2026-10-13",
+  "css_viewport": [
+    390,
+    844
+  ],
+  "bitmap_size": [
+    380,
+    822
+  ],
+  "limitations": "Scrollbar/physical capture may reduce bitmap width. No complete visual screenshot at 1672px is claimed."
+}

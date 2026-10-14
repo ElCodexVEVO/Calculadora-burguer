@@ -1,36 +1,47 @@
-# Fotografías y efectos · despliegue V7.7
+# Fotografías, efectos y redes · despliegue V7.8
 
-Estado: **parche y función aplicados a producción el 12 de octubre de 2026**, después de la autorización explícita del usuario. La revisión automática había bloqueado inicialmente los cambios persistentes; la autorización resolvió ese bloqueo. La interfaz y las demos están publicadas en PR #11 y la copia local, sin integrar main.
+Estado documental: 13 de octubre de 2026. **El backend está activado** en el proyecto Supabase `kvcshkzmsbcllplebvpm` (BurgerShot), después de la autorización explícita del usuario. Fotografías/efectos se activaron primero; `supabase_patch_v7_8_socials.sql` se aplicó después correctamente.
 
-Proyecto verificado: `kvcshkzmsbcllplebvpm` (BurgerShot). Justo antes y después del cambio: 187 ventas y 12 perfiles; totales de ventas y comisiones idénticos. `employee_appearance` ya existe con RLS, publicación Realtime y bucket privado. Son comprobaciones reales del 12 de octubre de 2026, no datos de demostración del frontend.
+V7.7 ya está integrada en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. El frontend V7.8 sigue local en `codex/cinematic-profiles`, pendiente de un PR nuevo y de su integración/publicación. Activación de backend y publicación de frontend son estados separados.
 
-## Comandos de activación ejecutados
+## Artefactos activados
 
-Desde la raíz del repositorio:
+- `supabase_patch_v7_7_appearance.sql`: `employee_appearance`, RLS, funciones de preferencias/fotografía, publicación Realtime y bucket privado `employee-avatars`.
+- `supabase/functions/profile-photo/index.ts`: Edge Function `profile-photo`. Verifica el JWT con `auth.getUser(token)` y comprueba perfil activo. La función se desplegó con validación de sesión propia, independiente del gateway.
+- `supabase_patch_v7_8_socials.sql`: columna `social_links` y RPC `set_my_social_links(p_user_id, p_links)`. Está aplicado; no hay que repetir los parches históricos para esta instalación.
 
-```powershell
-supabase db query --linked --project-ref kvcshkzmsbcllplebvpm --file supabase_patch_v7_7_appearance.sql
-supabase functions deploy profile-photo --project-ref kvcshkzmsbcllplebvpm --use-api --no-verify-jwt
-```
+Los secretos de servicio pertenecen al entorno Edge. El navegador conserva únicamente la configuración pública necesaria para Supabase. No se modifican los permisos administrativos de `profiles` para habilitar estas funciones personales.
 
-La función verifica el JWT con `auth.getUser(token)` y comprueba que el perfil esté activo; no depende de la validación de JWT del gateway. `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` son secretos predefinidos del entorno Edge, nunca se guardan en el cliente.
+## Contrato fotográfico
 
-El parche añade una tabla, dos funciones y un bucket privado. No modifica perfiles, ventas, comisiones ni políticas existentes. No es necesario ejecutar los parches históricos otra vez. Es repetible; para desactivar temporalmente, retirar el despliegue frontend de esta rama conserva las fotos y las preferencias almacenadas. No borrar el bucket ni la tabla como parte de un rollback rutinario.
+- Entrada JPG/PNG/WebP hasta 5 MB y 32 megapíxeles. El navegador decodifica, recorta, amplía y reposiciona con controles de ratón y teclado.
+- Exportación JPEG de 512 × 512, calidad 86 %, sobre crema, máximo 512 KB. El backend decodifica y recodifica a calidad 85 %, retirando metadatos.
+- Path generado por servidor: `store_id/user_id/UUID.jpg`; el cliente no elige una cuenta, sucursal ni ruta ajena.
+- `photo_version` protege cambios simultáneos. Un conflicto conserva la foto vigente y retira el objeto nuevo. Un reemplazo confirmado retira el anterior. Si falla la limpieza, el objeto anterior queda inaccesible por RLS y se registra `avatar_cleanup` para reintento administrativo.
+- Lectura privada para miembros activos de la misma sucursal. URLs firmadas de 15 minutos, renovadas durante la sesión; no son URLs públicas persistentes y las referencias se retiran al salir.
+- Fotos personales con prioridad en avatares compartidos; la foto histórica configurada para Empleado de la semana se conserva como respaldo.
+- `set_my_effects` permite guardar solo la preferencia propia. No se concede subida directa a Storage ni escritura general sobre fotos desde el cliente.
 
-## Contrato de las fotos
+## Contrato de redes
 
-- Entrada local JPG/PNG/WebP, máximo 5 MB. El navegador decodifica y permite recortar, ampliar y reposicionar, con controles de teclado. Resolución original máxima: 32 megapíxeles.
-- Se exporta un JPEG de 512 × 512, calidad 86 %, sin transparencia, sobre crema; máximo 512 KB. El backend acepta únicamente este formato procesado, lo decodifica y recodifica a calidad 85 %, eliminando metadatos.
-- Path generado por servidor: `store_id/user_id/UUID.jpg`; no se admite elegir cuenta, sucursal ni nombre de archivo desde el cliente. Las claves de servicio se usan solamente en Edge.
-- `photo_version` protege cambios simultáneos. Un conflicto conserva la foto vigente y retira el nuevo archivo. El reemplazo confirmado retira el objeto anterior. Si falla la limpieza de Storage, el objeto anterior queda inaccesible por RLS y se registra `avatar_cleanup` para reintentar su eliminación por un administrador.
-- Lectura privada para miembros activos de la misma sucursal; URLs firmadas duran 15 minutos y se renuevan mientras haya sesión. Una URL firmada es un enlace portador temporal; no se persiste como URL pública. Las referencias de interfaz se retiran al cerrar sesión.
-- Las fotos personales tienen prioridad en los avatares compartidos. La foto histórica configurada por administración para Empleado de la semana se conserva como respaldo.
-- Preferencias propias por `set_my_effects`; no se otorga permiso de escritura sobre `profiles` ni de subida directa a Storage.
+Instagram, Discord, TikTok y Twitch son opcionales. La interfaz normaliza identificadores y enlaces HTTPS de dominios admitidos; el servidor valida los identificadores recibidos. No realiza OAuth, no conecta sesiones de esas plataformas ni envía mensajes.
 
-## Verificación real y comprobación pendiente
+La RPC exige una sesión activa y `p_user_id = auth.uid()`, incluso para administradores. Solo permite las cuatro claves reconocidas y valores de texto con formato/longitud admitidos. Campos vacíos eliminan esa red. Actualiza únicamente `social_links` y la marca temporal, conservando fotografía, versión y nivel de efectos. El rol anónimo no tiene permiso de ejecución.
 
-La API desplegada respondió OPTIONS 200 y POST sin sesión / DELETE con token inválido 401. Se verificaron políticas, permisos y límites del bucket. Una transacción con rol authenticated guardó/leyó la preferencia propia y rechazó un modo no admitido; se revirtió para no cambiar cuentas reales. No se guardaron fotografías de empleados durante estas comprobaciones.
+Instagram admite hasta 30 caracteres, TikTok 24 y Twitch 25. Discord admite el identificador actual o la forma histórica con discriminador. Instagram, TikTok y Twitch se muestran como enlaces seguros; Discord permite copiar el usuario.
 
-Pendiente con dos sesiones de prueba reales: guardar/recargar/cerrar sesión/abrir en otro dispositivo, reemplazar/eliminar, intentar subir un archivo malformado, intentar escribir una ruta ajena e intentar leer desde otra sucursal. No se disponía de credenciales/sesiones reales de prueba; no se crearon usuarios ni se restablecieron contraseñas. Las pruebas fotográficas completas actuales de Auth/Storage son simuladas, separadas de las verificaciones cloud anteriores.
+## Evidencia cloud real
 
-Referencias técnicas: [buckets privados y RLS](https://supabase.com/docs/guides/storage/buckets/fundamentals), [lectura y URLs firmadas](https://supabase.com/docs/guides/storage/serving/downloads).
+El despliegue inicial de fotos/efectos conservó entonces 187 ventas y 12 perfiles, con totales financieros idénticos. Se comprobaron RLS, permisos, Realtime, bucket privado y límites. La API desplegada respondió OPTIONS 200; POST sin sesión y DELETE con JWT inválido respondieron 401. La preferencia propia se guardó/leyó en una transacción revertida.
+
+Para la activación de redes, las huellas antes/después fueron idénticas para **198 ventas, 12 perfiles y 6 cortes**. Se comparó la huella de los registros completos de estas tablas y la de los valores previos de `user_id`, `store_id`, `photo_path`, `photo_version` y `effects_mode` en apariencia. La diferencia de ventas respecto al corte anterior no se atribuye al parche.
+
+La verificación de redes ejecutó la RPC bajo rol authenticated en una transacción real. Confirmó lectura de los valores propios, rechazo de otro usuario y de un identificador inseguro. Se comprobó ejecución para authenticated y denegación para anon. La transacción terminó con `ROLLBACK`; no se conservaron valores QA ni se alteraron fotos o efectos.
+
+## Pendiente y recuperación
+
+No se ejecutó el ciclo fotográfico autenticado real ni la sincronización en dos dispositivos. Con sesiones de prueba reales falta comprobar guardar/recargar/salir/entrar desde otro dispositivo, reemplazar/eliminar y los errores de ruta o archivo en ese flujo. Las pruebas completas actuales de procesamiento y Storage usan servicios simulados. La RPC de redes tiene evidencia cloud real; su flujo entre dispositivos no se ha probado.
+
+No se crearon usuarios ni se restablecieron contraseñas para realizar estas comprobaciones. No se subieron fotografías de empleados. La suite final de frontend/SQL/API supera 182 escenarios; su alcance está en [CINEMATIC_QA.md](CINEMATIC_QA.md).
+
+Para revertir temporalmente el frontend, mantener la versión de `main` conserva las preferencias y fotos almacenadas. No borrar bucket ni tabla en una recuperación rutinaria. La revisión completa de la nueva referencia pidió dos ajustes de interfaz, ya resueltos. Su confirmación final fue `disposition: ship` dentro de ese alcance; no acredita el ciclo fotográfico real pendiente.

@@ -1,0 +1,24 @@
+const {JSDOM,VirtualConsole}=require('jsdom'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8'),core=require('../profile-core.js');
+const settle=()=>new Promise(r=>setTimeout(r,60));let count=0;const ok=s=>{count++;console.log('PASS '+s)};
+(async()=>{
+ assert.deepEqual(core.socialLinks({instagram:'https://www.instagram.com/burger.shot/',discord:'burger.shot',tiktok:'@burger_shot',twitch:''}),{instagram:'burger.shot',discord:'burger.shot',tiktok:'burger_shot'});
+ for(const input of [{instagram:'javascript:alert(1)'},{instagram:'https://instagram.com.evil.test/user'},{instagram:'https://evil.test/user'},{twitch:'https://www.twitch.tv/user/extra'},{instagram:'https://instagram.com/user?next=evil'},{discord:'<script>'},{instagram:15},{other:'user'}])assert.throws(()=>core.socialLinks(input));
+ ok('Usuarios y enlaces HTTPS normalizados; scripts, dominios ajenos y rutas engañosas rechazados');
+ const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));const dom=new JSDOM(read('index.html'),{url:'http://localhost/',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:vc}),w=dom.window;
+ w.matchMedia=()=>({matches:false,addEventListener(){}});w.confirm=()=>true;w.eval(read('demo/mock-supabase.js'));
+ const now=new Date(),week=core.periods(now).week,old=new Date(week);old.setDate(old.getDate()-1);
+ w.fixture.db.sales=[{id:'own-new',created_by:'admin-1',created_at:now.toISOString(),status:'active',total:100,employee_earnings:20,business_net:80,sale_number:1,items:[]},{id:'own-old',created_by:'admin-1',created_at:old.toISOString(),status:'active',total:1000,employee_earnings:200,business_net:800,sale_number:2,items:[]},{id:'cancelled',created_by:'admin-1',created_at:now.toISOString(),status:'cancelled',total:9000,employee_earnings:1800,business_net:7200,items:[]},{id:'other',created_by:'cashier-1',created_at:now.toISOString(),status:'active',total:10000,employee_earnings:2000,business_net:8000,items:[]}];
+ w.fixture.db.sales=w.fixture.db.sales.map(s=>({...s,store_id:'store-1',employee_name:s.created_by==='admin-1'?'Alex Rivera':'María López'}));
+ for(const file of ['profile-core.js','profile.js','app.js'])w.eval(read(file));await settle();const $=id=>w.document.getElementById(id);$('topProfileBtn').click();
+ const values=()=>[...$('profileStats').querySelectorAll('strong')].map(e=>e.textContent);
+ assert.deepEqual(values(),['1','$100','$20','$100']);assert.match($('profilePerformancePeriod').textContent,/semana/);ok('Semana suma únicamente ventas propias activas del periodo');
+ w.document.querySelector('[data-profile-period="all"]').click();assert.deepEqual(values(),['2','$1,100','$220','$550']);assert.match($('profilePerformancePeriod').textContent,/total/);ok('Total incluye el historial propio y calcula ticket promedio sin ventas anuladas o ajenas');
+ const fill=(key,value)=>{$('social-'+key).value=value;$('social-'+key).dispatchEvent(new w.Event('input',{bubbles:true}))};
+ fill('instagram','https://instagram.com/burger.shot/');fill('discord','burger.shot');$('profileSocialForm').dispatchEvent(new w.Event('submit',{cancelable:true,bubbles:true}));await settle();
+ const own=w.fixture.db.employee_appearance.find(r=>r.user_id==='admin-1');assert.equal(own.social_links.instagram,'burger.shot');assert.equal(own.social_links.discord,'burger.shot');assert.equal($('profileSocialLinks').querySelector('a').getAttribute('href'),'https://www.instagram.com/burger.shot/');assert.equal($('profileSocialLinks').querySelector('button').dataset.copyDiscord,'burger.shot');ok('Redes se guardan en la cuenta; Instagram abre un enlace seguro y Discord permite copiar el usuario');
+ fill('instagram','');$('profileSocialForm').dispatchEvent(new w.Event('submit',{cancelable:true,bubbles:true}));await settle();assert.equal($('profileSocialLinks').querySelector('a'),null);assert.equal(own.social_links.instagram,undefined);ok('Vaciar un usuario elimina esa red sin afectar las demás');
+ w.fixture.currentUserId='cashier-1';fill('instagram','otro');$('profileSocialForm').dispatchEvent(new w.Event('submit',{cancelable:true,bubbles:true}));await settle();assert.equal(own.social_links.instagram,undefined);assert.match($('socialStatus').textContent,/No se pudieron/);ok('Cambio de sesión rechaza la escritura y conserva lo escrito para corregir');
+ await w.supabase.createClient().auth.signOut();await settle();assert.equal($('social-instagram').value,'');assert.equal($('profileSocialLinks').children.length,0);assert.deepEqual(errors,[]);dom.window.close();ok('Cerrar sesión limpia redes y formulario; no hay errores de ejecución');
+ console.log(`${count} pruebas de redes y periodos superadas.`);
+})().catch(e=>{console.error(e);process.exit(1)});

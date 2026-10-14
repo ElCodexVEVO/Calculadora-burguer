@@ -1,45 +1,44 @@
-# Entrega V7.7 · Burger Shot
+# Entrega V7.8 · Burger Shot
 
-La rama `codex/cinematic-profiles` amplía la aplicación existente. Mantiene el punto de venta, precios, convenios, promociones, comisiones, roles, reportes, auditoría e integraciones. `main` conserva la versión estable hasta revisar e integrar la rama.
+La rama `codex/cinematic-profiles` reproduce el dashboard elegido por el usuario y amplía Mi perfil, la barra compacta y la caja auxiliar. Conserva las reglas del punto de venta, precios, convenios, promociones, comisiones, permisos, reportes, auditoría e integraciones.
 
-## Interfaz y componentes
+## Resultado
 
-- Acceso centrado sobre un restaurante nocturno nuevo, con el logotipo 3D aprobado, campos y errores reales.
-- Sidebar de 252 px, carril plegado de 76 px con ayudas de texto y preferencia local; cajón móvil con control de foco.
-- Encabezado con sección actual, búsqueda funcional de productos/secciones, reloj local y acceso a la cuenta. Búsqueda desplegable hasta 760 px.
-- Mi perfil con identidad, estado, estadísticas propias de ventas activas por semana/mes, historial reciente y reconocimiento vigente cuando existe.
-- Avatar compartido en encabezado, sidebar, cuenta, directorio, ranking y empleado de la semana. Iniciales como respaldo.
-- Editor de fotografía con validación, recorte, zoom, arrastre, controles de teclado, vista circular, guardado, eliminación y recuperación ante errores.
-- Tres modos de efectos: Cinematográfico, Equilibrado y Rendimiento. Preferencia local con sincronización por cuenta cuando se active Supabase.
+- Inicio con entorno nocturno de ofrenda, banner fotográfico, paneles negros y vino, filigrana roja luminosa, logo aprobado grande y papel picado diagonal. Vollkorn en titulares e importes destacados; Archivo en controles.
+- Sidebar de 290/260 px y carril de 76 px, con acceso directo a Mi perfil, ayudas por icono y cajón móvil.
+- Mi perfil con foto privada, iniciales de respaldo, datos propios, cuatro indicadores coherentes bajo Esta semana / Total y actividad reciente.
+- Instagram, Discord, TikTok y Twitch opcionales, editables únicamente por su cuenta. Enlaces HTTPS normalizados y copia del usuario de Discord.
+- Editor de foto con recorte, zoom, reposición, vista circular, guardado y eliminación; tres modos visuales con preferencia por cuenta.
+- Caja auxiliar amplia con catálogo y ticket lateral; ventana compacta conservada. Cobro en una columna con resumen, cliente, pago, nota y casilla de confirmación. Cliente obligatorio al registrar. Sin OCR ni importe recibido en la interfaz actual.
 
-## Movimiento y recursos
+La confirmación de venta llega después del servidor y los efectos conservan los importes reales. Rendimiento y movimiento reducido detienen los efectos correspondientes; la pestaña oculta pausa los bucles.
 
-Se conserva la animación del logo y las letras del acceso, papel picado y pétalos; la nueva capa ajusta niebla/neón, entrada de métricas, tarjetas de empleados, modal, botones y avatar. Se reutilizan los gráficos y las confirmaciones de venta existentes: el éxito se presenta después de la respuesta del servidor. Los importes proceden de las ventas, sin animar ni alterar cálculos financieros.
+## Recursos y archivos
 
-El modo Rendimiento detiene los efectos ambientales y las transiciones; se respeta la reducción de movimiento del sistema y se pausan los bucles al ocultar la pestaña. El restaurante nuevo se entrega en WebP, con variante de 960 px. Las imágenes existentes conservan su contenido y registran su procedencia.
-
-## Archivos principales
-
-| Área | Archivos |
+| Área | Fuente |
 | --- | --- |
-| Sistema visual y navegación | `cinematic.css`, `cinematic.js`, `sidebar.js`, `index.html` |
-| Perfiles y editor | `profile-core.js`, `profile.js`, integración puntual en `app.js` |
-| Acceso y ajustes | `auth-scene.js`, `v6-modules.js` |
-| Backend privado | `supabase_patch_v7_7_appearance.sql`, `supabase/functions/profile-photo/index.ts` |
-| Arte | `assets/restaurant-night.webp`, `assets/restaurant-night-960.webp`, metadatos/sidecars de procedencia |
-| Demos | `demo/mock-supabase.js`, `demo/build-demos.cjs`, `DEMO_V6.html`, `DEMO_ACCESO.html` |
-| Verificación | `tests/profile-regression.cjs`, `profile-ui.cjs`, `appearance-db.cjs`, `profile-photo-api.cjs` y dependencias de pruebas |
-| Documentación | `DESIGN.md`, `.impeccable/design.json`, `PRODUCT.md`, `.impeccable/surfaces/index-html.md`, `docs/CINEMATIC_*.md`, `docs/PROFILE_DEPLOYMENT.md` |
+| Marco final | `reference-dashboard.css`, `cinematic.css`, `sidebar.js`, `index.html` |
+| Perfil y redes | `profile-core.js`, `profile.js`, `supabase_patch_v7_8_socials.sql` |
+| Caja auxiliar | `companion.js`, `companion-core.js`, `companion.css` |
+| Backend fotográfico | `supabase_patch_v7_7_appearance.sql`, `supabase/functions/profile-photo/index.ts` |
+| Nuevo arte | `assets/season/dashboard-night.webp`, `traditions-feast.webp`, `season-altar-card.webp` y sus sidecars de prompt exacto |
+| Fuente serif | `assets/fonts/Vollkorn.ttf`, `Vollkorn-OFL.txt` |
+| Demos | `demo/build-demos.cjs`, `demo/mock-supabase.js`, `DEMO_V6.html`, `DEMO_ACCESO.html` |
+| Sistema visual | `DESIGN.md`, `.impeccable/design.json`, `.impeccable/surfaces/index-html.md` |
+| Evidencia versionada | [Diez capturas y sidecars](screenshots/v7-8/README.md) |
+| Continuidad con Claude | [Prompt maestro](CLAUDE_MASTER_PROMPT.md), inventario de 63 archivos SKILL reales y respaldo de capturas versionadas |
 
-## Ejecutar
+Los tres nuevos WebP suman aproximadamente 331 KB. El restaurante del acceso y el logo aprobado se conservan. La licencia de Vollkorn y la procedencia de cada imagen están junto a los recursos.
 
-Desde la raíz del repositorio:
+## Ejecutar y comprobar
+
+Desde la raíz:
 
 ```powershell
-py -m http.server 8001 --bind 127.0.0.1
+py -m http.server 8002 --bind 127.0.0.1
 ```
 
-Abrir `http://127.0.0.1:8001/DEMO_V6.html` o `DEMO_ACCESO.html` (usuario `demo`, contraseña `demo`). Las demos funcionan sin conexión a producción. `index.html` utiliza la configuración real existente; conservar `config.js` al actualizar.
+Abrir [demo de inicio](http://127.0.0.1:8002/DEMO_V6.html) o [demo de acceso](http://127.0.0.1:8002/DEMO_ACCESO.html), usuario y contraseña `demo`. `index.html` usa el Supabase configurado; conservar `config.js`.
 
 ```powershell
 node demo/build-demos.cjs
@@ -48,8 +47,10 @@ npm ci
 npm test
 ```
 
-La web es estática y no requiere compilación. Se regeneraron ambas demos y pasaron 170 pruebas. No se construyó un instalador Electron nuevo. El detalle de comprobaciones y límites está en [CINEMATIC_QA.md](CINEMATIC_QA.md).
+La suite final supera **182 escenarios**. No se generó un instalador Electron nuevo. Evidencia y límites en [CINEMATIC_QA.md](CINEMATIC_QA.md).
 
-## Activación y límites
+## Estado de entrega
 
-**Supabase de producción ya está actualizado**, después de la autorización explícita del usuario. Se verificaron bucket privado, RLS, permisos, preferencias propias y rechazo de solicitudes sin sesión válida, conservando los datos financieros. El frontend está publicado en [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11); no se ha integrado en main. Falta probar el ciclo fotográfico autenticado entre dispositivos con cuentas reales. Consulta el alcance exacto y los comandos en [PROFILE_DEPLOYMENT.md](PROFILE_DEPLOYMENT.md).
+Backend de fotos, efectos y redes activado en Supabase y verificado dentro del alcance descrito en [PROFILE_DEPLOYMENT.md](PROFILE_DEPLOYMENT.md). Las huellas de 198 ventas, 12 perfiles, 6 cortes y los valores previos de foto/efectos se conservaron al activar redes.
+
+V7.7 se integró en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 sigue local en `codex/cinematic-profiles`, pendiente de un PR nuevo y de integración/publicación. La revisión completa confirmó las firmas visuales y adaptaciones declaradas y pidió dos ajustes: encabezado del perfil alineado al inicio entre 601 y 980 px y textos funcionales señalados ampliados de 10 a 11 px. Ambos quedaron resueltos. Tras recapturar las diez vistas con CSS 7.8.4, la revisión de confirmación emitió `disposition: ship` para esos dos puntos y no encontró regresiones visibles. El alcance no es una aprobación universal del producto. El `ship` anterior no cubre esta referencia. No se afirma fidelidad de screenshot a 1672 px ni ciclo fotográfico real entre dispositivos.

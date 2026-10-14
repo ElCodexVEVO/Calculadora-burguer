@@ -8,7 +8,7 @@ const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8').replace(/\r\
 const live = '<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n<script src="config.js?v=5.0.6"></script>';
 if (!html.includes(live)) throw new Error('index.html ya no carga Supabase y config.js como se esperaba');
 // La demo usa datos simulados en memoria: nunca carga Supabase ni config.js.
-const demo = html.replace(live, '<script src="demo/mock-supabase.js?v=7.7.1"></script><script src="demo/data.js"></script>');
+const demo = html.replace(live, '<script src="demo/mock-supabase.js?v=7.8.0"></script><script src="demo/data.js?v=7.8.0"></script>');
 const withTitle = (page, title) => page.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
 fs.writeFileSync(path.join(root, 'DEMO_V6.html'), withTitle(demo, 'Burger Shot · Vista previa'));
 const access = demo.replace('<script src="auth-scene.js', '<script src="demo/auth-preview.js?v=7.0.0"></script>\n<script src="auth-scene.js');

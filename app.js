@@ -488,6 +488,14 @@ async function saveEmployeeWeek(){
     $("employeeWeekPhotoStatus").classList.add('is-warning');
   }finally{employeeWeekSaving=false;button.disabled=false;button.textContent=label}
 }
+function dashboardMetricHistory(rows,key){
+  if(!key)return '';
+  const today=new Date();today.setHours(0,0,0,0);
+  const days=Array.from({length:7},(_,i)=>{const start=new Date(today);start.setDate(start.getDate()-6+i);const end=new Date(start);end.setDate(end.getDate()+1);return{start,end}});
+  const values=days.map(day=>sums(rows.filter(s=>new Date(s.created_at)>=day.start&&new Date(s.created_at)<day.end))[key]);
+  const maximum=Math.max(...values,1),detail=days.map((day,i)=>`${new Intl.DateTimeFormat('es-MX',{weekday:'short',day:'numeric'}).format(day.start)}: ${key==='count'?values[i]:money(values[i])}`).join('; ');
+  return `<svg class="metric-history" viewBox="0 0 76 49" role="img" aria-label="${esc('Últimos siete días. '+detail)}"><title>${esc(detail)}</title><path class="chart-baseline" d="M0 48.5h76"/>${values.map((value,i)=>{const height=Math.max(0,value/maximum*44);return `<rect x="${i*11}" y="${48-height}" width="4" height="${height}" rx="1"/>`}).join('')}</svg>`;
+}
 function renderDashboard(){
   if(!profile)return;
   const mine=sales.filter(s=>s.created_by===user.id),m=sums(mine),all=sums(sales),pending=pendingFor(user.id);
@@ -495,7 +503,8 @@ function renderDashboard(){
     ?[["Ventas",all.count,"activas"],["Generado",money(all.generated),"ventas brutas"],["Comisiones",money(all.earnings),"ganancias del equipo"],["Neto del negocio",money(all.net),"después de comisiones","green"]]
     :[["Mis ventas",m.count,"activas"],["Generado",money(m.generated),"total vendido"],["Mi ganancia",money(m.earnings),`${Number(profile.commission_percent||0)}% comisión`,"green"],["Pendiente",money(pending),"por pagar"]];
   const icons=['<path d="m3 8 3 12h12l3-12ZM8 8l4-5 4 5M9 12v4m6-4v4"/>','<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v5c0 4 16 4 16 0V5M4 10v5c0 4 16 4 16 0v-5M4 15v4c0 4 16 4 16 0v-4"/>','<circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21v-3a6 6 0 0 1 12 0v3m2-7a5 5 0 0 1 6 4v3"/>','<path d="M4 20v-7h3v7Zm6 0V8h3v12Zm6 0V3h3v17Z"/>'];
-  $("dashboardMetrics").innerHTML=metrics.map((x,i)=>`<div class="metric ${x[3]||''}" data-metric="${i}"><i class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${icons[i]}</svg></i><div class="dashboard-metric-copy"><span>${esc(x[0])}</span><strong>${esc(x[1])}</strong><small>${esc(x[2])}</small></div></div>`).join('');
+  const historyRows=isAdmin()?sales:mine,historyKeys=['count','generated','earnings',isAdmin()?'net':null];
+  $("dashboardMetrics").innerHTML=metrics.map((x,i)=>`<div class="metric ornate-frame ${x[3]||''}" data-metric="${i}"><i class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${icons[i]}</svg></i><div class="dashboard-metric-copy"><span>${esc(x[0])}</span><strong>${esc(x[1])}</strong><small>${esc(x[2])}</small></div>${dashboardMetricHistory(historyRows,historyKeys[i])}</div>`).join('');
   $("quickProducts").innerHTML=products.filter(x=>x.active).slice(0,8).map(p=>`<button class="quick-card" data-quick-add="${esc(p.id)}" aria-label="Agregar ${esc(p.name)} y abrir punto de venta"><div class="quick-photo">${productArt(p)}</div><h3>${esc(p.name)}</h3><strong>${money(p.price)}</strong></button>`).join("");
   $("quickProducts").onclick=e=>{const b=e.target.closest("[data-quick-add]");if(b){addToCart(b.dataset.quickAdd);switchPage("pos")}};
   const shown=isAdmin()?sales:sales.filter(s=>s.created_by===user.id);$("miniSales").innerHTML=shown.slice(0,8).map(s=>`<button class="mini-sale" data-mini-sale="${s.id}"><span>${folio(s)}</span><strong>${esc(s.employee_name)}</strong><b>${money(s.total)}</b><em>Ver <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></em></button>`).join("")||`<div class="empty-cart"><strong>Sin ventas todavía</strong></div>`;document.querySelectorAll("[data-mini-sale]").forEach(b=>b.onclick=()=>openSale(b.dataset.miniSale));
@@ -578,6 +587,7 @@ function renderCart(){
 function updateCheckoutClientState(){
   const field=$("saleClient"),button=$("confirmSaleBtn");if(!field||!button)return;
   const valid=Boolean(field.value.trim());
+  $("saleClientHint")?.classList.toggle("hidden",valid);
   if(!saleSaving){button.disabled=!valid;button.setAttribute("aria-disabled",String(!valid));button.title=valid?"Registrar venta":"Escribe Cliente / ID para continuar"}
   companion?.syncReview();
 }

@@ -8,49 +8,52 @@ web
 
 ## Users
 
-Empleados (cajeros) y administradores de un negocio Burger Shot dentro de un servidor de roleplay de GTA V (FiveM). Durante el turno cobran pedidos a otros jugadores, registran ventas y consultan su rendimiento. Usan la herramienta por igual en una ventana de PC junto al juego (o la app de escritorio Electron de `desktop/`) y en móvil o tableta.
+Empleados (cajeros) y administradores de un negocio Burger Shot dentro de un servidor de roleplay de GTA V (FiveM). Cobran pedidos a otros jugadores, registran ventas y consultan su rendimiento. Usan una ventana de PC junto al juego, la aplicación Electron de `desktop/`, móvil o tableta.
 
 ## Product Purpose
 
-Punto de venta y panel de gestión: calcular pedidos con precios, convenios, promociones y cupones; registrar la venta con cliente y método de pago; repartir comisiones; hacer cortes de pago; y consultar ventas, estadísticas, equipo, clientes y auditoría. El éxito es cobrar rápido y sin errores de importe, con totales siempre exactos.
+Punto de venta y panel de gestión: calcular pedidos con precios, convenios, promociones y cupones; registrar la venta con cliente y método de pago; repartir comisiones; hacer cortes; y consultar ventas, estadísticas, equipo, clientes y auditoría. El éxito es cobrar rápido y sin errores de importe.
 
 ## Operating Context
 
-Se opera de noche, en sesiones de roleplay, a menudo con el juego en primer plano. El cajero alterna entre el juego y la caja, copia totales al chat de FiveM y puede leer avisos de pago con OCR local. Los datos viven en Supabase (Auth, RLS, Realtime, Edge Functions `employee-admin` y `discord-notify`). Se publica como sitio estático en GitHub Pages desde `main`.
+Sesiones de roleplay, a menudo de noche y con el juego en primer plano. El cajero alterna entre juego y caja y copia el total al chat de FiveM. Los datos viven en Supabase (Auth, RLS, Realtime y Edge Functions). GitHub Pages toma la versión de `main`. V7.7 ya se integró mediante PR #11, merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 sigue local en `codex/cinematic-profiles`, pendiente de un PR nuevo y de integración.
 
 ## Capabilities and Constraints
 
-- HTML, CSS y JavaScript sin compilación; Supabase JS desde CDN. No migrar de stack ni añadir dependencias grandes.
-- Conservar contratos de datos, reglas de cálculo (`calc`, convenios, restricciones EMS/Policía/Sheriff, promociones, cupones), permisos por rol y RLS.
-- Funciones: acceso con usuario o correo, administrador inicial, caja con cantidades (+5/+10/+25/+50), plantillas de pedidos, caja auxiliar, cobro, edición/anulación de órdenes, ventas, estadísticas, empleados, empleado de la semana, rendimiento del equipo, cortes, convenios, productos, clientes frecuentes, promociones y cupones, historial de clientes, auditoría, ajustes, notificaciones a Discord.
-- Cliente de la semana: se muestra en la sección Clientes, no en el inicio (decisión del usuario, 2026-10-09). Se calcula con las ventas activas de lunes a domingo agrupadas por Cliente / ID.
-- La gráfica de actividad semanal sigue en el inicio; Estadísticas conserva sus gráficas.
-- Mi perfil muestra nombre, rol, usuario público, estado y fecha de incorporación si está registrada; ventas activas propias, vendido y comisiones del mes, actividad semanal, cinco ventas recientes y reconocimiento semanal vigente. Usa solo datos visibles para la cuenta; muestra estados vacíos cuando faltan.
-- Fotografía de perfil: editor con JPG/PNG/WebP de hasta 5 MB, recorte, zoom, reposición, vista previa, guardado, cambio y eliminación para restaurar iniciales. Produce JPEG de 512×512 y actualiza los avatares compartidos en encabezado, sidebar, cuenta, perfil, empleados, empleado de la semana y clasificaciones. La persistencia privada requiere la actualización de Supabase indicada abajo.
-- Efectos visuales en Mi perfil y Ajustes: Cinematográfico, Equilibrado y Rendimiento. La preferencia se aplica y conserva localmente por empleado; su sincronización entre dispositivos requiere `employee_appearance` y `set_my_effects`. Respeta movimiento reducido y pausa los bucles con la pestaña oculta.
+- HTML, CSS y JavaScript sin compilación; Supabase JS desde CDN. Conservar el stack y evitar dependencias grandes.
+- Conservar contratos de datos, cálculos, convenios, restricciones EMS/Policía/Sheriff, promociones, cupones, permisos por rol y RLS.
+- Funciones existentes: acceso por usuario o correo, administrador inicial, caja, cantidades, plantillas, caja auxiliar, cobro, edición/anulación de órdenes, ventas, estadísticas, equipo, empleado de la semana, cortes, convenios, productos, clientes frecuentes, promociones, cupones, historial, auditoría, ajustes y avisos a Discord.
+- Cliente de la semana permanece en Clientes. La gráfica de actividad semanal permanece en Inicio.
+- Mi perfil muestra identidad, rol, usuario público, estado y fecha de incorporación cuando existe. El selector Esta semana / Total aplica un único periodo a Ventas activas, Total vendido, Mis comisiones y Ticket promedio. Cuenta únicamente ventas activas propias; excluye anuladas y ajenas. La semana local empieza en lunes y termina antes del lunes siguiente. Total usa todo el historial propio disponible. El historial reciente identifica el estado de cada venta y muestra hasta cinco entradas del periodo.
+- Redes opcionales propias: Instagram, Discord, TikTok y Twitch. Se guardan por RPC autenticada `set_my_social_links`. La interfaz normaliza usuarios y enlaces HTTPS de los dominios admitidos; el servidor recibe identificadores validados. Vaciar un campo elimina esa red. Instagram, TikTok y Twitch abren el perfil; Discord permite copiar el usuario. No se conceden permisos administrativos para editar redes ajenas.
+- Fotografía privada: JPG/PNG/WebP hasta 5 MB, recorte, zoom, reposición, vista previa, guardado, reemplazo y eliminación para restaurar iniciales. El navegador genera JPEG de 512 × 512. El avatar se comparte en encabezado, sidebar, cuenta, perfil, empleados, ranking y empleado destacado.
+- Cinematográfico, Equilibrado y Rendimiento se conservan localmente por empleado y se sincronizan con `employee_appearance` y `set_my_effects`. Se respeta movimiento reducido y pausa al ocultar la pestaña.
+- Sidebar amplio de 290 px, 260 px en escritorio intermedio, carril plegado de 76 px con acceso directo a Mi perfil, y cajón móvil con nombres accesibles y control de foco.
+- Caja auxiliar: catálogo y ticket lateral en escritorio amplio; ventana compacta conservada. El cliente puede completarse al cobrar, pero es obligatorio al registrar. La revisión muestra resumen, cliente, pago, nota y casilla de pago recibido en una columna. No hay interfaz OCR ni campo/validación de importe recibido. Los helpers y recursos OCR históricos permanecen sin uso.
 - `DEMO_V6.html` y `DEMO_ACCESO.html` usan datos simulados y nunca contactan con Supabase.
 
 ## Brand Commitments
 
-- Nombre: Burger Shot (BURGER SHOT en el lettering).
-- Temática obligatoria de temporada: Día de Muertos y Halloween (cempasúchil, papel picado, velas, calaveras, calabazas).
-- Paleta pedida: fondos carbón, superficies con separación clara, texto crema, acentos naranja cempasúchil y detalles morado o vino.
-- Logo: conservar el emblema 3D aprobado `assets/logo/burgershot-3d.png` y sus variantes `assets/logo/burgershot-3d-*.webp`, con el lettering integrado y su proporción. No redibujar ni recolorear el arte; usar sus copias optimizadas y favicons existentes.
-- Fotografías del menú en `assets/menu/` (origen en `assets/menu/ORIGEN.json`): conservar proporción y relación con cada producto.
+- Nombre Burger Shot; lettering BURGER SHOT integrado en el emblema aprobado.
+- Temática de Día de Muertos y Halloween: cempasúchil, papel picado, velas, calaveras y calabazas.
+- Negro y vino casi negro, filigrana roja luminosa, texto crema y acción naranja/dorada. La reproducción visual del dashboard elegido el 12 de octubre de 2026 sustituye la interpretación sobria rechazada.
+- Logo aprobado `assets/logo/burgershot-3d.png` y variantes WebP: conservar arte, proporción, lettering y respaldos.
+- Fotografías del menú en `assets/menu/`, con origen en `assets/menu/ORIGEN.json`: conservar su proporción y relación con el producto.
 
 ## Evidence on Hand
 
-Catálogo, precios y convenios reales viven en Supabase; los de la demo están en `demo/mock-supabase.js` y `demo/data.js` y son simulados. No inventar estadísticas, clientes, reglas ni precios.
+Catálogo, precios y convenios reales viven en Supabase. La demo usa `demo/mock-supabase.js` y `demo/data.js`; sus datos son simulados. No inventar estadísticas, clientes, reglas, precios, fotos ni reconocimientos.
 
-Estado de perfiles (12 de octubre de 2026): después de la autorización explícita del usuario se aplicó `employee_appearance`, el bucket privado `employee-avatars`, la RPC `set_my_effects` y Edge Function `profile-photo` al Supabase real. Se verificaron RLS, permisos, bucket privado, rechazo de JWT inválido y preferencia propia mediante transacción revertida. Los conteos e importes financieros se conservaron. La edición completa de fotos se comprobó en demo y con backend simulado; falta comprobar el ciclo autenticado y entre dispositivos con cuentas reales. Las 170 pruebas y estos límites se detallan en `docs/CINEMATIC_QA.md` y `docs/PROFILE_DEPLOYMENT.md`. Si el backend no está disponible, la interfaz explica la limitación y conserva las operaciones del punto de venta.
+Actualización documental: 13 de octubre de 2026. Fotografías, efectos y redes ya están activados en Supabase `kvcshkzmsbcllplebvpm`, tras autorización del usuario. Se verificaron RLS, bucket privado, RPC propias y rechazo de sesiones o escrituras no admitidas. La comprobación autenticada de redes se revirtió; las huellas de 198 ventas, 12 perfiles, 6 cortes y los valores previos de foto/efectos coincidieron antes y después. No se ejecutó el ciclo completo de fotografía real ni la sincronización entre dos dispositivos. La suite final supera 182 escenarios. La revisión independiente completa confirmó la dirección y pidió dos ajustes; ambos se corrigieron y recibieron confirmación `disposition: ship` dentro de ese alcance. El veredicto de la dirección anterior no cubre esta sustitución visual. Alcance en `docs/CINEMATIC_QA.md` y `docs/PROFILE_DEPLOYMENT.md`.
 
 ## Product Principles
 
-1. El total es sagrado: cualquier efecto acompaña al importe real, nunca lo retrasa ni lo oculta.
-2. Rapidez antes que adorno: los controles de trabajo quedan despejados; la decoración vive en márgenes, cabeceras y separadores.
-3. Una sola identidad de temporada en toda la app, coherente de la pantalla de acceso al último panel.
-4. Igual de usable con ratón y teclado junto al juego que con el pulgar en el móvil.
+1. El total es sagrado: mostrar el importe real de inmediato.
+2. Operación clara dentro del marco ornamental elegido.
+3. Identidad coherente entre acceso, inicio, perfil y herramientas.
+4. Uso cómodo con ratón, teclado y pulgar.
+5. Datos personales propios y estados vacíos honestos.
 
 ## Accessibility & Inclusion
 
-Contraste AA, foco visible, navegación por teclado, objetivos táctiles cómodos y respeto de `prefers-reduced-motion` y del ajuste «Animaciones suaves» de la app.
+Contraste AA como criterio de aceptación, foco visible, nombres accesibles, navegación por teclado, controles táctiles cómodos y respeto de `prefers-reduced-motion` y de las preferencias de efectos.

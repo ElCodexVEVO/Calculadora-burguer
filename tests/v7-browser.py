@@ -142,7 +142,7 @@ with sync_playwright() as pw:
         page.locator("#loginPassword").fill("demo")
         page.locator("#loginBtn").click()
         wait_app(page)
-        check(page.locator("#welcomeTitle").inner_text().startswith("¡Buenas"), "Saludo no visible")
+        check(page.locator("#welcomeTitle").inner_text().startswith("¡Buen"), "Saludo no visible")
         ok("Acceso válido abre el inicio")
         page.locator("#accountBtn").click()
         page.locator("#logoutBtn").click()

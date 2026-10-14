@@ -6,7 +6,7 @@ Actúa como diseñador de producto, especialista en animación web e ingeniero f
 
 - Repositorio: https://github.com/ElCodexVEVO/Calculadora-burguer
 - Checkout local: `C:/Users/Mateo/Documents/ChatGPT/burguershot/github-upload`.
-- Rama de trabajo: `codex/cinematic-profiles`. El PR #11 de V7.7 ya está integrado; consulta el PR actual de V7.8 y sus commits antes de trabajar. Conserva mis cambios locales y protege `main`; no hagas reset, force push ni merges automáticamente.
+- Rama de trabajo: `codex/cinematic-profiles`, PR de V7.8: https://github.com/ElCodexVEVO/Calculadora-burguer/pull/12. El PR #11 de V7.7 ya está integrado; comprueba el estado y los commits actuales del PR #12 antes de trabajar. Conserva mis cambios locales y protege `main`; no hagas reset, force push ni merges automáticamente.
 - Stack: HTML, CSS y JavaScript vanilla, Supabase y Electron. Conserva la arquitectura y la lógica financiera. No migres el producto a React ni añadas un framework para obtener efectos visuales.
 - Lee `PRODUCT.md`, `DESIGN.md`, `.impeccable/surfaces/index-html.md`, `docs/REFERENCE_FIDELITY.md`, `docs/CINEMATIC_DIRECTION.md`, `docs/CINEMATIC_QA.md` y `docs/PROFILE_DEPLOYMENT.md`.
 - La referencia visual autoritativa es `C:/Users/Mateo/AppData/Local/Temp/codex-clipboard-86a09005-98cd-413b-a927-3e1cad5216fc.png`. Respeta su composición, no la reduzcas a una inspiración de colores. Si no está disponible, usa las capturas finales en `C:/Users/Mateo/Documents/ChatGPT/burguershot/.visual-review/` y pide la referencia solo si te impide reproducir un detalle esencial.

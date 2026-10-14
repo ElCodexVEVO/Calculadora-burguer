@@ -55,4 +55,4 @@ No se probó el ciclo completo de foto en producción ni en dos dispositivos con
 
 No hay OCR activo ni campo/validación de importe recibido en la caja auxiliar actual. Los helpers históricos sin uso no representan una capacidad disponible. La ventana Electron/FiveM real y un instalador nuevo no forman parte de estas pruebas.
 
-El backend está activado. V7.7 ya se integró en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 sigue local en `codex/cinematic-profiles`, pendiente de un PR nuevo y de integración/publicación. Detalles en [PROFILE_DEPLOYMENT.md](PROFILE_DEPLOYMENT.md).
+El backend está activado. V7.7 ya se integró en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 está subida en `codex/cinematic-profiles` y [PR #12 en borrador](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/12), todavía sin integrar en `main` ni publicar en Pages. Detalles en [PROFILE_DEPLOYMENT.md](PROFILE_DEPLOYMENT.md).

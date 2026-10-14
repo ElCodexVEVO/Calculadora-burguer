@@ -16,7 +16,7 @@ Punto de venta y panel de gestión: calcular pedidos con precios, convenios, pro
 
 ## Operating Context
 
-Sesiones de roleplay, a menudo de noche y con el juego en primer plano. El cajero alterna entre juego y caja y copia el total al chat de FiveM. Los datos viven en Supabase (Auth, RLS, Realtime y Edge Functions). GitHub Pages toma la versión de `main`. V7.7 ya se integró mediante PR #11, merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 sigue local en `codex/cinematic-profiles`, pendiente de un PR nuevo y de integración.
+Sesiones de roleplay, a menudo de noche y con el juego en primer plano. El cajero alterna entre juego y caja y copia el total al chat de FiveM. Los datos viven en Supabase (Auth, RLS, Realtime y Edge Functions). GitHub Pages toma la versión de `main`. V7.7 ya se integró mediante PR #11, merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 está subida en `codex/cinematic-profiles` y [PR #12 en borrador](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/12), todavía sin integrar en `main` ni publicar en GitHub Pages.
 
 ## Capabilities and Constraints
 

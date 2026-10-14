@@ -2,7 +2,7 @@
 
 Estado documental: 13 de octubre de 2026. **El backend está activado** en el proyecto Supabase `kvcshkzmsbcllplebvpm` (BurgerShot), después de la autorización explícita del usuario. Fotografías/efectos se activaron primero; `supabase_patch_v7_8_socials.sql` se aplicó después correctamente.
 
-V7.7 ya está integrada en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. El frontend V7.8 sigue local en `codex/cinematic-profiles`, pendiente de un PR nuevo y de su integración/publicación. Activación de backend y publicación de frontend son estados separados.
+V7.7 ya está integrada en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. El frontend V7.8 está subido en `codex/cinematic-profiles` y [PR #12 en borrador](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/12), todavía sin integrar en `main` ni publicar en GitHub Pages. Activación de backend y publicación de frontend son estados separados.
 
 ## Artefactos activados
 

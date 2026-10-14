@@ -2,7 +2,7 @@
 
 Punto de venta HTML/CSS/JavaScript para Burger Shot en FiveM, con Supabase. El inicio reproduce la referencia elegida por el usuario: paneles negros y vino, filigrana roja luminosa, banner fotográfico, logo aprobado grande, papel picado diagonal, Vollkorn en titulares y Archivo en controles.
 
-V7.7 ya se integró en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 sigue local en `codex/cinematic-profiles`, pendiente de un PR nuevo; aún no está integrada en `main` ni publicada en GitHub Pages. El backend de fotos, efectos y redes está activado. La revisión completa pidió dos ajustes; ambos están resueltos y su confirmación final es `disposition: ship`. El veredicto cubre esos ajustes y las diez recapturas, sin afirmar coincidencia visual a 1672 px.
+V7.7 ya se integró en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 está subida en `codex/cinematic-profiles` y [PR #12 en borrador](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/12), todavía sin integrar en `main` ni publicar en GitHub Pages. El backend de fotos, efectos y redes está activado. La revisión completa pidió dos ajustes; ambos están resueltos y su confirmación final es `disposition: ship`. El veredicto cubre esos ajustes y las diez recapturas, sin afirmar coincidencia visual a 1672 px.
 
 ## Cambios actuales
 

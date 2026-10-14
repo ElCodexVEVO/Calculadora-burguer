@@ -215,6 +215,44 @@
     });
   }
 
+  /* ── Paneles de Inicio de una misma familia ──
+     «Acceso rápido» y «Últimas ventas» no tenían ni marco de filigrana ni la ficha de icono de las cabeceras de arriba. */
+  const ICONS={
+    quick:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 14h6l-1 7 8-11h-6Z"/></svg>',
+    sales:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Zm3 5h6m-6 4h6"/></svg>'
+  };
+  document.querySelectorAll('#page-dashboard .dashboard-grid>.panel').forEach((panel,i)=>{
+    panel.classList.add('ornate-frame');
+    const head=panel.querySelector(':scope>.panel-head');
+    if(head&&!head.classList.contains('dashboard-panel-head')){
+      head.classList.add('dashboard-panel-head');
+      head.insertAdjacentHTML('afterbegin',i===0?ICONS.quick:ICONS.sales);
+    }
+  });
+
+  /* ── Últimas ventas: ficha con las iniciales de quien vendió (decorativa; el nombre sigue en el texto) ── */
+  const initials=name=>name.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'BS';
+  const decorateSales=()=>{
+    document.querySelectorAll('#miniSales .mini-sale:not([data-av])').forEach(row=>{
+      const name=row.querySelector('strong')?.textContent||'';
+      let hue=0;for(const ch of name)hue=(hue*31+ch.charCodeAt(0))%360;
+      row.dataset.av='1';row.style.setProperty('--av',String(hue));
+      row.insertAdjacentHTML('afterbegin',`<i class="mini-avatar" aria-hidden="true">${initials(name)}</i>`);
+    });
+  };
+  const sales=document.getElementById('miniSales');
+  if(sales){new MutationObserver(decorateSales).observe(sales,{childList:true});decorateSales()}
+
+  /* ── Menú lateral: el borde inferior se difumina cuando hay más opciones por ver ── */
+  const nav=document.getElementById('primaryNav');
+  if(nav){
+    const check=()=>nav.toggleAttribute('data-more',nav.scrollHeight-nav.clientHeight-nav.scrollTop>6);
+    nav.addEventListener('scroll',check,{passive:true});
+    if('ResizeObserver' in window)new ResizeObserver(check).observe(nav);
+    new MutationObserver(check).observe(nav,{childList:true,subtree:true,attributes:true,attributeFilter:['open','hidden']});
+    check();
+  }
+
   /* ── Barra de progreso de lectura (la anima el scroll desde CSS) ── */
   const bar=document.createElement('div');bar.className='m-progress';bar.setAttribute('aria-hidden','true');body.append(bar);
 

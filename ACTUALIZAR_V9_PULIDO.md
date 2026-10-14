@@ -46,3 +46,12 @@ Caja, Caja auxiliar, Ventas, Estadísticas, Registro de ventas, Clientes, Equipo
 - **Caja:** botón «Copiar» junto a «Total a cobrar» (copia «Tu pedido son $X.», el mismo mensaje de la caja auxiliar; lee el total mostrado, no recalcula).
 - **Ajustes:** textos de los modos de efectos corregidos (ya no mencionan pétalos), tarjetas con marca de selección y mejor alineación.
 - **Rendimiento en modo Cinematográfico:** se elimina la sombra pulsante de las métricas (repintado continuo) y el recorte animado de las cifras en cada actualización de datos.
+
+## V11 · Paneles
+- **Una sola familia de paneles:** degradado vino con un hilo de brasa en el borde superior y borde cálido en paneles, tarjetas (empleados, convenios, promociones), tiras de métricas, filtros y tablas. El ticket de Caja (papel claro) y la Caja auxiliar quedan fuera a propósito.
+- **Inicio:** «Acceso rápido» y «Últimas ventas» ganan el marco de filigrana y la ficha de icono de las cabeceras de arriba; «Últimas ventas» muestra la ficha con las iniciales de quien vendió y el folio bajo el nombre; «Rendimiento del equipo» tiene podio (oro, plata y bronce) y una punta luminosa en cada barra.
+- **Tiras de métricas** del resto de pantallas con la marca de color de Inicio (naranja, rojo, magenta, turquesa).
+- **Equipo:** el anillo del avatar indica el estado (verde activo) y la cuenta inactiva se atenúa.
+- **Menú lateral:** el borde inferior se difumina cuando hay más opciones por ver (antes se cortaba «Promociones» en seco).
+- **Herramienta nueva:** `tests/contrast-scan.py` recorre todas las pantallas y avisa de texto con contraste insuficiente frente a su fondo sólido. Sin hallazgos reales en esta versión.
+- Rendimiento: CPU en reposo de Inicio ~5 %, al desplazar ~8 %, en Caja ~8 % (medido en Edge).

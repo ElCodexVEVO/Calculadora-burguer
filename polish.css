@@ -682,3 +682,62 @@ body:not(.motion-off) .metric strong{animation:none}
 .permission-row small{font-size:13px;color:#cdbab0}
 .v6-settings .effects-picker{margin:6px 20px 0}
 .v6-settings .effects-note{margin:12px 20px 4px}
+
+/* ───────── V11 · Familia de paneles ─────────
+   Una sola superficie para todos los paneles, tarjetas y tiras de métricas fuera de la cabecera de Inicio: degradado vino
+   con un hilo de brasa en el borde superior (capa de fondo, sin pseudoelementos ni desenfoques) y borde cálido. */
+.page:not(#page-dashboard):not(#page-pos):not(#page-companion) :is(.panel,.metrics,.employee-card,.discount-card,.v6-promo,.table-panel,.report-filters),
+#page-dashboard .dashboard-grid>.panel{
+  background:
+    linear-gradient(90deg,transparent,rgba(255,118,64,.8) 50%,transparent) top center/62% 1px no-repeat,
+    linear-gradient(155deg,rgba(38,16,23,.97) 0%,rgba(21,9,14,.97) 100%);
+  border-color:rgba(255,150,100,.2);
+}
+#page-dashboard .dashboard-grid>.panel{border-color:#773020;border-radius:12px;box-shadow:0 5px 20px -15px #e84225}
+/* Tiras de métricas: cada cifra con su color (los mismos que las tarjetas de Inicio). */
+.page:not(#page-dashboard) .metrics .metric{--mc:255,165,20;
+  background:linear-gradient(90deg,rgb(var(--mc)),transparent) 20px 0/54px 2px no-repeat}
+.page:not(#page-dashboard) .metrics .metric:nth-child(2){--mc:255,71,51}
+.page:not(#page-dashboard) .metrics .metric:nth-child(3){--mc:214,69,188}
+.page:not(#page-dashboard) .metrics .metric:nth-child(4){--mc:18,223,183}
+.page:not(#page-dashboard) .metrics .metric:nth-child(5){--mc:255,205,90}
+.page:not(#page-dashboard) .metrics .metric>span{letter-spacing:.01em}
+
+/* Cabeceras de tabla con un tinte de brasa. */
+.page thead tr{background:linear-gradient(180deg,rgba(255,130,70,.09),rgba(255,130,70,.03))}
+
+/* Inicio: cabeceras de «Acceso rápido» y «Últimas ventas» como las de los paneles de arriba. */
+#page-dashboard .dashboard-grid .dashboard-panel-head{display:flex;align-items:center;gap:12px;padding:16px 20px 14px 36px}
+#page-dashboard .dashboard-grid .dashboard-panel-head>svg{flex:0 0 37px;width:37px;height:37px;padding:8px;border-radius:9px;color:#ffab1b;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;background:rgba(168,58,8,.18);filter:drop-shadow(0 0 6px rgba(255,150,30,.7))}
+#page-dashboard .dashboard-grid .dashboard-panel-head>div{min-width:0;margin-right:auto}
+#page-dashboard .dashboard-grid .dashboard-panel-head h2{margin:0;font-size:20px;color:#ffe4bb}
+#page-dashboard .dashboard-grid .dashboard-panel-head span{display:block;margin-top:3px;font-size:12.5px;color:#d8c3b9}
+#page-dashboard .dashboard-grid .mini-sales,#page-dashboard .dashboard-grid .quick-products{padding-left:22px;padding-right:22px}
+
+/* Últimas ventas: ficha con iniciales + folio bajo el nombre. */
+#page-dashboard .mini-sale{grid-template-columns:36px minmax(0,1fr) auto auto;grid-template-areas:"av name amt ver" "av folio amt ver";column-gap:12px;row-gap:0;padding:9px 2px}
+#page-dashboard .mini-sale .mini-avatar{grid-area:av;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;font:700 12px/1 var(--bs-ui);font-style:normal;color:#fff3e6;
+  background:linear-gradient(150deg,hsl(var(--av) 52% 34%),hsl(var(--av) 46% 18%));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px hsl(var(--av) 60% 52% / .45)}
+#page-dashboard .mini-sale strong{grid-area:name;align-self:end;font-size:14.5px}
+#page-dashboard .mini-sale>span:not(.mini-avatar){grid-area:folio;align-self:start;font-size:11.5px;letter-spacing:.02em}
+#page-dashboard .mini-sale b{grid-area:amt;grid-row:auto;grid-column:auto;font-size:16px}
+#page-dashboard .mini-sale em{grid-area:ver}
+@media (max-width:760px){#page-dashboard .mini-sale{grid-template-columns:36px minmax(0,1fr) auto;grid-template-areas:"av name amt" "av folio amt"}#page-dashboard .mini-sale em{display:none}}
+
+/* Rendimiento del equipo: podio (oro, plata y bronce) y punta luminosa en cada barra. */
+#teamPerformanceContent .employee-week-rank-row:nth-child(2)>b{background:#cfd3da;color:#23262c;box-shadow:0 3px 8px -4px rgba(207,211,218,.7)}
+#teamPerformanceContent .employee-week-rank-row:nth-child(3)>b{background:#cf8a52;color:#2a1405;box-shadow:0 3px 8px -4px rgba(207,138,82,.7)}
+#teamPerformanceContent .dashboard-rank-track i{position:relative}
+#teamPerformanceContent .dashboard-rank-track i::after{content:"";position:absolute;right:-3px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#ffd58a;box-shadow:0 0 10px 2px rgba(255,150,40,.85)}
+
+/* Tarjetas de empleado: el anillo del avatar dice el estado y la cuenta inactiva se atenúa. */
+.employee-card:has(.status-dot.active) .employee-avatar{border-color:rgba(57,223,164,.65);box-shadow:0 0 0 4px rgba(57,223,164,.1),inset 0 1px 0 rgba(255,255,255,.1)}
+.employee-card:has(.status-dot:not(.active)) .employee-avatar{border-color:rgba(190,170,160,.35);filter:grayscale(.6)}
+.employee-card:has(.status-dot:not(.active)) :is(.employee-main,.employee-card-stats,.employee-card-foot){opacity:.62}
+.employee-card:has(.status-dot:not(.active)) .status-dot{opacity:1}
+
+/* Menú lateral: el borde inferior se difumina cuando hay más opciones por debajo (antes se cortaba en seco). */
+#primaryNav[data-more]{
+  -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 38px),transparent 100%);
+  mask-image:linear-gradient(180deg,#000 calc(100% - 38px),transparent 100%);
+}

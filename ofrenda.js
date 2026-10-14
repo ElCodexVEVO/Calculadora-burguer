@@ -114,7 +114,7 @@
   syncMenu();
   // Si la sección activa vive en «Más herramientas», el grupo se abre para que se vea dónde estás.
   const tools=document.querySelector('.nav-tools');
-  if(tools)new MutationObserver(()=>{if(tools.querySelector('.nav-item.active'))tools.open=true}).observe(sidebar.querySelector('nav'),{attributes:true,subtree:true,attributeFilter:['class']});
+  if(tools)new MutationObserver(()=>{if(tools.querySelector('.nav-item.active')&&!document.body.classList.contains('sidebar-collapsed'))tools.open=true}).observe(sidebar.querySelector('nav'),{attributes:true,subtree:true,attributeFilter:['class']});
 
   // Las guías siguen la selección real, incluso si el menú se desplaza o sus filas cambian de tamaño.
   const followSelection=(container,selector,vertical=false)=>{

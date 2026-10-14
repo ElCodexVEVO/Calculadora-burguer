@@ -65,15 +65,12 @@
     }
     return { cart, clientType: sale.client_type || 'general', discountId: sale.discount_id || null };
   }
-  function review({ client, received, total, confirmed, hasItems, busy, stale }) {
-    if (busy) return 'Espera a que termine la lectura.';
+  function review({ client, total, confirmed, hasItems, stale }) {
     if (!hasItems) return 'Agrega productos a la orden.';
     if (stale) return 'La orden cambió. Cierra y vuelve a revisar el cobro.';
     if (!String(client || '').trim()) return 'Escribe el nombre o ID del cliente.';
     if (String(client).trim().length > 120) return 'El cliente debe tener como máximo 120 caracteres.';
-    const parsed = amount(received);
-    if (parsed === null) return 'Escribe un importe válido, por ejemplo 2,000.00.';
-    if (!Number.isFinite(total) || Math.round(parsed * 100) !== Math.round(total * 100)) return 'El importe recibido no coincide con el pedido. Revisa el cobro.';
+    if (!Number.isFinite(total) || total < 0) return 'El total de la orden no es válido. Revisa los productos.';
     if (!confirmed) return 'Confirma que recibiste el pago en el juego.';
     return '';
   }

@@ -1,4 +1,4 @@
-/* BurgerShot companion: local screenshot OCR, shared POS checkout, no game hooks. */
+/* Caja auxiliar: catálogo y cobro compartido con el punto de venta. */
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -15,9 +15,8 @@
   }[name] || ''}</svg>`;
   window.BurgerCompanion = { mount(api) {
     let tab = 'favorites', lastScope = '', favorites = [], customerGroups = [];
-    let reviewActive = false, reviewStamp = '', stale = false, busy = false, epoch = 0;
-    let source = null, crop = null, drag = null, worker = null, imageURL = null;
-    let firstAuth = true, scriptLoading = null, currentWorkerTask = null;
+    let reviewActive = false, reviewStamp = '', stale = false;
+    let firstAuth = true;
     const e = api.escape, m = api.money;
     const focused = new URLSearchParams(location.search).get('auxiliar') === '1';
     if (focused) document.body.classList.add('bs-focused');
@@ -29,14 +28,14 @@
           <button id="bsPin" class="bs-icon" title="Mantener encima" aria-label="Mantener encima" hidden>${icon('pin')}</button>
           <button id="bsWindow" class="bs-icon" title="Abrir ventana compacta" aria-label="Abrir ventana compacta">${icon('window')}</button>
           <button id="bsExit" class="bs-icon" title="Volver al panel" aria-label="Volver al panel">${icon('exit')}</button></div></header>
-        <div class="bs-scroll"><div class="bs-heading"><div><span class="bs-eyebrow">TU TURNO, A TU RITMO</span><h1>Pedidos rápidos</h1></div><span id="bsSync" class="bs-sync">Cargando</span></div>
+        <div class="bs-scroll"><div class="bs-catalog"><div class="bs-heading"><div><h1>Caja auxiliar</h1></div><span id="bsSync" class="bs-sync">Cargando</span></div>
           <div class="bs-tabs" role="group" aria-label="Catálogo"><button data-bs-tab="favorites" aria-pressed="true">Favoritos</button><button data-bs-tab="all" aria-pressed="false">Menú</button><button data-bs-tab="combos" aria-pressed="false">Combos</button></div>
           <label class="bs-search"><span class="sr-only">Buscar producto</span><input id="bsSearch" placeholder="Buscar producto o combo" autocomplete="off"></label>
-          <div id="bsProducts" class="bs-products"></div>
+          <div id="bsProducts" class="bs-products"></div></div>
           <section class="bs-order"><div class="bs-section-head"><h2>Orden actual <span id="bsCount">0</span></h2><button id="bsClear" class="bs-text">Vaciar</button></div>
-            <label for="bsClient">Cliente / ID <span class="bs-required">*</span></label><input id="bsClient" list="bsCustomers" maxlength="120" required placeholder="Nombre o ID del cliente" autocomplete="off"><datalist id="bsCustomers"></datalist>
-            <div class="bs-customer-info"><small id="bsClientHint">Obligatorio para continuar</small><button id="bsRepeat" class="bs-text" hidden>${icon('repeat')} Repetir compra</button></div>
-            <div class="bs-template-tools"><div><span>PLANTILLAS</span><small>Pedidos frecuentes</small></div><button id="bsSaveTemplate" class="bs-text">Guardar</button></div><div class="bs-template-row"><select id="bsTemplateSelect" aria-label="Seleccionar plantilla"><option value="">Sin plantillas guardadas</option></select><button id="bsLoadTemplate" class="bs-text" disabled>Cargar</button><button id="bsDeleteTemplate" class="bs-text bs-template-delete" aria-label="Eliminar plantilla" title="Eliminar plantilla" disabled>×</button></div>
+            <label for="bsClient">Cliente / ID</label><input id="bsClient" list="bsCustomers" maxlength="120" placeholder="Nombre o ID del cliente" autocomplete="off"><datalist id="bsCustomers"></datalist>
+            <div class="bs-customer-info"><small id="bsClientHint">Puedes añadirlo al cobrar.</small><button id="bsRepeat" class="bs-text" hidden>${icon('repeat')} Repetir compra</button></div>
+            <details class="bs-template-panel"><summary>Pedidos guardados</summary><div class="bs-template-tools"><div><small>Plantillas frecuentes</small></div><button id="bsSaveTemplate" class="bs-text">Guardar</button></div><div class="bs-template-row"><select id="bsTemplateSelect" aria-label="Seleccionar plantilla"><option value="">Sin plantillas guardadas</option></select><button id="bsLoadTemplate" class="bs-text" disabled>Cargar</button><button id="bsDeleteTemplate" class="bs-text bs-template-delete" aria-label="Eliminar plantilla" title="Eliminar plantilla" disabled>×</button></div></details>
             <div id="bsLines" class="bs-lines"></div>
             <details class="bs-options"><summary>Tipo de cliente y convenio <span id="bsDiscountName"></span></summary><div class="bs-form-row"><div><label for="bsType">Tipo de cliente</label><select id="bsType"><option value="general">Cliente general</option><option value="police">Policía</option><option value="sheriff">Sheriff</option><option value="ems">EMS</option></select></div><div><label for="bsDiscount">Convenio</label><select id="bsDiscount"></select></div></div><p id="bsDiscountNote" class="bs-help"></p></details>
           </section>
@@ -50,11 +49,8 @@
     document.querySelector('.nav-item[data-page="pos"]').after(nav);
 
     const checkout = $('checkoutModal').querySelector('.modal');
-    const capture = document.createElement('section'); capture.id = 'bsCapture'; capture.className = 'bs-capture'; capture.hidden = true;
-    capture.innerHTML = `<div class="bs-section-head"><h3>Lectura de pantalla</h3><span class="bs-review-badge">Por revisar</span></div><p class="bs-help">Recorta el aviso con <kbd>Win + Shift + S</kbd> y pégalo aquí con <kbd>Ctrl + V</kbd>.</p><div class="bs-capture-actions"><button id="bsPaste" class="bs-secondary">Pegar captura</button><label class="bs-secondary bs-file">Elegir imagen<input id="bsFile" type="file" accept="image/png,image/jpeg,image/webp"></label></div><div id="bsCanvasWrap" class="bs-canvas-wrap" hidden><canvas id="bsCanvas" aria-label="Captura del pago. Arrastra para seleccionar solo el aviso."></canvas></div><p id="bsCropHint" class="bs-help" hidden>Arrastra sobre la imagen para marcar solo el aviso.</p><div class="bs-capture-actions"><button id="bsRead" class="bs-primary" disabled>Leer captura</button><button id="bsResetCrop" class="bs-text" hidden>Usar imagen completa</button><button id="bsRemoveImage" class="bs-text" hidden>Quitar</button></div><p id="bsOcrStatus" class="bs-help" role="status">La captura se procesa en este dispositivo. También puedes escribir los datos.</p><details id="bsRawDetails" hidden><summary>Texto leído</summary><pre id="bsRawText"></pre></details>`;
-    $('checkoutSummary').before(capture);
     const confirmation = document.createElement('section'); confirmation.id = 'bsConfirmation'; confirmation.className = 'bs-confirmation'; confirmation.hidden = true;
-    confirmation.innerHTML = `<label for="bsReceived">Importe recibido</label><input id="bsReceived" inputmode="decimal" placeholder="Ej. 2,000.00" autocomplete="off"><p id="bsReviewStatus" class="bs-review-status" role="status"></p><label class="bs-check"><input id="bsPaid" type="checkbox"><span>Confirmo que recibí el pago en el juego</span></label>`;
+    confirmation.innerHTML = `<label class="bs-check"><input id="bsPaid" type="checkbox"><span>Confirmo que recibí el pago en el juego</span></label><p id="bsReviewStatus" class="bs-review-status" role="status"></p>`;
     checkout.querySelector('.modal-actions').before(confirmation);
 
     function scope() { const s = api.state(); return s.profile ? `bs_aux_favorites:${s.profile.store_id}:${s.profile.user_id}` : ''; }
@@ -72,9 +68,9 @@
     function clientInfo() {
       const q = core.key($('bsClient').value), found = customerGroups.find(c => c.key === q);
       $('bsCustomers').innerHTML = customerGroups.filter(c => !q || c.key.includes(q)).slice(0,12).map(c => `<option value="${e(c.label)}">${c.count} compra${c.count === 1?'':'s'}</option>`).join('');
-      $('bsClientHint').textContent = found ? `${found.count} compra${found.count===1?'':'s'} registrada${found.count===1?'':'s'}${found.count>1?' · Cliente frecuente':''}` : q ? 'Nuevo cliente' : 'Obligatorio para continuar';
+      $('bsClientHint').textContent = found ? `${found.count} compra${found.count===1?'':'s'} registrada${found.count===1?'':'s'}${found.count>1?' · Cliente frecuente':''}` : q ? 'Nuevo cliente' : 'Puedes añadirlo al cobrar.';
       $('bsRepeat').hidden = !found;
-      $('bsReview').disabled = !q || !api.state().calc.lines.length || busy || api.state().saving;
+      $('bsReview').disabled = !api.state().calc.lines.length || api.state().saving;
     }
     function renderTemplates(){
       const select=$('bsTemplateSelect'),load=$('bsLoadTemplate'),del=$('bsDeleteTemplate');if(!select||!api.templates)return;
@@ -159,116 +155,39 @@
       if(s.calc.lines.length&&!confirm('¿Reemplazar la orden actual por la última compra de este cliente?'))return;
       api.replace(result);api.toast('Compra repetida con los precios y convenios vigentes. Revisa el total.');
     };
-    $('bsReview').onclick=()=>{if(!$('bsClient').value.trim())return api.toast('Escribe el nombre o ID del cliente.');api.checkout();};
+    $('bsReview').onclick=()=>api.checkout();
 
-    function isOpen(){return reviewActive&&!$('checkoutModal').classList.contains('hidden');}
     function syncReview(){
       if(!reviewActive)return;
       const s=api.state();
-      const message=core.review({client:$('saleClient').value,received:$('bsReceived').value,total:s.calc.total,hasItems:s.calc.lines.length>0,confirmed:$('bsPaid').checked,busy,stale});
-      $('bsReviewStatus').textContent=message||'Importe y cliente revisados. Listo para registrar.';
+      const message=core.review({client:$('saleClient').value,total:s.calc.total,hasItems:s.calc.lines.length>0,confirmed:$('bsPaid').checked,stale});
+      $('bsReviewStatus').textContent=message||'Orden revisada. Lista para registrar.';
       $('bsReviewStatus').classList.toggle('is-ok',!message);
       $('confirmSaleBtn').disabled=!!message||s.saving;
       $('confirmSaleBtn').setAttribute('aria-disabled',String($('confirmSaleBtn').disabled));
       $('confirmSaleBtn').title=message;
     }
-    function stopWorker(){if(worker){void worker.terminate();worker=null;} }
-    function removeImage(){
-      epoch++;stopWorker();busy=false;source=null;crop=null;drag=null;
-      $('bsCanvas').width=1;$('bsCanvas').height=1;
-      if(imageURL){URL.revokeObjectURL(imageURL);imageURL=null;}
-      $('bsCanvasWrap').hidden=true;$('bsCropHint').hidden=true;$('bsRead').disabled=true;
-      $('bsResetCrop').hidden=true;$('bsRemoveImage').hidden=true;$('bsRawDetails').hidden=true;
-      $('bsRawText').textContent='';$('bsFile').value='';$('bsPaid').checked=false;
-      $('bsOcrStatus').textContent='La captura se procesa en este dispositivo. También puedes escribir los datos.';
-      syncReview();
-    }
+    function resetReview(){ $('bsPaid').checked=false;syncReview(); }
     function onCheckout(){
-      removeImage();
+      resetReview();
       reviewActive=panel.classList.contains('active');stale=false;reviewStamp=stamp();
-      $('bsCapture').hidden=!reviewActive;$('bsConfirmation').hidden=!reviewActive;
+      $('bsConfirmation').hidden=!reviewActive;
       $('checkoutModal').classList.toggle('bs-review-modal',reviewActive);
-      $('bsReceived').value='';$('bsPaid').checked=false;
+      $('bsPaid').checked=false;
       $('confirmSaleBtn').textContent=reviewActive?'Confirmar y registrar':'Registrar venta';
       if(reviewActive){$('saleClient').value=$('bsClient').value.trim();$('checkoutModal').querySelector('h2').textContent='Revisar cobro';}
       else $('checkoutModal').querySelector('h2').textContent='Cobrar orden';
       syncReview();
     }
-    for(const id of ['saleClient','bsReceived'])$(id).addEventListener('input',()=>{$('bsPaid').checked=false;if(id==='saleClient')$('saleClient').setCustomValidity('');syncReview();});
+    for(const id of ['saleClient'])$(id).addEventListener('input',()=>{$('bsPaid').checked=false;if(id==='saleClient')$('saleClient').setCustomValidity('');syncReview();});
     $('bsPaid').onchange=syncReview;
-    document.querySelectorAll('[data-close="checkoutModal"]').forEach(b=>b.addEventListener('click',()=>{removeImage();reviewActive=false;}));
-    function draw(){
-      if(!source)return;const canvas=$('bsCanvas'),ctx=canvas.getContext('2d');
-      ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(source,0,0,canvas.width,canvas.height);
-      if(crop){ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(source,crop.x*source.width/canvas.width,crop.y*source.height/canvas.height,crop.w*source.width/canvas.width,crop.h*source.height/canvas.height,crop.x,crop.y,crop.w,crop.h);ctx.strokeStyle='#efb649';ctx.lineWidth=3;ctx.strokeRect(crop.x,crop.y,crop.w,crop.h);}
-    }
-    async function loadImage(blob){
-      if(!isOpen()||busy)return;
-      if(!['image/png','image/jpeg','image/webp'].includes(blob.type)||blob.size>12*1024*1024)return api.toast('Elige una imagen PNG, JPG o WebP de hasta 12 MB.');
-      removeImage();const token=epoch;imageURL=URL.createObjectURL(blob);const img=new Image();
-      try{img.src=imageURL;await img.decode();if(token!==epoch||!isOpen())return;
-        if(img.naturalWidth*img.naturalHeight>24000000)throw Error('La imagen es demasiado grande. Recorta solo el aviso del pago.');
-        source=img;const canvas=$('bsCanvas'),scale=Math.min(1,1400/img.width);canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);draw();
-        $('bsCanvasWrap').hidden=false;$('bsCropHint').hidden=false;$('bsRead').disabled=false;$('bsResetCrop').hidden=false;$('bsRemoveImage').hidden=false;
-        $('bsOcrStatus').textContent='Marca el aviso si es necesario y pulsa Leer captura.';
-      }catch(err){if(token===epoch){removeImage();api.toast(err.message||'No se pudo abrir la imagen.');}}
-    }
-    $('bsFile').onchange=()=>{const f=$('bsFile').files[0];if(f)void loadImage(f);};
-    document.addEventListener('paste',ev=>{if(!isOpen()||busy)return;const item=[...(ev.clipboardData?.items||[])].find(x=>x.kind==='file'&&x.type.startsWith('image/'));if(item){ev.preventDefault();const f=item.getAsFile();if(f)void loadImage(f);}});
-    $('bsPaste').onclick=async()=>{
-      try{
-        if(window.burgerDesktop){const data=await window.burgerDesktop.pasteImage();if(!data)return api.toast('El portapapeles no contiene una imagen. Usa Win + Shift + S.');return loadImage(await(await fetch(data)).blob());}
-        const items=await navigator.clipboard.read();
-        for(const item of items){const type=item.types.find(x=>['image/png','image/jpeg','image/webp'].includes(x));if(type)return loadImage(await item.getType(type));}
-        api.toast('Copia una captura con Win + Shift + S.');
-      }catch{api.toast('Pega con Ctrl + V o usa Elegir imagen.');}
-    };
-    function point(ev){const canvas=$('bsCanvas'),r=canvas.getBoundingClientRect();return{x:Math.max(0,Math.min(canvas.width,(ev.clientX-r.left)*canvas.width/r.width)),y:Math.max(0,Math.min(canvas.height,(ev.clientY-r.top)*canvas.height/r.height))};}
-    $('bsCanvas').onpointerdown=ev=>{if(!source||busy)return;drag=point(ev);crop=null;$('bsCanvas').setPointerCapture(ev.pointerId);};
-    $('bsCanvas').onpointermove=ev=>{if(!drag)return;const end=point(ev);crop={x:Math.min(drag.x,end.x),y:Math.min(drag.y,end.y),w:Math.abs(end.x-drag.x),h:Math.abs(end.y-drag.y)};draw();};
-    $('bsCanvas').onpointerup=()=>{if(crop&&(crop.w<10||crop.h<10))crop=null;drag=null;draw();};
-    $('bsCanvas').onpointercancel=()=>{drag=null;crop=null;draw();};
-    $('bsResetCrop').onclick=()=>{if(busy)return;crop=null;draw();};
-    $('bsRemoveImage').onclick=removeImage;
-    function library(){
-      if(window.Tesseract)return Promise.resolve(window.Tesseract);
-      if(!scriptLoading)scriptLoading=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='assets/ocr/tesseract.min.js';script.onload=()=>resolve(window.Tesseract);script.onerror=()=>{scriptLoading=null;script.remove();reject(Error('No se cargó el lector. Actualiza también la carpeta assets/ocr.'));};document.head.append(script);});
-      return scriptLoading;
-    }
-    async function recognize(){
-      if(!source||busy||!isOpen())return;
-      busy=true;$('bsPaid').checked=false;$('bsRead').disabled=true;syncReview();const token=++epoch;
-      let timeoutId;
-      try{
-        const canvas=$('bsCanvas'),region=crop||{x:0,y:0,w:canvas.width,h:canvas.height};
-        const output=document.createElement('canvas');const ratio=source.width/canvas.width;
-        const scale=Math.min(2,2400/(region.w*ratio),1800/(region.h*ratio));
-        output.width=Math.max(1,Math.round(region.w*ratio*scale));output.height=Math.max(1,Math.round(region.h*ratio*scale));
-        output.getContext('2d').drawImage(source,region.x*ratio,region.y*ratio,region.w*ratio,region.h*ratio,0,0,output.width,output.height);
-        $('bsOcrStatus').textContent='Preparando lector… La primera lectura puede tardar.';
-        currentWorkerTask=(async()=>{
-          const T=await library();if(token!==epoch)return null;
-          const w=await T.createWorker('spa+eng',1,{workerPath:new URL('assets/ocr/worker.min.js',location.href).href,corePath:new URL('assets/ocr/tesseract-core-lstm.wasm.js',location.href).href,langPath:new URL('assets/ocr',location.href).href,logger:info=>{if(token===epoch&&info.status==='recognizing text')$('bsOcrStatus').textContent=`Leyendo captura… ${Math.round(info.progress*100)}%`;}});
-          if(token!==epoch){await w.terminate();return null;}worker=w;await worker.setParameters({tessedit_pageseg_mode:'11'});
-          return (await worker.recognize(output)).data.text;
-        })();
-        const text=await Promise.race([currentWorkerTask,new Promise((_,reject)=>{timeoutId=setTimeout(()=>reject(Error('La lectura tardó demasiado. Recorta el aviso o escribe los datos.')),60000);})]);
-        if(token!==epoch||!isOpen()||text===null)return;
-        const result=core.readPayment(text);$('bsRawText').textContent=text.trim()||'No se detectó texto.';$('bsRawDetails').hidden=false;
-        if(result.client)$('saleClient').value=result.client;
-        $('bsReceived').value=result.amount===null?'':result.amount.toFixed(2);
-        $('bsOcrStatus').textContent=result.ambiguous?'Se detectaron varios importes. Recorta solo el aviso o escribe el correcto.':result.amount===null?'No se reconoció un importe único. Escribe el recibido.':'Lectura terminada. Revisa el nombre y el importe antes de confirmar.';
-      }catch(err){if(token===epoch)$('bsOcrStatus').textContent=err.message||'No se pudo leer. Puedes escribir los datos.';}
-      finally{clearTimeout(timeoutId);if(token===epoch){epoch++;stopWorker();busy=false;$('bsRead').disabled=!source;syncReview();}}
-    }
-    $('bsRead').onclick=recognize;
-    window.addEventListener('beforeunload',stopWorker);
+    document.querySelectorAll('[data-close="checkoutModal"]').forEach(b=>b.addEventListener('click',()=>{resetReview();reviewActive=false;}));
     return {
       refresh,onCheckout,syncReview,
       afterAuth(){if(firstAuth){firstAuth=false;if(focused)api.navigate('companion');}},
       validateCheckout(){if(!reviewActive)return true;syncReview();if($('confirmSaleBtn').disabled){api.toast($('bsReviewStatus').textContent||'Revisa el cobro.');return false;}return true;},
-      saved(){if(reviewActive){$('bsClient').value='';$('bsSuccess').textContent='Venta registrada. Lista para la siguiente orden.';$('bsSuccess').hidden=false;}removeImage();reviewActive=false;},
-      reset(){removeImage();reviewActive=false;lastScope='';favorites=[];customerGroups=[];firstAuth=true;$('bsClient').value='';$('bsCustomers').innerHTML='';$('bsSuccess').hidden=true;},
+      saved(){if(reviewActive){$('bsClient').value='';$('bsSuccess').textContent='Venta registrada. Lista para la siguiente orden.';$('bsSuccess').hidden=false;}resetReview();reviewActive=false;},
+      reset(){resetReview();reviewActive=false;lastScope='';favorites=[];customerGroups=[];firstAuth=true;$('bsClient').value='';$('bsCustomers').innerHTML='';$('bsSuccess').hidden=true;},
       isReview(){return reviewActive;}
     };
   }};

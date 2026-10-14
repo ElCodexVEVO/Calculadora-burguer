@@ -11,14 +11,14 @@ Mode: Operate. Build path: code-led (Operate surface).
 
 ## Direction contract
 
-THESIS: La caja es la mesa de una ofrenda nocturna: el área de trabajo queda limpia y la temporada vive en el marco (papel picado en el borde superior, cempasúchil y velas en márgenes y separadores). Rechaza la plantilla admin oscura con un acento y la acumulación V6 de fotos recortadas, banderas saturadas y capas que compiten con el pedido.
+THESIS: Reproducir la composición del dashboard que el usuario adjuntó el 12 de octubre y pidió explícitamente. Esa referencia sustituye la interpretación sobria rechazada: la luz roja ornamentada y las escenas de ofrenda son parte esencial del resultado.
 
-OWN-WORLD: Carbón cálido (#141012) con superficies vino-carbón escalonadas y bordes crema translúcidos; texto crema; naranja cempasúchil para acción, selección y total; ciruela y vino para detalles y segunda serie; turquesa de papel picado para éxito. Una sola familia (Archivo variable, anchos 100–125) con cifras tabulares; lettering de rótulo popular solo en el logo. Firma: borde de papel picado recortado (máscara festoneada) en cabecera, ticket y separadores.
+OWN-WORLD: Negro profundo, paneles vino casi negros, filo rojo neón y esquinas de filigrana, naranja de velas y cempasúchil. Logo aprobado grande en la barra. Vollkorn en titulares e importes destacados, Archivo en controles. Imágenes fotográficas propias del banner, entorno y promoción. Papel picado diagonal en el borde superior.
 
 STORY: El cajero entiende al instante qué vende, cuánto suma y cómo cobrar; confía en que el total es exacto; agrega, ajusta y cobra sin buscar.
 
-FIRST VIEWPORT: Barra superior delgada con logo compacto, búsqueda y cuenta; papel picado colgando del borde. Escritorio: menú lateral, catálogo en rejilla densa (3–4 columnas, foto 3:2) y ticket fijo a la derecha con total grande y Cobrar abajo. Móvil: catálogo a una columna doble y barra fija inferior con piezas, total y «Ver pedido».
+FIRST VIEWPORT: Referencia de 1672×941: barra de 290 px; búsqueda arriba; bienvenida y reloj desde y80; héroe x307/y167/1340×254; cuatro métricas separadas y435–526; ranking y empleado semanal y540–762; actividad desde y772. El banner mantiene calavera en el pan y papas decoradas. En móvil se conserva la identidad en una columna, métricas en dos columnas y menú como cajón. Sin inventar cifras, fotos o tendencias.
 
-FORM: dirección fijada por el brief del usuario (paleta y temática obligatorias); concept-seed no se ejecutó. La ampliación V7.7 se rige por docs/CINEMATIC_DIRECTION.md: restaurante nocturno, paleta del master prompt, barra plegable y perfiles con fotografía. Ese contrato sustituye la paleta y la composición anteriores de este archivo.
+FORM: code-led sobre el HTML existente, con reproducción medida de la referencia visual elegida directamente por el usuario; no hay selección de nuevas composiciones ni concept-seed. Referencia: codex-clipboard-86a09005-98cd-413b-a927-3e1cad5216fc.png. docs/REFERENCE_FIDELITY.md registra regiones, medios y adaptaciones. Acceso, perfil, permisos y caja conservan su comportamiento aprobado.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

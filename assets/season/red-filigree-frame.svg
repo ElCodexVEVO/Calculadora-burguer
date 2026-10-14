@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="#ff3526" stroke-width=".8">
+ <defs><g id="corner">
+  <path d="M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11" opacity=".7"/>
+  <path d="M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12"/>
+  <path d="M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9"/>
+  <path d="m9 23 3 3-3 3-3-3Zm14-14 3 3 3-3-3-3Z" fill="#741a15"/>
+  <circle cx="4" cy="4" r="1.5" fill="#ff891c"/><circle cx="29" cy="4" r="1"/><circle cx="4" cy="29" r="1"/>
+ </g></defs>
+ <use href="#corner"/><use href="#corner" transform="translate(120 0) rotate(90)"/><use href="#corner" transform="translate(120 120) rotate(180)"/><use href="#corner" transform="translate(0 120) rotate(270)"/>
+</svg>

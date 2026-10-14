@@ -1,754 +1,600 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-13T01:20:19.139Z",
-  "title": "Design System: Burger Shot V7.7 · Noche cinematográfica",
+  "generatedAt": "2026-10-14T03:58:18.534Z",
+  "title": "Design System: Burger Shot V7.8 · Ofrenda nocturna de referencia",
   "extensions": {
     "colorMeta": {
       "ground": {
         "role": "neutral",
         "displayName": "Negro nocturno",
-        "canonical": "#0B050B",
         "tonalRamp": [
-          "oklch(0.1500 0.0194 326.63)",
-          "oklch(0.2643 0.0194 326.63)",
-          "oklch(0.3786 0.0194 326.63)",
-          "oklch(0.4929 0.0194 326.63)",
-          "oklch(0.6071 0.0194 326.63)",
-          "oklch(0.7214 0.0194 326.63)",
-          "oklch(0.8357 0.0194 326.63)",
-          "oklch(0.9500 0.0194 326.63)"
+          "oklch(15% 0.0194 326.63)",
+          "oklch(26% 0.0194 326.63)",
+          "oklch(38% 0.0194 326.63)",
+          "oklch(49% 0.0194 326.63)",
+          "oklch(61% 0.0194 326.63)",
+          "oklch(72% 0.0194 326.63)",
+          "oklch(84% 0.0194 326.63)",
+          "oklch(95% 0.0194 326.63)"
         ]
       },
       "secondary": {
         "role": "neutral",
-        "displayName": "Fondo secundario",
-        "canonical": "#140911",
+        "displayName": "Negro vino",
         "tonalRamp": [
-          "oklch(0.1500 0.0247 337.28)",
-          "oklch(0.2643 0.0247 337.28)",
-          "oklch(0.3786 0.0247 337.28)",
-          "oklch(0.4929 0.0247 337.28)",
-          "oklch(0.6071 0.0247 337.28)",
-          "oklch(0.7214 0.0247 337.28)",
-          "oklch(0.8357 0.0247 337.28)",
-          "oklch(0.9500 0.0247 337.28)"
+          "oklch(15% 0.0247 337.28)",
+          "oklch(26% 0.0247 337.28)",
+          "oklch(38% 0.0247 337.28)",
+          "oklch(49% 0.0247 337.28)",
+          "oklch(61% 0.0247 337.28)",
+          "oklch(72% 0.0247 337.28)",
+          "oklch(84% 0.0247 337.28)",
+          "oklch(95% 0.0247 337.28)"
         ]
       },
       "wine": {
         "role": "tertiary",
-        "displayName": "Borgoña oscuro",
-        "canonical": "#230910",
+        "displayName": "Vino profundo",
         "tonalRamp": [
-          "oklch(0.1500 0.0453 5.68)",
-          "oklch(0.2643 0.0453 5.68)",
-          "oklch(0.3786 0.0453 5.68)",
-          "oklch(0.4929 0.0453 5.68)",
-          "oklch(0.6071 0.0453 5.68)",
-          "oklch(0.7214 0.0453 5.68)",
-          "oklch(0.8357 0.0453 5.68)",
-          "oklch(0.9500 0.0453 5.68)"
+          "oklch(15% 0.0453 5.68)",
+          "oklch(26% 0.0453 5.68)",
+          "oklch(38% 0.0453 5.68)",
+          "oklch(49% 0.0453 5.68)",
+          "oklch(61% 0.0453 5.68)",
+          "oklch(72% 0.0453 5.68)",
+          "oklch(84% 0.0453 5.68)",
+          "oklch(95% 0.0453 5.68)"
         ]
       },
       "card": {
         "role": "neutral",
-        "displayName": "Superficie de tarjeta",
-        "canonical": "#211217",
+        "displayName": "Carbón vino",
         "tonalRamp": [
-          "oklch(0.1500 0.0263 358.10)",
-          "oklch(0.2643 0.0263 358.10)",
-          "oklch(0.3786 0.0263 358.10)",
-          "oklch(0.4929 0.0263 358.10)",
-          "oklch(0.6071 0.0263 358.10)",
-          "oklch(0.7214 0.0263 358.10)",
-          "oklch(0.8357 0.0263 358.10)",
-          "oklch(0.9500 0.0263 358.10)"
+          "oklch(15% 0.0263 358.10)",
+          "oklch(26% 0.0263 358.10)",
+          "oklch(38% 0.0263 358.10)",
+          "oklch(49% 0.0263 358.10)",
+          "oklch(61% 0.0263 358.10)",
+          "oklch(72% 0.0263 358.10)",
+          "oklch(84% 0.0263 358.10)",
+          "oklch(95% 0.0263 358.10)"
         ]
       },
       "neon": {
         "role": "primary",
         "displayName": "Rojo neón",
-        "canonical": "#FF3038",
         "tonalRamp": [
-          "oklch(0.1500 0.2383 25.58)",
-          "oklch(0.2643 0.2383 25.58)",
-          "oklch(0.3786 0.2383 25.58)",
-          "oklch(0.4929 0.2383 25.58)",
-          "oklch(0.6071 0.2383 25.58)",
-          "oklch(0.7214 0.2383 25.58)",
-          "oklch(0.8357 0.2383 25.58)",
-          "oklch(0.9500 0.2383 25.58)"
+          "oklch(15% 0.2383 25.58)",
+          "oklch(26% 0.2383 25.58)",
+          "oklch(38% 0.2383 25.58)",
+          "oklch(49% 0.2383 25.58)",
+          "oklch(61% 0.2383 25.58)",
+          "oklch(72% 0.2383 25.58)",
+          "oklch(84% 0.2383 25.58)",
+          "oklch(95% 0.2383 25.58)"
         ]
       },
       "orange": {
         "role": "primary",
-        "displayName": "Cempasúchil intenso",
-        "canonical": "#FF891C",
+        "displayName": "Cempasúchil",
         "tonalRamp": [
-          "oklch(0.1500 0.1770 55.21)",
-          "oklch(0.2643 0.1770 55.21)",
-          "oklch(0.3786 0.1770 55.21)",
-          "oklch(0.4929 0.1770 55.21)",
-          "oklch(0.6071 0.1770 55.21)",
-          "oklch(0.7214 0.1770 55.21)",
-          "oklch(0.8357 0.1770 55.21)",
-          "oklch(0.9500 0.1770 55.21)"
+          "oklch(15% 0.1770 55.21)",
+          "oklch(26% 0.1770 55.21)",
+          "oklch(38% 0.1770 55.21)",
+          "oklch(49% 0.1770 55.21)",
+          "oklch(61% 0.1770 55.21)",
+          "oklch(72% 0.1770 55.21)",
+          "oklch(84% 0.1770 55.21)",
+          "oklch(95% 0.1770 55.21)"
         ]
       },
       "orange-soft": {
         "role": "primary",
         "displayName": "Cempasúchil suave",
-        "canonical": "#FFA63B",
         "tonalRamp": [
-          "oklch(0.1500 0.1559 66.31)",
-          "oklch(0.2643 0.1559 66.31)",
-          "oklch(0.3786 0.1559 66.31)",
-          "oklch(0.4929 0.1559 66.31)",
-          "oklch(0.6071 0.1559 66.31)",
-          "oklch(0.7214 0.1559 66.31)",
-          "oklch(0.8357 0.1559 66.31)",
-          "oklch(0.9500 0.1559 66.31)"
+          "oklch(15% 0.1559 66.31)",
+          "oklch(26% 0.1559 66.31)",
+          "oklch(38% 0.1559 66.31)",
+          "oklch(49% 0.1559 66.31)",
+          "oklch(61% 0.1559 66.31)",
+          "oklch(72% 0.1559 66.31)",
+          "oklch(84% 0.1559 66.31)",
+          "oklch(95% 0.1559 66.31)"
         ]
       },
       "gold": {
         "role": "primary",
         "displayName": "Dorado de vela",
-        "canonical": "#FFB347",
         "tonalRamp": [
-          "oklch(0.1500 0.1486 72.10)",
-          "oklch(0.2643 0.1486 72.10)",
-          "oklch(0.3786 0.1486 72.10)",
-          "oklch(0.4929 0.1486 72.10)",
-          "oklch(0.6071 0.1486 72.10)",
-          "oklch(0.7214 0.1486 72.10)",
-          "oklch(0.8357 0.1486 72.10)",
-          "oklch(0.9500 0.1486 72.10)"
+          "oklch(15% 0.1486 72.10)",
+          "oklch(26% 0.1486 72.10)",
+          "oklch(38% 0.1486 72.10)",
+          "oklch(49% 0.1486 72.10)",
+          "oklch(61% 0.1486 72.10)",
+          "oklch(72% 0.1486 72.10)",
+          "oklch(84% 0.1486 72.10)",
+          "oklch(95% 0.1486 72.10)"
         ]
       },
       "purple": {
         "role": "tertiary",
-        "displayName": "Morado profundo",
-        "canonical": "#281027",
+        "displayName": "Ciruela profunda",
         "tonalRamp": [
-          "oklch(0.1500 0.0549 328.79)",
-          "oklch(0.2643 0.0549 328.79)",
-          "oklch(0.3786 0.0549 328.79)",
-          "oklch(0.4929 0.0549 328.79)",
-          "oklch(0.6071 0.0549 328.79)",
-          "oklch(0.7214 0.0549 328.79)",
-          "oklch(0.8357 0.0549 328.79)",
-          "oklch(0.9500 0.0549 328.79)"
+          "oklch(15% 0.0549 328.79)",
+          "oklch(26% 0.0549 328.79)",
+          "oklch(38% 0.0549 328.79)",
+          "oklch(49% 0.0549 328.79)",
+          "oklch(61% 0.0549 328.79)",
+          "oklch(72% 0.0549 328.79)",
+          "oklch(84% 0.0549 328.79)",
+          "oklch(95% 0.0549 328.79)"
         ]
       },
       "text": {
         "role": "neutral",
         "displayName": "Crema principal",
-        "canonical": "#FFF0DF",
         "tonalRamp": [
-          "oklch(0.1500 0.0277 70.95)",
-          "oklch(0.2643 0.0277 70.95)",
-          "oklch(0.3786 0.0277 70.95)",
-          "oklch(0.4929 0.0277 70.95)",
-          "oklch(0.6071 0.0277 70.95)",
-          "oklch(0.7214 0.0277 70.95)",
-          "oklch(0.8357 0.0277 70.95)",
-          "oklch(0.9500 0.0277 70.95)"
+          "oklch(15% 0.0277 70.95)",
+          "oklch(26% 0.0277 70.95)",
+          "oklch(38% 0.0277 70.95)",
+          "oklch(49% 0.0277 70.95)",
+          "oklch(61% 0.0277 70.95)",
+          "oklch(72% 0.0277 70.95)",
+          "oklch(84% 0.0277 70.95)",
+          "oklch(95% 0.0277 70.95)"
         ]
       },
       "muted": {
         "role": "neutral",
-        "displayName": "Texto secundario",
-        "canonical": "#BCA9A8",
+        "displayName": "Ceniza cálida",
         "tonalRamp": [
-          "oklch(0.1500 0.0222 21.28)",
-          "oklch(0.2643 0.0222 21.28)",
-          "oklch(0.3786 0.0222 21.28)",
-          "oklch(0.4929 0.0222 21.28)",
-          "oklch(0.6071 0.0222 21.28)",
-          "oklch(0.7214 0.0222 21.28)",
-          "oklch(0.8357 0.0222 21.28)",
-          "oklch(0.9500 0.0222 21.28)"
+          "oklch(15% 0.0222 21.28)",
+          "oklch(26% 0.0222 21.28)",
+          "oklch(38% 0.0222 21.28)",
+          "oklch(49% 0.0222 21.28)",
+          "oklch(61% 0.0222 21.28)",
+          "oklch(72% 0.0222 21.28)",
+          "oklch(84% 0.0222 21.28)",
+          "oklch(95% 0.0222 21.28)"
         ]
       },
       "success": {
         "role": "secondary",
         "displayName": "Verde positivo",
-        "canonical": "#39DFA4",
         "tonalRamp": [
-          "oklch(0.1500 0.1579 163.94)",
-          "oklch(0.2643 0.1579 163.94)",
-          "oklch(0.3786 0.1579 163.94)",
-          "oklch(0.4929 0.1579 163.94)",
-          "oklch(0.6071 0.1579 163.94)",
-          "oklch(0.7214 0.1579 163.94)",
-          "oklch(0.8357 0.1579 163.94)",
-          "oklch(0.9500 0.1579 163.94)"
+          "oklch(15% 0.1579 163.94)",
+          "oklch(26% 0.1579 163.94)",
+          "oklch(38% 0.1579 163.94)",
+          "oklch(49% 0.1579 163.94)",
+          "oklch(61% 0.1579 163.94)",
+          "oklch(72% 0.1579 163.94)",
+          "oklch(84% 0.1579 163.94)",
+          "oklch(95% 0.1579 163.94)"
         ]
       },
       "surface-2": {
         "role": "neutral",
-        "displayName": "Superficie de control",
-        "canonical": "#2c1920",
+        "displayName": "Carbón elevado",
         "tonalRamp": [
-          "oklch(0.1500 0.0324 356.10)",
-          "oklch(0.2643 0.0324 356.10)",
-          "oklch(0.3786 0.0324 356.10)",
-          "oklch(0.4929 0.0324 356.10)",
-          "oklch(0.6071 0.0324 356.10)",
-          "oklch(0.7214 0.0324 356.10)",
-          "oklch(0.8357 0.0324 356.10)",
-          "oklch(0.9500 0.0324 356.10)"
+          "oklch(15% 0.0324 356.10)",
+          "oklch(26% 0.0324 356.10)",
+          "oklch(38% 0.0324 356.10)",
+          "oklch(49% 0.0324 356.10)",
+          "oklch(61% 0.0324 356.10)",
+          "oklch(72% 0.0324 356.10)",
+          "oklch(84% 0.0324 356.10)",
+          "oklch(95% 0.0324 356.10)"
         ]
       },
       "surface-3": {
         "role": "neutral",
-        "displayName": "Superficie elevada",
-        "canonical": "#38232b",
+        "displayName": "Carbón interactivo",
         "tonalRamp": [
-          "oklch(0.1500 0.0345 354.98)",
-          "oklch(0.2643 0.0345 354.98)",
-          "oklch(0.3786 0.0345 354.98)",
-          "oklch(0.4929 0.0345 354.98)",
-          "oklch(0.6071 0.0345 354.98)",
-          "oklch(0.7214 0.0345 354.98)",
-          "oklch(0.8357 0.0345 354.98)",
-          "oklch(0.9500 0.0345 354.98)"
+          "oklch(15% 0.0345 354.98)",
+          "oklch(26% 0.0345 354.98)",
+          "oklch(38% 0.0345 354.98)",
+          "oklch(49% 0.0345 354.98)",
+          "oklch(61% 0.0345 354.98)",
+          "oklch(72% 0.0345 354.98)",
+          "oklch(84% 0.0345 354.98)",
+          "oklch(95% 0.0345 354.98)"
         ]
       },
       "inset": {
         "role": "neutral",
-        "displayName": "Hueco de campo",
-        "canonical": "#170d13",
+        "displayName": "Campo oscuro",
         "tonalRamp": [
-          "oklch(0.1500 0.0205 342.72)",
-          "oklch(0.2643 0.0205 342.72)",
-          "oklch(0.3786 0.0205 342.72)",
-          "oklch(0.4929 0.0205 342.72)",
-          "oklch(0.6071 0.0205 342.72)",
-          "oklch(0.7214 0.0205 342.72)",
-          "oklch(0.8357 0.0205 342.72)",
-          "oklch(0.9500 0.0205 342.72)"
+          "oklch(15% 0.0205 342.72)",
+          "oklch(26% 0.0205 342.72)",
+          "oklch(38% 0.0205 342.72)",
+          "oklch(49% 0.0205 342.72)",
+          "oklch(61% 0.0205 342.72)",
+          "oklch(72% 0.0205 342.72)",
+          "oklch(84% 0.0205 342.72)",
+          "oklch(95% 0.0205 342.72)"
         ]
       },
       "cream-2": {
         "role": "neutral",
-        "displayName": "Crema de cuerpo",
-        "canonical": "#ead6c8",
+        "displayName": "Crema secundaria",
         "tonalRamp": [
-          "oklch(0.1500 0.0293 57.34)",
-          "oklch(0.2643 0.0293 57.34)",
-          "oklch(0.3786 0.0293 57.34)",
-          "oklch(0.4929 0.0293 57.34)",
-          "oklch(0.6071 0.0293 57.34)",
-          "oklch(0.7214 0.0293 57.34)",
-          "oklch(0.8357 0.0293 57.34)",
-          "oklch(0.9500 0.0293 57.34)"
+          "oklch(15% 0.0293 57.34)",
+          "oklch(26% 0.0293 57.34)",
+          "oklch(38% 0.0293 57.34)",
+          "oklch(49% 0.0293 57.34)",
+          "oklch(61% 0.0293 57.34)",
+          "oklch(72% 0.0293 57.34)",
+          "oklch(84% 0.0293 57.34)",
+          "oklch(95% 0.0293 57.34)"
         ]
       },
-      "line": {
+      "night-panel": {
         "role": "neutral",
-        "displayName": "Divisor crema",
-        "canonical": "rgba(246,235,217,.10)",
+        "displayName": "Panel nocturno translúcido",
         "tonalRamp": [
-          "oklch(0.1500 0.0267 80.25 / 0.1)",
-          "oklch(0.2643 0.0267 80.25 / 0.1)",
-          "oklch(0.3786 0.0267 80.25 / 0.1)",
-          "oklch(0.4929 0.0267 80.25 / 0.1)",
-          "oklch(0.6071 0.0267 80.25 / 0.1)",
-          "oklch(0.7214 0.0267 80.25 / 0.1)",
-          "oklch(0.8357 0.0267 80.25 / 0.1)",
-          "oklch(0.9500 0.0267 80.25 / 0.1)"
+          "oklch(15% 0.0199 352.05)",
+          "oklch(26% 0.0199 352.05)",
+          "oklch(38% 0.0199 352.05)",
+          "oklch(49% 0.0199 352.05)",
+          "oklch(61% 0.0199 352.05)",
+          "oklch(72% 0.0199 352.05)",
+          "oklch(84% 0.0199 352.05)",
+          "oklch(95% 0.0199 352.05)"
+        ]
+      },
+      "night-line": {
+        "role": "primary",
+        "displayName": "Borde rojo translúcido",
+        "tonalRamp": [
+          "oklch(15% 0.2188 30.75)",
+          "oklch(26% 0.2188 30.75)",
+          "oklch(38% 0.2188 30.75)",
+          "oklch(49% 0.2188 30.75)",
+          "oklch(61% 0.2188 30.75)",
+          "oklch(72% 0.2188 30.75)",
+          "oklch(84% 0.2188 30.75)",
+          "oklch(95% 0.2188 30.75)"
+        ]
+      },
+      "luminous-red": {
+        "role": "primary",
+        "displayName": "Rojo de filigrana",
+        "tonalRamp": [
+          "oklch(15% 0.2211 33.56)",
+          "oklch(26% 0.2211 33.56)",
+          "oklch(38% 0.2211 33.56)",
+          "oklch(49% 0.2211 33.56)",
+          "oklch(61% 0.2211 33.56)",
+          "oklch(72% 0.2211 33.56)",
+          "oklch(84% 0.2211 33.56)",
+          "oklch(95% 0.2211 33.56)"
+        ]
+      },
+      "nav-text": {
+        "role": "neutral",
+        "displayName": "Crema de navegación",
+        "tonalRamp": [
+          "oklch(15% 0.0224 49.92)",
+          "oklch(26% 0.0224 49.92)",
+          "oklch(38% 0.0224 49.92)",
+          "oklch(49% 0.0224 49.92)",
+          "oklch(61% 0.0224 49.92)",
+          "oklch(72% 0.0224 49.92)",
+          "oklch(84% 0.0224 49.92)",
+          "oklch(95% 0.0224 49.92)"
+        ]
+      },
+      "nav-active-text": {
+        "role": "neutral",
+        "displayName": "Crema seleccionada",
+        "tonalRamp": [
+          "oklch(15% 0.0203 74.66)",
+          "oklch(26% 0.0203 74.66)",
+          "oklch(38% 0.0203 74.66)",
+          "oklch(49% 0.0203 74.66)",
+          "oklch(61% 0.0203 74.66)",
+          "oklch(72% 0.0203 74.66)",
+          "oklch(84% 0.0203 74.66)",
+          "oklch(95% 0.0203 74.66)"
         ]
       },
       "line-2": {
         "role": "neutral",
-        "displayName": "Borde de control",
-        "canonical": "rgba(246,235,217,.17)",
+        "displayName": "Divisor suave",
         "tonalRamp": [
-          "oklch(0.1500 0.0267 80.25 / 0.17)",
-          "oklch(0.2643 0.0267 80.25 / 0.17)",
-          "oklch(0.3786 0.0267 80.25 / 0.17)",
-          "oklch(0.4929 0.0267 80.25 / 0.17)",
-          "oklch(0.6071 0.0267 80.25 / 0.17)",
-          "oklch(0.7214 0.0267 80.25 / 0.17)",
-          "oklch(0.8357 0.0267 80.25 / 0.17)",
-          "oklch(0.9500 0.0267 80.25 / 0.17)"
-        ]
-      },
-      "line-3": {
-        "role": "neutral",
-        "displayName": "Borde de hover",
-        "canonical": "rgba(246,235,217,.28)",
-        "tonalRamp": [
-          "oklch(0.1500 0.0267 80.25 / 0.28)",
-          "oklch(0.2643 0.0267 80.25 / 0.28)",
-          "oklch(0.3786 0.0267 80.25 / 0.28)",
-          "oklch(0.4929 0.0267 80.25 / 0.28)",
-          "oklch(0.6071 0.0267 80.25 / 0.28)",
-          "oklch(0.7214 0.0267 80.25 / 0.28)",
-          "oklch(0.8357 0.0267 80.25 / 0.28)",
-          "oklch(0.9500 0.0267 80.25 / 0.28)"
-        ]
-      },
-      "mari-ink": {
-        "role": "primary",
-        "displayName": "Tinta de acción sólida",
-        "canonical": "#1c0f05",
-        "tonalRamp": [
-          "oklch(0.1500 0.0296 59.67)",
-          "oklch(0.2643 0.0296 59.67)",
-          "oklch(0.3786 0.0296 59.67)",
-          "oklch(0.4929 0.0296 59.67)",
-          "oklch(0.6071 0.0296 59.67)",
-          "oklch(0.7214 0.0296 59.67)",
-          "oklch(0.8357 0.0296 59.67)",
-          "oklch(0.9500 0.0296 59.67)"
-        ]
-      },
-      "mari-soft": {
-        "role": "primary",
-        "displayName": "Velo naranja heredado",
-        "canonical": "rgba(242,140,27,.14)",
-        "tonalRamp": [
-          "oklch(0.1500 0.1648 60.34 / 0.14)",
-          "oklch(0.2643 0.1648 60.34 / 0.14)",
-          "oklch(0.3786 0.1648 60.34 / 0.14)",
-          "oklch(0.4929 0.1648 60.34 / 0.14)",
-          "oklch(0.6071 0.1648 60.34 / 0.14)",
-          "oklch(0.7214 0.1648 60.34 / 0.14)",
-          "oklch(0.8357 0.1648 60.34 / 0.14)",
-          "oklch(0.9500 0.1648 60.34 / 0.14)"
-        ]
-      },
-      "mari-line": {
-        "role": "primary",
-        "displayName": "Línea naranja heredada",
-        "canonical": "rgba(242,140,27,.42)",
-        "tonalRamp": [
-          "oklch(0.1500 0.1648 60.34 / 0.42)",
-          "oklch(0.2643 0.1648 60.34 / 0.42)",
-          "oklch(0.3786 0.1648 60.34 / 0.42)",
-          "oklch(0.4929 0.1648 60.34 / 0.42)",
-          "oklch(0.6071 0.1648 60.34 / 0.42)",
-          "oklch(0.7214 0.1648 60.34 / 0.42)",
-          "oklch(0.8357 0.1648 60.34 / 0.42)",
-          "oklch(0.9500 0.1648 60.34 / 0.42)"
-        ]
-      },
-      "plum-hi": {
-        "role": "tertiary",
-        "displayName": "Ciruela de gráfica",
-        "canonical": "#a76aac",
-        "tonalRamp": [
-          "oklch(0.1500 0.1185 324.21)",
-          "oklch(0.2643 0.1185 324.21)",
-          "oklch(0.3786 0.1185 324.21)",
-          "oklch(0.4929 0.1185 324.21)",
-          "oklch(0.6071 0.1185 324.21)",
-          "oklch(0.7214 0.1185 324.21)",
-          "oklch(0.8357 0.1185 324.21)",
-          "oklch(0.9500 0.1185 324.21)"
-        ]
-      },
-      "plum-soft": {
-        "role": "tertiary",
-        "displayName": "Velo ciruela",
-        "canonical": "rgba(167,106,172,.16)",
-        "tonalRamp": [
-          "oklch(0.1500 0.1185 324.21 / 0.16)",
-          "oklch(0.2643 0.1185 324.21 / 0.16)",
-          "oklch(0.3786 0.1185 324.21 / 0.16)",
-          "oklch(0.4929 0.1185 324.21 / 0.16)",
-          "oklch(0.6071 0.1185 324.21 / 0.16)",
-          "oklch(0.7214 0.1185 324.21 / 0.16)",
-          "oklch(0.8357 0.1185 324.21 / 0.16)",
-          "oklch(0.9500 0.1185 324.21 / 0.16)"
-        ]
-      },
-      "teal-soft": {
-        "role": "secondary",
-        "displayName": "Velo de éxito heredado",
-        "canonical": "rgba(82,207,170,.13)",
-        "tonalRamp": [
-          "oklch(0.1500 0.1238 170.31 / 0.13)",
-          "oklch(0.2643 0.1238 170.31 / 0.13)",
-          "oklch(0.3786 0.1238 170.31 / 0.13)",
-          "oklch(0.4929 0.1238 170.31 / 0.13)",
-          "oklch(0.6071 0.1238 170.31 / 0.13)",
-          "oklch(0.7214 0.1238 170.31 / 0.13)",
-          "oklch(0.8357 0.1238 170.31 / 0.13)",
-          "oklch(0.9500 0.1238 170.31 / 0.13)"
-        ]
-      },
-      "red": {
-        "role": "tertiary",
-        "displayName": "Coral de error",
-        "canonical": "#ff7a6b",
-        "tonalRamp": [
-          "oklch(0.1500 0.1650 28.31)",
-          "oklch(0.2643 0.1650 28.31)",
-          "oklch(0.3786 0.1650 28.31)",
-          "oklch(0.4929 0.1650 28.31)",
-          "oklch(0.6071 0.1650 28.31)",
-          "oklch(0.7214 0.1650 28.31)",
-          "oklch(0.8357 0.1650 28.31)",
-          "oklch(0.9500 0.1650 28.31)"
-        ]
-      },
-      "red-soft": {
-        "role": "tertiary",
-        "displayName": "Velo de error",
-        "canonical": "rgba(255,122,107,.13)",
-        "tonalRamp": [
-          "oklch(0.1500 0.1650 28.31 / 0.13)",
-          "oklch(0.2643 0.1650 28.31 / 0.13)",
-          "oklch(0.3786 0.1650 28.31 / 0.13)",
-          "oklch(0.4929 0.1650 28.31 / 0.13)",
-          "oklch(0.6071 0.1650 28.31 / 0.13)",
-          "oklch(0.7214 0.1650 28.31 / 0.13)",
-          "oklch(0.8357 0.1650 28.31 / 0.13)",
-          "oklch(0.9500 0.1650 28.31 / 0.13)"
+          "oklch(15% 0.0267 80.25)",
+          "oklch(26% 0.0267 80.25)",
+          "oklch(38% 0.0267 80.25)",
+          "oklch(49% 0.0267 80.25)",
+          "oklch(61% 0.0267 80.25)",
+          "oklch(72% 0.0267 80.25)",
+          "oklch(84% 0.0267 80.25)",
+          "oklch(95% 0.0267 80.25)"
         ]
       },
       "ticket-paper": {
         "role": "neutral",
-        "displayName": "Papel del ticket claro",
-        "canonical": "#f6ecdc",
+        "displayName": "Papel del ticket",
         "tonalRamp": [
-          "oklch(0.1500 0.0238 79.74)",
-          "oklch(0.2643 0.0238 79.74)",
-          "oklch(0.3786 0.0238 79.74)",
-          "oklch(0.4929 0.0238 79.74)",
-          "oklch(0.6071 0.0238 79.74)",
-          "oklch(0.7214 0.0238 79.74)",
-          "oklch(0.8357 0.0238 79.74)",
-          "oklch(0.9500 0.0238 79.74)"
+          "oklch(15% 0.0238 79.74)",
+          "oklch(26% 0.0238 79.74)",
+          "oklch(38% 0.0238 79.74)",
+          "oklch(49% 0.0238 79.74)",
+          "oklch(61% 0.0238 79.74)",
+          "oklch(72% 0.0238 79.74)",
+          "oklch(84% 0.0238 79.74)",
+          "oklch(95% 0.0238 79.74)"
         ]
       },
       "ticket-ink": {
         "role": "neutral",
-        "displayName": "Tinta del ticket claro",
-        "canonical": "#2b1d1f",
+        "displayName": "Tinta del ticket",
         "tonalRamp": [
-          "oklch(0.1500 0.0223 9.30)",
-          "oklch(0.2643 0.0223 9.30)",
-          "oklch(0.3786 0.0223 9.30)",
-          "oklch(0.4929 0.0223 9.30)",
-          "oklch(0.6071 0.0223 9.30)",
-          "oklch(0.7214 0.0223 9.30)",
-          "oklch(0.8357 0.0223 9.30)",
-          "oklch(0.9500 0.0223 9.30)"
+          "oklch(15% 0.0223 9.30)",
+          "oklch(26% 0.0223 9.30)",
+          "oklch(38% 0.0223 9.30)",
+          "oklch(49% 0.0223 9.30)",
+          "oklch(61% 0.0223 9.30)",
+          "oklch(72% 0.0223 9.30)",
+          "oklch(84% 0.0223 9.30)",
+          "oklch(95% 0.0223 9.30)"
         ]
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Bienvenida",
-        "purpose": "Archivo 800, anchura 108; 35px, 31px móvil o 30px en escritorio bajo."
+        "displayName": "display",
+        "purpose": "Bienvenida del inicio."
       },
       "headline": {
-        "displayName": "Título de página",
-        "purpose": "Archivo 800, anchura 112; 28px, 24px móvil."
+        "displayName": "headline",
+        "purpose": "Titular del banner de referencia."
       },
       "title": {
-        "displayName": "Cabecera de panel",
-        "purpose": "Archivo 750, anchura 106; 17px. Mi perfil usa cabeceras de 18px."
+        "displayName": "title",
+        "purpose": "Títulos de panel del inicio."
+      },
+      "profile-title": {
+        "displayName": "profile-title",
+        "purpose": "Encabezado de Mi perfil."
+      },
+      "metric": {
+        "displayName": "metric",
+        "purpose": "Cifras destacadas del inicio."
       },
       "body": {
-        "displayName": "Cuerpo",
-        "purpose": "14px, 15px móvil. Campos operativos móviles de 16px; acceso de 14px."
+        "displayName": "body",
+        "purpose": "Texto operativo, campos y tablas."
       },
       "label": {
-        "displayName": "Etiqueta de campo",
-        "purpose": "13px/600; cabeceras de tabla de 12px/700."
+        "displayName": "label",
+        "purpose": "Etiquetas y controles compactos."
       },
       "total": {
-        "displayName": "Total del ticket",
-        "purpose": "38px/900, anchura 108; oro y cifras tabulares."
+        "displayName": "total",
+        "purpose": "Total principal de caja."
       }
     },
     "shadows": [
       {
-        "name": "cinematic-panel",
+        "name": "hero-red",
+        "value": "inset 0 0 5px #ff4b24,0 2px 16px -5px rgba(255,65,24,.85)",
+        "purpose": "Borde luminoso del banner."
+      },
+      {
+        "name": "nav-active-red",
+        "value": "inset 0 0 14px rgba(255,55,20,.35),0 2px 13px -3px rgba(255,59,20,.65)",
+        "purpose": "Placa de navegación activa."
+      },
+      {
+        "name": "panel-general",
         "value": "0 12px 32px -22px #000",
-        "purpose": "Paneles, métricas, empleados, promociones, ticket y ventanas; los degradados locales permanecen."
+        "purpose": "Separación de paneles generales y modal."
       },
       {
-        "name": "cinematic-panel-hover",
-        "value": "0 14px 32px -22px rgba(255,48,56,.55)",
-        "purpose": "Hover de métricas, empleados y promociones."
+        "name": "metric-red",
+        "value": "0 4px 15px -10px #ff3c1b",
+        "purpose": "Luz bajo las métricas independientes."
       },
       {
-        "name": "cinematic-action",
-        "value": "0 7px 20px -13px #ff891c",
-        "purpose": "Botón principal general."
-      },
-      {
-        "name": "cinematic-action-hover",
-        "value": "0 9px 26px -12px #ff891c",
-        "purpose": "Hover del botón principal general, con brillo 1.06."
-      },
-      {
-        "name": "o-shadow-1",
-        "value": "0 1px 0 rgba(255,240,220,.035) inset,0 10px 24px -14px rgba(0,0,0,.7)",
-        "purpose": "Tarjetas de producto y franja de métricas heredadas."
-      },
-      {
-        "name": "o-shadow-2",
-        "value": "0 1px 0 rgba(255,240,220,.05) inset,0 24px 48px -20px rgba(0,0,0,.78)",
-        "purpose": "Caja auxiliar heredada."
-      },
-      {
-        "name": "o-shadow-pop",
-        "value": "0 18px 50px -12px rgba(0,0,0,.72),0 2px 8px rgba(0,0,0,.35)",
-        "purpose": "Avisos y cajón heredados."
-      },
-      {
-        "name": "auth-composition",
-        "value": "0 26px 65px -15px rgba(0,0,0,.85),0 0 0 4px rgba(255,48,56,.025)",
-        "purpose": "Composición exterior del acceso."
-      },
-      {
-        "name": "focus-field",
-        "value": "0 0 0 3px rgba(242,140,27,.22)",
-        "purpose": "Anillo de campos operativos heredados."
+        "name": "profile-portrait",
+        "value": "0 0 0 6px rgba(255,85,28,.07),0 9px 35px -17px #ff5523",
+        "purpose": "Aro del avatar de perfil."
       }
     ],
     "motion": [
       {
-        "name": "o-ease",
+        "name": "ease-standard",
         "value": "cubic-bezier(.22,1,.36,1)",
-        "purpose": "Estados y entradas heredados."
+        "purpose": "Curva --o-ease de estados operativos."
       },
       {
-        "name": "o-ease-in",
-        "value": "cubic-bezier(.55,0,1,.45)",
-        "purpose": "Cierres heredados."
+        "name": "sidebar-width",
+        "value": ".24s ease",
+        "purpose": "Cambio de ancho entre sidebar y carril."
       },
       {
-        "name": "o-fast",
-        "value": "160ms",
-        "purpose": "Hover, foco, color y borde."
-      },
-      {
-        "name": "o-base",
-        "value": "220ms",
-        "purpose": "Cambios de panel, sombra y desplegables."
-      },
-      {
-        "name": "press",
+        "name": "button-active",
         "value": "80ms",
-        "purpose": "Pulsación con scale(.97)."
-      },
-      {
-        "name": "sidebar",
-        "value": "240ms ease",
-        "purpose": "Anchura de sidebar y desplazamiento de main."
-      },
-      {
-        "name": "employee-reveal",
-        "value": "400ms cubic-bezier(.16,1,.3,1), escalón de 35ms",
-        "purpose": "Entrada de tarjetas de empleados."
-      },
-      {
-        "name": "counter-reveal",
-        "value": "500ms cubic-bezier(.16,1,.3,1)",
-        "purpose": "Revelado por recorte de cifras existentes."
+        "purpose": "Respuesta breve al pulsar."
       },
       {
         "name": "night-fog",
         "value": "28s ease-in-out infinite alternate",
-        "purpose": "Niebla del modo Cinematográfico."
-      },
-      {
-        "name": "panel-light",
-        "value": "5s ease-in-out infinite alternate",
-        "purpose": "Luz ambiental de métricas en Cinematográfico."
-      },
-      {
-        "name": "logo-float",
-        "value": "7.2s ease-in-out infinite",
-        "purpose": "Emblema del acceso visible y su sombra."
-      },
-      {
-        "name": "auth-welcome",
-        "value": "4.8s ease-in-out infinite",
-        "purpose": "Movimiento de letras de bienvenida sin desplazar controles."
-      },
-      {
-        "name": "effects-control",
-        "value": "performance / prefers-reduced-motion: animation none; transition none; visual-paused: paused",
-        "purpose": "Rendimiento, accesibilidad y pestaña oculta."
+        "purpose": "Niebla del acceso; se detiene con Rendimiento, movimiento reducido o pestaña oculta."
       }
     ],
     "breakpoints": [
       {
-        "name": "pos-narrow",
-        "value": "1380px"
+        "name": "profile-mobile",
+        "value": "600px"
       },
       {
-        "name": "dashboard-stack",
-        "value": "1240px"
-      },
-      {
-        "name": "drawer",
-        "value": "1100px"
-      },
-      {
-        "name": "scene-image",
-        "value": "960px"
-      },
-      {
-        "name": "metrics-columns",
-        "value": "900px"
-      },
-      {
-        "name": "hide-header-clock",
-        "value": "800px"
-      },
-      {
-        "name": "mobile-pos-and-search",
+        "name": "header-mobile",
         "value": "760px"
       },
       {
-        "name": "profile-stack",
-        "value": "700px"
+        "name": "profile-single-column",
+        "value": "900px"
       },
       {
-        "name": "small-mobile",
-        "value": "380px"
+        "name": "aux-wide",
+        "value": "961px"
+      },
+      {
+        "name": "sidebar-drawer",
+        "value": "1100px"
+      },
+      {
+        "name": "profile-metrics-two-columns",
+        "value": "1300px"
+      },
+      {
+        "name": "sidebar-medium",
+        "value": "1450px"
+      },
+      {
+        "name": "sidebar-short-height",
+        "value": "850px"
+      },
+      {
+        "name": "profile-heading-start",
+        "value": "980px"
       }
     ]
   },
   "components": [
     {
-      "name": "Botón principal",
+      "name": "Acción principal",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Acción general de 42px con degradado cálido, foco oro y estado deshabilitado opaco. El acceso tiene estilos locales propios.",
-      "html": "<button class=\"ds-btn ds-btn-primary\">Registrar venta</button>",
-      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border-radius:var(--o-r-sm);font:700 14px/1.15 var(--o-font);letter-spacing:.005em;cursor:pointer;transition:transform var(--o-fast) var(--o-ease),background var(--o-fast),border-color var(--o-fast),box-shadow var(--o-base) var(--o-ease)}.ds-btn:hover{transform:translateY(-1px)}.ds-btn:active{transform:scale(.97);transition-duration:80ms}.ds-btn:focus-visible{outline:2px solid var(--o-gold);outline-offset:3px}.ds-btn-primary{color:var(--bs-wine);background:linear-gradient(110deg,var(--bs-gold),var(--bs-orange));border:1px solid var(--bs-orange-soft);box-shadow:0 7px 20px -13px #ff891c}.ds-btn-primary:hover{box-shadow:0 9px 26px -12px #ff891c;filter:brightness(1.06)}.ds-btn-primary:disabled{background:var(--o-surface-3);border-color:var(--o-line-2);color:var(--o-faint);box-shadow:none;transform:none;cursor:not-allowed}"
+      "description": "Guardar o confirmar una acción con estado habilitado o deshabilitado.",
+      "html": "<button class=\"ds-btn-primary\">Guardar cambios</button>",
+      "css": ".ds-btn-primary{min-height:42px;padding:10px 16px;border:1px solid var(--bs-orange-soft,#FFA63B);border-radius:9px;background:linear-gradient(110deg,var(--bs-gold,#FFB347),var(--bs-orange,#FF891C));color:var(--bs-wine,#230910);font:700 14px/1.15 var(--o-font,Archivo,system-ui,sans-serif);cursor:pointer;box-shadow:0 7px 20px -13px #ff891c;transition:filter .16s,box-shadow .2s}.ds-btn-primary:hover{filter:brightness(1.06);box-shadow:0 9px 26px -12px #ff891c}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:disabled{background:var(--o-surface-3,#38232b);color:var(--bs-muted,#BCA9A8);border-color:rgba(246,235,217,.17);cursor:not-allowed}.ds-btn-primary:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
     },
     {
-      "name": "Botón secundario",
+      "name": "Acción secundaria",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Acción de apoyo junto a la principal.",
-      "html": "<button class=\"ds-btn2\">Cancelar</button>",
-      "css": ".ds-btn2{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border-radius:var(--o-r-sm);font:700 14px/1.15 var(--o-font);color:var(--o-cream);background:var(--o-surface-2);border:1px solid var(--o-line-2);cursor:pointer;transition:transform var(--o-fast) var(--o-ease),background var(--o-fast),border-color var(--o-fast)}.ds-btn2:hover{background:var(--o-surface-3);border-color:var(--o-line-3);transform:translateY(-1px)}.ds-btn2:active{transform:scale(.97);transition-duration:80ms}.ds-btn2:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}"
+      "description": "Cancelar o abrir una acción auxiliar sin competir con el botón principal.",
+      "html": "<button class=\"ds-btn-secondary\">Cancelar</button>",
+      "css": ".ds-btn-secondary{min-height:42px;padding:10px 16px;border:1px solid rgba(246,235,217,.17);border-radius:9px;background:var(--o-surface-2,#2c1920);color:var(--bs-text,#FFF0DF);font:700 14px/1.15 var(--o-font,Archivo,system-ui,sans-serif);cursor:pointer;transition:background .16s,border-color .16s}.ds-btn-secondary:hover{background:var(--o-surface-3,#38232b);border-color:rgba(246,235,217,.28)}.ds-btn-secondary:active{transform:scale(.97)}.ds-btn-secondary:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
     },
     {
-      "name": "Campo de texto",
+      "name": "Campo de red social",
       "kind": "input",
-      "refersTo": "input",
-      "description": "Campo con etiqueta encima; foco con borde naranja y anillo.",
-      "html": "<label class=\"ds-field\"><span>Cliente / ID</span><input class=\"ds-input\" placeholder=\"Nombre o identificador\"></label>",
-      "css": ".ds-field{display:grid;gap:7px;font:600 13px var(--o-font);color:var(--o-cream-2)}.ds-input{font:400 14px var(--o-font);color:var(--o-cream);background:var(--o-inset);border:1px solid var(--o-line-2);border-radius:var(--o-r-sm);padding:10px 12px;min-height:42px;caret-color:var(--bs-gold);transition:border-color var(--o-fast) var(--o-ease),box-shadow var(--o-fast) var(--o-ease)}.ds-input::placeholder{color:var(--o-faint)}.ds-input:hover{border-color:var(--o-line-3)}.ds-input:focus{outline:none;border-color:var(--o-mari);box-shadow:0 0 0 3px rgba(242,140,27,.22)}.ds-input:focus-visible{outline:2px solid var(--bs-gold);outline-offset:3px}"
+      "refersTo": "social-input",
+      "description": "Campo opcional con etiqueta persistente; el error de guardado se muestra en el formulario.",
+      "html": "<label class=\"ds-field\">Instagram<input class=\"ds-social-input\" placeholder=\"@tuusuario\" autocomplete=\"off\" autocapitalize=\"none\" spellcheck=\"false\"></label>",
+      "css": ".ds-field{display:grid;gap:8px;max-width:300px;color:#ecd3c3;font:11px var(--o-font,Archivo,system-ui,sans-serif)}.ds-social-input{height:43px;padding:0 12px;border:1px solid #664039;border-radius:8px;background:#13070d;color:var(--bs-text,#FFF0DF);font:13px var(--o-font,Archivo,system-ui,sans-serif);caret-color:var(--bs-gold,#FFB347);transition:border-color .16s}.ds-social-input::placeholder{color:var(--bs-muted,#BCA9A8)}.ds-social-input:hover{border-color:#9d5b44}.ds-social-input:disabled{opacity:.65}.ds-social-input:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
     },
     {
-      "name": "Pestañas de categoría",
-      "kind": "chip",
-      "refersTo": "category-tab",
-      "description": "Filtro del catálogo; la activa va en naranja relleno.",
-      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab-active\">Todo</button><button class=\"ds-tab\">Hamburguesas</button><button class=\"ds-tab\">Bebidas</button></div>",
-      "css": ".ds-tabs{display:flex;flex-wrap:wrap;gap:8px}.ds-tab{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 14px;border-radius:999px;font:600 14px var(--o-font);color:var(--o-cream-2);background:var(--o-surface);border:1px solid var(--o-line-2);cursor:pointer;transition:background var(--o-fast),color var(--o-fast),border-color var(--o-fast),transform var(--o-fast) var(--o-ease)}.ds-tab:hover{background:var(--o-surface-2);border-color:var(--o-line-3);color:var(--o-cream);transform:translateY(-1px)}.ds-tab:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}.ds-tab-active,.ds-tab-active:hover{background:var(--o-mari);border-color:var(--o-mari-hi);color:var(--o-mari-ink)}"
-    },
-    {
-      "name": "Tarjeta de producto",
-      "kind": "card",
-      "refersTo": "product-card",
-      "description": "Producto de caja con foto 16:9, precio crema tabular, cantidad, Añadir y atajos de unidades.",
-      "html": "<article class=\"ds-product\"><div class=\"ds-product-photo\"></div><div class=\"ds-product-copy\"><h3>Burger doble</h3><div class=\"ds-product-price\"><strong>$450</strong><span>por pieza</span></div><div class=\"ds-product-add\"><div class=\"ds-product-row\"><input class=\"ds-product-qty\" value=\"1\" inputmode=\"numeric\" aria-label=\"Cantidad\"><button class=\"ds-product-btn\">Añadir</button></div><div class=\"ds-product-presets\"><button>+5</button><button>+10</button><button>+25</button><button>+50</button></div></div></div></article>",
-      "css": ".ds-product{display:flex;flex-direction:column;width:232px;overflow:hidden;background:var(--o-surface);border:1px solid var(--o-line);border-radius:var(--o-r-lg);box-shadow:var(--o-shadow-1);font-family:var(--o-font);transition:border-color var(--o-base),transform var(--o-base) var(--o-ease),box-shadow var(--o-base) var(--o-ease)}.ds-product:hover{border-color:var(--o-line-3);box-shadow:var(--o-shadow-1)}.ds-product-photo{aspect-ratio:16/9;background:linear-gradient(180deg,rgba(20,16,18,0) 55%,rgba(20,16,18,.45)),var(--o-inset)}.ds-product-copy{padding:11px 12px 12px}.ds-product h3{margin:0 0 6px;font:750 16px/1.25 var(--o-font);font-stretch:104%;color:var(--o-cream)}.ds-product-price{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}.ds-product-price strong{font:800 22px/1 var(--o-font);font-stretch:104%;color:var(--o-cream);font-variant-numeric:tabular-nums}.ds-product-price span{font-size:12px;color:var(--o-faint)}.ds-product-add{display:grid;gap:7px;padding-top:10px;border-top:1px dashed var(--o-line-2)}.ds-product-row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px}.ds-product-qty{height:44px;min-width:0;text-align:center;border-radius:var(--o-r-sm);font:800 17px var(--o-font);background:var(--o-inset);border:1px solid var(--o-line-2);color:var(--o-cream);font-variant-numeric:tabular-nums}.ds-product-qty:focus{outline:none;border-color:var(--o-mari);box-shadow:0 0 0 3px rgba(242,140,27,.22)}.ds-product-btn{height:44px;border-radius:var(--o-r-sm);font:750 14px/1.1 var(--o-font);color:var(--o-mari-ink);background:var(--o-mari);border:1px solid var(--o-mari-hi);box-shadow:0 1px 0 rgba(255,236,200,.3) inset;cursor:pointer;transition:background var(--o-fast),transform var(--o-fast) var(--o-ease)}.ds-product-btn:hover{background:var(--o-mari-hi)}.ds-product-btn:active{transform:scale(.97)}.ds-product-presets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.ds-product-presets button{min-height:34px;border-radius:8px;font:700 13px var(--o-font);color:var(--o-cream-2);background:var(--o-surface-2);border:1px solid var(--o-line-2);font-variant-numeric:tabular-nums;cursor:pointer;transition:background var(--o-fast),border-color var(--o-fast),color var(--o-fast)}.ds-product-presets button:hover{color:var(--o-cream);background:var(--o-surface-3);border-color:var(--o-mari-line)}.ds-product button:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}"
-    },
-    {
-      "name": "Ticket",
-      "kind": "custom",
-      "refersTo": "order-panel",
-      "description": "Ticket oscuro heredado con festones, total real de 38px y acción Cobrar; admite variante clara con alias locales.",
-      "html": "<section class=\"ds-ticket\"><header class=\"ds-ticket-head\"><h2>Pedido <small>3</small></h2></header><div class=\"ds-ticket-lines\"><div class=\"ds-ticket-line\"><span>2 × Burger doble</span><strong>$900</strong></div><div class=\"ds-ticket-line\"><span>1 × Refresco</span><strong>$120</strong></div></div><div class=\"ds-ticket-pay\"><div class=\"ds-ticket-row\"><span>Subtotal</span><strong>$1,020</strong></div><div class=\"ds-ticket-grand\"><span>Total</span><strong>$1,020</strong></div><button class=\"ds-ticket-checkout\"><span>Cobrar</span><strong>$1,020</strong></button></div></section>",
-      "css": ".ds-ticket{--ds-edge:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 7'%3E%3Cpath d='M0 0h22v3.2c-1.8 0-2.6 3.8-5.5 3.8S13.3 3.2 11 3.2 7.4 7 5.5 7 1.8 3.2 0 3.2Z' fill='%23000'/%3E%3C/svg%3E\");position:relative;width:372px;max-width:100%;overflow:hidden;border:1px solid var(--o-line-2);border-radius:var(--o-r-lg);background:linear-gradient(180deg,#30242b,#271d23);box-shadow:0 12px 32px -22px #000;color:var(--o-cream);font-family:var(--o-font)}.ds-ticket::before{content:\"\";position:absolute;left:0;right:0;top:0;height:7px;background:var(--o-mari);-webkit-mask:var(--ds-edge) repeat-x left top/22px 7px;mask:var(--ds-edge) repeat-x left top/22px 7px;transform:scaleY(-1)}.ds-ticket-head{padding:20px 18px 14px;border-bottom:1px dashed var(--o-line-2)}.ds-ticket-head h2{display:flex;align-items:center;gap:10px;margin:0;font:800 22px/1.1 var(--o-font);font-stretch:110%;letter-spacing:-.01em}.ds-ticket-head small{display:inline-grid;place-items:center;min-width:28px;height:26px;padding:0 8px;border-radius:999px;font:800 13px var(--o-font);color:var(--o-mari-ink);background:var(--o-gold)}.ds-ticket-lines{padding:4px 16px}.ds-ticket-line{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;border-bottom:1px dashed var(--o-line-2);font-size:14px;font-weight:700}.ds-ticket-line:last-child{border-bottom:0}.ds-ticket-line strong{font:800 15px var(--o-font);font-variant-numeric:tabular-nums}.ds-ticket-pay{position:relative;padding:14px 18px 16px;background:rgba(0,0,0,.14)}.ds-ticket-pay::before{content:\"\";position:absolute;left:0;right:0;top:-1px;height:6px;background:var(--o-line-3);-webkit-mask:var(--ds-edge) repeat-x left top/18px 6px;mask:var(--ds-edge) repeat-x left top/18px 6px}.ds-ticket-row,.ds-ticket-grand{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.ds-ticket-row span{font-size:13px;color:var(--o-muted)}.ds-ticket-row strong{font:700 14px var(--o-font);color:var(--o-cream-2);font-variant-numeric:tabular-nums}.ds-ticket-grand{position:relative;margin-top:6px;padding-top:14px}.ds-ticket-grand::before{content:\"\";position:absolute;left:0;right:0;top:0;height:5px;background:var(--o-mari-line);-webkit-mask:var(--ds-edge) repeat-x left top/16px 5px;mask:var(--ds-edge) repeat-x left top/16px 5px}.ds-ticket-grand span{font-size:15px;font-weight:700}.ds-ticket-grand strong{font:900 38px/1 var(--o-font);font-stretch:108%;letter-spacing:-.02em;color:var(--o-gold);font-variant-numeric:tabular-nums}.ds-ticket-checkout{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;margin-top:12px;padding:10px 16px;border-radius:var(--o-r-md);border:1px solid var(--o-mari-hi);background:var(--o-mari);color:var(--o-mari-ink);box-shadow:0 1px 0 rgba(255,236,200,.35) inset,0 12px 24px -12px rgba(242,140,27,.6);cursor:pointer;transition:background var(--o-fast),transform var(--o-fast) var(--o-ease)}.ds-ticket-checkout:hover{background:var(--o-mari-hi);transform:translateY(-1px)}.ds-ticket-checkout:active{transform:scale(.97);transition-duration:80ms}.ds-ticket-checkout:focus-visible{outline:2px solid var(--o-gold);outline-offset:2px}.ds-ticket-checkout span{font:800 15px var(--o-font)}.ds-ticket-checkout strong{font:900 20px var(--o-font);font-variant-numeric:tabular-nums}"
-    },
-    {
-      "name": "Navegación",
+      "name": "Navegación roja",
       "kind": "nav",
       "refersTo": "navigation-item",
-      "description": "Selección crema y hover rojo discreto. El sidebar real pliega a 76px y conserva nombres accesibles y tooltips.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Secciones\"><button class=\"ds-nav-item\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m3 10 9-7 9 7v10h-6v-6H9v6H3Z\"/></svg><b>Inicio</b></button><button class=\"ds-nav-item\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 8h16v12H4Zm3 0V4h10v4M8 12h8m-8 4h3\"/></svg><b>Caja</b></button></nav>",
-      "css": ".ds-nav{display:grid;gap:3px;width:228px;font-family:var(--o-font)}.ds-nav-item{display:flex;align-items:center;gap:10px;min-height:46px;padding:8px 10px;border:1px solid transparent;border-radius:8px;background:none;color:#ddc9bf;font:inherit;cursor:pointer;transition:background 160ms,color 160ms}.ds-nav-item b{font-size:14px;font-weight:550;letter-spacing:.005em}.ds-nav-item svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}.ds-nav-item:hover{background:rgba(255,48,56,.07);color:var(--bs-text)}.ds-nav-item[aria-current=page]{background:#ffe1b3;color:#31130c;border-color:#f0d8b1;box-shadow:0 5px 20px -15px #ff891c}.ds-nav-item[aria-current=page] b{font-weight:750}.ds-nav-item:focus-visible{outline:2px solid var(--bs-gold);outline-offset:-2px}"
+      "description": "Destino activo con icono SVG, etiqueta legible y borde rojo luminoso.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegación de ejemplo\"><button class=\"ds-nav-item\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 10.5 12 3l9 7.5v9A1.5 1.5 0 0 1 19.5 21H15v-6H9v6H4.5A1.5 1.5 0 0 1 3 19.5z\"/></svg><span>Inicio</span></button></nav>",
+      "css": ".ds-nav{padding:12px;background:#090205;max-width:240px}.ds-nav-item{display:flex;align-items:center;gap:13px;width:100%;min-height:44px;padding:9px 13px;border:1px solid #ff612d;border-radius:8px;background:linear-gradient(100deg,rgba(134,24,16,.85),rgba(71,11,9,.83));color:#fff5e8;box-shadow:inset 0 0 14px rgba(255,55,20,.35),0 2px 13px -3px rgba(255,59,20,.65);font:700 13px var(--o-font,Archivo,system-ui,sans-serif);cursor:pointer}.ds-nav-item svg{width:20px;height:20px;fill:none;stroke:#ffc363;stroke-width:1.5;filter:drop-shadow(0 1px 4px #ed4a15)}.ds-nav-item:hover{background-color:rgba(144,29,18,.28);border-color:#ff834f}.ds-nav-item:active{transform:scale(.98)}.ds-nav-item:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
+    },
+    {
+      "name": "Selector de periodo",
+      "kind": "chip",
+      "refersTo": "period-chip",
+      "description": "Dos opciones excluyentes para las cuatro métricas propias.",
+      "html": "<div class=\"ds-period\" role=\"group\" aria-label=\"Periodo de rendimiento\"><button class=\"ds-period-chip\" aria-pressed=\"true\">Esta semana</button><button class=\"ds-period-chip\" aria-pressed=\"false\">Total</button></div>",
+      "css": ".ds-period{display:inline-flex;gap:4px;padding:4px;border:1px solid #613122;border-radius:10px;background:#100407}.ds-period-chip{min-height:35px;padding:8px 15px;border:0;border-radius:6px;background:none;color:#d9c3b6;font:600 11px var(--o-font,Archivo,system-ui,sans-serif);cursor:pointer;transition:background .16s}.ds-period-chip[aria-pressed=true]{background:#7b2015;color:#fff2df;box-shadow:inset 0 0 0 1px #d25d2a}.ds-period-chip:hover{background:#542017;color:#fff3e4}.ds-period-chip:active{transform:scale(.98)}.ds-period-chip:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
+    },
+    {
+      "name": "Panel con filigrana",
+      "kind": "card",
+      "refersTo": "dashboard-card",
+      "description": "Marco negro vino con ornamentos SVG que no reciben interacción.",
+      "html": "<section class=\"ds-ornate-card\"><svg class=\"ds-corner ds-corner-tl\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><svg class=\"ds-corner ds-corner-tr\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><svg class=\"ds-corner ds-corner-br\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><svg class=\"ds-corner ds-corner-bl\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><h2>Actividad semanal</h2><p>Las ventas registradas aparecen aquí.</p></section>",
+      "css": ".ds-ornate-card{position:relative;max-width:460px;padding:24px;border:1px solid #773020;border-radius:12px;background:linear-gradient(140deg,rgba(24,7,11,.95),rgba(6,2,5,.94));color:var(--bs-text,#FFF0DF);box-shadow:0 5px 20px -15px #e84225}.ds-ornate-card h2{margin:0 0 8px;font:700 20px/1.1 var(--night-display,Vollkorn,Georgia,serif);color:#ffe4bb}.ds-ornate-card p{margin:0;color:#d8c3b9;font:11px/1.4 var(--o-font,Archivo,system-ui,sans-serif)}.ds-corner{position:absolute;width:32px;height:32px;pointer-events:none;opacity:.8}.ds-corner-tl{left:3px;top:3px}.ds-corner-tr{right:3px;top:3px;transform:rotate(90deg)}.ds-corner-br{right:3px;bottom:3px;transform:rotate(180deg)}.ds-corner-bl{left:3px;bottom:3px;transform:rotate(270deg)}.ds-ornate-card:hover{border-color:#a64b33}"
+    },
+    {
+      "name": "Placa de métrica",
+      "kind": "card",
+      "refersTo": "metric-card",
+      "description": "Cifra serif real o estado vacío; cuatro placas independientes componen el inicio.",
+      "html": "<article class=\"ds-metric\"><svg class=\"ds-metric-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 3h14v18H5zM8 7h8M8 11h8M8 15h5\"/></svg><div><span>Ventas activas</span><strong>—</strong><small>Sin ventas disponibles</small></div></article>",
+      "css": ".ds-metric{display:flex;align-items:center;gap:15px;min-height:92px;max-width:300px;padding:12px 17px;border:1px solid var(--night-line,rgba(238,58,36,.52));border-radius:12px;background:linear-gradient(130deg,rgba(28,8,12,.95),rgba(6,2,4,.93));box-shadow:0 4px 15px -10px #ff3c1b;color:var(--bs-text,#FFF0DF);font-family:var(--o-font,Archivo,system-ui,sans-serif)}.ds-metric-icon{width:29px;height:29px;padding:13px;border-radius:18px;background:rgba(169,49,8,.16);fill:none;stroke:#ffa514;stroke-width:1.7}.ds-metric span,.ds-metric small{display:block;font-size:12px;line-height:1.3;color:#dfc9bf}.ds-metric strong{display:block;margin:2px 0;font:800 clamp(21px,1.65vw,28px)/1.15 var(--night-display,Vollkorn,Georgia,serif);font-variant-numeric:tabular-nums;letter-spacing:-.015em;color:#fff3e9}.ds-metric small{font-size:11px;color:#d1bcb3}.ds-metric:hover{border-color:#ff6b37}"
     },
     {
       "name": "Avatar de perfil",
       "kind": "custom",
       "refersTo": "profile-avatar",
-      "description": "Iniciales de respaldo y fotografía circular en cover; compartido por los componentes de identidad.",
-      "html": "<div class=\"ds-profile-avatar\" aria-label=\"Burger Shot\"><span>BS</span></div>",
-      "css": ".ds-profile-avatar{width:64px;height:64px;overflow:hidden;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:linear-gradient(150deg,#6b1c36,#351229);color:var(--bs-text);border:1px solid rgba(255,179,71,.45);font:700 23px var(--o-font)}.ds-profile-avatar img{width:100%;height:100%;object-fit:cover}.ds-profile-avatar span{display:grid;place-items:center;width:100%;height:100%}"
+      "description": "Iniciales de respaldo dentro del mismo círculo que utiliza la fotografía privada.",
+      "html": "<div class=\"ds-profile-avatar\" role=\"img\" aria-label=\"Avatar de Burger Shot\">BS</div>",
+      "css": ".ds-profile-avatar{display:grid;place-items:center;width:158px;height:158px;border:2px solid #ff9e32;border-radius:50%;background:radial-gradient(circle at 25% 20%,#a02f48,#280b16);color:var(--bs-text,#FFF0DF);box-shadow:0 0 0 6px rgba(255,85,28,.07),0 9px 35px -17px #ff5523;font:700 48px var(--o-font,Archivo,system-ui,sans-serif);overflow:hidden}"
     },
     {
-      "name": "Nivel de efectos",
+      "name": "Modo de efectos",
       "kind": "button",
       "refersTo": "effects-choice",
-      "description": "Elección de Cinematográfico, Equilibrado o Rendimiento con estado aria-pressed. Ejemplo de la opción Equilibrado.",
-      "html": "<button class=\"ds-effects-choice\" aria-pressed=\"true\"><strong>Equilibrado</strong><span>Menos partículas y transiciones suaves. Recomendado.</span></button>",
-      "css": ".ds-effects-choice{display:flex;flex-direction:column;gap:10px;align-items:start;text-align:left;max-width:280px;padding:18px 14px;border:1px solid var(--o-line-2);border-radius:11px;background:#170d13;color:var(--bs-text);font-family:var(--o-font);cursor:pointer}.ds-effects-choice strong{font-size:13px}.ds-effects-choice span{font-size:11px;line-height:1.6;color:var(--bs-muted)}.ds-effects-choice[aria-pressed=true]{border-color:var(--bs-orange);background:#321719;box-shadow:0 8px 20px -15px #ff891c}.ds-effects-choice[aria-pressed=true] strong{color:var(--bs-gold)}.ds-effects-choice:focus-visible{outline:2px solid var(--bs-gold);outline-offset:3px}"
+      "description": "Preferencia visible por cuenta; respeta también la reducción de movimiento del sistema.",
+      "html": "<button class=\"ds-effects-choice\" aria-pressed=\"true\"><strong>Equilibrado</strong><span>Ambiente y transiciones moderadas.</span></button>",
+      "css": ".ds-effects-choice{display:flex;flex-direction:column;gap:10px;align-items:start;max-width:250px;text-align:left;padding:18px 14px;border:1px solid var(--bs-orange,#FF891C);border-radius:11px;background:#321719;color:var(--bs-text,#FFF0DF);box-shadow:0 8px 20px -15px #ff891c;font-family:var(--o-font,Archivo,system-ui,sans-serif);cursor:pointer;transition:border-color .16s,background .16s}.ds-effects-choice strong{font-size:13px;color:var(--bs-gold,#FFB347)}.ds-effects-choice span{font-size:11px;line-height:1.6;color:var(--bs-muted,#BCA9A8)}.ds-effects-choice:hover{background:#3d1c20}.ds-effects-choice:active{transform:scale(.98)}.ds-effects-choice:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-effects-choice{transition:none}}"
     },
     {
-      "name": "Editor de fotografía",
+      "name": "Guía de recorte fotográfico",
       "kind": "custom",
       "refersTo": "photo-editor",
-      "description": "Estado inicial del editor: recorte cuadrado con guía circular, vista previa, zoom y botones de acción. La lógica reside en profile.js.",
-      "html": "<section class=\"ds-photo-editor\" aria-label=\"Editar fotografía\"><h2>Editar fotografía</h2><div class=\"ds-photo-body\"><div class=\"ds-photo-crop\"><canvas width=\"300\" height=\"300\" aria-label=\"Área de recorte\"></canvas></div><div class=\"ds-photo-controls\"><div class=\"ds-photo-preview\"><canvas width=\"100\" height=\"100\" aria-label=\"Vista previa circular\"></canvas></div><label>Zoom<input type=\"range\" min=\"1\" max=\"3\" step=\"0.01\" value=\"1\"></label><label>Posición horizontal<input type=\"range\" min=\"-1\" max=\"1\" step=\"0.01\" value=\"0\"></label><label>Posición vertical<input type=\"range\" min=\"-1\" max=\"1\" step=\"0.01\" value=\"0\"></label></div></div><p class=\"ds-photo-progress\">Elige una imagen para comenzar.</p><div class=\"ds-photo-actions\"><button class=\"ds-photo-cancel\">Cancelar</button><button class=\"ds-photo-save\" disabled>Guardar fotografía</button></div></section>",
-      "css": ".ds-photo-editor{width:min(720px,calc(100vw - 32px));padding:28px;border:1px solid rgba(255,179,71,.17);border-radius:17px;background:linear-gradient(180deg,#241c1f,#1d1619) var(--bs-card);color:var(--bs-text);box-shadow:0 12px 32px -22px #000;font-family:var(--o-font)}.ds-photo-editor h2{margin:0 0 24px;font-size:22px}.ds-photo-body{display:grid;grid-template-columns:minmax(0,300px) minmax(180px,1fr);gap:28px}.ds-photo-crop{aspect-ratio:1;background:#140911;border:1px solid #734438;position:relative;overflow:hidden;border-radius:10px}.ds-photo-crop::after{content:\"\";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 80px rgba(0,0,0,.35);border:1px dashed rgba(255,240,223,.7);pointer-events:none}.ds-photo-crop canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}.ds-photo-controls{display:flex;flex-direction:column;gap:16px}.ds-photo-controls label{display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--bs-muted)}.ds-photo-controls input{width:100%;accent-color:var(--bs-orange);padding:0;min-height:24px}.ds-photo-preview{width:92px;height:92px;border-radius:50%;border:2px solid var(--bs-orange);margin:0 auto}.ds-photo-preview canvas{width:100%;height:100%;border-radius:50%}.ds-photo-progress{font-size:12px;color:var(--bs-muted);min-height:20px;margin:18px 0}.ds-photo-actions{display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--o-line);padding-top:18px}.ds-photo-actions button{min-height:42px;padding:10px 16px;border-radius:9px;font:700 14px var(--o-font);cursor:pointer}.ds-photo-cancel{background:var(--o-surface-2);color:var(--bs-text);border:1px solid var(--o-line-2)}.ds-photo-cancel:hover{background:var(--o-surface-3)}.ds-photo-save{background:linear-gradient(110deg,var(--bs-gold),var(--bs-orange));color:var(--bs-wine);border:1px solid var(--bs-orange-soft)}.ds-photo-save:disabled{background:var(--o-surface-3);color:var(--bs-muted);border-color:var(--o-line-2);cursor:not-allowed}.ds-photo-editor button:focus-visible,.ds-photo-editor input:focus-visible{outline:2px solid var(--bs-gold);outline-offset:3px}@media(max-width:700px){.ds-photo-editor{padding:20px}.ds-photo-body{grid-template-columns:1fr}.ds-photo-crop{width:250px;max-width:100%;margin:auto}}"
+      "description": "Vista del editor con guía circular, zoom y estado inicial; la lógica real reside en profile.js.",
+      "html": "<section class=\"ds-photo-editor\" aria-label=\"Editar fotografía\"><h2>Editar fotografía</h2><div class=\"ds-photo-crop\" aria-label=\"Área de recorte\"></div><label class=\"ds-photo-label\">Zoom<input type=\"range\" min=\"1\" max=\"3\" step=\".01\" value=\"1\"></label><p>Elige una imagen para comenzar.</p><button class=\"ds-photo-cancel\">Cancelar</button></section>",
+      "css": ".ds-photo-editor{width:min(440px,calc(100vw - 88px));padding:28px;border:1px solid rgba(255,179,71,.17);border-radius:17px;background:var(--bs-card,#211217);color:var(--bs-text,#FFF0DF);box-shadow:0 12px 32px -22px #000;font-family:var(--o-font,Archivo,system-ui,sans-serif)}.ds-photo-editor h2{margin:0 0 24px;font-size:22px}.ds-photo-crop{position:relative;aspect-ratio:1;width:min(100%,300px);margin:auto;border:1px solid #734438;border-radius:10px;background:#140911;overflow:hidden}.ds-photo-crop::after{content:\"\";position:absolute;inset:0;border:1px dashed rgba(255,240,223,.7);border-radius:50%;box-shadow:0 0 0 80px rgba(0,0,0,.35);pointer-events:none}.ds-photo-label{display:grid;gap:8px;margin-top:18px;font-size:12px;color:var(--bs-muted,#BCA9A8)}.ds-photo-label input{width:100%;accent-color:var(--bs-orange,#FF891C);min-height:24px}.ds-photo-editor p{font-size:12px;color:var(--bs-muted,#BCA9A8);margin:18px 0}.ds-photo-cancel{min-height:42px;padding:10px 16px;border:1px solid rgba(246,235,217,.17);border-radius:9px;background:var(--o-surface-2,#2c1920);color:var(--bs-text,#FFF0DF);font:700 14px var(--o-font,Archivo,system-ui,sans-serif);cursor:pointer}.ds-photo-cancel:hover{background:var(--o-surface-3,#38232b)}.ds-photo-cancel:active{transform:scale(.97)}.ds-photo-cancel:focus-visible,.ds-photo-label input:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
     }
   ],
   "narrative": {
     "northStar": "La sucursal durante la ofrenda nocturna",
-    "overview": "Restaurante americano de noche durante Día de Muertos y Halloween: negro profundo, borgoña, rojo neón moderado, cempasúchil y texto crema. La atmósfera acompaña a una caja rápida y legible; los campos, botones, gráficas y cifras son HTML real. El logo 3D aprobado conserva su arte y proporción.\n\n`cinematic.css`, cargado al final en `index.html`, fija la paleta `--bs-*` y adapta los alias `--o-*`. `ofrenda.css` conserva los controles de caja, tablas, festones y escalas; `auth-scene.css`, `logo.css` y `sidebar.css` aportan estructura y estados sujetos a la cascada. El sistema combina el restaurante nocturno del acceso con un marco operativo compacto y perfiles personales.",
+    "overview": "Negro profundo, vino casi negro, filigrana roja luminosa y luz naranja de velas y cempasúchil definen la identidad. La captura de dashboard elegida por el usuario el 12 de octubre de 2026 sustituyó la interpretación sobria anterior. El sistema debe reproducir ese carácter ornamental con textos, controles, gráficas e importes funcionales.\n\nEl emblema 3D aprobado conserva su arte y proporción. Vollkorn aporta el carácter editorial de bienvenida, titulares e importes destacados del inicio y perfil; Archivo conserva precisión en formularios, navegación, tablas y caja. El acceso centrado mantiene su composición aprobada. Las escenas fotográficas quedan detrás del HTML y dejan oscuras las áreas de lectura.\n\nLa fuente final del marco operativo es `reference-dashboard.css`, cargada después de `cinematic.css`. Esta última conserva la paleta compartida y los controles generales; `ofrenda.css`, `sidebar.css`, `auth-scene.css` y `logo.css` aportan la base. La composición específica del inicio y la autoridad visual están en `.impeccable/surfaces/index-html.md` y `docs/REFERENCE_FIDELITY.md`.",
     "keyCharacteristics": [
-      "Carbón y borgoña con superficies separadas, bordes cálidos y luz roja discreta.",
-      "Acción naranja/dorada, navegación seleccionada en crema y éxito en verde.",
-      "Archivo variable, jerarquía por peso y anchura, cifras tabulares.",
-      "Logo 3D intacto; papel picado, velas, niebla y pétalos como ambiente separado.",
-      "Sidebar plegable, avatares circulares y editor de fotografía con vista previa.",
-      "Tres niveles de efectos; movimiento reducido y pausa de la pestaña oculta."
+      "Paneles negros y vino con bordes rojos luminosos y esquinas de filigrana.",
+      "Acción naranja y dorada, navegación seleccionada en rojo y estados positivos en verde.",
+      "Vollkorn en titulares y cifras destacadas; Archivo en operación y cifras tabulares.",
+      "Logo 3D grande, papel picado diagonal y escenas de ofrenda en el marco.",
+      "Sidebar de 290 o 260 px, carril de 76 px y cajón móvil; perfil propio accesible.",
+      "Avatares circulares y tres modos de efectos con reducción de movimiento."
     ],
     "rules": [
       {
-        "name": "La regla de la acción",
-        "body": "El naranja y el dorado guían la operación; el rojo neón ilumina el marco. Una selección de navegación usa crema.",
+        "name": "The Luz Roja Rule",
+        "body": "El rojo luminoso y la filigrana son parte esencial de la dirección elegida; deben conservarse en el marco y la selección de navegación.",
         "section": "colors"
       },
       {
-        "name": "La regla del éxito",
-        "body": "El verde señala éxito o conexión; importes y comisiones conservan crema, y el total destaca en oro.",
+        "name": "The Estado Legible Rule",
+        "body": "Cada color de estado acompaña texto o icono comprensible; la confirmación de una venta llega después de la respuesta del servidor.",
         "section": "colors"
       },
       {
-        "name": "La regla tabular",
-        "body": "Toda cifra que cambia o se alinea usa `font-variant-numeric: tabular-nums`; ningún efecto altera el número real para animarlo.",
+        "name": "The Cifra Real Rule",
+        "body": "Las cifras alineadas usan números tabulares y muestran el valor calculado real; los efectos no retrasan, ocultan ni alteran importes.",
         "section": "typography"
       },
       {
-        "name": "La regla de la luz blanda",
-        "body": "Los resplandores separan e iluminan sin competir con la lectura ni introducir sombras duras desplazadas.",
+        "name": "The Luz Enmarcada Rule",
+        "body": "Los resplandores y ornamentos enmarcan la lectura y no interceptan clics; los motivos decorativos permanecen fuera del orden de foco.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "**Do** usar la paleta de `cinematic.css` y respetar los alias locales del ticket claro.",
-      "**Do** conservar la acción cálida, la selección crema y el éxito verde.",
-      "**Do** mantener cifras tabulares y mostrar el total real antes de cualquier efecto.",
-      "**Do** usar SVG de trazo, nombres accesibles, foco visible y divisores en listas.",
-      "**Do** conservar el logo 3D aprobado, su proporción y sus recursos de respaldo.",
-      "**Do** mantener decoración con `pointer-events: none` y `aria-hidden`, respetar los modos de efectos y la reducción de movimiento."
+      "**Do** usar la cascada final de `reference-dashboard.css` para el marco de referencia.",
+      "**Do** conservar negro, filigrana roja luminosa, acción cálida y selección roja.",
+      "**Do** usar Vollkorn en titulares del inicio y perfil, y Archivo en controles y caja.",
+      "**Do** conservar el arte y la proporción del logo 3D aprobado.",
+      "**Do** mantener cifras tabulares, datos propios reales, foco visible y nombres accesibles.",
+      "**Do** separar decoración de controles y respetar efectos por cuenta y movimiento reducido.",
+      "**Do** documentar el prompt exacto de cada nuevo raster y la licencia de las fuentes."
     ],
     "donts": [
-      "**Don't** reintroducir el antetítulo ni la leyenda estacional retirados del formulario de acceso.",
-      "**Don't** usar emoji o glifos como sustitutos de iconografía profesional.",
-      "**Don't** redibujar, recolorear ni recortar el arte del emblema.",
-      "**Don't** extender los bucles ambientales al catálogo, ticket, tablas o caja auxiliar.",
-      "**Don't** introducir sombras duras ni cajas anidadas para filas de una lista.",
-      "**Don't** ocultar, retrasar o recalcular un importe para producir una animación."
+      "**Don't** restablecer la interpretación sobria ni la selección crema que la nueva referencia sustituyó.",
+      "**Don't** redibujar, recolorear ni recortar el emblema aprobado.",
+      "**Don't** insertar texto, cifras o controles dentro del arte ambiental.",
+      "**Don't** inventar ventas, tendencias, fotografías, reconocimientos o fechas de incorporación.",
+      "**Don't** animar cálculos financieros ni confirmar ventas antes del servidor.",
+      "**Don't** presentar OCR ni un campo de importe recibido como parte de la caja auxiliar actual.",
+      "**Don't** presentar pruebas simuladas como validación autenticada real entre dispositivos."
     ]
   }
 }

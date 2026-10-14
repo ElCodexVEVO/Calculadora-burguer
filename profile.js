@@ -4,6 +4,7 @@
   window.BurgerProfiles={mount(api){
     const {$,esc,money,toast,state,roleName,switchPage}=api;
     let rows=[],urls=new Map(),signedExpiry=new Map(),owner='',loadVersion=0,editVersion=0,available=false,busy=false,effectsBusy=false,image=null,imageURL='',drag=null,refreshTimer;
+    let performancePeriod='week',socialDirty=false,socialBusy=false,socialRequest=0;
     const status=$('profileStatus'),modal=$('photoEditor'),canvas=$('photoCrop');
     const own=()=>rows.find(r=>r.user_id===state().user?.id);
     const modeKey=()=>`bs_effects_${state().user?.id||'guest'}`;
@@ -11,7 +12,7 @@
     function localMode(){try{return localStorage.getItem(modeKey())||'balanced'}catch{return 'balanced'}}
     async function load(){
       const {sb,user,profile}=state();if(!sb||!user||!profile)return;
-      const key=user.id+':'+profile.store_id,version=++loadVersion;if(owner!==key){owner=key;rows=[];urls.clear();signedExpiry.clear();setMode(localMode())}
+      const key=user.id+':'+profile.store_id,version=++loadVersion;if(owner!==key){owner=key;rows=[];urls.clear();signedExpiry.clear();socialDirty=false;performancePeriod='week';setMode(localMode())}
       const {data,error}=await sb.from('employee_appearance').select('*').eq('store_id',profile.store_id);
       if(version!==loadVersion||state().user?.id!==user.id)return;
       available=!error;if(error){status.textContent='Las fotografías y la sincronización de efectos requieren activar la actualización de Supabase. Tus ventas siguen disponibles.';status.classList.remove('hidden');render();return}
@@ -35,15 +36,34 @@
       $('profileJoined').textContent=profile.created_at?new Intl.DateTimeFormat('es-MX',{dateStyle:'long'}).format(new Date(profile.created_at)):'Fecha no registrada';
       $('profileActive').textContent=profile.active?'Cuenta activa':'Cuenta inactiva';
       $('profilePortrait').dataset.profileAvatar=user.id;$('profilePortrait').dataset.profileName=profile.name;
-      const p=core.periods(),week=core.stats(sales,user.id,p.week),month=core.stats(sales,user.id,p.month),all=core.stats(sales,user.id);
-      $('profileStats').innerHTML=[['Ventas activas',all.count,'Historial disponible'],['Vendido este mes',money(month.generated),'Desde el día 1'],['Comisiones del mes',money(month.earnings),'Ventas activas'],['Ventas esta semana',week.count,money(week.generated)+' generado']].map(([label,value,note])=>`<div><span>${label}</span><strong>${value}</strong><small>${note}</small></div>`).join('');
+      const p=core.periods(),weekly=performancePeriod==='week',summary=core.stats(sales,user.id,weekly?p.week:null,weekly?p.weekEnd:null),fmt=d=>new Intl.DateTimeFormat('es-MX',{day:'numeric',month:'short'}).format(d),lastDay=new Date(p.weekEnd.getTime()-1);
+      $('profilePerformancePeriod').textContent=weekly?`Rendimiento de la semana · ${fmt(p.week)} – ${fmt(lastDay)}`:'Rendimiento total · todo tu historial';
+      document.querySelectorAll('[data-profile-period]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.profilePeriod===performancePeriod)));
+      $('profileStats').innerHTML=[['Ventas activas',summary.count,weekly?'Esta semana':'Historial completo'],['Total vendido',money(summary.generated),'Ventas activas'],['Mis comisiones',money(summary.earnings),'Ganancias registradas'],['Ticket promedio',money(summary.count?summary.generated/summary.count:0),'Por venta activa']].map(([label,value,note])=>`<div><span>${label}</span><strong>${value}</strong><small>${note}</small></div>`).join('');
+      let links={};try{links=core.socialLinks(own()?.social_links||{})}catch{}
+      const icons={instagram:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',discord:'<path d="m6 5 4-1 1 2h2l1-2 4 1 3 13-5 2-1-3H9l-1 3-5-2Z"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/>',tiktok:'<path d="M14 3v12a4 4 0 1 1-4-4m4-8c1 4 3 5 6 5"/>',twitch:'<path d="M4 3h17v12l-5 5h-5l-4 3v-3H4Zm6 4v6m5-6v6"/>'};
+      $('profileSocialLinks').innerHTML=Object.entries(links).map(([key,handle])=>{const url=core.socialURL(key,handle),body=`<svg viewBox="0 0 24 24" aria-hidden="true">${icons[key]}</svg><span>${esc(key==='discord'?handle:'@'+handle)}</span>`;return url?`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(core.SOCIALS[key].label+' de '+profile.name)}">${body}</a>`:`<button type="button" data-copy-discord="${esc(handle)}" aria-label="Copiar usuario de Discord">${body}</button>`}).join('')||'<span class="profile-social-empty">Tus redes, en un solo lugar.</span>';
+      if(!socialDirty&&!socialBusy)for(const key of Object.keys(core.SOCIALS))$('social-'+key).value=links[key]||'';
+      $('saveSocialBtn').disabled=!available||socialBusy;
       const weekKey=[p.week.getFullYear(),String(p.week.getMonth()+1).padStart(2,'0'),String(p.week.getDate()).padStart(2,'0')].join('-');
       const recognized=employeeWeek?.employee_id===user.id&&employeeWeek.week_start===weekKey;
       $('profileRecognition').textContent=recognized?'Empleado de la semana · reconocimiento de administración':'No hay reconocimientos vigentes registrados para tu cuenta.';
-      const history=sales.filter(s=>s.created_by===user.id).slice(0,5);
+      $('profileHistoryTitle').textContent=weekly?'Actividad de esta semana':'Actividad reciente';
+      const history=sales.filter(s=>s.created_by===user.id&&(!weekly||(new Date(s.created_at)>=p.week&&new Date(s.created_at)<p.weekEnd))).slice(0,5);
       $('profileHistory').innerHTML=history.length?history.map(s=>`<div class="profile-history-row"><div><strong>Venta ${esc(s.sale_number||'')}</strong><small>${esc(new Intl.DateTimeFormat('es-MX',{dateStyle:'medium',timeStyle:'short'}).format(new Date(s.created_at)))}</small></div><span>${s.status==='active'?'Activa':'Anulada'}</span><strong>${money(s.total)}</strong></div>`).join(''):'<p class="muted">Tu historial aparecerá cuando registres tu primera venta.</p>';
       $('editPhotoBtn').disabled=!available;avatars();
     }
+    document.querySelectorAll('[data-profile-period]').forEach(button=>button.onclick=()=>{performancePeriod=button.dataset.profilePeriod==='all'?'all':'week';render()});
+    for(const key of Object.keys(core.SOCIALS))$('social-'+key).addEventListener('input',()=>{socialDirty=true;$('socialStatus').textContent=''});
+    $('profileSocialForm').onsubmit=async event=>{
+      event.preventDefault();if(socialBusy||!available)return;const userId=state().user?.id;if(!userId)return;
+      let links;try{links=core.socialLinks(Object.fromEntries(Object.keys(core.SOCIALS).map(key=>[key,$('social-'+key).value])))}catch(error){$('socialStatus').textContent=error.message;return}
+      const request=++socialRequest;socialBusy=true;$('profileSocialForm').setAttribute('aria-busy','true');$('profileSocialForm').querySelectorAll('input,button').forEach(el=>el.disabled=true);$('socialStatus').textContent='Guardando tus redes…';
+      try{const {data,error}=await state().sb.rpc('set_my_social_links',{p_user_id:userId,p_links:links});if(request!==socialRequest||state().user?.id!==userId)return;if(error||!data)throw Error('No se pudieron guardar tus redes. Inténtalo de nuevo.');const index=rows.findIndex(row=>row.user_id===userId);if(index<0)rows.push(data);else rows[index]=data;socialDirty=false;$('socialStatus').textContent='Redes guardadas en tu cuenta.';socialBusy=false;render();toast('Redes sociales actualizadas')}
+      catch(error){if(request===socialRequest&&state().user?.id===userId)$('socialStatus').textContent=error.message}
+      finally{if(request===socialRequest){socialBusy=false;$('profileSocialForm').removeAttribute('aria-busy');$('profileSocialForm').querySelectorAll('input,button').forEach(el=>el.disabled=false);$('saveSocialBtn').disabled=!available}}
+    };
+    $('profileSocialLinks').onclick=async event=>{const handle=event.target.closest('[data-copy-discord]')?.dataset.copyDiscord;if(!handle)return;try{await navigator.clipboard.writeText(handle);toast('Usuario de Discord copiado')}catch{toast('Discord: '+handle)}};
     function reset(){ $('photoZoom').value='1';$('photoX').value='0';$('photoY').value='0';draw() }
     function draw(){
       const ctx=canvas.getContext('2d'),preview=$('photoPreview').getContext('2d');
@@ -91,7 +111,7 @@
     });
     document.addEventListener('bs-motion-toggle',e=>document.querySelector(`[data-effects-mode="${e.detail?'balanced':'performance'}"]`)?.click());
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.classList.contains('hidden')){if(busy){e.preventDefault();e.stopImmediatePropagation()}else close()}},true);
-    function clear(){++loadVersion;owner='';available=false;rows=[];urls.clear();signedExpiry.clear();clearTimeout(refreshTimer);busy=false;modal.classList.add('hidden');$('app').inert=false;release();document.querySelectorAll('[data-profile-avatar]').forEach(el=>{el.textContent='BS';delete el.dataset.avatarSignature});setMode('balanced')}
+    function clear(){++loadVersion;++socialRequest;owner='';available=false;rows=[];urls.clear();signedExpiry.clear();clearTimeout(refreshTimer);busy=false;socialDirty=false;socialBusy=false;performancePeriod='week';$('profileSocialForm').reset();$('profileSocialForm').removeAttribute('aria-busy');$('profileSocialForm').querySelectorAll('input,button').forEach(el=>el.disabled=false);$('socialStatus').textContent='';$('profileSocialLinks').replaceChildren();modal.classList.add('hidden');$('app').inert=false;release();document.querySelectorAll('[data-profile-avatar]').forEach(el=>{el.textContent='BS';delete el.dataset.avatarSignature});setMode('balanced')}
     return{load,render,avatars,avatarHTML,clear};
   }};
 })();

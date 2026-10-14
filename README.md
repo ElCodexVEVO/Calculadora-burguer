@@ -1,6 +1,6 @@
 # Burger Shot V7.8 · Ofrenda nocturna y perfiles
 
-Punto de venta HTML/CSS/JavaScript para Burger Shot en FiveM, con Supabase. El inicio reproduce la referencia elegida por el usuario: paneles negros y vino, filigrana roja luminosa, banner fotográfico, logo aprobado grande, papel picado diagonal, Vollkorn en titulares y Archivo en controles.
+Punto de venta HTML/CSS/JavaScript para Burger Shot en FiveM, con Supabase. El inicio reproduce la referencia elegida por el usuario: paneles negros y vino, filigrana roja luminosa, banner fotográfico, logo aprobado grande, papel picado diagonal, Fraunces en titulares y Figtree en controles.
 
 V7.7 ya se integró en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 está subida en `codex/cinematic-profiles` y [PR #12 en borrador](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/12), todavía sin integrar en `main` ni publicar en GitHub Pages. El backend de fotos, efectos y redes está activado. La revisión completa pidió dos ajustes; ambos están resueltos y su confirmación final es `disposition: ship`. El veredicto cubre esos ajustes y las diez recapturas, sin afirmar coincidencia visual a 1672 px.
 
@@ -53,7 +53,7 @@ Las [diez capturas finales versionadas](docs/screenshots/v7-8/README.md) cubren 
 - [Capturas y procedencia](docs/screenshots/v7-8/README.md)
 - [Prompt maestro para continuar con Claude](docs/CLAUDE_MASTER_PROMPT.md), con inventario de 63 archivos SKILL reales y respaldo mediante capturas versionadas
 
-La cascada final está en `reference-dashboard.css`, después de `cinematic.css`. Los tres nuevos WebP de `assets/season/` conservan prompts exactos en sidecars. Vollkorn se sirve localmente y su licencia está en `assets/fonts/Vollkorn-OFL.txt`.
+La cascada final está en `reference-dashboard.css`, después de `cinematic.css`. Los tres nuevos WebP de `assets/season/` conservan prompts exactos en sidecars. Fraunces se sirve localmente y su licencia está en `assets/fonts/Fraunces-OFL.txt`.
 
 ## Instalación y configuración
 

@@ -1,5 +1,4 @@
-@font-face{font-family:Vollkorn;src:url('assets/fonts/Vollkorn.ttf') format('truetype');font-style:normal;font-weight:400 900;font-display:swap}
-:root{--sidebar-size:290px;--night-display:Vollkorn,Georgia,serif;--night-panel:rgba(12,4,7,.94);--night-line:rgba(238,58,36,.52)}
+:root{--sidebar-size:290px;--night-panel:rgba(12,4,7,.94);--night-line:rgba(238,58,36,.52)}
 /* Escena compartida; el centro oscuro deja leer las áreas de trabajo. */
 .app .season-backdrop{left:0;background:url('assets/season/dashboard-night.webp') center/cover no-repeat}
 .app .season-backdrop::after{background:none;opacity:0}

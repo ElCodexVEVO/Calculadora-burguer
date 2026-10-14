@@ -38,3 +38,11 @@ Caja, Caja auxiliar, Ventas, Estadísticas, Registro de ventas, Clientes, Equipo
 - **Métricas:** el marco de filigrana ocupa toda la tarjeta (una regla antigua lo dejaba como un recuadro de 148×34 px sobre el texto).
 - **Actividad semanal:** las etiquetas de día vuelven a verse (las filas de las barras eran más altas que la gráfica y se recortaban); luces tenues de vela.
 - **Redes sociales:** insignias de marca (Instagram, Discord, TikTok, Twitch; glifos Simple Icons, CC0), una fila por red.
+
+## V10 · Textos, tablas y estados
+- **Saludo según la hora** («¡Buenos días / Buenas tardes / Buenas noches, Nombre!»).
+- **Tablas:** encabezados en versalitas, importes y cantidades alineados a la derecha (cifras tabulares), más aire y tipografía algo mayor. Se corrigió un desplazamiento horizontal que ya existía en «Registro de ventas» a 1280 px.
+- **Estados vacíos:** centrados, con el sello de fondo y, si hay filtros aplicados, un botón «Limpiar filtros».
+- **Caja:** botón «Copiar» junto a «Total a cobrar» (copia «Tu pedido son $X.», el mismo mensaje de la caja auxiliar; lee el total mostrado, no recalcula).
+- **Ajustes:** textos de los modos de efectos corregidos (ya no mencionan pétalos), tarjetas con marca de selección y mejor alineación.
+- **Rendimiento en modo Cinematográfico:** se elimina la sombra pulsante de las métricas (repintado continuo) y el recorte animado de las cifras en cada actualización de datos.

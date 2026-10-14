@@ -603,3 +603,82 @@ body.visual-paused .pf{animation-play-state:paused}
 .profile-social-links{display:grid;grid-template-columns:minmax(0,1fr);justify-items:stretch;width:100%}
 .profile-social-links>a,.profile-social-links>button{width:100%;justify-content:flex-start}
 .profile-social-links>a .soc-hint,.profile-social-links>button .soc-hint{margin-left:auto}
+
+/* ───────── V10 · Tablas, textos y estados vacíos ───────── */
+/* Encabezados de tabla: versalitas con aire, para distinguirlos de los datos de un vistazo. */
+.page thead th{
+  font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#dcc4b2;white-space:nowrap;
+}
+.page tbody td{font-size:14px;line-height:1.35}
+.page tbody td small,.page tbody td .muted{font-size:12px}
+/* Importes y cantidades a la derecha: los dígitos quedan en columna (cifras tabulares). */
+.page th.num,.page td.num{text-align:right;font-variant-numeric:lining-nums tabular-nums;padding-right:18px}
+.page td.num strong{font-weight:700}
+/* Etiquetas y notas con un mínimo legible. */
+.filter-fields label{font-size:12.5px;letter-spacing:.01em}
+.metric small,.metrics .metric small{font-size:12px}
+.page-title-row p{font-size:14.5px;line-height:1.5;max-width:68ch}
+.field-note,.effects-note{font-size:12.5px;line-height:1.55}
+
+/* Estados vacíos: centrados, con aire y el sello de fondo. Si hay filtros aplicados ofrecen limpiarlos. */
+.m-empty{display:block;text-align:center;padding:48px 24px 52px;color:#e2cfc2;font:500 15px/1.55 var(--bs-ui);text-wrap:balance}
+td.m-empty{display:table-cell;position:relative;isolation:isolate}
+td.m-empty::before{
+  content:"";position:absolute;left:50%;top:50%;width:min(260px,60%);aspect-ratio:1125/902;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
+  background:url('assets/logo/charro-sello-480.webp') center/contain no-repeat;opacity:.1;
+}
+.m-empty-action{
+  display:block;margin:16px auto 0;padding:9px 18px;border-radius:999px;border:1px solid rgba(255,170,90,.5);
+  background:rgba(255,140,40,.12);color:#ffcf99;font:700 13px/1 var(--bs-ui);cursor:pointer;
+  transition:transform .2s var(--m-out),background-color .2s,border-color .2s;
+}
+@media (hover:hover){.m-empty-action:hover{background:rgba(255,140,40,.22);border-color:rgba(255,190,120,.8)}}
+.m-empty-action:active{transform:scale(.97)}
+.m-empty-action:focus-visible{outline:2px solid #ffc15a;outline-offset:3px}
+
+/* Copiar total: pastilla discreta junto a «Total a cobrar» (la caja es clara). */
+.totals .grand{display:flex;align-items:center}
+.copy-total{
+  display:inline-flex;align-items:center;gap:6px;margin:0 auto 0 10px;padding:5px 11px 5px 9px;border-radius:999px;
+  border:1px solid rgba(140,80,40,.32);background:rgba(140,80,40,.07);color:#74390f;font:700 11.5px/1 var(--bs-ui);cursor:pointer;
+  transition:transform .18s var(--m-out),background-color .18s,color .18s,border-color .18s,opacity .18s;
+}
+.copy-total svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+@media (hover:hover){.copy-total:hover:not(:disabled){background:rgba(140,80,40,.15);border-color:rgba(140,80,40,.55)}}
+.copy-total:active:not(:disabled){transform:scale(.96)}
+.copy-total:disabled{opacity:.38;cursor:default}
+.copy-total.is-done{color:#0b6a4b;border-color:rgba(11,106,75,.5);background:rgba(11,106,75,.1)}
+.copy-total:focus-visible{outline:2px solid #b45309;outline-offset:2px}
+
+/* Rendimiento en el modo Cinematográfico: la sombra de las métricas pulsaba sin parar (repintado continuo) y la cifra se
+   volvía a recortar con clip-path en cada actualización de datos. Ahora la sombra es fija y las cifras no se ocultan. */
+body[data-effects=cinematic] .metric{animation:none}
+body:not(.motion-off) .metric strong{animation:none}
+/* Ajuste de ancho: las versalitas ensanchaban «Registro de ventas» hasta provocar desplazamiento horizontal. */
+.page thead th{font-size:10.5px;letter-spacing:.045em;white-space:normal;line-height:1.25;vertical-align:bottom}
+.page th.num,.page td.num{padding-right:14px}
+#page-audit thead th{font-size:10.5px;letter-spacing:.045em;text-transform:uppercase}
+/* Tablas anchas (Registro de ventas tiene 10 columnas): menos relleno lateral en pantallas medianas, para no desplazar. */
+@media (max-width:1500px){
+  .page tbody td,.page thead th{padding-left:10px;padding-right:10px}
+  .page th.num,.page td.num{padding-right:10px}
+}
+
+/* ───────── Ajustes: tarjetas de efectos ───────── */
+.v6-settings{max-width:980px}
+.effects-choice{position:relative;gap:8px;padding:18px 16px;transition:transform .22s var(--m-out),border-color .2s,background-color .2s,box-shadow .25s var(--m-out)}
+.effects-choice strong{font-size:15px;line-height:1.2}
+.effects-choice span{font-size:13px;line-height:1.5;color:#d6c3b8}
+@media (hover:hover){.effects-choice:hover{transform:translateY(-2px);border-color:rgba(255,170,90,.55)}}
+.effects-choice:active{transform:scale(.98)}
+.effects-choice:focus-visible{outline:2px solid #ffc15a;outline-offset:3px}
+/* La opción activa lleva una marca visible (no solo color). */
+.effects-choice[aria-pressed=true]::after{
+  content:"";position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:50%;
+  background:#ff9b1f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23230910' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center/12px no-repeat;
+  box-shadow:0 0 14px rgba(255,150,40,.55);
+}
+.effects-choice[aria-pressed=true]{box-shadow:0 10px 26px -16px rgba(255,137,28,.8),inset 0 0 0 1px rgba(255,170,80,.25)}
+.permission-row small{font-size:13px;color:#cdbab0}
+.v6-settings .effects-picker{margin:6px 20px 0}
+.v6-settings .effects-note{margin:12px 20px 4px}

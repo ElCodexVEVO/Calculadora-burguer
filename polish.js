@@ -139,6 +139,82 @@
     },true);
   }
 
+  /* ── Saludo según la hora ──
+     app.js escribe «¡Buenas, Nombre!» en cada render; aquí se cambia por el saludo del momento. El patrón deja de coincidir
+     al reemplazarlo, así que no hay bucle. */
+  const title=document.getElementById('welcomeTitle');
+  if(title){
+    const greeting=()=>{const h=new Date().getHours();return h>=5&&h<12?'Buenos días':h<19?'Buenas tardes':'Buenas noches'};
+    const fix=()=>{const m=/^¡Buenas, (.+)!$/.exec(title.textContent.trim());if(m)title.textContent=`¡${greeting()}, ${m[1]}!`};
+    new MutationObserver(fix).observe(title,{childList:true,characterData:true,subtree:true});fix();
+  }
+
+  /* ── Tablas: importes y cantidades alineados a la derecha ──
+     Una columna es numérica si todas sus celdas son importes, enteros o porcentajes (o «—»). Las cifras ya son tabulares, así
+     que alineadas a la derecha los dígitos quedan en columna. */
+  const NUM=/^[-−]?\$?\s?\d[\d,]*(?:\.\d+)?%?$/;
+  const alignTables=()=>{
+    document.querySelectorAll('.page.active table').forEach(table=>{
+      const body=table.tBodies[0];if(!body||!body.rows.length)return;
+      const cols=[];
+      for(const row of body.rows){
+        if(row.cells.length===1&&row.cells[0].colSpan>1)continue;
+        [...row.cells].forEach((cell,i)=>{
+          const t=cell.textContent.trim();
+          if(!t||t==='—'){cols[i]=cols[i]??null;return}
+          cols[i]=(cols[i]!==false)&&NUM.test(t);
+        });
+      }
+      const heads=table.tHead?.rows[0]?.cells||[];
+      cols.forEach((numeric,i)=>{
+        const on=numeric===true;
+        for(const row of body.rows){const c=row.cells[i];if(c&&row.cells.length>1)c.classList.toggle('num',on)}
+        heads[i]?.classList.toggle('num',on);
+      });
+    });
+  };
+  let alignFrame=0;
+  const queueAlign=()=>{if(!alignFrame)alignFrame=requestAnimationFrame(()=>{alignFrame=0;alignTables();enhanceEmpty()})};
+  const main=document.getElementById('main');
+
+  /* ── Estados vacíos: más aire y, si hay filtros aplicados, una salida directa ── */
+  const filtersActive=page=>[...page.querySelectorAll('.filter-fields select')].some(s=>s.selectedIndex>0)||[...page.querySelectorAll('.filter-fields input')].some(i=>i.value&&!i.closest('.hidden'));
+  function enhanceEmpty(){
+    const page=document.querySelector('.page.active');if(!page)return;
+    page.querySelectorAll('.report-empty, td[colspan]').forEach(el=>{
+      const text=el.textContent.trim();
+      if(!/^(No hay|Sin |Aún no)/.test(text)||el.children.length>1)return;
+      el.classList.add('m-empty');
+      const reset=page.querySelector('.filter-reset');
+      const has=el.querySelector('.m-empty-action');
+      if(reset&&filtersActive(page)){
+        if(!has){const b=document.createElement('button');b.type='button';b.className='m-empty-action';b.textContent='Limpiar filtros';b.addEventListener('click',()=>reset.click());el.append(b)}
+      }else has?.remove();
+    });
+  }
+  if(main){new MutationObserver(queueAlign).observe(main,{childList:true,subtree:true,characterData:true});queueAlign()}
+
+  /* ── Copiar el total para el chat del juego ──
+     Lee el total que ya muestra la caja (no recalcula nada) y copia el mismo mensaje que la caja auxiliar. */
+  const grand=document.getElementById('grandTotal');
+  if(grand&&!document.getElementById('copyTotalBtn')){
+    const btn=document.createElement('button');
+    btn.id='copyTotalBtn';btn.type='button';btn.className='copy-total';btn.setAttribute('aria-label','Copiar el total para pegarlo en el chat del juego');btn.title='Copiar el total para el chat';
+    btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg><span>Copiar</span>';
+    grand.parentElement.querySelector('span')?.after(btn);
+    const sync=()=>{const empty=/^\$0(\.0+)?$/.test(grand.textContent.trim());btn.disabled=empty};
+    new MutationObserver(sync).observe(grand,{childList:true,characterData:true,subtree:true});sync();
+    const say=(msg)=>{const host=document.getElementById('toastHost');if(!host)return;const d=document.createElement('div');d.className='toast toast-success';d.textContent=msg;host.appendChild(d);setTimeout(()=>d.classList.add('is-leaving'),3000);setTimeout(()=>d.remove(),3200)};
+    let timer=0;
+    btn.addEventListener('click',async()=>{
+      const text=`Tu pedido son ${grand.textContent.trim()}.`;
+      try{if(window.burgerDesktop)await window.burgerDesktop.copyText(text);else await navigator.clipboard.writeText(text);
+        btn.classList.add('is-done');btn.querySelector('span').textContent='Copiado';clearTimeout(timer);timer=setTimeout(()=>{btn.classList.remove('is-done');btn.querySelector('span').textContent='Copiar'},1600);
+        say('Total copiado. Pégalo en el chat del juego.');
+      }catch{prompt('Copia este mensaje:',text)}
+    });
+  }
+
   /* ── Barra de progreso de lectura (la anima el scroll desde CSS) ── */
   const bar=document.createElement('div');bar.className='m-progress';bar.setAttribute('aria-hidden','true');body.append(bar);
 

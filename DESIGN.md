@@ -1,5 +1,5 @@
 ---
-name: Burger Shot V7.8 · Ofrenda nocturna de referencia
+name: Burger Shot V9 · Ofrenda nocturna de referencia
 description: Punto de venta con paneles negros, filigrana roja luminosa, tipografía serif y perfiles personales.
 colors:
   ground: "#0B050B"
@@ -28,54 +28,52 @@ colors:
   ticket-ink: "#2b1d1f"
 typography:
   display:
-    fontFamily: "Vollkorn, Georgia, serif"
+    fontFamily: "Fraunces, Georgia, serif"
     fontSize: "clamp(32px, 2.8vw, 46px)"
     fontWeight: 800
     lineHeight: 1.07
     letterSpacing: "-0.025em"
   headline:
-    fontFamily: "Vollkorn, Georgia, serif"
+    fontFamily: "Fraunces, Georgia, serif"
     fontSize: "43px"
     fontWeight: 800
     lineHeight: 0.92
     letterSpacing: "-0.025em"
   title:
-    fontFamily: "Vollkorn, Georgia, serif"
+    fontFamily: "Fraunces, Georgia, serif"
     fontSize: "20px"
     fontWeight: 700
     lineHeight: 1.1
     letterSpacing: "-0.01em"
   profile-title:
-    fontFamily: "Vollkorn, Georgia, serif"
+    fontFamily: "Fraunces, Georgia, serif"
     fontSize: "38px"
     fontWeight: 800
     lineHeight: 1.1
     letterSpacing: "-0.025em"
   metric:
-    fontFamily: "Vollkorn, Georgia, serif"
+    fontFamily: "Fraunces, Georgia, serif"
     fontSize: "clamp(21px, 1.65vw, 28px)"
     fontWeight: 800
     lineHeight: 1.15
     letterSpacing: "-0.015em"
   body:
-    fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "Figtree, system-ui, 'Segoe UI', Roboto, sans-serif"
     fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.45
-    fontVariation: "'wdth' 100"
   label:
-    fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "Figtree, system-ui, 'Segoe UI', Roboto, sans-serif"
     fontSize: "13px"
     fontWeight: 600
     lineHeight: 1.45
   total:
-    fontFamily: "Archivo, system-ui, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "Figtree, system-ui, 'Segoe UI', Roboto, sans-serif"
     fontSize: "38px"
     fontWeight: 900
     lineHeight: 1
     letterSpacing: "-0.02em"
     fontFeature: "'tnum'"
-    fontVariation: "'wdth' 108"
 rounded:
   xs: "6px"
   control: "8px"
@@ -179,7 +177,7 @@ components:
     width: "min(720px, calc(100vw - 32px))"
 ---
 
-# Design System: Burger Shot V7.8 · Ofrenda nocturna de referencia
+# Design System: Burger Shot V9 · Ofrenda nocturna de referencia
 
 ## Overview
 
@@ -187,7 +185,7 @@ components:
 
 Negro profundo, vino casi negro, filigrana roja luminosa y luz naranja de velas y cempasúchil definen la identidad. La captura de dashboard elegida por el usuario el 12 de octubre de 2026 sustituyó la interpretación sobria anterior. El sistema debe reproducir ese carácter ornamental con textos, controles, gráficas e importes funcionales.
 
-El emblema 3D aprobado conserva su arte y proporción. Vollkorn aporta el carácter editorial de bienvenida, titulares e importes destacados del inicio y perfil; Archivo conserva precisión en formularios, navegación, tablas y caja. El acceso centrado mantiene su composición aprobada. Las escenas fotográficas quedan detrás del HTML y dejan oscuras las áreas de lectura.
+El emblema 3D aprobado conserva su arte y proporción. Fraunces aporta el carácter editorial de bienvenida, titulares e importes destacados del inicio y perfil; Figtree conserva precisión en formularios, navegación, tablas y caja. El acceso centrado mantiene su composición aprobada. Las escenas fotográficas quedan detrás del HTML y dejan oscuras las áreas de lectura.
 
 La fuente final del marco operativo es `reference-dashboard.css`, cargada después de `cinematic.css`. Esta última conserva la paleta compartida y los controles generales; `ofrenda.css`, `sidebar.css`, `auth-scene.css` y `logo.css` aportan la base. La composición específica del inicio y la autoridad visual están en `.impeccable/surfaces/index-html.md` y `docs/REFERENCE_FIDELITY.md`.
 
@@ -195,7 +193,7 @@ La fuente final del marco operativo es `reference-dashboard.css`, cargada despu�
 
 - Paneles negros y vino con bordes rojos luminosos y esquinas de filigrana.
 - Acción naranja y dorada, navegación seleccionada en rojo y estados positivos en verde.
-- Vollkorn en titulares y cifras destacadas; Archivo en operación y cifras tabulares.
+- Fraunces en titulares y cifras destacadas; Figtree en operación y cifras tabulares.
 - Logo 3D grande, papel picado diagonal y escenas de ofrenda en el marco.
 - Sidebar de 290 o 260 px, carril de 76 px y cajón móvil; perfil propio accesible.
 - Avatares circulares y tres modos de efectos con reducción de movimiento.
@@ -232,11 +230,11 @@ Los colores del frontmatter registran valores usados en la cascada actual. Los p
 
 ## Typography
 
-**Display Font:** Vollkorn, con Georgia y serif como respaldo. Se sirve desde `assets/fonts/Vollkorn.ttf`, pesos 400–900 y `font-display: swap`. Licencia en `assets/fonts/Vollkorn-OFL.txt`; procedencia oficial Google Fonts.
+**Display Font:** Fraunces (variable, ejes opsz y SOFT), con Georgia y serif como respaldo. Autoalojada en `assets/fonts/Fraunces-latin(.woff2|-ext.woff2)`, pesos 400–900, `font-display: swap` y respaldo con métricas ajustadas. Licencia SIL OFL en `assets/fonts/Fraunces-OFL.txt`; procedencia oficial Google Fonts. Las cifras son siempre lineales y tabulares.
 
-**Body Font:** Archivo variable, con fuentes de sistema como respaldo. Conserva los controles y la caja.
+**Body Font:** Figtree (variable 400–900), autoalojada en `assets/fonts/Figtree-latin(.woff2|-ext.woff2)`, con fuentes de sistema como respaldo. Conserva los controles y la caja. Licencia SIL OFL en `assets/fonts/Figtree-OFL.txt`. Los nombres de familia viven en dos tokens (`--bs-display`, `--bs-ui`) definidos en `fonts.css`.
 
-**Character:** Serif robusta y cálida en el marco ornamental; sans serif compacta para operar con rapidez. El acceso conserva la jerarquía Archivo aprobada.
+**Character:** Serif robusta y cálida en el marco ornamental; sans serif humanista y legible para operar con rapidez. El acceso usa Fraunces en la bienvenida y el título de la tarjeta.
 
 ### Hierarchy
 
@@ -246,7 +244,7 @@ Los colores del frontmatter registran valores usados en la cascada actual. Los p
 - **Profile title:** encabezado de Mi perfil; usa `profile-title`, con 31 px bajo 600 px.
 - **Metric:** importes destacados del inicio; usa `metric`. El perfil usa `clamp(24px, 2.1vw, 34px)` y 28 px bajo 600 px.
 - **Body / Label:** controles, texto de operación y navegación. La navegación usa 13 px, peso 500 en reposo y 700 activa.
-- **Total:** total principal de caja en Archivo. La caja auxiliar amplia usa Vollkorn a 31 px.
+- **Total:** total principal de caja en Figtree. La caja auxiliar amplia usa Fraunces a 31 px.
 
 **The Cifra Real Rule.** Las cifras alineadas usan números tabulares y muestran el valor calculado real; los efectos no retrasan, ocultan ni alteran importes.
 
@@ -315,7 +313,7 @@ Cinematográfico, Equilibrado y Rendimiento tienen estado seleccionado visible y
 
 - **Do** usar la cascada final de `reference-dashboard.css` para el marco de referencia.
 - **Do** conservar negro, filigrana roja luminosa, acción cálida y selección roja.
-- **Do** usar Vollkorn en titulares del inicio y perfil, y Archivo en controles y caja.
+- **Do** usar Fraunces en titulares del inicio y perfil, y Figtree en controles y caja.
 - **Do** conservar el arte y la proporción del logo 3D aprobado.
 - **Do** mantener cifras tabulares, datos propios reales, foco visible y nombres accesibles.
 - **Do** separar decoración de controles y respetar efectos por cuenta y movimiento reducido.
@@ -330,3 +328,15 @@ Cinematográfico, Equilibrado y Rendimiento tienen estado seleccionado visible y
 - **Don't** animar cálculos financieros ni confirmar ventas antes del servidor.
 - **Don't** presentar OCR ni un campo de importe recibido como parte de la caja auxiliar actual.
 - **Don't** presentar pruebas simuladas como validación autenticada real entre dispositivos.
+
+## Motion & Light (V9)
+
+La capa final `polish.css` + `polish.js` (cargada la última) añade el movimiento y el brillo. Idea rectora: **la luz de la vela**.
+
+- **Neón:** brillo rojo y naranja solo en palabras e importes clave (acento del banner, «y Halloween», «al turno.», hora, sección activa del menú, cifras de métricas). El texto conserva color y contraste; el brillo se suma por fuera. Tokens `--glow-red`, `--glow-orange`, `--glow-warm`.
+- **Entrada del inicio:** coreografía única al abrir (banner que se abre, acento que se enciende como letrero, métricas y paneles en cascada, barras que crecen).
+- **Cambio de módulo:** View Transitions (fundido corto de salida, entrada desde la dirección del menú); con la página desplazada entra la animación propia de la sección.
+- **Al bajar:** encabezado fijo que se vuelve placa, hilo de progreso de lectura, revelado de paneles bajo el pliegue y barras de la gráfica que crecen al entrar en pantalla.
+- **Acceso:** tarjeta de cristal (desenfoque, tinte, borde de luz, destello) con flotación lenta; se queda quieta al escribir.
+- **Luz de cursor:** halo cálido que sigue al puntero (solo ratón) y parallax suave del banner.
+- **Reglas:** nada anima importes ni confirma ventas antes del servidor; todo respeta `prefers-reduced-motion`, el modo Rendimiento (`body.motion-off`) y la pausa con pestaña oculta (el neón queda fijo, sin parpadeo).

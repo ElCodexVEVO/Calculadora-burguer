@@ -34,7 +34,7 @@ html,body{
     radial-gradient(circle at left bottom, rgba(240,178,58,.07), transparent 30%),
     linear-gradient(180deg, #081018 0%, #070a0f 100%);
   color:var(--text);
-  font-family:Inter, system-ui, sans-serif;
+  font-family:var(--o-font);
   scroll-behavior:smooth;
 }
 body{overflow-x:hidden}
@@ -167,7 +167,7 @@ textarea{min-height:110px;resize:vertical}
 .logo.small{width:40px;height:40px;border-radius:12px}
 
 .brand{display:flex;align-items:center;gap:12px}
-.brand strong{display:block;font-family:Manrope, sans-serif;font-size:20px;line-height:1}
+.brand strong{display:block;font-family:var(--o-font);font-size:20px;line-height:1}
 .brand strong span{color:#ff6770}
 .brand small{display:block;margin-top:4px;color:var(--muted-2);letter-spacing:.14em;font-size:10px;font-weight:700;text-transform:uppercase}
 .brand.big strong{font-size:28px}
@@ -196,7 +196,7 @@ textarea{min-height:110px;resize:vertical}
 .gate-copy{position:relative;z-index:2;max-width:540px;margin-top:70px}
 .gate-copy h1{
   margin:14px 0 14px;
-  font-family:Manrope, sans-serif;
+  font-family:var(--o-font);
   font-size:58px;
   line-height:1.02;
   letter-spacing:-.04em;
@@ -215,12 +215,12 @@ textarea{min-height:110px;resize:vertical}
   box-shadow:var(--shadow);
 }
 .fake-kpis span{display:block;font-size:11px;letter-spacing:.18em;color:var(--muted-2);font-weight:800}
-.fake-kpis strong{display:block;font-family:Manrope, sans-serif;font-size:34px;margin:8px 0 4px}
+.fake-kpis strong{display:block;font-family:var(--o-font);font-size:34px;margin:8px 0 4px}
 .fake-kpis em{font-style:normal;color:var(--green);font-weight:800}
 .quote{
   position:absolute;bottom:42px;right:56px;max-width:340px;
   color:#d7b06a;font-size:21px;line-height:1.5;
-  font-family:Georgia, serif;font-style:italic;text-align:right;
+  font-family:var(--night-display);font-style:italic;text-align:right;
 }
 .gate-form{
   display:grid;place-items:center;padding:34px;
@@ -240,7 +240,7 @@ textarea{min-height:110px;resize:vertical}
 }
 .auth-card h2{
   margin:8px 0 8px;
-  font-family:Manrope, sans-serif;
+  font-family:var(--o-font);
   font-size:36px;
   line-height:1.05;
 }
@@ -353,7 +353,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   letter-spacing:.26em;font-weight:900;font-size:12px;color:rgba(255,255,255,.09);
 }
 .sidebar-promo b{
-  font-family:Manrope, sans-serif;
+  font-family:var(--o-font);
   font-size:38px;line-height:.95;
 }
 .sidebar-promo b:nth-child(2){color:#f8d596}
@@ -433,7 +433,7 @@ nav{display:flex;flex-direction:column;gap:6px}
 }
 .hero-row h1,.page-title-row h1{
   margin:8px 0 8px;
-  font-family:Manrope, sans-serif;
+  font-family:var(--o-font);
   font-size:38px;
   line-height:1.02;
   letter-spacing:-.04em;
@@ -449,7 +449,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   text-align:right;
 }
 .clock-card span{display:block;color:#8793a2;font-size:12px}
-.clock-card strong{display:block;margin:6px 0;font-family:Manrope,sans-serif;font-size:42px;letter-spacing:-.04em}
+.clock-card strong{display:block;margin:6px 0;font-family:var(--o-font);font-size:42px;letter-spacing:-.04em}
 .clock-card small{display:inline-flex;align-items:center;gap:8px;color:#9eb8a7;font-weight:700}
 .clock-card small i{
   width:9px;height:9px;border-radius:999px;background:var(--green);display:inline-block;
@@ -510,7 +510,7 @@ nav{display:flex;flex-direction:column;gap:6px}
 .metric strong{
   display:block;
   margin:12px 0 8px;
-  font-family:Manrope, sans-serif;
+  font-family:var(--o-font);
   font-size:34px;
   line-height:1;
   letter-spacing:-.04em;
@@ -537,7 +537,7 @@ nav{display:flex;flex-direction:column;gap:6px}
 }
 .panel-head h2{
   margin:6px 0 2px;
-  font-family:Manrope, sans-serif;
+  font-family:var(--o-font);
   font-size:21px;line-height:1.05;
 }
 .panel-head span:not(.eyebrow){display:block;font-size:12px;color:#8d9baa;line-height:1.5}
@@ -564,7 +564,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   font-size:30px;box-shadow:var(--shadow-soft);
 }
 .quick-card h3{margin:18px 0 10px;font-size:16px;line-height:1.35}
-.quick-card strong{font-family:Manrope,sans-serif;font-size:26px;color:#ffd06f}
+.quick-card strong{font-family:var(--o-font);font-size:26px;color:#ffd06f}
 
 .mini-sales{padding:10px 18px 18px;display:grid;gap:10px}
 .mini-sale{
@@ -576,7 +576,7 @@ nav{display:flex;flex-direction:column;gap:6px}
 }
 .mini-sale span{color:#93a1af;font-size:12px}
 .mini-sale strong{font-size:14px}
-.mini-sale b{font-family:Manrope,sans-serif;font-size:22px;color:#4ce39c}
+.mini-sale b{font-family:var(--o-font);font-size:22px;color:#4ce39c}
 
 .pos-helper{
   display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;
@@ -650,7 +650,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   display:flex;align-items:center;justify-content:space-between;gap:10px;
 }
 .product-bottom strong{
-  font-family:Manrope,sans-serif;
+  font-family:var(--o-font);
   font-size:28px;color:#ffd06f;
 }
 .add-product{
@@ -671,7 +671,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   padding-bottom:16px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.06)
 }
 .order-head span{display:block;font-size:11px;color:#8090a0;letter-spacing:.16em;font-weight:800}
-.order-head h2{margin:8px 0 0;font-family:Manrope,sans-serif;font-size:24px}
+.order-head h2{margin:8px 0 0;font-family:var(--o-font);font-size:24px}
 .order-line{height:1px;background:rgba(255,255,255,.07);margin:16px 0}
 .empty-cart{
   padding:34px 14px;
@@ -701,7 +701,7 @@ nav{display:flex;flex-direction:column;gap:6px}
 .qty b{min-width:24px;text-align:center}
 .line-total{text-align:right}
 .line-total span{display:block;color:#93a0ae;font-size:12px}
-.line-total strong{display:block;margin-top:8px;font-family:Manrope,sans-serif;font-size:22px}
+.line-total strong{display:block;margin-top:8px;font-family:var(--o-font);font-size:22px}
 
 .totals{
   display:grid;gap:10px;margin-top:16px;
@@ -712,7 +712,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   display:flex;align-items:center;justify-content:space-between;gap:12px
 }
 .totals span,.summary-box span,.detail-box span{color:#8d9cab;font-size:12px}
-.totals strong,.summary-box strong,.detail-box strong{font-family:Manrope,sans-serif;font-size:24px}
+.totals strong,.summary-box strong,.detail-box strong{font-family:var(--o-font);font-size:24px}
 .totals .grand{
   padding-top:10px;border-top:1px solid rgba(255,255,255,.07)
 }
@@ -726,7 +726,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   background:rgba(64,211,143,.08);
 }
 .commission-preview span{display:block;color:#a5d8bf;font-size:12px}
-.commission-preview strong{display:block;margin:8px 0 4px;font-family:Manrope,sans-serif;font-size:32px}
+.commission-preview strong{display:block;margin:8px 0 4px;font-family:var(--o-font);font-size:32px}
 .commission-preview small{display:block;color:#92c6af;font-size:12px}
 .checkout{
   width:100%;margin-top:16px;border:0;
@@ -737,7 +737,7 @@ nav{display:flex;flex-direction:column;gap:6px}
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   font-size:15px;font-weight:800
 }
-.checkout strong{font-family:Manrope,sans-serif;font-size:32px}
+.checkout strong{font-family:var(--o-font);font-size:32px}
 .checkout:disabled{opacity:.45;cursor:not-allowed}
 
 .analytics-grid{
@@ -771,7 +771,7 @@ nav{display:flex;flex-direction:column;gap:6px}
 }
 .rank-item strong{display:block;font-size:14px}
 .rank-item small{display:block;color:#8896a4;font-size:12px;margin-top:4px}
-.rank-qty{font-family:Manrope,sans-serif;font-size:28px;color:#fff1c9}
+.rank-qty{font-family:var(--o-font);font-size:28px;color:#fff1c9}
 
 .table-panel{overflow:hidden}
 .table-wrap{overflow:auto}
@@ -822,7 +822,7 @@ tbody td strong{font-size:14px}
 }
 .discount-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .discount-pct{
-  font-family:Manrope,sans-serif;font-size:46px;line-height:1;color:#ff676f
+  font-family:var(--o-font);font-size:46px;line-height:1;color:#ff676f
 }
 .discount-card h3{margin:14px 0 10px;font-size:20px}
 .discount-card p{margin:0 0 18px;color:#94a1af;font-size:13px;line-height:1.7;min-height:68px}
@@ -846,7 +846,7 @@ tbody td strong{font-size:14px}
 }
 .modal h2{
   margin:8px 0 0;
-  font-family:Manrope,sans-serif;font-size:30px;line-height:1.05
+  font-family:var(--o-font);font-size:30px;line-height:1.05
 }
 .modal-copy{margin:0;color:#92a0af;font-size:14px;line-height:1.6}
 .form-grid{
@@ -884,7 +884,7 @@ tbody td strong{font-size:14px}
 .detail-item span{color:#8f9cab;font-size:13px}
 .sum-total{
   display:flex;justify-content:flex-end;gap:16px;
-  font-family:Manrope,sans-serif;font-size:26px;color:#ffd06f
+  font-family:var(--o-font);font-size:26px;color:#ffd06f
 }
 
 .employee-detail-grid{
@@ -894,7 +894,7 @@ tbody td strong{font-size:14px}
   padding:18px;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:#0f151d
 }
 .subpanel.flex{display:flex;flex-direction:column}
-.subpanel h3{margin:0 0 14px;font-family:Manrope,sans-serif;font-size:21px}
+.subpanel h3{margin:0 0 14px;font-family:var(--o-font);font-size:21px}
 .subpanel-head{
   display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px
 }
@@ -1144,7 +1144,7 @@ tbody td strong{font-size:8px}.row-btn{padding:5px 7px;font-size:7px;border-radi
 #page-payouts .table-panel tbody td:nth-child(2){font-weight:800;color:#f2f5f8}
 #page-payouts .table-panel tbody td:nth-child(4),
 #page-payouts .table-panel tbody td:nth-child(5),
-#page-payouts .table-panel tbody td:nth-child(6){font-family:Manrope,sans-serif;font-size:14px}
+#page-payouts .table-panel tbody td:nth-child(6){font-family:var(--o-font);font-size:14px}
 @media(max-width:700px){
   .table-panel table{min-width:900px}
   #page-payouts .table-panel table{min-width:760px}

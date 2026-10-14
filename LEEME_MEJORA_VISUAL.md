@@ -24,7 +24,7 @@ Abre `DEMO_V6.html` para probar el diseño con datos de ejemplo. La sección Caj
 - Logo 3D aprobado aplicado en acceso, configuración, pantalla de carga, cabecera, barra lateral, pedido vacío, caja auxiliar y favicons; también se asignó al icono de la ventana de escritorio. PNG maestro íntegro y WebP optimizados con transparencia. Se conservan las animaciones, el reflejo y la sombra del pedido; el acceso muestra el nombre incorporado en el arte sin duplicarlo debajo.
 - Tarjeta de temporada ampliada a 154 px, título más visible, fondo vino, borde de papel picado y nueva ilustración 3D detallada de vela, cempasúchil y calabaza. La luz suave usa CSS y se pausa al ocultarse, entrar a Caja o apagar el movimiento. El modelo GLB anterior queda conservado como material de diseño.
 
-## Archivos para actualizar
+## Figtrees para actualizar
 
 `index.html`, `auth-scene.css`, `ofrenda.css`, `ofrenda.js`, `logo.css`, `logo.js`, `sidebar.css`, `app.js`, `companion.js`, `VERSION.json`, `desktop/main.cjs`, `DEMO_V6.html`, `DEMO_ACCESO.html`, los nuevos archivos `assets/logo/*3d*` y `assets/season/ofrenda-premium.webp`. Los maestros y prompts se describen en `design/logo-3d/README.md`.
 

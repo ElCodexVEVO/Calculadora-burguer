@@ -22,7 +22,7 @@ burgershot-logo.is-loaded .bs-mark::before{opacity:0}
 burgershot-logo:not(.is-loaded) .bs-mark img{opacity:0}
 /* Respaldo final si ninguna imagen carga: monograma legible. */
 burgershot-logo.is-fallback .bs-mark img{display:none}
-burgershot-logo.is-fallback .bs-mark::after{content:attr(data-monogram);position:relative;z-index:3;display:grid;place-items:center;width:84%;aspect-ratio:1;border-radius:50%;background:#2a1d20;border:2px solid var(--o-mari,#f28c1b);color:var(--o-cream,#f6ebd9);font:900 clamp(12px,38cqw,46px)/1 var(--o-font,system-ui);font-stretch:125%}
+burgershot-logo.is-fallback .bs-mark::after{content:attr(data-monogram);position:relative;z-index:3;display:grid;place-items:center;width:84%;aspect-ratio:1;border-radius:50%;background:#2a1d20;border:2px solid var(--o-mari,#f28c1b);color:var(--o-cream,#f6ebd9);font:900 clamp(12px,38cqw,46px)/1 var(--o-font,system-ui);}
 burgershot-logo.is-fallback .bs-mark{container-type:inline-size}
 burgershot-logo.is-fallback .bs-mark::before{opacity:0}
 

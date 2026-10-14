@@ -126,10 +126,39 @@
      No interceptan clics; al bajar por la página se retiran para no tapar contenido. */
   const host=document.getElementById('app')||body;
   const fg=document.createElement('div');fg.className='fg-decor';fg.setAttribute('aria-hidden','true');
-  fg.innerHTML='<img class="fg-prop fg-left" src="assets/season/fg-ofrenda.webp" alt="" width="640" height="544" decoding="async"><img class="fg-prop fg-right" src="assets/season/fg-ofrenda.webp" alt="" width="640" height="544" decoding="async">';
+  fg.innerHTML=['left','right'].map(side=>`<div class="fg-prop fg-${side}"><span class="fg-light"></span><img src="assets/season/fg-ofrenda.webp" alt="" width="640" height="544" decoding="async"><span class="fg-flame"></span></div>`).join('');
   host.append(fg);
   const away=()=>fg.classList.toggle('fg-away',window.scrollY>60);
   addEventListener('scroll',away,{passive:true});away();
+
+  /* ── Luces de fondo: velas y destellos que parpadean detrás de los paneles del inicio ──
+     Un contenedor por panel con resplandores grandes (velas) y orbes pequeños (luces lejanas) de duraciones distintas.
+     Solo corre mientras el panel está a la vista y la pestaña visible. */
+  const rand=(()=>{let t=7;return()=>{t=(t*16807)%2147483647;return(t-1)/2147483646}})();
+  const lightsFor=(panel,opts)=>{
+    if(!panel||panel.querySelector(':scope>.m-lights'))return;
+    const box=document.createElement('div');box.className='m-lights'+(opts.soft?' is-soft':'');box.setAttribute('aria-hidden','true');
+    let html='';
+    for(let i=0;i<opts.glows;i++){
+      const x=opts.glows===1?50:6+i*(88/(opts.glows-1));
+      html+=`<i class="m-glow" style="--x:${x.toFixed(1)}%;--y:${(78+rand()*18).toFixed(0)}%;--s:${(46+rand()*26).toFixed(0)}%;--d:${(2.4+rand()*2.6).toFixed(2)}s;--o:-${(rand()*4).toFixed(2)}s"></i>`;
+    }
+    for(let i=0;i<opts.orbs;i++){
+      const hue=rand()<.22?'255,198,92':rand()<.35?'255,92,50':'255,150,48';
+      html+=`<i class="m-orb" style="--x:${(rand()*100).toFixed(1)}%;--y:${(8+rand()*88).toFixed(1)}%;--r:${(4+rand()*15).toFixed(1)}px;--c:${hue};--d:${(3+rand()*6).toFixed(2)}s;--o:-${(rand()*8).toFixed(2)}s;--rise:${(14+rand()*34).toFixed(0)}px"></i>`;
+    }
+    box.innerHTML=html;panel.prepend(box);
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(es=>es.forEach(e=>box.classList.toggle('is-live',e.isIntersecting)),{threshold:.05}).observe(panel);
+    }else box.classList.add('is-live');
+  };
+  const mountLights=()=>{
+    lightsFor(document.getElementById('weeklyActivity'),{glows:3,orbs:18});
+    lightsFor(document.getElementById('teamPerformance'),{glows:2,orbs:8,soft:true});
+    lightsFor(document.querySelector('#page-dashboard .employee-week'),{glows:2,orbs:8,soft:true});
+  };
+  mountLights();
+  document.getElementById('page-dashboard')&&new MutationObserver(mountLights).observe(document.getElementById('page-dashboard'),{childList:true,subtree:true});
 
   // Cambiar de categoría en Caja vuelve a abrir las tarjetas en cascada.
   document.addEventListener('click',e=>{

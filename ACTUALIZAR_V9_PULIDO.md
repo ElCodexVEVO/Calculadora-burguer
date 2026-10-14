@@ -21,3 +21,11 @@ Caja, Caja auxiliar, Ventas, Estadísticas, Registro de ventas, Clientes, Equipo
 - Paneles, filtros y métricas con cristal suave; tarjetas de empleado, convenio y promoción se elevan al pasar el cursor.
 - Cascada de entrada en métricas, tarjetas y primeras filas de tabla; resalte de fila al pasar el cursor.
 - Un grupo pequeño de vela y cempasúchil junto al menú (solo pantallas amplias, fuera de Inicio, Caja y Caja auxiliar), que se retira al bajar.
+
+## V9.2 · Emblema del menú y luces
+- **Logo del panel lateral** reemplazado por el esqueleto charro (`design/logo-charro/charro-original.webp`; capas generadas con `py design/logo-charro/build.py` → `assets/logo/charro-*`). Solo ese lugar: la Caja, la Caja auxiliar, el acceso y el favicon conservan el logo anterior.
+- **Animación «letrero embrujado»:** neón que parpadea como tubo averiado, llamas de las velas que titilan, ojos que se encienden de vez en cuando y al pasar el cursor, niebla, flotación lenta y un destello de tormenta cada ~14 s. Carril plegado: medalla circular.
+- **Caja estable:** el panel «Tu pedido» ya no cambia de altura al agregar productos (la lista se desplaza por dentro) y las confirmaciones de «agregar» ya no escalan (antes hasta 1,15×).
+- **Luces de fondo** que parpadean en Actividad semanal, Rendimiento del equipo y Empleado de la semana (velas y brasas), solo mientras el panel está a la vista.
+- **Primer plano mejorado:** vela con llama parpadeante y luz propia, balanceo suave, y retirada correcta al bajar (la animación de entrada pisaba la de retirada).
+- **Variantes del logo disponibles** en `assets/logo/`: `charro-rotulo`, `charro-wordmark`, `charro-busto`, `charro-medalla`, `charro-sello`, `charro-base/neon/llamas`.

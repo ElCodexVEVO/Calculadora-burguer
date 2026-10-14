@@ -29,3 +29,12 @@ Caja, Caja auxiliar, Ventas, Estadísticas, Registro de ventas, Clientes, Equipo
 - **Luces de fondo** que parpadean en Actividad semanal, Rendimiento del equipo y Empleado de la semana (velas y brasas), solo mientras el panel está a la vista.
 - **Primer plano mejorado:** vela con llama parpadeante y luz propia, balanceo suave, y retirada correcta al bajar (la animación de entrada pisaba la de retirada).
 - **Variantes del logo disponibles** en `assets/logo/`: `charro-rotulo`, `charro-wordmark`, `charro-busto`, `charro-medalla`, `charro-sello`, `charro-base/neon/llamas`.
+
+## V9.3 · Rendimiento, modelos nuevos y correcciones
+- **Rendimiento** (medido en Edge, Inicio a 1672×941, CPU de un núcleo en reposo): 43 % → 8 %; al desplazar 49 % → 11 %; en Caja 22 % → 13 %. Causas: 121 desenfoques de fondo (tarjetas, insignias, paneles) → 17; 79 animaciones activas → 27; 53 capas con mezcla → 5; animaciones de `text-shadow`, `filter` y propiedades personalizadas (repintaban cada fotograma) sustituidas por opacidad/transformación; luz de cursor y parallax eliminados.
+- **Partículas de Inicio eliminadas:** pétalos que caen y orbes de las luces. Se ocultan también el interruptor «Pétalos en el ambiente».
+- **Modelos 3D nuevos** (`design/props-source/`, script `build_props.py` → `assets/season/props/`): velas con calavera y cempasúchil (esquina izquierda), guirnalda con velas y papel picado (final de Inicio), esquinas de flores y velas (tarjeta del acceso y tarjeta de temporada del menú). Cada llama tiene su halo que parpadea. Se descartó el modelo de la calavera con flores.
+- **Banner:** la foto se funde con degradado, sin corte vertical en pantallas anchas.
+- **Métricas:** el marco de filigrana ocupa toda la tarjeta (una regla antigua lo dejaba como un recuadro de 148×34 px sobre el texto).
+- **Actividad semanal:** las etiquetas de día vuelven a verse (las filas de las barras eran más altas que la gráfica y se recortaban); luces tenues de vela.
+- **Redes sociales:** insignias de marca (Instagram, Discord, TikTok, Twitch; glifos Simple Icons, CC0), una fila por red.

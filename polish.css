@@ -117,7 +117,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline-offset:1
   #page-dashboard.m-enter .metric-history rect:nth-of-type(n+11){animation-delay:700ms}
   #page-dashboard.m-enter .metric-history rect:nth-of-type(n+16){animation-delay:750ms}
   #page-dashboard.m-enter #teamPerformance{animation:m-rise 700ms var(--m-out) 560ms both}
-  #page-dashboard.m-enter .employee-week{animation:m-rise 700ms var(--m-out) 640ms both}
+  #page-dashboard.m-enter .employee-week{animation:m-rise 700ms var(--m-out) 560ms both}
   #page-dashboard.m-enter #weeklyActivity{animation:m-rise 700ms var(--m-out) 720ms both}
   #page-dashboard.m-enter .dashboard-grid>.panel{animation:m-rise 700ms var(--m-out) 800ms both}
   #page-dashboard.m-enter .employee-week-rank-row{animation:m-slide 560ms var(--m-out) both}
@@ -741,3 +741,60 @@ body:not(.motion-off) .metric strong{animation:none}
   -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 38px),transparent 100%);
   mask-image:linear-gradient(180deg,#000 calc(100% - 38px),transparent 100%);
 }
+
+/* ───────── V12 · Indicador deslizante ───────── */
+.has-slider{position:relative;isolation:isolate}
+.m-slider{position:absolute;left:0;top:0;z-index:-1;border-radius:6px;pointer-events:none;
+  background:#7b2015;box-shadow:inset 0 0 0 1px #d25d2a,0 6px 16px -8px rgba(255,90,40,.6);
+  transition:transform .26s var(--m-out),width .26s var(--m-out),height .26s var(--m-out),opacity .15s}
+.m-slider.no-anim{transition:none}
+/* Los botones dejan de pintar su propio relleno: lo pinta el indicador. */
+.profile-period-picker.has-slider button[aria-pressed=true],.chart-mode.has-slider button[aria-pressed=true]{background:transparent;box-shadow:none;color:#fff2df}
+.v6-tabs.has-slider{border-radius:var(--o-r-md)}
+.v6-tabs.has-slider .m-slider{background:var(--o-surface-3);border-radius:var(--o-r-sm);box-shadow:inset 0 -2px 0 var(--o-mari)}
+.v6-tabs.has-slider button.active{background:none;box-shadow:none}
+@media (prefers-reduced-motion:reduce){.m-slider{transition:none}}
+body.motion-off .m-slider{transition:none}
+
+/* Selector Semana / Mes de la gráfica. */
+.chart-mode{display:flex;flex:none;gap:4px;padding:4px;align-self:center;margin-left:auto;margin-right:18px;border:1px solid #613122;border-radius:10px;background:#100407}
+.chart-mode button{min-height:32px;padding:6px 14px;border:0;border-radius:6px;background:none;color:#d9c3b6;font:600 12px var(--bs-ui);cursor:pointer;transition:color .15s}
+.chart-mode button:hover{color:#fff3e4}
+.chart-mode button:focus-visible{outline:2px solid #ffc15a;outline-offset:2px}
+#weeklyActivity .dashboard-panel-head .dashboard-chart-total{margin-left:0!important}
+@media (max-width:760px){.chart-mode{margin-right:0;order:3;width:100%;justify-content:center}.chart-mode button{flex:1}}
+
+/* Gráfica comparativa: leyenda, marca del periodo anterior y vista mensual. */
+.chart-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding:6px 4px 0;font-size:12.5px;color:#d9c3b6}
+.chart-legend>span{display:inline-flex;align-items:center;gap:8px}
+.chart-legend .lg-cur::before{content:"";width:12px;height:12px;border-radius:3px;background:linear-gradient(#ffad36,#e75c08)}
+.chart-legend .lg-prev::before{content:"";width:16px;height:0;border-top:2px solid #ffe3b5;border-radius:2px;box-shadow:0 0 6px rgba(255,214,150,.6)}
+.chart-legend .lg-delta{margin-left:auto;padding:3px 10px;border-radius:999px;font-weight:700;background:rgba(255,255,255,.06);color:#e2cfc2}
+.chart-legend .lg-delta.is-up{color:#5ff0b6;background:rgba(57,223,164,.12)}
+.chart-legend .lg-delta.is-down{color:#ff9a86;background:rgba(255,100,70,.12)}
+@media (max-width:760px){.chart-legend .lg-delta{margin-left:0}}
+.dashboard-bar-track{position:relative}
+.bar-ghost{position:absolute;left:50%;bottom:0;width:78%;max-width:68px;height:var(--gh);transform:translateX(-50%);pointer-events:none;z-index:2;
+  border-top:2px solid rgba(255,227,181,.9);border-radius:2px 2px 0 0;
+  background:linear-gradient(180deg,rgba(255,227,181,.12),transparent 70%);box-shadow:0 -1px 8px rgba(255,214,150,.45)}
+.employee-week-chart.is-month{gap:3px}
+.employee-week-chart.is-month .employee-week-bar i{width:72%;max-width:none;border-radius:4px 4px 1px 1px}
+.employee-week-chart.is-month .bar-ghost{width:92%}
+.employee-week-chart.is-month .employee-week-bar small{font-size:10.5px;letter-spacing:0}
+.employee-week-chart.is-month .employee-week-bar.no-tick small{visibility:hidden}
+
+/* Llegada del emblema: el logo del cargador viaja hasta aquí y el emblema aparece al llegar. */
+.emblem-stage{transition:opacity .42s ease-out}
+.emblem.emblem-arriving .emblem-stage{opacity:0;transition:none}
+.m-flight{position:fixed;z-index:700;pointer-events:none;transform-origin:center;object-fit:contain;will-change:transform,opacity;
+  filter:drop-shadow(0 10px 22px rgba(0,0,0,.5)) drop-shadow(0 0 26px rgba(242,140,27,.3))}
+.employee-week-chart.is-month .employee-week-bar.is-future i{opacity:.25}
+.bar-ghost{width:70%;max-width:62px}
+
+/* ───────── Total de la caja con importes largos ─────────
+   Con «Copiar» y un importe de 7 dígitos los renglones del total medían 352 px en un contenedor de 306 y se cortaban.
+   La columna ahora se ajusta al contenedor y el importe del total pasa a una segunda línea cuando no cabe. */
+.order-payment .totals{grid-template-columns:minmax(0,1fr);min-width:0}
+.order-payment .totals>div{min-width:0}
+.totals .grand{flex-wrap:wrap;row-gap:0}
+.totals .grand>strong{margin-left:auto;min-width:0}

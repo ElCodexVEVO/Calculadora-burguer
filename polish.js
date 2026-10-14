@@ -253,6 +253,61 @@
     check();
   }
 
+  /* ── Indicador deslizante en selectores y pestañas ──
+     El relleno de la opción activa se desliza a la nueva en vez de saltar. Solo para controles que se usan de vez en cuando
+     (periodo del perfil, periodo de la gráfica, pestañas de Administración); las categorías de Caja se quedan como están. */
+  const SLIDERS=[
+    ['.profile-period-picker',b=>b.getAttribute('aria-pressed')==='true'],
+    ['.chart-mode',b=>b.getAttribute('aria-pressed')==='true'],
+    ['.v6-tabs',b=>b.classList.contains('active')]
+  ];
+  const mountSlider=(root,isOn)=>{
+    if(!root||root.dataset.slider)return;root.dataset.slider='1';root.classList.add('has-slider');
+    const pill=document.createElement('span');pill.className='m-slider no-anim';pill.setAttribute('aria-hidden','true');root.prepend(pill);
+    const place=()=>{
+      const on=[...root.querySelectorAll('button')].find(isOn);
+      if(!on||!on.offsetWidth){pill.style.opacity='0';return}
+      pill.style.opacity='1';
+      pill.style.width=on.offsetWidth+'px';pill.style.height=on.offsetHeight+'px';
+      pill.style.transform=`translate(${on.offsetLeft}px,${on.offsetTop}px)`;
+      if(pill.classList.contains('no-anim'))requestAnimationFrame(()=>requestAnimationFrame(()=>pill.classList.remove('no-anim')));
+    };
+    new MutationObserver(place).observe(root,{subtree:true,attributes:true,attributeFilter:['class','aria-pressed','aria-selected']});
+    if('ResizeObserver' in window)new ResizeObserver(()=>{pill.classList.add('no-anim');place()}).observe(root);
+    document.fonts?.ready.then(()=>{pill.classList.add('no-anim');place()});
+    place();
+  };
+  SLIDERS.forEach(([sel,isOn])=>document.querySelectorAll(sel).forEach(el=>mountSlider(el,isOn)));
+
+  /* ── Del acceso a la app: el logo viaja al emblema del menú ──
+     Una vez por sesión. Cuando el cargador empieza a desvanecerse (la app ya está debajo), una copia del logo del cargador se
+     desplaza y encoge hasta el emblema del menú, que aparece al llegar. En móvil el menú está cerrado y no se hace. */
+  const loader=document.getElementById('authLoading');
+  const flight=()=>{
+    if(calm()||document.hidden)return;
+    try{if(sessionStorage.getItem('bs_logo_flight')==='1')return}catch{}
+    const src=loader.querySelector('.auth-loading-emblem img'),from=src?.getBoundingClientRect();
+    const stage=document.querySelector('.emblem-stage'),to=stage?.getBoundingClientRect();
+    if(!src||!from?.width||!to?.width||to.height<20)return;
+    try{sessionStorage.setItem('bs_logo_flight','1')}catch{}
+    const emblem=stage.closest('.emblem');emblem.classList.add('emblem-arriving');
+    const ghost=src.cloneNode();ghost.className='m-flight';ghost.alt='';ghost.removeAttribute('id');ghost.setAttribute('aria-hidden','true');
+    Object.assign(ghost.style,{left:from.left+'px',top:from.top+'px',width:from.width+'px',height:from.height+'px'});
+    document.body.append(ghost);
+    const dx=to.left+to.width/2-(from.left+from.width/2),dy=to.top+to.height/2-(from.top+from.height/2),k=to.width/from.width;
+    const anim=ghost.animate([
+      {transform:'translate(0,0) scale(1)',opacity:1},
+      {transform:`translate(${dx}px,${dy}px) scale(${k})`,opacity:1,offset:.78},
+      {transform:`translate(${dx}px,${dy}px) scale(${k})`,opacity:0}
+    ],{duration:1000,easing:'cubic-bezier(.77,0,.175,1)',fill:'forwards'});
+    const arrive=setTimeout(()=>emblem.classList.remove('emblem-arriving'),620);
+    const done=()=>{clearTimeout(arrive);ghost.remove();emblem.classList.remove('emblem-arriving')};
+    anim.finished.then(done,done);
+  };
+  if(loader)new MutationObserver(list=>{
+    for(const m of list)if(loader.classList.contains('is-leaving')&&!(m.oldValue||'').includes('is-leaving'))flight();
+  }).observe(loader,{attributes:true,attributeFilter:['class'],attributeOldValue:true});
+
   /* ── Barra de progreso de lectura (la anima el scroll desde CSS) ── */
   const bar=document.createElement('div');bar.className='m-progress';bar.setAttribute('aria-hidden','true');body.append(bar);
 

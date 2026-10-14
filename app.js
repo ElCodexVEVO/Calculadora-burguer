@@ -4,7 +4,7 @@ const CATS={combos:"Combos",individuales:"Individuales",extras:"Extras",cajas:"C
 const CONFIG_KEY="bs_v3_cloud";
 const PENDING_BOOTSTRAP_KEY="bs_v3_pending_admin";
 const TEMPLATE_KEY="bs_order_templates_v1";
-let saleSaving=false,checkoutSnapshot=null,loadVersion=0,saleEditId=null,saleEditDraft=null;
+let chartMode="week",saleSaving=false,checkoutSnapshot=null,loadVersion=0,saleEditId=null,saleEditDraft=null;
 let employeeWeekSaving=false,employeeWeekPreviewUrl=null;
 let loginBusy=false,loginAttempt=0,authSequence=0,authTask=null,readyAuthUser=null;
 let sb,user=null,profile=null,store=null,products=[],discounts=[],sales=[],employees=[],payouts=[],cart={},employeeWeek=null,activeCategory="all",realtime=null,resetTarget=null;
@@ -193,7 +193,7 @@ function bind(){
   if($("loginForm"))$("loginForm").onsubmit=e=>{e.preventDefault();login()};
   else{$("loginBtn").onclick=login;$("loginPassword").onkeydown=e=>{if(e.key==="Enter")login()}}
   $("logoutBtn").onclick=()=>sb.auth.signOut();$("mobileMenu").onclick=()=>$("sidebar").classList.toggle("open");$("refreshBtn").onclick=loadData;$("accountBtn").onclick=openAccount;
-  document.querySelectorAll(".nav-item").forEach(b=>b.onclick=()=>switchPage(b.dataset.page));document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>switchPage(b.dataset.go));document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
+  document.querySelectorAll(".nav-item").forEach(b=>b.onclick=()=>switchPage(b.dataset.page));document.querySelectorAll("[data-chart-mode]").forEach(b=>b.onclick=()=>{chartMode=b.dataset.chartMode;document.querySelectorAll("[data-chart-mode]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));renderEmployeeWeek()});document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>switchPage(b.dataset.go));document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
   $("editEmployeeWeekBtn").onclick=openEmployeeWeekEditor;
   $("saveEmployeeWeekBtn").onclick=saveEmployeeWeek;
   $("employeeWeekPhoto").onchange=()=>{const file=$("employeeWeekPhoto").files?.[0];if(file)$("employeeWeekPhotoUrl").value="";updateEmployeeWeekPreview(file)};
@@ -413,6 +413,11 @@ function renderAll(){refreshReportEmployees();renderDashboard();renderProducts()
 function employeeWeekBounds(date=new Date()){
   const start=new Date(date);start.setHours(0,0,0,0);start.setDate(start.getDate()-(start.getDay()+6)%7);const end=new Date(start);end.setDate(end.getDate()+7);return{start,end};
 }
+function employeeDaily(id,start,days){
+  const out=Array(days).fill(0),from=new Date(start);from.setHours(0,0,0,0);
+  for(const sale of sales){if(sale.status!=="active"||sale.created_by!==id)continue;const date=new Date(sale.created_at),day=new Date(date.getFullYear(),date.getMonth(),date.getDate()),i=Math.round((day-from)/86400000);if(i>=0&&i<days)out[i]+=Number(sale.total||0)}
+  return out;
+}
 function employeeWeekStats(){
   const {start,end}=employeeWeekBounds(),ranking=new Map();
   const dayNames=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
@@ -439,11 +444,27 @@ function renderEmployeeWeek(){
   if($("weeklyActivityName"))$("weeklyActivityName").textContent=`Generado por día · ${selected.name} · ${week}`;
   if($("weeklyActivityTotal"))$("weeklyActivityTotal").textContent=money(selected.generated);
   if(chart){
-    const maximum=Math.max(...selected.daily,1),rawStep=maximum/4,power=10**Math.floor(Math.log10(rawStep));
+    // Vista semanal (la de siempre) o mensual; en ambas se dibuja, como marca, el mismo día del periodo anterior.
+    const month=chartMode==="month",now=new Date(),monthName=new Intl.DateTimeFormat('es-MX',{month:'long'}).format(now);
+    let cur=selected.daily,prev,labels=s.dayNames,dateOf=i=>{const d=new Date(s.start);d.setDate(d.getDate()+i);return d},prevName='Semana anterior',curName='Esta semana';
+    if(month){
+      const first=new Date(now.getFullYear(),now.getMonth(),1),n=new Date(now.getFullYear(),now.getMonth()+1,0).getDate(),pFirst=new Date(now.getFullYear(),now.getMonth()-1,1),pn=new Date(now.getFullYear(),now.getMonth(),0).getDate();
+      cur=employeeDaily(selected.id,first,n);prev=employeeDaily(selected.id,pFirst,pn);prev=Array.from({length:n},(_,i)=>prev[i]||0);
+      labels=cur.map((_,i)=>String(i+1));dateOf=i=>new Date(now.getFullYear(),now.getMonth(),i+1);prevName='Mes anterior';curName='Este mes';
+      const total=cur.reduce((x,y)=>x+y,0);
+      if($("weeklyActivityName"))$("weeklyActivityName").textContent=`Generado por día · ${selected.name} · ${monthName}`;
+      if($("weeklyActivityTotal"))$("weeklyActivityTotal").textContent=money(total);
+    }else prev=employeeDaily(selected.id,new Date(s.start.getTime()-7*86400000),7);
+    const totalLabel=document.querySelector("#weeklyActivity .dashboard-chart-total span");if(totalLabel)totalLabel.textContent=month?"Total del mes":"Total de la semana";
+    if($("weeklyActivityTitle"))$("weeklyActivityTitle").textContent=month?"Actividad mensual":"Actividad semanal";
+    const curSum=cur.reduce((x,y)=>x+y,0),prevSum=prev.reduce((x,y)=>x+y,0);
+    const maximum=Math.max(...cur,...prev,1),rawStep=maximum/4,power=10**Math.floor(Math.log10(rawStep));
     const step=([1,2,2.5,5,10].find(n=>n*power>=rawStep)||10)*power,ceiling=step*4;
-    const peak=selected.daily.indexOf(Math.max(...selected.daily));
+    const peak=cur.indexOf(Math.max(...cur));
     const axes=Array.from({length:5},(_,i)=>`<span>${money(step*(4-i))}</span>`).join('');
-    chart.innerHTML=`<div class="dashboard-chart-plot"><div class="dashboard-chart-scale" aria-hidden="true">${axes}</div><div class="employee-week-chart" role="group" aria-label="Generado por día de ${esc(selected.name)}">${selected.daily.map((value,i)=>{const date=new Date(s.start);date.setDate(date.getDate()+i);const height=value?Math.max(0,Math.min(100,value/ceiling*100)):0;return`<button type="button" class="employee-week-bar ${i===peak?'is-selected':''} ${value?'has-sales':''}" data-day="${i}" data-value="${value}" aria-label="${s.dayNames[i]} ${fmt(date)}: ${money(value)}" aria-pressed="${i===peak}"><span class="dashboard-bar-track" style="--bar-height:${height}%"><i style="height:${height}%" aria-hidden="true"></i><span class="dashboard-bar-tooltip" aria-hidden="true">${money(value)}</span></span><small>${s.dayNames[i]}</small></button>`}).join('')}</div></div>`;
+    const delta=prevSum>0?Math.round((curSum-prevSum)/prevSum*100):null;
+    const legend=`<div class="chart-legend"><span class="lg-cur">${curName}</span><span class="lg-prev">${prevName} · ${money(prevSum)}</span>${delta===null?`<span class="lg-delta is-flat">Sin ventas del periodo anterior para comparar</span>`:delta===0?`<span class="lg-delta is-flat">Igual que el periodo anterior</span>`:`<span class="lg-delta ${delta>0?'is-up':'is-down'}">${delta>0?'+':''}${delta} % frente al periodo anterior</span>`}</div>`;
+    chart.innerHTML=`${legend}<div class="dashboard-chart-plot"><div class="dashboard-chart-scale" aria-hidden="true">${axes}</div><div class="employee-week-chart${month?' is-month':''}" role="group" aria-label="Generado por día de ${esc(selected.name)}"${month?` style="grid-template-columns:repeat(${cur.length},minmax(0,1fr))"`:''}>${cur.map((value,i)=>{const date=dateOf(i),height=value?Math.max(0,Math.min(100,value/ceiling*100)):0,ghost=prev[i]?Math.min(100,prev[i]/ceiling*100):0,tick=!month||i===0||(i+1)%5===0,future=month&&i+1>now.getDate();return`<button type="button" class="employee-week-bar ${i===peak?'is-selected':''} ${value?'has-sales':''}${tick?'':' no-tick'}${future?' is-future':''}" data-day="${i}" data-value="${value}" aria-label="${month?`${i+1} de ${monthName}`:`${s.dayNames[i]} ${fmt(date)}`}: ${money(value)} (${prevName.toLowerCase()}: ${money(prev[i]||0)})" aria-pressed="${i===peak}"><span class="dashboard-bar-track" style="--bar-height:${height}%"><i style="height:${height}%" aria-hidden="true"></i>${ghost?`<b class="bar-ghost" style="--gh:${ghost}%" aria-hidden="true"></b>`:''}<span class="dashboard-bar-tooltip" aria-hidden="true">${money(value)}</span></span><small>${labels[i]}</small></button>`}).join('')}</div></div>`;
   }
 }
 function openEmployeeWeekEditor(){

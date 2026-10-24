@@ -4,6 +4,10 @@ Punto de venta HTML/CSS/JavaScript para Burger Shot en FiveM, con Supabase. El i
 
 V7.7 ya se integró en `main` mediante [PR #11](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/11), merge `855d992160553cea82938f7b26b0620901645b04`. V7.8 está subida en `codex/cinematic-profiles` y [PR #12 en borrador](https://github.com/ElCodexVEVO/Calculadora-burguer/pull/12), todavía sin integrar en `main` ni publicar en GitHub Pages. El backend de fotos, efectos y redes está activado. La revisión completa pidió dos ajustes; ambos están resueltos y su confirmación final es `disposition: ship`. El veredicto cubre esos ajustes y las diez recapturas, sin afirmar coincidencia visual a 1672 px.
 
+## Restaurante 3D (página principal)
+
+Tras iniciar sesión se reproduce la entrada al local (fachada → puertas → interior isométrico) y el restaurante queda como página principal: mostrador conectado a la calculadora existente, personajes 3D de las personas conectadas con su actividad («Tomando pedido», «Entregando comida») mediante Supabase Realtime Presence y acceso a todas las secciones. Sin WebGL se usa una vista 2D con las mismas funciones. Detalle, pruebas y riesgos en [docs/RESTAURANTE_3D.md](docs/RESTAURANTE_3D.md). Para ver dos sesiones en la demo, abre `DEMO_V6.html?demoUser=cashier-1` en otra pestaña.
+
 ## Cambios actuales
 
 - Sidebar de 290/260 px y carril plegado de 76 px, con acceso directo a Mi perfil, ayudas por icono y cajón móvil.
@@ -37,7 +41,7 @@ npm ci
 npm test
 ```
 
-La ejecución final supera **182 escenarios**. El backend real de redes se comprobó mediante una transacción autenticada revertida y sin cambios en las huellas de 198 ventas, 12 perfiles, 6 cortes y los valores anteriores de foto/efectos. No se probó el ciclo fotográfico real ni la sincronización entre dos dispositivos. No se generó un instalador Electron nuevo.
+La ejecución actual supera **211 escenarios** (182 previos + 29 del restaurante 3D). El backend real de redes se comprobó mediante una transacción autenticada revertida y sin cambios en las huellas de 198 ventas, 12 perfiles, 6 cortes y los valores anteriores de foto/efectos. No se probó el ciclo fotográfico real ni la sincronización entre dos dispositivos. No se generó un instalador Electron nuevo.
 
 Las [diez capturas finales versionadas](docs/screenshots/v7-8/README.md) cubren escritorio 1240 × 900, móvil 390 × 844 y tablet 820 × 1000. Sus sidecars registran origen y tamaño real del bitmap. A 1672 × 941 se verificó geometría DOM; no se afirma comparación visual por screenshot a ese tamaño. El antiguo veredicto visual no cubre esta sustitución.
 

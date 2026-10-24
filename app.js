@@ -179,7 +179,7 @@ function setLoginBusy(busy){
 }
 function resetAuthSession(){
   authSequence++;loginAttempt++;authTask=null;readyAuthUser=null;
-  identity?.clear();profile=null;employeeWeek=null;cart={};v6?.resetOrder();checkoutSnapshot=null;companion?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];
+  identity?.clear();profile=null;employeeWeek=null;cart={};v6?.resetOrder();checkoutSnapshot=null;companion?.reset();restaurant?.reset();loadVersion++;auditRequest++;payoutRequest++;auditRows=[];
   if(realtime){sb.removeChannel(realtime);realtime=null}
   document.querySelectorAll(".modal-backdrop").forEach(x=>x.classList.add("hidden"));
   setLoginBusy(false);window.BurgerAuthUI?.reset();showOnly("authScreen");
@@ -347,7 +347,7 @@ async function loadAuthenticatedSession(id,sequence){
   profile=data;window.BurgerAuthUI?.loading("Cargando tu negocio…");
   const loaded=await loadData();if(!current())return false;
   if(!loaded)throw new Error("No se pudieron cargar los datos");
-  readyAuthUser=id;showOnly("app");refreshUser();setupRealtime();companion?.afterAuth();
+  readyAuthUser=id;showOnly("app");refreshUser();setupRealtime();companion?.afterAuth();restaurant?.afterAuth();
   window.BurgerAuthUI?.complete(profile.name);return true;
   }catch(error){
     if(current()){
@@ -409,7 +409,7 @@ function refreshUser(){
 const pagePermissions={allSales:"view_reports",employees:"manage_employees",payouts:"manage_payouts",discounts:"manage_catalog",products:"manage_catalog",audit:"view_audit",customers:"view_reports",administration:"admin",promotions:"manage_promotions",loyalty:"manage_customers",settings:"admin"};
 function pageAllowed(page){return !pagePermissions[page]||can(pagePermissions[page])}
 function switchPage(page){if(!pageAllowed(page))return toast("No tienes permiso para abrir esta sección");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));$(`page-${page}`).classList.add("active");document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add("active");$("sidebar").classList.remove("open");if(document.scrollingElement)document.scrollingElement.scrollTop=0;$("main").scrollTop=0;renderAll();if(page==="audit")loadAudit(0)}
-function renderAll(){refreshReportEmployees();renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin();renderCustomers();renderCustomerWeek();v6?.render();identity?.render()}
+function renderAll(){refreshReportEmployees();renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin();renderCustomers();renderCustomerWeek();v6?.render();identity?.render();restaurant?.render()}
 function employeeWeekBounds(date=new Date()){
   const start=new Date(date);start.setHours(0,0,0,0);start.setDate(start.getDate()-(start.getDay()+6)%7);const end=new Date(start);end.setDate(end.getDate()+7);return{start,end};
 }
@@ -604,6 +604,7 @@ function renderCart(){
   updateProductSelection();renderOrderTemplates();
   v6?.renderOrder();
   companion?.refresh();
+  restaurant?.refresh();
 }
 function updateCheckoutClientState(){
   const field=$("saleClient"),button=$("confirmSaleBtn");if(!field||!button)return;
@@ -639,7 +640,7 @@ async function saveSale(){
     if(createdSale?.id)notifyDiscord("sale_created",{sale_id:createdSale.id});
     cart={};v6?.resetOrder();checkoutSnapshot=null;$("checkoutModal").classList.add("hidden");companion?.saved();renderCart();document.dispatchEvent(new CustomEvent("bs:sale-registered",{detail:{total:c.total,client:saleClient,items:c.lines.reduce((sum,x)=>sum+x.qty,0)}}));await loadData();toast("Venta registrada","success");
   }catch(error){document.dispatchEvent(new CustomEvent("bs:sale-failed",{detail:{message:error?.message||""}}));toast(error.message||"No se pudo registrar. Tu orden sigue disponible.","error")}
-  finally{saleSaving=false;button.disabled=false;button.textContent=label;updateCheckoutClientState();companion?.refresh()}
+  finally{saleSaving=false;button.disabled=false;button.textContent=label;updateCheckoutClientState();companion?.refresh();restaurant?.refresh()}
 }
 function renderMySales(){
   if(!profile)return;const mine=filteredRows('mySales'),m=sums(mine),pending=mine.filter(s=>s.status==='active'&&!s.payout_id).reduce((a,s)=>a+Number(s.employee_earnings),0),paid=mine.filter(s=>s.payout_id).reduce((a,s)=>a+Number(s.employee_earnings),0);
@@ -1011,20 +1012,27 @@ async function toggleEmployeeActive(){
 }
 function openEmployee(id){const e=employees.find(x=>x.user_id===id);if(!e)return;const st=employeeStats(e),list=sales.filter(s=>s.created_by===id);$("editEmployeeId").value=id;$("employeeDetailName").textContent=e.name;$("editEmployeeRole").value=e.role;$("editEmployeeCommission").value=Number(e.commission_percent||0);$("editEmployeeActive").checked=e.active;$("deactivateEmployeeBtn").textContent=e.active?"Dar de baja":"Reactivar cuenta";$("deactivateEmployeeBtn").disabled=id===user.id;$("deleteEmployeeBtn").disabled=id===user.id;$("payEmployeeBtn").disabled=st.pending<=0;[["permEditOrders","can_edit_orders"],["permManageCatalog","can_manage_catalog"],["permManageEmployees","can_manage_employees"],["permViewReports","can_view_reports"],["permManagePayouts","can_manage_payouts"],["permViewAudit","can_view_audit"]].forEach(([id,key])=>{$(id).checked=e[key]===true;$(id).disabled=!isAdmin()});$("employeePermissions").classList.toggle("hidden",!isAdmin());$("employeeDetailMetrics").innerHTML=metricHTML([["Ventas",st.count,"activas"],["Generado",money(st.generated),"total","accent"],["Ganancia",money(st.earnings),"acumulada","green"],["Pendiente",money(st.pending),"por pagar"],["Pagado",money(st.paid),"histórico"]]);$("employeeSalesCount").textContent=`${list.length} ventas`;$("employeeSalesBody").innerHTML=list.slice(0,100).map(s=>`<tr><td>${folio(s)}</td><td>${fmtDate(s.created_at)}</td><td>${money(s.total)}</td><td>${money(s.employee_earnings)}</td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td></tr>`).join("")||`<tr><td colspan="5">Sin ventas.</td></tr>`;$("employeeDetailModal").classList.remove("hidden")}
 
-const companion=window.BurgerCompanion?.mount({
-  escape:esc,money,art:productArt,photo:productPhotoKey,toast,
-  state:()=>({profile,user,products,discounts,calc:calc(),saving:saleSaving,sales:profile?(isAdmin()?sales:sales.filter(s=>s.created_by===user?.id)):[]}),
+// Acciones del carrito compartidas por la caja auxiliar y el mostrador del restaurante: mismo comportamiento y mismo calc().
+const cartActions={
   add:addToCart,
-  templates:readOrderTemplates,saveTemplate:saveOrderTemplate,loadTemplate:loadOrderTemplate,deleteTemplate:deleteOrderTemplate,
   quantity:(id,delta)=>{if(saleSaving)return;const p=products.find(x=>x.id===id&&x.active);if(!p)return;const next=Math.min(9999,(cart[id]||0)+delta);if(next>0)cart[id]=next;else delete cart[id];renderCart()},
   setQuantity:(id,value)=>{if(saleSaving)return;const p=products.find(x=>x.id===id&&x.active);if(!p)return;if(!Number.isInteger(value)||value<1||value>9999)return toast("La cantidad debe ser un entero entre 1 y 9,999");cart[id]=value;renderCart()},
   options:(type,discount)=>{if(saleSaving)return;$("clientType").value=type;$("discountSelect").value=discount;renderCart()},
   clear:()=>{if(saleSaving)return;cart={};renderCart()},
+  checkout:()=>openCheckout()
+};
+const companion=window.BurgerCompanion?.mount({
+  escape:esc,money,art:productArt,photo:productPhotoKey,toast,
+  state:()=>({profile,user,products,discounts,calc:calc(),saving:saleSaving,sales:profile?(isAdmin()?sales:sales.filter(s=>s.created_by===user?.id)):[]}),
+  ...cartActions,
+  templates:readOrderTemplates,saveTemplate:saveOrderTemplate,loadTemplate:loadOrderTemplate,deleteTemplate:deleteOrderTemplate,
   replace:result=>{if(saleSaving)return;cart=result.cart;$("clientType").value=result.clientType;$("discountSelect").value=discounts.some(d=>d.id===result.discountId&&d.active)?result.discountId:(discounts.find(d=>d.active&&isNoConvenio(d))?.id||"");renderCart()},
-  checkout:()=>openCheckout(),navigate:switchPage,logout:()=>sb.auth.signOut()
+  navigate:switchPage,logout:()=>sb.auth.signOut()
 });
 const v6=window.BurgerV6?.mount({$: $,esc,money,normalize,can,isAdmin,toast,fmtDate,metricHTML,switchPage,openEmployee,loadData,renderCart,calc,state:()=>({sb,user,profile,store,products,sales,employees,discounts}),openCustomer,customerHistory,openSale});
 const identity=window.BurgerProfiles?.mount({$,esc,money,toast,switchPage,roleName:p=>p.role==="admin"?"Administrador":v6?.roleName(p)||"Cajero",state:()=>({sb,user,profile,sales,employees,employeeWeek})});
+// Restaurante 3D: página principal. Solo presenta calc() y usa las acciones de arriba; no escribe en la base de datos.
+const restaurant=window.BurgerRestaurant?.mount({esc,money,toast,can,isAdmin,pageAllowed,navigate:switchPage,art:productArt,photo:productPhotoKey,categories:CATS,sums,roleName:p=>p?.role==="admin"?"Administrador":v6?.roleName(p)||"Cajero",avatars:()=>identity?.avatars(),state:()=>({sb,user,profile,store,employees,products,sales,calc:calc(),saving:saleSaving}),...cartActions});
 $("topProfileBtn")?.addEventListener("click",()=>switchPage("profile"));
 init();
 })();

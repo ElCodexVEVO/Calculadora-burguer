@@ -2,7 +2,7 @@
   "name": "burgershot-verification",
   "private": true,
   "scripts": {
-    "test": "node regression.cjs && node reports-regression.cjs && node edit-order-regression.cjs && node companion-regression.cjs && node db-regression.cjs && node employee-week-regression.cjs && node employee-week-db.cjs && node v6-ui.cjs && node v6-db.cjs && node v6-5-convenios-db.cjs && node profile-regression.cjs && node profile-ui.cjs && node appearance-db.cjs && node profile-photo-api.cjs && node profile-socials-ui.cjs"
+    "test": "node regression.cjs && node reports-regression.cjs && node edit-order-regression.cjs && node companion-regression.cjs && node db-regression.cjs && node employee-week-regression.cjs && node employee-week-db.cjs && node v6-ui.cjs && node v6-db.cjs && node v6-5-convenios-db.cjs && node profile-regression.cjs && node profile-ui.cjs && node appearance-db.cjs && node profile-photo-api.cjs && node profile-socials-ui.cjs && node restaurant-presence.cjs && node restaurant-ui.cjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.8",

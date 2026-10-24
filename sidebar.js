@@ -5,7 +5,8 @@
   const tip=document.createElement('div');tip.id='navTooltip';tip.className='nav-tooltip';tip.role='tooltip';tip.hidden=true;document.body.append(tip);
   let compact=false,described=null,wasOpen=false,wasCompact=false;
   const profileDestination=side.querySelector('[data-page="profile"]'),railProfile=profileDestination.cloneNode(true);railProfile.removeAttribute('data-page');railProfile.classList.add('rail-profile-shortcut');railProfile.onclick=()=>{if(compact)side.querySelector('.nav-tools').open=false;profileDestination.click()};side.querySelector('nav').append(railProfile);
-  try{compact=localStorage.getItem('bs_sidebar_collapsed')==='true'}catch{}
+  // Diseño de carril flotante: en escritorio el menú siempre es de iconos con su nombre en un tooltip.
+  compact=true;
   function hideTip(){tip.hidden=true;described?.removeAttribute('aria-describedby');described=null}
   function sync(){
     document.body.classList.toggle('sidebar-collapsed',compact&&wide.matches);const open=side.classList.contains('open');
@@ -15,10 +16,10 @@
     if(!wide.matches&&wasOpen&&!open&&side.contains(document.activeElement))menu.focus();
     wasOpen=open;hideTip();
   }
-  toggle.onclick=()=>{if(wide.matches){compact=!compact;try{localStorage.setItem('bs_sidebar_collapsed',String(compact))}catch{}}else side.classList.remove('open');sync()};
+  toggle.onclick=()=>{if(!wide.matches)side.classList.remove('open');sync()};
   function annotate(){railProfile.classList.toggle('active',profileDestination.classList.contains('active'));side.querySelectorAll('.nav-item').forEach(button=>{button.setAttribute('aria-label',button.querySelector('b')?.textContent.trim()||button.textContent.trim());button.setAttribute('aria-current',button.classList.contains('active')?'page':'false')});const current=side.querySelector('.nav-item.active');document.getElementById('currentSection').textContent=current?.getAttribute('aria-label')||'Mi perfil'}
-  function showTip(target){if(!wide.matches||!compact||!target)return;const name=target.getAttribute('aria-label')||target.textContent.trim(),r=target.getBoundingClientRect();tip.textContent=name;tip.hidden=false;tip.style.left=(r.right+12)+'px';tip.style.top=Math.min(innerHeight-44,Math.max(8,r.top+(r.height-36)/2))+'px';described=target;target.setAttribute('aria-describedby',tip.id)}
-  side.addEventListener('pointerover',e=>showTip(e.target.closest('.nav-item,.account-card,.nav-tools summary')));side.addEventListener('pointerout',hideTip);side.addEventListener('focusin',e=>showTip(e.target.closest('.nav-item,.account-card,.nav-tools summary')));side.addEventListener('focusout',hideTip);side.querySelector('nav').addEventListener('scroll',hideTip);
+  function showTip(target){if(!wide.matches||!compact||!target||target.closest('.nav-tools-panel'))return;const name=target.getAttribute('aria-label')||target.textContent.trim(),r=target.getBoundingClientRect();tip.textContent=name;tip.hidden=false;tip.style.left=(Math.max(r.right,side.getBoundingClientRect().right)+12)+'px';tip.style.top=Math.min(innerHeight-44,Math.max(8,r.top+(r.height-36)/2))+'px';described=target;target.setAttribute('aria-describedby',tip.id)}
+  side.addEventListener('pointerover',e=>showTip(e.target.closest('.nav-item,.account-card,.nav-tools summary,.rail-tip')));side.addEventListener('pointerout',hideTip);side.addEventListener('focusin',e=>showTip(e.target.closest('.nav-item,.account-card,.nav-tools summary,.rail-tip')));side.addEventListener('focusout',hideTip);side.querySelector('nav').addEventListener('scroll',hideTip);
   side.addEventListener('keydown',e=>{if(e.key==='Escape')hideTip();if(e.key!=='Tab'||wide.matches||!side.classList.contains('open'))return;const targets=[...side.querySelectorAll('button,summary')].filter(el=>!el.disabled&&el.getClientRects().length&&!el.closest('.hidden'));const first=targets[0],last=targets.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}});
   new MutationObserver(sync).observe(side,{attributes:true,attributeFilter:['class']});
   new MutationObserver(annotate).observe(side.querySelector('nav'),{subtree:true,childList:true,attributes:true,attributeFilter:['class']});wide.addEventListener('change',sync);window.addEventListener('resize',hideTip);annotate();sync();

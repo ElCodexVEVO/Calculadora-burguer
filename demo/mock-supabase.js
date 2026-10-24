@@ -40,9 +40,44 @@ function query(table){
    resolve({data:JSON.parse(JSON.stringify(data)),error:null});
  }catch(e){reject(e)}}};return api;
 }
+// Presencia simulada (solo demo): compañeros ficticios de demo/data.js y otras pestañas de la demo mediante BroadcastChannel.
+// Abre DEMO_V6.html?demoUser=cashier-1 en otra pestaña para ver una segunda sesión entrar y salir del restaurante.
+const demoUserId=()=>{try{const id=new URLSearchParams(location.search).get('demoUser');return id&&(window.fixture.db.profiles||[]).some(p=>p.user_id===id&&p.active!==false)?id:'admin-1'}catch{return 'admin-1'}};
+const presenceHub={
+ started:false,channels:new Set(),own:new Map(),peers:new Map(),fake:new Map(),bus:null,timers:[],
+ start(){
+  if(this.started)return;this.started=true;const f=window.fixture,now=()=>new Date().toISOString();
+  for(const p of f.presence||[])this.fake.set(p.uid,{uid:p.uid,tab:'demo-'+p.uid,at:now(),zone:p.zone||'floor',away:!!p.away,activity:p.activity||''});
+  for(const c of f.presenceCycle||[]){let on=false;this.timers.push(setInterval(()=>{const m=this.fake.get(c.uid);if(!m)return;on=!on;m.activity=on?'deliver':(c.rest||'');this.emit()},c.every||14000))}
+  for(const p of f.presenceLater||[])this.timers.push(setTimeout(()=>{this.fake.set(p.uid,{uid:p.uid,tab:'demo-'+p.uid,at:now(),zone:p.zone||'floor',away:!!p.away});this.emit()},p.after||6000));
+  if(typeof BroadcastChannel==='function'){
+   this.bus=new BroadcastChannel('bs-demo-presence');
+   this.bus.onmessage=({data})=>{if(!data||!data.tab)return;if(data.type==='leave')this.peers.delete(data.tab);else{this.peers.set(data.tab,{key:data.key,meta:data.meta,seen:Date.now()});if(data.type==='hello')this.announce()}this.emit()};
+   this.timers.push(setInterval(()=>{this.announce('beat');const cut=Date.now()-12000;let changed=false;for(const [tab,p] of this.peers)if(p.seen<cut){this.peers.delete(tab);changed=true}if(changed)this.emit()},4000));
+   addEventListener('pagehide',()=>{for(const meta of this.own.values())this.bus?.postMessage({type:'leave',tab:meta.tab})});
+  }
+ },
+ announce(type='beat'){for(const [ch,meta] of this.own)this.bus?.postMessage({type,tab:meta.tab,key:ch._key,meta})},
+ state(){const out={};const add=(k,m)=>{(out[k]||=[]).push({...m,presence_ref:m.tab})};for(const m of this.fake.values())add(m.uid,m);for(const [ch,m] of this.own)add(ch._key,m);for(const p of this.peers.values())add(p.key,p.meta);return out},
+ emit(){for(const ch of this.channels)ch._emit()}
+};
+function demoChannel(name,opts={}){
+ if(!String(name).startsWith('bs-presence-'))return{on(){return this},subscribe(){return this},_leave(){}};
+ const listeners=[];
+ const ch={_key:opts?.config?.presence?.key,
+  on(type,filter,cb){listeners.push({type,event:filter?.event,cb});return ch},
+  subscribe(cb){presenceHub.start();presenceHub.channels.add(ch);setTimeout(()=>{cb?.('SUBSCRIBED');ch._emit()},120);return ch},
+  async track(meta){presenceHub.own.set(ch,{...meta});presenceHub.bus?.postMessage({type:'hello',tab:meta.tab,key:ch._key,meta});presenceHub.emit();return 'ok'},
+  async untrack(){const meta=presenceHub.own.get(ch);presenceHub.own.delete(ch);if(meta)presenceHub.bus?.postMessage({type:'leave',tab:meta.tab});presenceHub.emit();return 'ok'},
+  presenceState(){return presenceHub.state()},
+  _emit(){for(const l of listeners)if(l.type==='presence'&&l.event==='sync')l.cb()},
+  _leave(){presenceHub.channels.delete(ch);ch.untrack()}
+ };
+ return ch;
+}
 const client={
- auth:{getSession:async()=>({data:{session:{access_token:'demo-profile-token',user:{id:'admin-1',email:'test@example.invalid'}}}}),onAuthStateChange(fn){window.fixture.authCallback=fn;return{data:{subscription:{unsubscribe(){}}}}},signOut:async()=>window.fixture.authCallback?.('SIGNED_OUT',null)},
- from:query,storage:{from(){return{createSignedUrls:async(paths)=>({data:paths.map(path=>({path,signedUrl:window.fixture.photoBlobs?.[path]||''})),error:null}),upload:async(path)=>{window.fixture.calls.push({storage:'upload',path});return{data:{path},error:null}},getPublicUrl(path){return{data:{publicUrl:'https://fixture.invalid/employee-week/'+path}}}}}},channel(){return{on(){return this},subscribe(){return this}}},removeChannel(){},
+ auth:{getSession:async()=>{const id=demoUserId();window.fixture.currentUserId=id;return{data:{session:{access_token:'demo-profile-token',user:{id,email:'test@example.invalid'}}}}},onAuthStateChange(fn){window.fixture.authCallback=fn;return{data:{subscription:{unsubscribe(){}}}}},signOut:async()=>window.fixture.authCallback?.('SIGNED_OUT',null)},
+ from:query,storage:{from(){return{createSignedUrls:async(paths)=>({data:paths.map(path=>({path,signedUrl:window.fixture.photoBlobs?.[path]||''})),error:null}),upload:async(path)=>{window.fixture.calls.push({storage:'upload',path});return{data:{path},error:null}},getPublicUrl(path){return{data:{publicUrl:'https://fixture.invalid/employee-week/'+path}}}}}},channel:demoChannel,removeChannel(ch){ch?._leave?.();return Promise.resolve('ok')},
  async rpc(name,args){const f=window.fixture;f.calls.push({rpc:name,args});if(name==='set_my_social_links'){const id=f.currentUserId||'admin-1';if(f.failSocial||args.p_user_id!==id)return{data:null,error:{message:'Sesión inválida'}};let row=f.db.employee_appearance.find(r=>r.user_id===id);if(!row){row={user_id:id,store_id:'store-1',photo_version:0,photo_path:null,effects_mode:'balanced'};f.db.employee_appearance.push(row)}row.social_links={...args.p_links};return{data:{...row},error:null}}if(name==='set_my_effects'){const id=f.currentUserId||'admin-1';let row=f.db.employee_appearance.find(r=>r.user_id===id);if(!row){row={user_id:id,store_id:'store-1',photo_version:0,photo_path:null};f.db.employee_appearance.push(row)}row.effects_mode=args.p_mode;return{data:{...row},error:null}}if(name==='v6_save_role'||name==='v6_assign_role'){
  const role=f.db.pos_roles.find(r=>r.id===args.p_role);if(!role||role.key==='admin')return{data:null,error:{message:'Rol protegido'}};
  if(name==='set_my_effects'){const id=f.currentUserId||'admin-1';let row=f.db.employee_appearance.find(r=>r.user_id===id);if(!row){row={user_id:id,store_id:'store-1',photo_version:0,photo_path:null};f.db.employee_appearance.push(row)}row.effects_mode=args.p_mode;return{data:{...row},error:null}}if(name==='v6_save_role')role.permissions=args.p_permissions;

@@ -1,0 +1,113 @@
+/* Carril de navegación flotante (escritorio). Paleta de DESIGN.md: carbón, crema y cempasúchil. */
+:root{--rail-w:74px;--rail-gap:14px;--rail-btn:44px;--rail-bg:#0b0508;--rail-line:rgba(255,240,223,.08);--rail-icon:#bfaca3;--rail-active:#ffb347;--rail-active-2:#ff7a1a;--rail-ink:#2a1206;--rail-ease:cubic-bezier(.16,1,.3,1)}
+@media (min-width:1101px){
+  body.rail-ui{--sidebar-size:calc(var(--rail-w) + var(--rail-gap) * 2)}
+  .app #sidebar{position:fixed;top:var(--rail-gap);bottom:var(--rail-gap);left:var(--rail-gap);z-index:40;width:var(--rail-w)!important;height:auto;display:flex!important;flex-direction:column;align-items:center;gap:8px;padding:16px 0 14px!important;border:1px solid var(--rail-line)!important;border-radius:calc(var(--rail-w) / 2);background:linear-gradient(180deg,#170b10 0%,var(--rail-bg) 22%,var(--rail-bg) 78%,#120709 100%)!important;box-shadow:0 30px 60px -24px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,240,223,.06)!important;overflow:visible!important;transform:none!important;filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .app #sidebar::before,.app #sidebar::after{display:none!important}
+  .app #sidebar~.main{margin-left:calc(var(--rail-w) + var(--rail-gap) * 2)!important;width:calc(100% - var(--rail-w) - var(--rail-gap) * 2)!important}
+
+  /* Marca: medallón con aro de neón y aire respecto al borde */
+  .app #sidebar .store-chip{position:relative;display:flex!important;justify-content:center;width:100%;height:auto!important;min-height:0;margin:0 0 6px!important;padding:2px 0 14px!important;border:0!important;background:none!important}
+  .app #sidebar .store-chip::after{content:"";position:absolute;left:50%;bottom:0;width:20px;height:1px;transform:translateX(-50%);background:rgba(255,240,223,.12)}
+  .app #sidebar .store-chip .store-copy,.app #sidebar .store-chip>i,.app #sidebar .sidebar-toggle,.app #sidebar .season-card,.app #sidebar .emblem-stage,.app #sidebar .emblem::after,.app #sidebar .emblem::before{display:none!important}
+  .app #sidebar .emblem{display:grid!important;place-items:center;width:48px!important;height:48px!important;aspect-ratio:1;margin:0;padding:2px;border-radius:50%;background:linear-gradient(150deg,#ffb347,#ff3038 55%,#6d1220)!important;box-shadow:0 8px 20px -8px rgba(255,70,40,.6)}
+  .app #sidebar .emblem-medal{display:block!important;width:44px!important;height:44px!important;margin:0;border-radius:50%;border:2px solid var(--rail-bg);object-fit:cover;background:#14080b}
+
+  /* Navegación */
+  .app #sidebar>nav{display:flex!important;flex-direction:column;align-items:center;gap:4px;flex:1;min-height:0;width:100%;padding:2px 0!important;margin:0;overflow:visible!important}
+  .app #sidebar>nav::after{display:none!important}
+  .app #sidebar .nav-label{flex:none;width:20px!important;height:1px!important;min-height:1px!important;margin:8px 0!important;padding:0!important;font-size:0!important;background:rgba(255,240,223,.12)!important;border:0!important;overflow:hidden}
+  .app #sidebar .nav-label::before,.app #sidebar .nav-label::after{display:none!important}
+  .app #sidebar .nav-label:first-child{display:none!important}
+  .app #sidebar .nav-item,.app #sidebar .rail-more,.app #sidebar .rail-logout{position:relative;display:grid!important;place-items:center;flex:none;width:var(--rail-btn)!important;height:var(--rail-btn)!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-radius:50%!important;background:transparent!important;color:var(--rail-icon)!important;box-shadow:none!important;cursor:pointer;transition:background-color .22s ease,color .22s ease,box-shadow .3s var(--rail-ease),transform .18s ease}
+  .app #sidebar .nav-item b{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .app #sidebar .nav-item::after{display:none!important}
+  .app #sidebar .nav-item .nav-svg,.app #sidebar .rail-more .nav-svg{display:grid;place-items:center;width:22px!important;height:22px!important;margin:0;background:none!important;color:inherit!important;border-radius:0}
+  .app #sidebar .nav-item .nav-svg svg,.app #sidebar .rail-more svg,.app #sidebar .rail-logout svg{width:21px!important;height:21px!important;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--rail-ease)}
+  /* Al pasar el ratón: pequeña píldora pegada al borde izquierdo del carril */
+  .app #sidebar>nav>.nav-item::before,.app #sidebar .rail-more::before{content:""!important;display:block!important;position:absolute!important;left:calc((var(--rail-w) - var(--rail-btn)) / -2 - 1px)!important;right:auto!important;top:50%!important;bottom:auto!important;width:4px!important;height:8px!important;margin:-4px 0 0!important;border:0!important;border-radius:0 4px 4px 0!important;background:rgba(255,240,223,.55)!important;box-shadow:none!important;opacity:0;transform:scaleY(.5);transition:opacity .2s ease,transform .3s var(--rail-ease)}
+  .app #sidebar>nav>.nav-item:not(.active):hover::before,.app #sidebar .rail-more:hover::before{opacity:1;transform:scaleY(2)}
+  .app #sidebar .nav-item:hover,.app #sidebar .rail-more:hover,.app #sidebar .rail-logout:hover{background:rgba(255,240,223,.07)!important;color:#fff3e6!important}
+  .app #sidebar .nav-item:hover svg,.app #sidebar .rail-more:hover svg{transform:translateY(-1px)}
+  .app #sidebar .nav-item:focus-visible,.app #sidebar .rail-more:focus-visible,.app #sidebar .rail-logout:focus-visible,.app #sidebar .account-card:focus-visible{outline:2px solid var(--rail-active)!important;outline-offset:2px!important}
+  .app #sidebar .nav-item:active,.app #sidebar .rail-more:active,.app #sidebar .rail-logout:active{transform:scale(.92)}
+  /* Activo: círculo cálido con un halo suave */
+  .app #sidebar>nav>.nav-item.active,.app #sidebar>nav>.rail-profile-shortcut.active,.app #sidebar .nav-tools:has(.nav-tools-panel .nav-item.active)>.rail-more{background:linear-gradient(150deg,#ffc266,var(--rail-active) 35%,var(--rail-active-2))!important;color:var(--rail-ink)!important;box-shadow:0 0 0 4px rgba(255,138,30,.13),0 10px 22px -10px rgba(255,122,26,.85),inset 0 1px 0 rgba(255,255,255,.4)!important}
+  .app #sidebar>nav>.nav-item.active svg{stroke-width:2}
+  .app #sidebar .rail-profile-shortcut{display:grid!important;margin-top:0!important}
+  .app #sidebar .nav-tools [data-page=profile]{display:none!important}
+
+  /* «Más herramientas» */
+  .app #sidebar .nav-tools{position:static;margin:0!important;padding:0;border:0;background:none}
+  .app #sidebar .nav-tools>summary{list-style:none;font-size:0!important}
+  .app #sidebar .nav-tools>summary::-webkit-details-marker{display:none}
+  .app #sidebar .nav-tools>summary::after{display:none!important}
+  .app #sidebar .nav-tools[open]>.rail-more{background:rgba(255,240,223,.12)!important;color:#fff3e6!important}
+  .app #sidebar .nav-tools[open]>.rail-more svg{transform:rotate(45deg)}
+  .app #sidebar .nav-tools-panel{position:fixed;z-index:320;display:grid;gap:2px;width:256px;max-height:calc(100vh - 24px);overflow:visible;padding:8px;border:1px solid rgba(255,240,223,.1);border-radius:18px;background:linear-gradient(180deg,#170b10,#0d0609);box-shadow:0 28px 60px -20px rgba(0,0,0,.92),0 0 0 1px rgba(0,0,0,.5);transform-origin:0 50%;animation:rail-pop 240ms var(--rail-ease) both}
+  .app #sidebar .nav-tools:not([open]) .nav-tools-panel{display:none}
+  .app #sidebar .nav-tools-panel::before{content:"";position:absolute;left:-6px;top:var(--panel-arrow,50%);width:11px;height:11px;margin-top:-6px;background:#140a0e;border-left:1px solid rgba(255,240,223,.1);border-bottom:1px solid rgba(255,240,223,.1);transform:rotate(45deg)}
+  .app #sidebar .nav-tools-title{margin:6px 12px 6px;color:var(--rail-active);font:700 10.5px/1.2 Figtree,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+  .app #sidebar .nav-tools-panel .nav-item{display:flex!important;justify-content:flex-start;gap:12px;width:100%!important;height:42px!important;padding:0 12px!important;border-radius:11px!important;color:#e7d6cc!important;font:600 14px Figtree,system-ui,sans-serif}
+  .app #sidebar .nav-tools-panel .nav-item::before{display:none!important}
+  .app #sidebar .nav-tools-panel .nav-item.hidden,.app #sidebar .nav-tools-panel .nav-item[data-page=profile]{display:none!important}
+  .app #sidebar .nav-tools-panel .nav-item b{position:static!important;width:auto;height:auto;clip-path:none;overflow:visible;font-weight:600}
+  .app #sidebar .nav-tools-panel .nav-item .nav-svg{color:#b9a49b!important}
+  .app #sidebar .nav-tools-panel .nav-item:hover .nav-svg{color:var(--rail-active)!important}
+  .app #sidebar .nav-tools-panel .nav-item.active{background:rgba(255,179,71,.13)!important;color:#ffd28a!important}
+  .app #sidebar .nav-tools-panel .nav-item.active .nav-svg{color:var(--rail-active)!important}
+  @keyframes rail-pop{from{opacity:0;transform:translateX(-6px) scale(.97)}to{opacity:1;transform:none}}
+
+  /* Pie: cuenta (el punto muestra el estado de la nube) y cerrar sesión */
+  .app #sidebar .sidebar-bottom{position:relative;display:flex!important;flex-direction:column;align-items:center;gap:6px;width:100%;margin:0;padding:14px 0 0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;overflow:visible}
+  .app #sidebar .sidebar-bottom::before{content:""!important;display:block!important;position:absolute!important;top:0!important;left:50%!important;right:auto!important;bottom:auto!important;z-index:0!important;width:20px!important;height:1px!important;transform:translateX(-50%);background:rgba(255,240,223,.12)!important;border-radius:0!important}
+  .app #sidebar .sidebar-bottom::after{display:none!important}
+  .app #sidebar #sync{position:absolute!important;width:1px!important;height:1px!important;min-height:0!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;border:0!important}
+  .app #sidebar .account-card{position:relative;display:grid!important;grid-template-columns:1fr!important;grid-template-rows:1fr!important;gap:0!important;place-items:center;width:var(--rail-btn)!important;min-height:0!important;height:var(--rail-btn)!important;margin:0!important;padding:0!important;border:0!important;border-radius:50%!important;background:none!important;box-shadow:none!important}
+  .app #sidebar .account-card>*{grid-area:1/1!important}
+  .app #sidebar .account-card .account-copy,.app #sidebar .account-card em{display:none!important}
+  .app #sidebar .account-card .avatar{width:40px!important;height:40px!important;margin:0!important;border-radius:50%!important;border:0!important;background:linear-gradient(145deg,#5a2233,#2b1219)!important;box-shadow:0 0 0 2px var(--rail-bg),0 0 0 3px rgba(255,179,71,.35)!important;font-size:13px!important;transition:box-shadow .25s ease}
+  /* El punto de estado va en la tarjeta (el avatar recorta su contenido para la foto redonda). */
+  .app #sidebar .account-card .avatar::after{display:none!important}
+  .app #sidebar .account-card::after{content:""!important;display:block!important;position:absolute!important;right:1px;bottom:1px;width:12px;height:12px;box-sizing:border-box;border-radius:50%;border:2.5px solid var(--rail-bg);background:#c9a55a;pointer-events:none}
+  .app #sidebar:has(#sync.online) .account-card::after{background:#39dfa4}
+  .app #sidebar:has(#sync.error) .account-card::after{background:#ff5a5a}
+  .app #sidebar .account-card:hover .avatar,.app #sidebar .account-card[aria-expanded="true"] .avatar{box-shadow:0 0 0 2px var(--rail-bg),0 0 0 3px var(--rail-active)!important}
+  .app #sidebar .rail-logout{width:40px!important;height:40px!important;color:#a8948c!important}
+  .app #sidebar .rail-logout svg{width:19px!important;height:19px!important}
+  .app #sidebar .rail-logout:hover{color:#ff8a8a!important;background:rgba(255,48,56,.12)!important}
+
+  /* Indicador del activo: píldora luminosa en el borde izquierdo que se desliza entre secciones */
+  .app #sidebar .rail-bump{position:absolute;top:0;left:-1px;width:4px;height:24px;margin-top:-12px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,#ffc266,var(--rail-active-2));box-shadow:0 0 12px rgba(255,138,30,.75);pointer-events:none}
+  .app #sidebar .rail-bump.is-ready{transition:transform 360ms var(--rail-ease),opacity .2s ease}
+  .app #sidebar .rail-bump[hidden]{display:block!important;opacity:0}
+
+  /* Tooltip a la derecha del carril, con flecha */
+  .nav-tooltip{min-height:0!important;padding:7px 11px!important;border:1px solid rgba(255,240,223,.12)!important;border-radius:9px!important;background:#0b0508!important;color:#fff3e6!important;font:600 12.5px/1.2 Figtree,system-ui,sans-serif!important;letter-spacing:.01em;box-shadow:0 12px 26px -12px #000!important;animation:rail-tip .16s ease-out}
+  .nav-tooltip::before{content:"";position:absolute;left:-5px;top:50%;width:8px;height:8px;margin-top:-4px;background:#0b0508;border-left:1px solid rgba(255,240,223,.12);border-bottom:1px solid rgba(255,240,223,.12);transform:rotate(45deg)}
+  @keyframes rail-tip{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
+
+  /* Alturas reducidas: iconos más compactos y, si no caben, desplazamiento interno. */
+  @media (max-height:860px){
+    :root{--rail-btn:40px}
+    .app #sidebar{gap:6px;padding:12px 0 10px!important}
+    .app #sidebar>nav{gap:2px}
+    .app #sidebar .nav-label{margin:5px 0!important}
+    .app #sidebar .emblem{width:42px!important;height:42px!important}.app #sidebar .emblem-medal{width:38px!important;height:38px!important}
+    .app #sidebar .account-card .avatar{width:36px!important;height:36px!important}
+    .app #sidebar .account-card::after{right:2px;bottom:2px;width:11px;height:11px}
+  }
+  @media (max-height:720px){
+    .app #sidebar>nav{overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none}
+    .app #sidebar>nav::-webkit-scrollbar{display:none}
+    .app #sidebar>nav>.nav-item::before,.app #sidebar .rail-more::before{display:none!important}
+  }
+}
+/* Móvil y tableta: el menú deslizable conserva sus etiquetas; el panel de herramientas vuelve a la lista. */
+@media (max-width:1100px){
+  .nav-tools-panel{display:contents}
+  .nav-tools-title,.rail-bump{display:none}
+  .rail-more .nav-svg{display:none}
+  .rail-logout{display:none}
+}
+@media (prefers-reduced-motion:reduce){.app #sidebar *,.app #sidebar .nav-tools-panel,.nav-tooltip{transition:none!important;animation:none!important}}

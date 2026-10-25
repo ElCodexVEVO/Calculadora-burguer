@@ -18,7 +18,7 @@ window.fixture={
   ['YKZ','percent',10,null,'all','Beneficio confidencial: aplícalo solo si confirmas que es miembro de YKZ.'],
   ['Precio Sheriff','unit_price',0,200,'combos','Combos a $200 para policías, agentes, oficiales y personal de seguridad.',['police','sheriff']]
  ].map(([name,kind,percent,unit_price,scope,description,client_types],i)=>({id:'d'+i,store_id:'store-1',name,kind,percent,unit_price,scope,description,client_types:client_types||null,exclude_public:false,active:true,system:i===0,sort_order:i})),
- sales:[{id:'sale-seed',sale_number:1,store_id:'store-1',created_by:'cashier-1',employee_name:'María López',client:'Cliente general',client_type:'general',payment:'cash',total:280,subtotal:280,commission_percent:15,employee_earnings:42,business_net:238,status:'active',items:[{id:'p0',name:'Combo Hamburguesa',price:280,qty:1,lineTotal:280}],created_at:now,payout_id:null}],employee_payouts:[],audit_events:[]}
+ sales:[{id:'sale-seed',sale_number:1,store_id:'store-1',created_by:'cashier-1',employee_name:'María López',client:'Cliente general',client_type:'general',payment:'Tarjeta',total:280,subtotal:280,commission_percent:15,employee_earnings:42,business_net:238,status:'active',items:[{id:'p0',name:'Combo Hamburguesa',price:280,qty:1,lineTotal:280}],created_at:now,payout_id:null}],employee_payouts:[],audit_events:[]}
 };
 function query(table){
  const q={table,op:'select',payload:null,filters:[],one:false,limitCount:Infinity,offset:0,orders:[]};

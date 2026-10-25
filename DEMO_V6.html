@@ -24,7 +24,7 @@
   <link rel="apple-touch-icon" href="assets/logo/favicon-3d-180.png">
 <link rel="stylesheet" href="cinematic.css?v=7.7.6">
 <link rel="stylesheet" href="reference-dashboard.css?v=7.8.4">
-<link rel="stylesheet" href="polish.css?v=12.0.0">
+<link rel="stylesheet" href="polish.css?v=12.0.1">
 <link rel="stylesheet" href="restaurant.css?v=13.0.0">
 <link rel="stylesheet" href="rail.css?v=13.2.0">
 </head>
@@ -361,7 +361,7 @@
 <div id="checkoutModal" class="modal-backdrop hidden"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
   <div class="modal-head"><div><h2 id="checkoutTitle">Cobrar orden</h2><p>Revisa el resumen y registra la venta.</p></div><button class="icon-btn" data-close="checkoutModal" aria-label="Cerrar"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
   <div id="checkoutSummary" class="summary-box"></div>
-  <div class="form-grid"><div><label for="saleClient">Cliente / ID <span class="required-mark">(obligatorio)</span></label><input id="saleClient" placeholder="Nombre o ID" maxlength="120" required aria-required="true" autocomplete="off" aria-describedby="saleClientHint"><small id="saleClientHint" class="field-note">Escribe Cliente / ID para habilitar «Registrar venta».</small></div><div><label for="salePayment">Método de pago</label><select id="salePayment"><option>Efectivo</option><option>Transferencia</option><option>Tarjeta</option><option>Otro</option></select></div><div class="full"><label for="saleNote">Nota <span>(opcional)</span></label><input id="saleNote" placeholder="Ej. Pedido para evento" maxlength="500"></div></div>
+  <div class="form-grid"><div><label for="saleClient">Cliente / ID <span class="required-mark">(obligatorio)</span></label><input id="saleClient" placeholder="Nombre o ID" maxlength="120" required aria-required="true" autocomplete="off" aria-describedby="saleClientHint"><small id="saleClientHint" class="field-note">Escribe Cliente / ID para habilitar «Registrar venta».</small></div><div><span class="field-label">Método de pago</span><p id="salePaymentFixed" class="payment-fixed"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/></svg>Tarjeta</p></div><div class="full"><label for="saleNote">Nota <span>(opcional)</span></label><input id="saleNote" placeholder="Ej. Pedido para evento" maxlength="500"></div></div>
   <div class="modal-actions"><button class="btn secondary" data-close="checkoutModal">Cancelar</button><button id="confirmSaleBtn" class="btn primary">Registrar venta</button></div>
 </div></div>
 
@@ -489,7 +489,7 @@
 <script src="profile.js?v=9.3.0"></script>
 <script src="restaurant-presence.js?v=13.0.0"></script>
 <script src="restaurant.js?v=13.0.0"></script>
-<script src="app.js?v=13.0.0"></script>
+<script src="app.js?v=13.0.1"></script>
 <script src="dashboard.js?v=7.0.0"></script>
 <script src="ofrenda.js?v=7.8.2"></script>
 <script src="sidebar.js?v=13.0.0"></script>

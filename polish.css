@@ -798,3 +798,9 @@ body.motion-off .m-slider{transition:none}
 .order-payment .totals>div{min-width:0}
 .totals .grand{flex-wrap:wrap;row-gap:0}
 .totals .grand>strong{margin-left:auto;min-width:0}
+
+/* Cobro: el único método de pago es Tarjeta. Se muestra como dato fijo (no como selector),
+   con el mismo alto que el campo vecino para que la fila quede alineada. */
+.modal .field-label{display:block;margin:14px 0 7px;font-size:13px;font-weight:600;line-height:1.5;color:var(--o-cream-2)}
+.payment-fixed{display:flex;align-items:center;gap:10px;min-height:43px;margin:0;padding:10px 12px;border-radius:9px;border:1px solid rgba(246,235,217,.08);background:rgba(246,235,217,.04);font-size:14px;font-weight:600;color:var(--o-cream)}
+.payment-fixed .ui-icon{flex:none;color:var(--o-mari)}

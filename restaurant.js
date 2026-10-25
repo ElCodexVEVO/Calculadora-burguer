@@ -624,7 +624,10 @@
       $('rsPersonSince').textContent = fmtTime(p.since || Date.now());
       const actions = [];
       if (p.self) actions.push(`<button type="button" class="rs-btn ghost" data-rs-nav="profile">Mi perfil</button>`);
-      else if (api.pageAllowed('employees')) actions.push(`<button type="button" class="rs-btn ghost" data-rs-nav="employees">Ver en Equipo</button>`);
+      else {
+        actions.push(`<button type="button" class="rs-btn ghost" data-view-profile="${e(p.uid)}">Ver perfil</button>`);
+        if (api.pageAllowed('employees')) actions.push(`<button type="button" class="rs-btn ghost" data-rs-nav="employees">Ver en Equipo</button>`);
+      }
       $('rsPersonActions').innerHTML = actions.join('');
       api.avatars?.();
     }

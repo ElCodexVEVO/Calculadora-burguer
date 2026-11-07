@@ -97,12 +97,12 @@
   transform-origin:50% 65%;
   transition:transform 360ms var(--o-ease),border-color 260ms var(--o-ease),box-shadow 360ms var(--o-ease);
 }
-.sidebar .season-card::before{content:"";position:absolute;right:-5px;top:-5px;width:62px;height:62px;background:url('assets/season/papel-esquina.svg') center/contain no-repeat;opacity:.2;pointer-events:none}
+.sidebar .season-card::before{content:"";position:absolute;right:-5px;top:-5px;width:62px;height:62px;background:none center/contain no-repeat;opacity:.2;pointer-events:none}
 .sidebar .season-card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--o-mari);-webkit-mask:var(--papel-edge) repeat-x left bottom/18px 5px;mask:var(--papel-edge) repeat-x left bottom/18px 5px;opacity:.7;pointer-events:none}
 .sidebar .season-card-art{position:absolute;width:122px;aspect-ratio:6/5;right:-2px;bottom:5px;pointer-events:none;filter:drop-shadow(0 7px 8px rgba(0,0,0,.28))}
 .sidebar .season-card .season-card-art::before{left:23%;top:14%;width:80%;animation:none}
 /* Solo la llama recibe el reflejo: la cera, las flores y la calabaza permanecen nítidas. */
-.sidebar .season-card-art::after{content:"";position:absolute;inset:0;z-index:2;background:url('assets/season/ofrenda-premium.webp') center/contain no-repeat;-webkit-mask:radial-gradient(ellipse 10% 17% at 22% 13%,#000 55%,transparent 90%);mask:radial-gradient(ellipse 10% 17% at 22% 13%,#000 55%,transparent 90%);mix-blend-mode:screen;opacity:0;transform-origin:22% 26%;pointer-events:none}
+.sidebar .season-card-art::after{content:"";position:absolute;inset:0;z-index:2;background:none center/contain no-repeat;-webkit-mask:radial-gradient(ellipse 10% 17% at 22% 13%,#000 55%,transparent 90%);mask:radial-gradient(ellipse 10% 17% at 22% 13%,#000 55%,transparent 90%);mix-blend-mode:screen;opacity:0;transform-origin:22% 26%;pointer-events:none}
 .sidebar .season-card-copy span{font-size:8.5px;letter-spacing:.14em;font-weight:700;color:#e6b974}
 .sidebar .season-card-copy strong{max-width:128px;margin-top:12px;font-size:21px;font-weight:850;line-height:1.08;letter-spacing:-.025em;white-space:normal}
 .sidebar .season-card-copy strong em{margin-top:8px;font-size:13px;font-weight:650;letter-spacing:0;color:#ffa844}
@@ -132,7 +132,7 @@
 .sidebar .sync.error{border-color:rgba(255,122,107,.22)}
 .sidebar .sync strong{font-size:12px;font-weight:650;color:var(--o-cream-2);line-height:1.25}
 .sidebar .sync small{max-width:none;font-size:11px;text-align:left;line-height:1.35;color:var(--o-faint);overflow-wrap:anywhere}
-.sidebar .account-card{position:relative;grid-template-columns:44px minmax(0,1fr) 24px;gap:10px;min-height:88px;padding:12px 10px;background:linear-gradient(100deg,#2b1b24,rgba(43,27,36,.96) 42%,rgba(43,27,36,.3)),url('assets/season/account-ornament.svg') right -48px center/156px no-repeat,linear-gradient(135deg,#592a3b,#302338 70%,#493043);border:1px solid rgba(239,183,111,.27);border-radius:11px;box-shadow:inset 0 1px 0 rgba(255,218,170,.08),0 4px 12px -8px rgba(0,0,0,.6);transition:border-color 200ms var(--o-ease),box-shadow 200ms var(--o-ease)}
+.sidebar .account-card{position:relative;grid-template-columns:44px minmax(0,1fr) 24px;gap:10px;min-height:88px;padding:12px 10px;background:linear-gradient(100deg,#2b1b24,rgba(43,27,36,.96) 42%,rgba(43,27,36,.3)),none right -48px center/156px no-repeat,linear-gradient(135deg,#592a3b,#302338 70%,#493043);border:1px solid rgba(239,183,111,.27);border-radius:11px;box-shadow:inset 0 1px 0 rgba(255,218,170,.08),0 4px 12px -8px rgba(0,0,0,.6);transition:border-color 200ms var(--o-ease),box-shadow 200ms var(--o-ease)}
 .sidebar .account-card .avatar{position:relative;width:44px;height:44px;border-radius:12px;background:linear-gradient(140deg,#713044,#3b202d);border-color:rgba(255,193,99,.3);color:#ffe3b6;font-size:13px;box-shadow:inset 0 1px 0 rgba(255,222,166,.1)}
 .sidebar .account-card .avatar::after{content:"";position:absolute;right:-3px;bottom:-3px;width:9px;height:9px;border-radius:50%;background:var(--o-teal);border:3px solid #2b1b24}
 .sidebar .account-card strong{font-size:14px;font-weight:700;line-height:1.3;white-space:normal;overflow-wrap:anywhere}

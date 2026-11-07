@@ -552,7 +552,7 @@ function exterior(kit, M, F, g, rand, lightsOut) {
   add(s, kit.box(34, 0.24, 0.25), M.curb, 0, -0.1, Z1 + 4.22, { cast: false });
   add(s, kit.box(60, 0.1, 14), M.asphalt, 0, -0.2, Z1 + 11.4, { cast: false });
   for (let x = -26; x <= 26; x += 4) add(s, kit.box(2.0, 0.012, 0.14), M.lane, x, -0.145, Z1 + 11.0, { cast: false });
-  // Jardineras con cempasúchil, velas y calabazas (temporada).
+  // Jardineras de follaje perenne.
   const flowers = [];
   const planter = (x0, x1) => {
     const w = x1 - x0, cx = (x0 + x1) / 2;
@@ -609,7 +609,7 @@ function flowersMesh(kit, M, positions, rand) {
   petal.scale(1, 0.72, 1);
   const inner = new THREE.IcosahedronGeometry(0.03, 0);
   inner.translate(0, 0.03, 0);
-  const geo = kit.geo('marigold', () => {
+  const geo = kit.geo('foliage', () => {
     const a = petal;
     const merged = new THREE.BufferGeometry();
     const pos = new Float32Array(a.attributes.position.array.length + inner.attributes.position.array.length);
@@ -621,7 +621,7 @@ function flowersMesh(kit, M, positions, rand) {
   });
   const mesh = new THREE.InstancedMesh(geo, M.flowers, positions.length);
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler(), sc = new THREE.Vector3(), color = new THREE.Color();
-  const tones = ['#ff8a1c', '#ffa62b', '#f06b12', '#ffb93a', '#e4561a'];
+  const tones = ['#427653', '#5c9164', '#346846', '#79a272', '#4b8058'];
   positions.forEach(([x, y, z], i) => {
     const k = 0.8 + rand() * 0.5;
     e.set(rand() * 0.4, rand() * 6, rand() * 0.4); q.setFromEuler(e); sc.set(k, k, k);
@@ -756,7 +756,7 @@ function menuBoards(kit, M, g, logoUrl) {
         const y = 78 + r * 74, key2 = photoKey ? photoKey(p) : '';
         if (key2) {
           let img = images.get(key2);
-          if (!img) { img = new Image(); pending++; img.onload = img.onerror = () => { pending--; if (!pending && last) draw(...last); }; img.src = `assets/menu/thumb/${key2}.webp`; images.set(key2, img); }
+          if (!img) { img = new Image(); pending++; img.onload = img.onerror = () => { pending--; if (!pending && last) draw(...last); }; img.src = `assets/menu-general/thumb/${key2}.webp`; images.set(key2, img); }
           if (img.complete && img.naturalWidth) ctx.drawImage(img, x0 + 18, y + 4, 96, 64);
         }
         ctx.fillStyle = '#fff0df'; ctx.font = '700 25px Figtree, sans-serif';
@@ -778,7 +778,7 @@ function menuBoards(kit, M, g, logoUrl) {
   };
 }
 
-export function buildRestaurant(kit, { logoUrl, season = true, quality = 'medium' } = {}) {
+export function buildRestaurant(kit, { logoUrl, season = false, quality = 'medium' } = {}) {
   const rand = rng(20261031);
   const M = materials(kit, logoUrl), F = fader(kit), S = screens(kit);
   const root = new THREE.Group(); root.name = 'restaurant';
@@ -792,7 +792,7 @@ export function buildRestaurant(kit, { logoUrl, season = true, quality = 'medium
   counter(kit, M, g, S);
   kitchen(kit, M, g, rand);
   staffRoom(kit, M, g, S.notes);
-  const posters = ['combo-burger', 'burger', 'happybox'].map(k => kit.std(`poster:${k}`, { map: kit.imageTex(`assets/menu/webp/${k}.webp`), roughness: 0.5 }));
+  const posters = ['combo-burger', 'burger', 'happybox'].map(k => kit.std(`poster:${k}`, { map: kit.imageTex(`assets/menu-general/webp/${k}.webp`), roughness: 0.5 }));
   dining(kit, M, g, posters);
   exterior(kit, M, F, g, rand, lightSpots);
   const flags = season ? seasonal(kit, M, F, g, rand, candles) : [];

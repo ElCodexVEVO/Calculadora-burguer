@@ -15,7 +15,7 @@
 .rs-spinner{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,240,223,.14);border-top-color:var(--rs-neon);animation:rs-spin 900ms linear infinite}
 @keyframes rs-spin{to{transform:rotate(360deg)}}
 .rs-fallback{position:absolute;inset:0;display:grid;align-items:end;padding:clamp(18px,4vw,48px);padding-bottom:110px;z-index:1}
-.rs-fallback-art{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,5,11,.2),rgba(11,5,11,.86) 72%),url(assets/restaurant-night-960.webp) center/cover no-repeat}
+.rs-fallback-art{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,5,11,.2),rgba(11,5,11,.86) 72%),url('assets/food/combo-burger.webp') center/cover no-repeat}
 .rs-fallback-copy{position:relative;max-width:520px;padding:22px 24px;border:1px solid var(--rs-line);border-radius:var(--rs-radius);background:var(--rs-panel);backdrop-filter:blur(8px)}
 .rs-fallback-copy h2{margin:4px 0 8px;font:800 34px/1 var(--rs-display);letter-spacing:-.02em}
 .rs-fallback-copy p{margin:0 0 14px;color:var(--rs-muted);line-height:1.45}

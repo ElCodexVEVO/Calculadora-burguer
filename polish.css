@@ -359,7 +359,7 @@ body.visual-paused .pf{animation-play-state:paused}
 .app .sidebar .season-card.ornate-frame{overflow:visible}
 .app .sidebar .season-card::before{
   content:"";position:absolute;right:-9%;top:-30%;left:auto;bottom:auto;width:46%;aspect-ratio:1228/1216;height:auto;z-index:3;opacity:1;pointer-events:none;
-  background:url('assets/season/props/esquina-420.webp') center/contain no-repeat;
+  background:none center/contain no-repeat;
   filter:drop-shadow(0 6px 8px rgba(0,0,0,.6));transform:scaleX(-1);transform-origin:50% 50%;
 }
 
@@ -584,7 +584,7 @@ body.visual-paused .pf{animation-play-state:paused}
 .report-empty,.catalog-empty,.empty-state-panel{position:relative;isolation:isolate}
 .report-empty::before,.catalog-empty::before,.empty-state-panel::before{
   content:"";position:absolute;left:50%;top:50%;width:min(300px,70%);aspect-ratio:1125/902;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
-  background:url('assets/logo/charro-sello-480.webp') center/contain no-repeat;opacity:.1;
+  background:url('assets/burgershot-logo.webp') center/contain no-repeat;opacity:.1;
 }
 
 /* En pantallas donde se ven los modelos de las esquinas, la gráfica deja un margen interior a la izquierda para que el grupo de velas no tape el eje. */
@@ -625,7 +625,7 @@ body.visual-paused .pf{animation-play-state:paused}
 td.m-empty{display:table-cell;position:relative;isolation:isolate}
 td.m-empty::before{
   content:"";position:absolute;left:50%;top:50%;width:min(260px,60%);aspect-ratio:1125/902;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
-  background:url('assets/logo/charro-sello-480.webp') center/contain no-repeat;opacity:.1;
+  background:url('assets/burgershot-logo.webp') center/contain no-repeat;opacity:.1;
 }
 .m-empty-action{
   display:block;margin:16px auto 0;padding:9px 18px;border-radius:999px;border:1px solid rgba(255,170,90,.5);

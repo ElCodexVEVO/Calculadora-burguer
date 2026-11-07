@@ -1,0 +1,16 @@
+{
+  "automated_scenarios": 239,
+  "base_suite": 214,
+  "dashboard": 6,
+  "manager_sql": 8,
+  "manager_ui": 6,
+  "manager_api": 5,
+  "backend": {
+    "migration_applied": true,
+    "employee_admin_version": 10,
+    "jwt_verification": true,
+    "employee_rpc_security_definer": true
+  },
+  "real_sales_created": false,
+  "real_accounts_created": false
+}

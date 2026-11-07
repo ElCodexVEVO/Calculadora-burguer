@@ -103,7 +103,7 @@ burgershot-logo.bs-logo--loader .bs-mark-fill{position:absolute;inset:0;z-index:
 [data-season~="dia-de-muertos"] burgershot-logo .bs-mark-glow{opacity:1;background:radial-gradient(circle,rgba(255,168,64,.30),rgba(242,140,27,.10) 45%,rgba(242,140,27,0) 70%)}
 [data-season~="dia-de-muertos"] burgershot-logo.bs-logo--compact .bs-mark-glow,[data-season~="dia-de-muertos"] burgershot-logo.bs-logo--mobile .bs-mark-glow{inset:-30%;background:radial-gradient(circle,rgba(255,168,64,.26),rgba(242,140,27,0) 66%)}
 burgershot-logo .bs-accents{position:absolute;inset:-14%;z-index:1;pointer-events:none}
-burgershot-logo .bs-accents i{position:absolute;width:12%;aspect-ratio:3/2;background:url('assets/season/petalo.svg') center/contain no-repeat;opacity:.85}
+burgershot-logo .bs-accents i{position:absolute;width:12%;aspect-ratio:3/2;background:none center/contain no-repeat;opacity:.85}
 burgershot-logo .bs-accents i:nth-child(1){left:2%;top:58%;transform:rotate(-28deg)}
 burgershot-logo .bs-accents i:nth-child(2){right:4%;top:18%;transform:rotate(152deg) scale(.8)}
 burgershot-logo .bs-accents i:nth-child(3){right:10%;bottom:6%;transform:rotate(18deg) scale(.7)}

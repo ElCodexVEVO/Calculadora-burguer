@@ -1,0 +1,54 @@
+/* Interacción sobre el diseño nocturno. */
+#page-dashboard{--chart-accent:#ff9d26}
+[hidden]{display:none!important}
+.metric-open{position:absolute;right:9px;top:8px;z-index:4;width:24px;height:24px;display:grid;place-items:center;color:#d69162;background:#200b1188;border:0;border-radius:6px;cursor:pointer}
+.metric-open svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.7;transform:rotate(-35deg)}
+.metric-open:hover{color:#ffcb7b;background:#63251b}
+#dashboardMetrics .metric{cursor:pointer;transition:border-color .25s,box-shadow .25s,transform .25s}
+#dashboardMetrics .metric:hover{border-color:#ff6f38;box-shadow:0 0 18px -7px #ff462c88;transform:translateY(-3px)}
+#dashboardMetrics .metric:focus-within{outline:1px solid #ffbc69;outline-offset:2px}
+.dashboard-day-detail{display:flex;align-items:center;gap:10px;min-height:36px;margin-top:15px;padding:12px 0 0;border-top:1px solid #6c342540;color:#d6b9a4;font:500 11px var(--o-font)}
+.dashboard-day-detail strong{margin-left:auto;font-size:18px;color:#ffb94f}.dashboard-day-detail small{font-size:10px;color:#a98c7e}
+.rs-summary-btn{margin-left:auto;margin-right:10px;min-height:42px;padding:10px 15px;border-radius:7px;border:1px solid #8d472f;background:#220b14ed;color:#ffdeb9;font:650 11px var(--o-font);cursor:pointer;pointer-events:auto}
+.rs-summary-btn:hover{background:#5b201b}
+/* Gráfica recorrible: la línea, los puntos y la comparación proceden de los mismos días del resumen. */
+.desk-chart-tools{display:flex;align-items:center;justify-content:space-between;margin:3px 0 11px;gap:12px;color:#bca9a8;font:400 10px 'Figtree',sans-serif}
+.desk-chart-tools>div{display:flex;gap:2px;border:1px solid #ffffff0e;padding:3px;border-radius:5px;background:#140911}
+.desk-chart-tools button{display:flex;align-items:center;gap:6px;background:none;border:0;border-radius:3px;min-height:28px;padding:5px 10px;color:#c7aaa0;font:550 10px 'Figtree',sans-serif;cursor:pointer;transition:background .18s,color .18s}
+.desk-chart-tools button[aria-pressed=true]{background:#642419;color:#ffdfb1}
+.desk-chart-tools button:hover{color:#e7c3ab}
+.desk-chart-tools[hidden],.desk-line[hidden]{display:none!important}
+.desk-line{position:relative;width:100%;height:210px;touch-action:pan-y;cursor:crosshair;margin-top:15px}
+.desk-line>svg{display:block;width:100%;height:100%;overflow:visible}
+.desk-line-grid{stroke:#825047;stroke-opacity:.35;stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:2 5}
+.desk-line-path{stroke:var(--chart-accent);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0;animation:desk-line-trace .8s cubic-bezier(.2,.65,.3,1) both}
+.desk-line-previous{fill:none;stroke:#cbb77c;stroke-width:1.3;stroke-dasharray:5 5;stroke-opacity:.6;vector-effect:non-scaling-stroke}
+.desk-line-guide{stroke:#ff9752;stroke-width:1;stroke-opacity:.45;stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+.desk-line circle{fill:#291019;stroke:#ffb24b;stroke-width:1.4;vector-effect:non-scaling-stroke;transition:r .18s,fill .18s;animation:desk-point-arrive .4s .35s both}
+.desk-line circle.is-active{r:6;fill:#ffb24b;stroke:#170609;stroke-width:3}
+.desk-line-axis{position:absolute;left:0;top:10.3%;height:78.4%;width:35px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;color:#bea295;font:400 9px/1 'Figtree',sans-serif}
+.desk-line-readout{position:absolute;pointer-events:none;transform:translate(-50%,-100%);padding:6px 9px;border:1px solid #945034;border-radius:4px;background:#210c12;color:#ffe5ba;white-space:nowrap;font:600 10px/1.2 'Figtree',sans-serif;box-shadow:0 7px 15px #0003;transition:left .1s ease,top .1s ease}
+.is-line-view .dashboard-chart-scale,.is-line-view .dashboard-bar-track{display:none!important}
+.is-line-view .dashboard-chart-plot{margin:0!important}
+.is-line-view .employee-week-chart{height:auto!important;min-height:0!important;gap:0!important;padding:0 16px 0 40px}
+.is-line-view .employee-week-bar{height:29px!important;min-height:0!important;padding:5px 0!important;border-radius:3px;background:none;justify-content:center}
+.is-line-view .employee-week-bar::before,.is-line-view .employee-week-bar::after{display:none!important}
+.is-line-view .employee-week-bar small{font-size:10px;color:#baa194}
+.is-line-view .employee-week-bar.is-selected small{color:#ffc06b}
+.is-line-view .employee-week-bar:hover{background:#4f1a19}
+#page-dashboard .dashboard-day-detail{border-top:1px solid #ffffff08;margin-top:12px;padding-top:14px}
+#page-dashboard .dashboard-day-detail strong{color:#ffb24b;font-size:18px}
+@keyframes desk-line-trace{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes desk-point-arrive{from{opacity:0}to{opacity:1}}
+
+.desk-line-path{stroke-dasharray:var(--line-length,1000);filter:drop-shadow(0 0 4px #ff982e66)}
+@keyframes desk-line-trace{from{stroke-dashoffset:var(--line-length,1000)}to{stroke-dashoffset:0}}
+.is-line-view .dashboard-chart-plot{display:block!important;width:100%!important}
+.is-line-view .employee-week-chart{width:100%!important;grid-template-columns:repeat(var(--day-count,7),minmax(0,1fr))!important;box-sizing:border-box}
+body:not(.motion-off) #page-dashboard .dash-hero h2 em{animation:bs-neon-warm 5s ease-in-out infinite alternate}
+@keyframes bs-neon-warm{from{text-shadow:0 0 7px #ff44242e,0 0 20px #ff442419}to{text-shadow:0 0 9px #ff442466,0 0 28px #ff44243b}}
+@media(min-width:1101px) and (max-width:1450px){#dashboardMetrics .metric{gap:10px;padding:12px}#dashboardMetrics .dashboard-metric-icon{width:36px;height:42px;flex-basis:36px}#dashboardMetrics .metric-history{width:45px;flex-basis:45px}#dashboardMetrics .metric strong{font-size:24px}#page-dashboard .employee-week-avatar{width:76px;height:76px;flex-basis:76px;font-size:28px}#page-dashboard .employee-week-person{gap:13px}#page-dashboard .employee-week-person h3{font-size:23px}}
+@media(max-width:700px){.dashboard-day-detail{flex-wrap:wrap}.dashboard-day-detail small{width:100%}.desk-chart-tools>span{display:none}.desk-chart-tools{justify-content:flex-end}.desk-line{height:185px}.rs-summary-btn{font-size:9px;padding:9px 11px}}
+@media(prefers-reduced-motion:reduce){.desk-line *,.metric,.hero-picker button,.dashboard-actions button,#page-dashboard .dash-hero h2 em{animation:none!important;transition:none!important}}
+body.motion-off .desk-line *,body.motion-off #page-dashboard .dash-hero h2 em{animation:none!important}
+html[data-page-hidden] #page-dashboard .dash-hero h2 em{animation-play-state:paused}

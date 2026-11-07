@@ -30,14 +30,17 @@ export default {
         adminProfile.role !== "admin" && adminProfile.can_manage_employees !== true
       ) {
         return Response.json(
-          { error: "Solo un administrador puede administrar empleados" },
+          { error: "No tienes permiso para administrar empleados" },
           { status: 403 },
         );
       }
 
       if (adminProfile.role !== "admin") {
-        if (action === "create" && body.role === "admin") {
-          return Response.json({ error: "Solo un administrador puede crear administradores" }, { status: 403 });
+        if (action === "create" && body.role && body.role !== "cashier") {
+          return Response.json({ error: "Solo un administrador puede crear cuentas con privilegios" }, { status: 403 });
+        }
+        if (action === "delete") {
+          return Response.json({ error: "Solo un administrador puede borrar cuentas" }, { status: 403 });
         }
         if (action !== "create") {
           const { data: protectedTarget } = await ctx.supabaseAdmin.from("profiles")
@@ -58,7 +61,18 @@ export default {
           .slice(0, 28);
 
         const password = String(body.password || "");
-        const role = body.role === "admin" ? "admin" : "cashier";
+        const requestedRole = String(body.role || "cashier");
+        if (!["cashier", "manager", "admin"].includes(requestedRole)) {
+          return Response.json({ error: "Rol inválido" }, { status: 400 });
+        }
+        const role = requestedRole === "admin" ? "admin" : "cashier";
+        let accessRoleId: string | null = null;
+        if (requestedRole === "manager") {
+          const { data: managerRole, error: managerError } = await ctx.supabaseAdmin.from("pos_roles")
+            .select("id").eq("store_id", adminProfile.store_id).eq("key", "manager").maybeSingle();
+          if (managerError || !managerRole) return Response.json({ error: "El rol de gerente no está configurado" }, { status: 409 });
+          accessRoleId = managerRole.id;
+        }
         const commission = Math.max(
           0,
           Math.min(100, Number(body.commission_percent || 0)),
@@ -118,6 +132,7 @@ export default {
             username,
             login_email: loginEmail,
             role,
+            ...(accessRoleId ? { access_role_id: accessRoleId } : {}),
             active: true,
             commission_percent: commission,
             can_edit_orders: false,

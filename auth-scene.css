@@ -1,7 +1,7 @@
 /* Acceso centrado: la marca y la bienvenida enmarcan una única tarea. */
 #authScreen{isolation:isolate;grid-template-columns:minmax(0,1fr);align-items:center;align-content:safe center;padding:88px 24px 32px;min-height:100dvh;overflow-y:auto;overflow-x:hidden;scrollbar-color:#785036 #1b121a;background:var(--o-ground,#141012);color:var(--o-cream,#f6ebd9)}
 .auth-composition{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr);align-items:center;gap:28px;width:min(440px,100%);margin:0 auto}
-.auth-scene{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#120c11 url('assets/auth-altar.webp') center/cover no-repeat}
+.auth-scene{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#120c11 url('assets/food/combo-burger.webp') center/cover no-repeat}
 .auth-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,10,16,.45) 0%,rgba(18,10,16,0) 40%),linear-gradient(90deg,rgba(18,10,16,.15) 30%,rgba(18,10,16,.62) 100%)}
 #authScreen.seasonal-access .auth-scene::after{background:radial-gradient(ellipse at 50% 42%,rgba(14,8,16,.64),rgba(14,8,16,.3) 58%,rgba(14,8,16,.12)),linear-gradient(180deg,rgba(14,8,16,.25),rgba(14,8,16,.08) 65%,rgba(14,8,16,.38))}
 #authScreen .gate-art{display:flex;align-items:center;justify-content:center;gap:28px;position:relative;justify-self:center;width:600px;max-width:calc(100vw - 48px);min-width:0;padding:0;background:none;overflow:visible}
@@ -124,7 +124,7 @@
   #authScreen .auth-card h2{font-size:28px}
   #authScreen .auth-card>.muted{margin-bottom:24px}
   #authScreen.seasonal-access .auth-scene::after{background:linear-gradient(180deg,rgba(18,10,16,.48),rgba(18,10,16,.26) 60%,rgba(18,10,16,.65))}
-  .auth-scene{background-image:url('assets/auth-altar-960.webp')}
+  .auth-scene{background-image:url('assets/food/combo-burger.webp')}
   .auth-bunting{height:64px;gap:14px;padding:0 8px}.auth-flag{height:54px;width:56px}
   .auth-loading{padding:76px 20px 35px}.auth-loading-emblem{width:210px;height:210px}
   .auth-loading-emblem>img{width:136px;height:136px}

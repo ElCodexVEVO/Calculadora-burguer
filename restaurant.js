@@ -221,7 +221,7 @@
         mountQuality = quality();
         controller = await mod.mount(host, {
           quality: mountQuality, reduced, season: /muertos|halloween/.test(document.documentElement.dataset.season || ''),
-          logoUrl: 'assets/logo/burgershot-3d-512.webp',
+          logoUrl: 'assets/burgershot-logo.webp',
           onPick: handlePick, onHover: handleHover, onFrame: placeOverlay, onStage: s => { if (s === 'exterior' || s === 'interior') setStage(s); },
           onLost: () => { disposeScene(); setView('fallback', 'La vista 3D se interrumpió (el equipo liberó la tarjeta gráfica). Puedes reintentarlo.'); },
           counterOpen: () => panel === 'counter', onInteract: () => hideCaption(),

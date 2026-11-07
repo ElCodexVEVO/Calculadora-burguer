@@ -28,7 +28,7 @@ function productPhotoKey(p){
 }
 function productArt(p,thumb=false){
   const key=productPhotoKey(p);
-  return `<img class="food-photo" src="assets/menu/${thumb?"thumb":"webp"}/${key}.webp" alt="" loading="${thumb?"eager":"lazy"}" decoding="async" width="${thumb?240:720}" height="${thumb?160:480}">`;
+  return `<img class="food-photo" src="assets/menu-general/${thumb?"thumb":"webp"}/${key}.webp" alt="" loading="${thumb?"eager":"lazy"}" decoding="async" width="${thumb?240:720}" height="${thumb?160:480}">`;
 }
 function productBadge(p){
   if(p.restriction)return {police:"Policía",ems:"EMS",sheriff:"Sheriff"}[p.restriction]||p.restriction;
@@ -124,7 +124,8 @@ function initials(name){
 }
 
 const isAdmin=()=>profile?.role==="admin";
-const can=permission=>isAdmin()||profile?.[`can_${permission}`]===true;
+const can=permission=>isAdmin()||profile?.[`can_${permission}`]===true||(permission==="manage_discounts"&&profile?.can_manage_catalog===true);
+const canViewTeamReports=()=>isAdmin()||(v6?.roleKey(profile)==="manager"&&can("view_reports"));
 async function notifyDiscord(event,payload={}){try{if(!sb||!profile)return;const {error}=await sb.functions.invoke("discord-notify",{body:{event,...payload}});if(error)console.warn("Discord webhook:",error.message||error)}catch(error){console.warn("Discord webhook:",error?.message||error)}}
 const folio=s=>`BS-${String(s.sale_number||0).padStart(5,"0")}`;
 const uname=v=>String(v||"").trim().toLowerCase().replace(/[^a-z0-9._-]/g,"").slice(0,28);
@@ -224,8 +225,8 @@ function bind(){
   $("templateSelect").onchange=()=>{showTemplateDeleteConfirm(false);renderOrderTemplates()};
   $("checkoutBtn").onclick=openCheckout;$("confirmSaleBtn").onclick=saveSale;$("saleClient").oninput=updateCheckoutClientState;$("mySalesSearch").oninput=renderMySales;$("allSalesSearch").oninput=renderAllSales;$("customerSearch").oninput=()=>{customerPage=0;renderCustomers()};$("csvBtn").onclick=exportCSV;
   $("addProductBtn").onclick=()=>can("manage_catalog")?openProduct():toast("No tienes permiso para gestionar el catálogo");$("saveProductBtn").onclick=()=>can("manage_catalog")&&saveProduct();$("deleteProductBtn").onclick=()=>can("manage_catalog")&&deleteProduct();
-  $("addDiscountBtn").onclick=()=>can("manage_catalog")?openDiscount():toast("No tienes permiso para gestionar convenios");$("saveDiscountBtn").onclick=()=>can("manage_catalog")&&saveDiscount();$("deleteDiscountBtn").onclick=()=>can("manage_catalog")&&deleteDiscount();
-  $("addEmployeeBtn").onclick=()=>{$("employeeName").value="";$("employeeUsername").value="";$("employeePassword").value="";$("employeeRole").value="cashier";$("employeeCommission").value="0";$("employeeError").textContent="";$("employeeModal").classList.remove("hidden")};
+  $("addDiscountBtn").onclick=()=>can("manage_discounts")?openDiscount():toast("No tienes permiso para gestionar convenios");$("saveDiscountBtn").onclick=()=>can("manage_discounts")&&saveDiscount();$("deleteDiscountBtn").onclick=()=>can("manage_discounts")&&deleteDiscount();
+  $("addEmployeeBtn").onclick=()=>{if(!can("manage_employees"))return toast("No tienes permiso para gestionar empleados");for(const option of $("employeeRole").options)option.hidden=option.value!=="cashier"&&!isAdmin();$("employeeName").value="";$("employeeUsername").value="";$("employeePassword").value="";$("employeeRole").value="cashier";$("employeeCommission").value="0";$("employeeError").textContent="";$("employeeModal").classList.remove("hidden")};
   $("createEmployeeBtn").onclick=createEmployee;$("saveEmployeeBtn").onclick=saveEmployee;$("deactivateEmployeeBtn").onclick=toggleEmployeeActive;$("resetPasswordBtn").onclick=openPasswordReset;$("confirmPasswordBtn").onclick=resetPassword;$("payEmployeeBtn").onclick=payEmployee;$("deleteEmployeeBtn").onclick=deleteEmployee;
 }
 function tick(){const n=new Date();if($("todayDate"))$("todayDate").textContent=new Intl.DateTimeFormat("es-MX",{weekday:"short",day:"2-digit",month:"short",year:"numeric"}).format(n);if($("todayTime"))$("todayTime").textContent=new Intl.DateTimeFormat("es-MX",{hour:"2-digit",minute:"2-digit"}).format(n)}
@@ -407,7 +408,7 @@ function refreshUser(){
   document.querySelectorAll(".admin-only").forEach(x=>{const permission=x.dataset.permission;x.classList.toggle("hidden",permission?!can(permission):!isAdmin())});
   identity?.avatars();
 }
-const pagePermissions={allSales:"view_reports",employees:"manage_employees",payouts:"manage_payouts",discounts:"manage_catalog",products:"manage_catalog",audit:"view_audit",customers:"view_reports",administration:"admin",promotions:"manage_promotions",loyalty:"manage_customers",settings:"admin"};
+const pagePermissions={allSales:"view_reports",employees:"manage_employees",payouts:"manage_payouts",discounts:"manage_discounts",products:"manage_catalog",audit:"view_audit",customers:"view_reports",administration:"admin",promotions:"manage_promotions",loyalty:"manage_customers",settings:"admin"};
 function pageAllowed(page){return !pagePermissions[page]||can(pagePermissions[page])}
 function switchPage(page){if(!pageAllowed(page))return toast("No tienes permiso para abrir esta sección");document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(x=>x.classList.remove("active"));$(`page-${page}`).classList.add("active");document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add("active");$("sidebar").classList.remove("open");if(document.scrollingElement)document.scrollingElement.scrollTop=0;$("main").scrollTop=0;if(page==="profile")identity?.beforeShow?.();renderAll();if(page==="audit")loadAudit(0)}
 function renderAll(){refreshReportEmployees();renderDashboard();renderProducts();renderCart();renderMySales();renderAnalytics();renderAllSales();renderEmployees();renderPayouts();renderDiscounts();renderProductsAdmin();renderCustomers();renderCustomerWeek();v6?.render();identity?.render();restaurant?.render()}
@@ -527,9 +528,6 @@ function renderDashboard(){
   const icons=['<path d="m3 8 3 12h12l3-12ZM8 8l4-5 4 5M9 12v4m6-4v4"/>','<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v5c0 4 16 4 16 0V5M4 10v5c0 4 16 4 16 0v-5M4 15v4c0 4 16 4 16 0v-4"/>','<circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21v-3a6 6 0 0 1 12 0v3m2-7a5 5 0 0 1 6 4v3"/>','<path d="M4 20v-7h3v7Zm6 0V8h3v12Zm6 0V3h3v17Z"/>'];
   const historyRows=isAdmin()?sales:mine,historyKeys=['count','generated','earnings',isAdmin()?'net':null];
   $("dashboardMetrics").innerHTML=metrics.map((x,i)=>`<div class="metric ornate-frame ${x[3]||''}" data-metric="${i}"><i class="dashboard-metric-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${icons[i]}</svg></i><div class="dashboard-metric-copy"><span>${esc(x[0])}</span><strong>${esc(x[1])}</strong><small>${esc(x[2])}</small></div>${dashboardMetricHistory(historyRows,historyKeys[i])}</div>`).join('');
-  $("quickProducts").innerHTML=products.filter(x=>x.active).slice(0,8).map(p=>`<button class="quick-card" data-quick-add="${esc(p.id)}" aria-label="Agregar ${esc(p.name)} y abrir punto de venta"><div class="quick-photo">${productArt(p)}</div><h3>${esc(p.name)}</h3><strong>${money(p.price)}</strong></button>`).join("");
-  $("quickProducts").onclick=e=>{const b=e.target.closest("[data-quick-add]");if(b){addToCart(b.dataset.quickAdd);switchPage("pos")}};
-  const shown=isAdmin()?sales:sales.filter(s=>s.created_by===user.id);$("miniSales").innerHTML=shown.slice(0,8).map(s=>`<button class="mini-sale" data-mini-sale="${s.id}"><span>${folio(s)}</span><strong>${esc(s.employee_name)}</strong><b>${money(s.total)}</b><em>Ver <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></em></button>`).join("")||`<div class="empty-cart"><strong>Sin ventas todavía</strong></div>`;document.querySelectorAll("[data-mini-sale]").forEach(b=>b.onclick=()=>openSale(b.dataset.miniSale));
   renderEmployeeWeek();
 }
 function updateBulkPreview(input){
@@ -723,7 +721,7 @@ function renderEmployees(){
     return `<article class="employee-card" style="--employee-index:${Math.min(i,10)}" data-employee="${e.user_id}">
       <div class="employee-card-head">
         <div class="employee-avatar" data-profile-avatar="${esc(e.user_id)}" data-profile-name="${esc(e.name)}">${initials(e.name)}</div>
-        <div class="employee-main"><strong>${esc(e.name)}</strong><span>${e.role==="admin"?"Administrador":"Empleado"}</span></div>
+        <div class="employee-main"><strong>${esc(e.name)}</strong><span>${e.role==="admin"?"Administrador":v6?.roleName(e)||"Empleado"}</span></div>
         ${e.active?`<span class="status-dot active">Activo</span>`:`<span class="status-dot">Inactivo</span>`}
       </div>
       <div class="employee-card-stats">
@@ -740,23 +738,28 @@ function renderEmployees(){
   }).join(""):`<div class="empty-state-panel"><strong>No hay empleados registrados.</strong></div>`;
   document.querySelectorAll("[data-employee]").forEach(b=>b.onclick=()=>openEmployee(b.dataset.employee));
 }
-function openEmployee(id){
-  const e=employees.find(x=>x.user_id===id);if(!e)return;const st=employeeStats(e),list=sales.filter(s=>s.created_by===id);$("editEmployeeId").value=id;$("employeeProfileBtn").dataset.viewProfile=id;$("employeeDetailName").textContent=e.name;$("editEmployeeRole").value=e.role;$("editEmployeeCommission").value=Number(e.commission_percent||0);$("editEmployeeActive").checked=e.active;$("deactivateEmployeeBtn").textContent=e.active?"Dar de baja":"Reactivar cuenta";$("deactivateEmployeeBtn").disabled=id===user.id;$("deleteEmployeeBtn").disabled=id===user.id;$("employeeDetailMetrics").innerHTML=metricHTML([["Ventas",st.count,"activas"],["Generado",money(st.generated),"total","accent"],["Ganancia",money(st.earnings),"acumulada","green"],["Pendiente",money(st.pending),"por pagar"],["Pagado",money(st.paid),"histórico"]]);$("employeeSalesCount").textContent=`${list.length} ventas`;$("employeeSalesBody").innerHTML=list.slice(0,100).map(s=>`<tr><td>${folio(s)}</td><td>${fmtDate(s.created_at)}</td><td>${money(s.total)}</td><td>${money(s.employee_earnings)}</td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td></tr>`).join("")||`<tr><td colspan="5">Sin ventas.</td></tr>`;$("payEmployeeBtn").disabled=st.pending<=0;$("employeeDetailModal").classList.remove("hidden");
-}
 async function createEmployee(){
   if(!can("manage_employees"))return toast("No tienes permiso para gestionar empleados");
   $("employeeError").textContent="";const name=$("employeeName").value.trim(),username=uname($("employeeUsername").value),password=$("employeePassword").value,role=$("employeeRole").value,commission=Number($("employeeCommission").value||0);
+  if(!isAdmin()&&role!=="cashier")return $("employeeError").textContent="Solo un administrador puede asignar roles con privilegios";
   if(!name||username.length<3||password.length<6)return $("employeeError").textContent="Nombre, usuario (mín. 3) y contraseña (mín. 6) son obligatorios";
   const {data,error}=await sb.functions.invoke("employee-admin",{body:{action:"create",name,username,password,role,commission_percent:commission}});if(error)return $("employeeError").textContent=await edgeErrorMessage(error,data,"No se pudo crear el empleado");if(data?.error)return $("employeeError").textContent=data.error;$("employeeModal").classList.add("hidden");await loadData();toast(`Empleado ${name} creado`);
 }
-async function saveEmployee(){if(!isAdmin())return toast("Solo un administrador puede cambiar rol, comisión y permisos");const id=$("editEmployeeId").value;if(id===user.id&&!$("editEmployeeActive").checked)return toast("No puedes desactivar tu propia cuenta");const payload={...(profile?.can_apply_promotions!==undefined?{access_role_id:null}:{}),role:$("editEmployeeRole").value,active:$("editEmployeeActive").checked,commission_percent:Number($("editEmployeeCommission").value||0),can_edit_orders:$("permEditOrders").checked,can_manage_catalog:$("permManageCatalog").checked,can_manage_employees:$("permManageEmployees").checked,can_view_reports:$("permViewReports").checked,can_manage_payouts:$("permManagePayouts").checked,can_view_audit:$("permViewAudit").checked};const {error}=await sb.from("profiles").update(payload).eq("user_id",id);if(error)return toast(error.message);await loadData();openEmployee(id);toast("Empleado actualizado")}
-async function toggleEmployeeActive(){
+async function saveEmployee(){
   if(!can("manage_employees"))return toast("No tienes permiso para gestionar empleados");
-  const id=$("editEmployeeId").value,e=employees.find(x=>x.user_id===id);if(!e||id===user.id)return toast("No puedes dar de baja tu propia cuenta");
-  const next=!e.active,verb=next?"reactivar":"dar de baja";
-  if(!confirm(`¿Quieres ${verb} a ${e.name}? ${next?"Volverá a poder iniciar sesión.":"Se cerrará su acceso, pero se conservarán sus ventas."}`))return;
-  const {error}=await sb.from("profiles").update({active:next}).eq("user_id",id).eq("store_id",profile.store_id);
-  if(error)return toast(error.message);await loadData();openEmployee(id);toast(next?"Cuenta reactivada":"Usuario dado de baja");
+  const id=$("editEmployeeId").value,name=$("editEmployeeName").value.trim(),username=uname($("editEmployeeUsername").value),commission=Number($("editEmployeeCommission").value);
+  if(!name||name.length>100||username.length<3||username.length>28||!Number.isFinite(commission)||commission<0||commission>100)return toast("Revisa nombre, usuario y comisión (0–100)");
+  if(id===user.id&&!$("editEmployeeActive").checked)return toast("No puedes desactivar tu propia cuenta");
+  if(!isAdmin()){
+    const {error}=await sb.rpc("v14_update_employee",{p_user:id,p_name:name,p_username:username,p_commission:commission,p_active:$("editEmployeeActive").checked});
+    if(error)return toast(error.message||"No se pudo actualizar el empleado");
+  }else{
+    const chosen=$("editEmployeeRole").value,managerId=chosen==="manager"?v6?.roleId("manager"):null;
+    if(chosen==="manager"&&!managerId)return toast("El rol de gerente no está configurado. Sincroniza o instala V14.");
+    const payload={...(profile?.can_apply_promotions!==undefined?{access_role_id:managerId}:{}),name,username,role:chosen==="admin"?"admin":"cashier",active:$("editEmployeeActive").checked,commission_percent:commission,can_edit_orders:$("permEditOrders").checked,can_manage_catalog:$("permManageCatalog").checked,can_manage_employees:$("permManageEmployees").checked,can_view_reports:$("permViewReports").checked,can_manage_payouts:$("permManagePayouts").checked,can_view_audit:$("permViewAudit").checked,...(profile?.can_manage_discounts!==undefined?{can_manage_discounts:$("permManageDiscounts").checked}:{})};
+    const {error}=await sb.from("profiles").update(payload).eq("user_id",id).eq("store_id",profile.store_id);if(error)return toast(error.message);
+  }
+  await loadData();openEmployee(id);toast("Empleado actualizado");
 }
 async function deleteEmployee(){
   if(!can("manage_employees"))return toast("No tienes permiso para gestionar empleados");
@@ -845,7 +848,7 @@ function refreshReportEmployees(){
   payouts.forEach(p=>{if(!names.has(p.employee_id))names.set(p.employee_id,p.employee_name)});
   for(const scope of ['allSales','analytics','payouts','audit']){
     const select=$(scope+'Filters').querySelector('[data-filter="employee"]');
-    select.closest('label').classList.toggle('hidden',!isAdmin());
+    select.closest('label').classList.toggle('hidden',!(isAdmin()||(['allSales','analytics'].includes(scope)&&canViewTeamReports())));
     const options=new Map(names);if(scope==='audit')auditRows.forEach(a=>{if(a.actor_id&&!options.has(a.actor_id))options.set(a.actor_id,a.actor_name)});
     // Keep a selected deleted actor available when moving to another page.
     if(reportState[scope].employee&&reportState[scope].employee!=='system'&&!options.has(reportState[scope].employee))options.set(reportState[scope].employee,select.selectedOptions[0]?.textContent||'Cuenta anterior');
@@ -858,8 +861,9 @@ function filteredRows(scope){
   const source=scope==='payouts'?payouts:sales;
   return source.filter(row=>{
     const employee=scope==='payouts'?row.employee_id:row.created_by;
-    if((scope==='mySales'||!isAdmin())&&employee!==user.id)return false;
-    if(isAdmin()&&f.employee&&employee!==f.employee)return false;
+    const teamScope=isAdmin()||(scope!=='payouts'&&scope!=='mySales'&&canViewTeamReports());
+    if((scope==='mySales'||!teamScope)&&employee!==user.id)return false;
+    if(teamScope&&f.employee&&employee!==f.employee)return false;
     if(f.status&&row.status!==f.status)return false;
     const date=new Date(row.created_at);
     if(bounds.start&&date<bounds.start||bounds.end&&date>=bounds.end)return false;
@@ -1009,7 +1013,7 @@ async function toggleEmployeeActive(){
   if(error)return toast(await edgeErrorMessage(error,data,"No se pudo cambiar el estado"));if(data?.error)return toast(data.error);
   await loadData();openEmployee(id);toast(next?"Cuenta reactivada":"Usuario dado de baja");
 }
-function openEmployee(id){const e=employees.find(x=>x.user_id===id);if(!e)return;const st=employeeStats(e),list=sales.filter(s=>s.created_by===id);$("editEmployeeId").value=id;$("employeeProfileBtn").dataset.viewProfile=id;$("employeeDetailName").textContent=e.name;$("editEmployeeRole").value=e.role;$("editEmployeeCommission").value=Number(e.commission_percent||0);$("editEmployeeActive").checked=e.active;$("deactivateEmployeeBtn").textContent=e.active?"Dar de baja":"Reactivar cuenta";$("deactivateEmployeeBtn").disabled=id===user.id;$("deleteEmployeeBtn").disabled=id===user.id;$("payEmployeeBtn").disabled=st.pending<=0;[["permEditOrders","can_edit_orders"],["permManageCatalog","can_manage_catalog"],["permManageEmployees","can_manage_employees"],["permViewReports","can_view_reports"],["permManagePayouts","can_manage_payouts"],["permViewAudit","can_view_audit"]].forEach(([id,key])=>{$(id).checked=e[key]===true;$(id).disabled=!isAdmin()});$("employeePermissions").classList.toggle("hidden",!isAdmin());$("employeeDetailMetrics").innerHTML=metricHTML([["Ventas",st.count,"activas"],["Generado",money(st.generated),"total","accent"],["Ganancia",money(st.earnings),"acumulada","green"],["Pendiente",money(st.pending),"por pagar"],["Pagado",money(st.paid),"histórico"]]);$("employeeSalesCount").textContent=`${list.length} ventas`;$("employeeSalesBody").innerHTML=list.slice(0,100).map(s=>`<tr><td>${folio(s)}</td><td>${fmtDate(s.created_at)}</td><td>${money(s.total)}</td><td>${money(s.employee_earnings)}</td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td></tr>`).join("")||`<tr><td colspan="5">Sin ventas.</td></tr>`;$("employeeDetailModal").classList.remove("hidden")}
+function openEmployee(id){const e=employees.find(x=>x.user_id===id);if(!e)return;const st=employeeStats(e),list=sales.filter(s=>s.created_by===id);$("editEmployeeId").value=id;$("employeeProfileBtn").dataset.viewProfile=id;$("employeeDetailName").textContent=e.name;$("editEmployeeRole").value=e.role==="admin"?"admin":v6?.roleKey(e)==="manager"?"manager":"cashier";$("editEmployeeName").value=e.name||"";$("editEmployeeUsername").value=e.username||"";const protectedAccount=!isAdmin()&&(e.role==="admin"||e.can_manage_employees===true||id===user.id);for(const field of ["editEmployeeName","editEmployeeUsername","editEmployeeCommission","editEmployeeActive","saveEmployeeBtn","resetPasswordBtn","deactivateEmployeeBtn"])$(field).disabled=protectedAccount;$("editEmployeeRole").disabled=!isAdmin();$("deleteEmployeeBtn").classList.toggle("hidden",!isAdmin());$("payEmployeeBtn").classList.toggle("hidden",!can("manage_payouts"));for(const option of $("editEmployeeRole").options)option.hidden=option.value!=="cashier"&&!isAdmin();$("employeeFullSalesBtn").classList.toggle("hidden",!can("view_reports"));$("employeeFullSalesBtn").onclick=()=>{if(!can("view_reports"))return;Object.assign(reportState.allSales,{period:"all",start:"",end:"",employee:id,status:"",page:0});$("allSalesSearch").value="";const filters=$("allSalesFilters");filters.querySelectorAll("[data-filter]").forEach(input=>input.value=reportState.allSales[input.dataset.filter]||"");filters.querySelectorAll(".date-field").forEach(field=>field.classList.add("hidden"));$("employeeDetailModal").classList.add("hidden");switchPage("allSales")};$("editEmployeeCommission").value=Number(e.commission_percent||0);$("editEmployeeActive").checked=e.active;$("deactivateEmployeeBtn").textContent=e.active?"Dar de baja":"Reactivar cuenta";$("deactivateEmployeeBtn").disabled=id===user.id||protectedAccount;$("deleteEmployeeBtn").disabled=id===user.id;$("payEmployeeBtn").disabled=st.pending<=0;[["permManageDiscounts","can_manage_discounts"],["permEditOrders","can_edit_orders"],["permManageCatalog","can_manage_catalog"],["permManageEmployees","can_manage_employees"],["permViewReports","can_view_reports"],["permManagePayouts","can_manage_payouts"],["permViewAudit","can_view_audit"]].forEach(([id,key])=>{$(id).checked=e[key]===true;$(id).disabled=!isAdmin()});$("employeePermissions").classList.toggle("hidden",!isAdmin());$("employeeDetailMetrics").innerHTML=metricHTML([["Ventas",st.count,"activas"],["Generado",money(st.generated),"total","accent"],["Ganancia",money(st.earnings),"acumulada","green"],["Pendiente",money(st.pending),"por pagar"],["Pagado",money(st.paid),"histórico"]]);$("employeeSalesCount").textContent=`${list.length} ventas`;$("employeeSalesBody").innerHTML=list.slice(0,100).map(s=>`<tr><td>${folio(s)}</td><td>${fmtDate(s.created_at)}</td><td>${money(s.total)}</td><td>${money(s.employee_earnings)}</td><td>${s.payout_id?`<span class="badge green">Pagado</span>`:`<span class="badge gold">Pendiente</span>`}</td></tr>`).join("")||`<tr><td colspan="5">Sin ventas.</td></tr>`;$("employeeDetailModal").classList.remove("hidden")}
 
 // Acciones del carrito compartidas por la caja auxiliar y el mostrador del restaurante: mismo comportamiento y mismo calc().
 const cartActions={

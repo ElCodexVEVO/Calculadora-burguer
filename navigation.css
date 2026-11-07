@@ -1,0 +1,58 @@
+/* Una selección luminosa recorre el menú; los botones y permisos siguen siendo los originales. */
+.nav-tools-panel .nav-tools-title{font:700 9px var(--o-font);letter-spacing:.16em;text-transform:uppercase;color:#af8b7c;padding:6px 12px 10px;margin:0}
+.rail-logout,.rail-bump{display:none}
+@media(min-width:1101px){
+  body.sidebar-collapsed{--sidebar-size:110px}
+  body.sidebar-collapsed .app #sidebar{position:fixed;left:12px;top:12px;bottom:12px;width:86px;height:auto;border:1px solid #74372c;border-radius:24px;padding:15px 10px 10px;display:flex;flex-direction:column;gap:7px;overflow:visible;background:linear-gradient(165deg,#28101a,#10070e 30%,#10070e 70%,#210b13);box-shadow:inset 0 1px #ffb56c1a,0 14px 35px -15px #000,0 0 20px -15px #ff603c}
+  body.sidebar-collapsed .app #sidebar~.main{margin-left:110px;width:calc(100% - 110px)}
+  body.sidebar-collapsed .app #sidebar .store-chip{height:91px;margin:0;padding:0 0 10px;display:flex;flex-direction:column;justify-content:flex-start;gap:8px;flex:none;position:relative;z-index:2}
+  body.sidebar-collapsed .app #sidebar .emblem{display:block;width:40px;height:44px}
+  body.sidebar-collapsed .app #sidebar .store-copy{display:none}
+  body.sidebar-collapsed .app #sidebar .sidebar-toggle{position:static;width:25px;height:23px;margin:0;border:1px solid #8a452d77;border-radius:7px;background:#2e1019;color:#d59d70;opacity:1;transition:background .2s,transform .2s}
+  body.sidebar-collapsed .app #sidebar .sidebar-toggle:hover{background:#663024;transform:translateX(2px)}
+  body.sidebar-collapsed .app #sidebar>nav{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:3px;width:100%;flex:1;min-height:0;margin:0;padding:0;overflow-x:hidden;overflow-y:auto;scrollbar-width:none;scroll-padding:12px}
+  body.sidebar-collapsed .app #sidebar>nav::-webkit-scrollbar{display:none}
+  body.sidebar-collapsed .app #sidebar>nav::after{display:none!important}
+  body.sidebar-collapsed .app #sidebar .nav-label{width:22px;height:1px;min-height:1px;font-size:0;padding:0;margin:9px 0;background:linear-gradient(90deg,transparent,#88503a,transparent);gap:0;flex:none}
+  body.sidebar-collapsed .app #sidebar .nav-label:first-child{display:none}
+  body.sidebar-collapsed .app #sidebar .nav-label::before,body.sidebar-collapsed .app #sidebar .nav-label::after{display:none}
+  body.sidebar-collapsed .app #sidebar .nav-item,body.sidebar-collapsed .app #sidebar .rail-more{position:relative;z-index:1;display:grid;place-items:center;flex:none;width:48px;min-height:43px;height:43px;padding:0;margin:0;border:0!important;border-radius:13px;background:transparent!important;box-shadow:none!important;color:#b99d94;transition:color .2s,background .2s,transform .2s;cursor:pointer}
+  body.sidebar-collapsed .app #sidebar .nav-item b{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  body.sidebar-collapsed .app #sidebar .nav-item::before,body.sidebar-collapsed .app #sidebar .nav-item::after{display:none!important}
+  body.sidebar-collapsed .app #sidebar .nav-item .nav-svg,body.sidebar-collapsed .app #sidebar .rail-more .nav-svg{display:grid;place-items:center;width:22px;height:22px;background:none;color:inherit}
+  body.sidebar-collapsed .app #sidebar .nav-svg svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+  body.sidebar-collapsed .app #sidebar .nav-item:hover,body.sidebar-collapsed .app #sidebar .rail-more:hover{background:#ffb7790b!important;color:#ffdeb8}
+  body.sidebar-collapsed .app #sidebar .nav-item:hover svg{transform:translateY(-2px)}
+  body.sidebar-collapsed .app #sidebar .nav-item.active,body.sidebar-collapsed .app #sidebar .nav-tools:has(.nav-item.active)>.rail-more{color:#ffdab4}
+  body.sidebar-collapsed .app #sidebar .nav-item.active .nav-svg{color:#ffdab4;filter:drop-shadow(0 0 5px #ff9b4a88)}
+  body.sidebar-collapsed .app #sidebar .nav-item:focus-visible,body.sidebar-collapsed .app #sidebar .rail-more:focus-visible{outline:1px solid #ffb96e;outline-offset:1px}
+  body.sidebar-collapsed .app #sidebar .nav-tools{width:48px;margin:0;flex:none}
+  body.sidebar-collapsed .app #sidebar .rail-more{font-size:0;list-style:none}
+  body.sidebar-collapsed .app #sidebar .rail-more::before,body.sidebar-collapsed .app #sidebar .rail-more::after{display:none}
+  body.sidebar-collapsed .app #sidebar .rail-profile-shortcut{margin-top:3px!important}
+  body.sidebar-collapsed .app #sidebar .rail-bump{display:block;position:absolute;left:18px;top:0;width:48px;height:43px;margin-top:-21.5px;border:1px solid #ff9154;border-radius:13px;background:linear-gradient(145deg,#a93322,#6e1b20 65%,#48121b);box-shadow:inset 0 1px #ffdab633,inset 0 0 14px #ff8a2729,0 0 15px -6px #ff472a;z-index:0;pointer-events:none}
+  body.sidebar-collapsed .app #sidebar .rail-bump.is-ready{transition:transform .38s cubic-bezier(.2,.8,.2,1)}
+  body.sidebar-collapsed .app #sidebar .sidebar-bottom{position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center;gap:8px;padding:7px 0 0;border-top:1px solid #d8874b26;flex:none}
+  body.sidebar-collapsed .app #sidebar .sidebar-bottom::after{display:none}
+  body.sidebar-collapsed .app #sidebar #sync{width:26px;min-height:20px;padding:0;border:0;background:none;display:flex;justify-content:center}
+  body.sidebar-collapsed .app #sidebar .sync-symbol{width:17px;height:17px}
+  body.sidebar-collapsed .app #sidebar .sync-copy{display:none}
+  body.sidebar-collapsed .app #sidebar .account-card{width:48px;min-height:48px;height:48px;display:grid;place-items:center;padding:0;border:1px solid #92533377;background:#31101b;border-radius:16px;box-shadow:none;transition:border-color .2s,background .2s}
+  body.sidebar-collapsed .app #sidebar .account-card:hover{border-color:#ffb55f;background:#4b1726}
+  body.sidebar-collapsed .app #sidebar .account-card .avatar{width:34px;height:34px;font-size:11px;border:1px solid #ce836e88}
+  body.sidebar-collapsed .app #sidebar .account-copy,body.sidebar-collapsed .app #sidebar .account-card em{display:none}
+  body.sidebar-collapsed .app #sidebar .rail-logout{display:grid;place-items:center;width:32px;height:27px;min-height:27px;padding:0;border:0;border-radius:7px;background:none;color:#9c7e73;cursor:pointer;transition:color .2s,background .2s}
+  body.sidebar-collapsed .app #sidebar .rail-logout svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  body.sidebar-collapsed .app #sidebar .rail-logout:hover{color:#ffc5a5;background:#6a251e44}
+  body.sidebar-collapsed .app #sidebar .nav-tools-panel{position:fixed;width:244px;max-height:calc(100vh - 24px);overflow-y:auto;z-index:90;padding:10px;background:linear-gradient(150deg,#2c1420,#12090f);border:1px solid #a6593c;border-radius:15px;box-shadow:0 15px 40px #0009,0 0 20px -12px #ff603c;animation:nav-panel-in .2s ease-out}
+  body.sidebar-collapsed .app #sidebar .nav-tools-panel .nav-item{display:flex;width:100%;min-height:42px;height:auto;padding:10px 12px;gap:12px;justify-content:flex-start;color:#d7bdb0;box-shadow:none!important;border-radius:8px;background:none!important}
+  body.sidebar-collapsed .app #sidebar .nav-tools-panel .nav-item b{position:static;width:auto;height:auto;clip-path:none;white-space:normal;font:600 12px var(--o-font);overflow:visible}
+  body.sidebar-collapsed .app #sidebar .nav-tools-panel .nav-item.active{background:#65241f!important;color:#ffdeb2}
+  body.sidebar-collapsed .app #sidebar .nav-tools-panel .nav-item:hover{background:#ffb7790b!important}
+  body.sidebar-collapsed .nav-tooltip{z-index:100;border:1px solid #a55d3b;border-radius:9px;background:linear-gradient(115deg,#371723,#180a12);color:#ffe3c5;padding:11px 14px;font:650 12px var(--o-font);box-shadow:0 6px 18px #0008,0 0 15px -9px #ff8a48;animation:nav-label-in .16s ease-out}
+  @media(max-height:850px){body.sidebar-collapsed .app #sidebar{padding-top:11px;gap:5px}body.sidebar-collapsed .app #sidebar .store-chip{height:79px}body.sidebar-collapsed .app #sidebar .nav-item,body.sidebar-collapsed .app #sidebar .rail-more{height:38px;min-height:38px}body.sidebar-collapsed .app #sidebar .rail-bump{height:38px;margin-top:-19px}body.sidebar-collapsed .app #sidebar .sidebar-bottom{gap:4px}}
+}
+@keyframes nav-panel-in{from{opacity:0;transform:translateX(-7px)}to{opacity:1;transform:translateX(0)}}
+@keyframes nav-label-in{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.rail-bump,.nav-tools-panel,.nav-tooltip,#sidebar .nav-item svg{animation:none!important;transition:none!important}}
+body.motion-off .rail-bump,body.motion-off .nav-tools-panel,body.motion-off .nav-tooltip{animation:none!important;transition:none!important}

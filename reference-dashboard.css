@@ -1,6 +1,6 @@
 :root{--sidebar-size:290px;--night-panel:rgba(12,4,7,.94);--night-line:rgba(238,58,36,.52)}
 /* Escena compartida; el centro oscuro deja leer las áreas de trabajo. */
-.app .season-backdrop{left:0;background:url('assets/season/dashboard-night.webp') center/cover no-repeat}
+.app .season-backdrop{left:0;background:url('assets/brand/dashboard-night-general.webp') center/cover no-repeat}
 .app .season-backdrop::after{background:none;opacity:0}
 .app .season-backdrop::before{background:radial-gradient(ellipse,rgba(255,118,30,.08),transparent 65%)}
 .app .main{background:none}
@@ -20,10 +20,10 @@
 .app .papel-picado{left:46%;right:230px;top:-30px;height:150px;overflow:hidden;transform:rotate(12deg);transform-origin:top left;z-index:-1;opacity:.85}
 .app .papel-picado .flags{justify-content:space-around;gap:10px;padding:0 10px;top:8px}
 .app .papel-picado .cord{top:0;height:14px;border-color:rgba(250,170,130,.45)}
-.app .papel-picado .flag{width:70px;height:86px;flex:none;background:url('assets/season/papel-festival-rosa-calavera.svg') center top/contain no-repeat;filter:drop-shadow(0 3px 3px #000);opacity:.95}
+.app .papel-picado .flag{width:70px;height:86px;flex:none;background:none center top/contain no-repeat;filter:drop-shadow(0 3px 3px #000);opacity:.95}
 .app .papel-picado .flag svg{display:none}
-.app .papel-picado .flag:nth-child(3n+2){background-image:url('assets/season/papel-festival-ciruela-flor.svg')}
-.app .papel-picado .flag:nth-child(3n){background-image:url('assets/season/papel-festival-ambar-calavera.svg')}
+.app .papel-picado .flag:nth-child(3n+2){background-image:none}
+.app .papel-picado .flag:nth-child(3n){background-image:none}
 .app .topbar.is-scrolled .papel-picado{transform:rotate(12deg) translateY(-160%)}
 /* Navegación enmarcada por luz de velas. */
 .app .sidebar{padding:12px 18px 16px 46px;gap:10px;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;background:linear-gradient(90deg,transparent 30px,rgba(5,0,2,.94) 32px,rgba(5,0,2,.85));border-right:1px solid rgba(255,56,29,.72);box-shadow:4px 0 20px -12px #ff421d}
@@ -46,22 +46,21 @@
 .app .sidebar .nav-item.active::before{display:none}.app .sidebar .nav-item.active::after{color:#ffb34c;right:14px;width:7px;height:7px;border-color:currentColor}.app .sidebar>nav::after{display:none}
 .app .sidebar .nav-item:hover{background-color:rgba(144,29,18,.28);border-color:#7c2a1c;color:#fff5e8}
 .app .sidebar .nav-tools{margin-top:4px}.app .sidebar .nav-tools summary{font-size:11px;min-height:29px;padding:5px 13px;border:0;color:#cab5ab}
-.app .sidebar .season-card{display:block;min-height:164px;margin:0;padding:20px 15px;border:1px solid #ff5427;border-radius:11px;background:linear-gradient(90deg,rgba(11,2,4,.15),transparent),url('assets/season/season-altar-card.webp') center/cover;box-shadow:0 2px 14px -5px #ff3c1b, inset 0 0 8px rgba(255,48,27,.2);overflow:hidden}
+.app .sidebar .season-card{display:block;min-height:164px;margin:0;padding:20px 15px;border:1px solid #ff5427;border-radius:11px;background:linear-gradient(90deg,rgba(11,2,4,.15),transparent),none center/cover;box-shadow:0 2px 14px -5px #ff3c1b, inset 0 0 8px rgba(255,48,27,.2);overflow:hidden}
 .app .season-card-art{display:none}.app .season-card-copy{max-width:125px}.app .season-card-copy>span{display:none}.app .season-card-copy strong{font:800 21px/1.02 var(--night-display);white-space:normal;text-transform:uppercase;margin:2px 0 0;color:#fff0df;max-width:125px;text-shadow:0 2px 5px #000}.app .season-card-copy strong em{font:700 17px/1.1 var(--night-display);text-transform:none;color:#ff891c;margin-top:5px}.app .season-card-copy small{font-size:11px;white-space:normal;max-width:94px;line-height:1.4;color:#e2c9bb;margin-top:8px}
 .app .sidebar .sidebar-bottom{padding:0;border:0;gap:5px}.app .sidebar #sync{min-height:20px;padding:0 5px;grid-template-columns:15px 1fr;gap:5px}.app .sidebar .sync-symbol{width:15px;height:15px}.app .sidebar .sync-copy strong{font-size:10px}.app .sidebar .sync-copy small{font-size:9px}
 .app .sidebar .account-card{min-height:65px;padding:9px 11px;grid-template-columns:42px minmax(0,1fr) 10px;gap:11px;background:rgba(7,1,4,.93);border:1px solid #a03c26;border-radius:10px;box-shadow:0 2px 10px -7px #ff6735}
 .app .sidebar .account-card .avatar{width:42px;height:42px}.app .sidebar .account-copy strong{font-size:12px}.app .sidebar .account-copy>span{font-size:11px}
 /* Placas oscuras con cuatro esquinas de filigrana roja. */
 .ornate-frame{position:relative;isolation:isolate}
-.ornate-frame::after,#dashboardMetrics .metric::after{content:'';display:block!important;position:absolute;inset:3px;border:25px solid transparent;border-image:url('assets/season/red-filigree-frame.svg') 32 stretch;z-index:3;pointer-events:none;background:none;mask:none;-webkit-mask:none;height:auto;opacity:.8}
 #page-dashboard{max-width:none;padding:9px 24px 40px 17px}
 #page-dashboard .hero-row{min-height:76px;align-items:center;flex-wrap:nowrap;margin-bottom:14px;gap:20px;padding:0 17px}
 #welcomeTitle{font:800 clamp(32px,2.8vw,46px)/1.07 var(--night-display);letter-spacing:-.025em;color:#fff4e5;margin:0;max-width:100%;text-wrap:balance}
-#welcomeTitle::after{content:'';display:inline-block;width:32px;height:32px;margin-left:11px;background:url('assets/season/cempasuchil.svg') center/contain no-repeat;vertical-align:baseline}
+#welcomeTitle::after{content:'';display:inline-block;width:32px;height:32px;margin-left:11px;background:none center/contain no-repeat;vertical-align:baseline}
 #welcomeSubtitle{font-size:14px;line-height:1.5;margin:4px 0 0;color:#e5d1c8}
 #page-dashboard .clock-card{display:block;flex:none;text-align:right}.clock-card span{font-size:13px;color:#e7d4cc}.clock-card strong{font:800 30px/1.04 var(--night-display);margin:3px 0 5px}.clock-card small{color:#39dfad;font-size:12px}
 #page-dashboard .dash-hero{min-height:252px;margin-bottom:14px;border:1px solid #ff4c25;border-radius:13px;background:#100204;box-shadow:inset 0 0 5px #ff4b24,0 2px 16px -5px rgba(255,65,24,.85);overflow:hidden}
-#page-dashboard .dash-hero-photo{inset:0;opacity:1;z-index:-2;background:url('assets/season/traditions-feast.webp') right 66%/auto 152% no-repeat}
+#page-dashboard .dash-hero-photo{inset:0;opacity:1;z-index:-2;background:url('assets/brand/feast-general.webp') right 66%/auto 152% no-repeat}
 #page-dashboard .dash-hero::before{z-index:-1;background:linear-gradient(90deg,rgba(8,0,2,.8),rgba(8,0,2,.36) 34%,transparent 53%)}
 #page-dashboard .dash-hero-content{padding:27px 64px;min-height:252px;max-width:610px;gap:0;justify-content:center;align-items:flex-start}
 .hero-season-label{display:flex;align-items:center;gap:11px;font-size:11px;letter-spacing:.12em;font-weight:700;color:#ff4c30;margin:0 0 11px}.hero-season-label::before,.hero-season-label::after{content:'';width:25px;height:7px;border-top:1px solid #b62b1f;border-bottom:1px solid #b62b1f;transform:skewX(-30deg)}
@@ -87,14 +86,14 @@
 #teamPerformanceContent .employee-week-rank-row>b{display:grid;grid-column:1;grid-row:1;place-items:center;width:28px;height:28px;font-size:12px;border-radius:7px;background:#3f3436;color:#f4dfd0;font-weight:700}
 #teamPerformanceContent .employee-week-rank-row.leading>b{background:#ff9b12;color:#260b02;box-shadow:0 3px 7px -4px #ff8610}
 #teamPerformanceContent .rank-avatar{grid-column:2;grid-row:1;width:29px;height:29px;font-size:10px}#teamPerformanceContent .employee-week-rank-row>div{display:grid;grid-template-columns:minmax(95px,.85fr) minmax(40px,1.15fr);gap:0 15px;align-items:center}#teamPerformanceContent .employee-week-rank-row>div strong{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#teamPerformanceContent .employee-week-rank-row small{font-size:10px;grid-column:1;margin-top:2px}#teamPerformanceContent .dashboard-rank-track{grid-column:2;grid-row:1/3;margin:0;height:6px;background:#3c1b16}#teamPerformanceContent .dashboard-rank-track i{background:linear-gradient(90deg,#ff7909,#ff9c19);box-shadow:0 2px 6px -3px #ff5b00}#teamPerformanceContent .employee-week-rank-row>strong{font:700 13px var(--o-font);text-align:right;color:#f5e2d8}
-#page-dashboard .employee-week{background:linear-gradient(90deg,rgba(8,2,5,.93),rgba(10,2,5,.7)),url('assets/season/season-altar-card.webp') right bottom/cover no-repeat}
+#page-dashboard .employee-week{background:linear-gradient(90deg,rgba(8,2,5,.93),rgba(10,2,5,.7)),none right bottom/cover no-repeat}
 #page-dashboard .employee-week>.panel-head{padding:13px 18px 0;gap:12px}#page-dashboard .employee-week .panel-head .btn{font-size:11px;min-height:34px;padding:8px 11px;background:#130a0d;border-color:#684032;position:relative;z-index:4}
 #page-dashboard .employee-week-content{padding:13px 22px 20px}
 #page-dashboard .employee-week-layout{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;align-items:center}
 #page-dashboard .employee-week-person{gap:18px;min-width:0;position:relative}
 #page-dashboard .employee-week-person,#page-dashboard .employee-week-kpis{grid-column:auto;grid-row:auto}
 #page-dashboard .employee-week-avatar{flex:0 0 112px;width:112px;height:112px;border:2px solid #ff9c21;box-shadow:0 0 0 4px rgba(255,56,17,.2),0 3px 22px -5px #ff3d0c;background:radial-gradient(circle at 30% 20%,#84243c,#260b18);font-size:37px;overflow:visible;position:relative;isolation:isolate}
-#page-dashboard .employee-week-avatar img{border-radius:50%}#page-dashboard .employee-week-avatar::after{content:'';position:absolute;right:-5px;top:-10px;width:31px;height:26px;background:url('assets/season/crown-gold.svg') center/contain no-repeat;transform:rotate(17deg);z-index:2}
+#page-dashboard .employee-week-avatar img{border-radius:50%}#page-dashboard .employee-week-avatar::after{content:'';position:absolute;right:-5px;top:-10px;width:31px;height:26px;background:url('assets/brand/crown-gold.svg') center/contain no-repeat;transform:rotate(17deg);z-index:2}
 #page-dashboard .employee-week-person>div:last-child{display:flex;flex-direction:column;align-items:flex-start;min-width:0}#page-dashboard .employee-week-person h3{font:800 25px/1.05 var(--night-display);margin:0 0 6px;order:-3}#page-dashboard .employee-week-person p{font-size:11px;order:-2}#page-dashboard .employee-week-average{font-size:11px;margin-top:5px;order:-1;line-height:1.4}#page-dashboard .employee-week-kicker{font-size:9px;padding:6px 10px;color:#2b0b02;background:#ffba50;margin-top:12px;font-weight:800;line-height:1.3}
 #page-dashboard .employee-week-kpis{border-top:1px solid rgba(255,130,70,.19);padding-top:14px;margin:0;align-items:start}#page-dashboard .employee-week-kpis>div{padding:0 11px}#page-dashboard .employee-week-kpis span{font-size:11px}#page-dashboard .employee-week-kpis strong{font:800 24px/1.1 var(--night-display);color:#fff3df;margin:6px 0 4px;white-space:nowrap}#page-dashboard .employee-week-kpis small{font-size:10px}#page-dashboard .employee-week-kpis>div:last-child strong{color:#62e7ad}
 #page-dashboard #weeklyActivity{margin:0 0 18px;padding:14px 22px 18px;min-height:200px}#weeklyActivity .dashboard-panel-head{margin-bottom:0}#weeklyActivity .dashboard-chart-total strong{font:800 26px/1.1 var(--night-display);color:#fff3df}#weeklyActivity .dashboard-chart-total span{font-size:12px;color:#e4cfc2}
@@ -143,7 +142,7 @@ body.sidebar-collapsed .app .sidebar .nav-label::after{background:#54251d}
 /* Identidad personal y rendimiento bajo un único periodo seleccionado. */
 #page-profile{padding-top:30px}#profileTitle{font:800 38px/1.1 var(--night-display);letter-spacing:-.025em}
 #page-profile .profile-layout{grid-template-columns:minmax(240px,.7fr) minmax(0,1.85fr);gap:24px;align-items:start}
-#page-profile .profile-identity{padding:34px 26px 25px;background:linear-gradient(180deg,rgba(25,4,11,.89),rgba(7,1,5,.98)),url('assets/season/season-altar-card.webp') center/cover;border:1px solid #9d3927;border-radius:14px;box-shadow:0 10px 30px -23px #ff4227}
+#page-profile .profile-identity{padding:34px 26px 25px;background:linear-gradient(180deg,rgba(25,4,11,.89),rgba(7,1,5,.98)),none center/cover;border:1px solid #9d3927;border-radius:14px;box-shadow:0 10px 30px -23px #ff4227}
 #page-profile .profile-portrait{width:158px;height:158px;border:2px solid #ff9e32;margin-bottom:25px;box-shadow:0 0 0 6px rgba(255,85,28,.07),0 9px 35px -17px #ff5523;background:radial-gradient(circle at 25% 20%,#a02f48,#280b16);font-size:48px}
 #page-profile .profile-identity h2{font:800 29px/1.12 var(--night-display);margin:0 0 10px;color:#fff0df}#page-profile .profile-identity>p{font-size:12px;line-height:1.5;margin:6px 0}#page-profile #profileRole{display:inline-flex;padding:4px 12px;border:1px solid #714020;border-radius:99px;color:#ffc775;font-size:10px}#page-profile #profileActive{font-size:11px;margin:13px 0}
 #page-profile .profile-identity .btn{font-size:12px;margin-top:19px;min-height:42px}#page-profile .profile-facts{display:block;border-top:1px solid #54241e;padding-top:18px;margin-top:24px;text-align:center}#page-profile .profile-facts dt{font-size:10px;color:#c9ada2;margin-bottom:7px}#page-profile .profile-facts dd{font-size:12px}

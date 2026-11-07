@@ -1,6 +1,6 @@
 /* Burger Shot · Sistema de logo.
    Componente sin dependencias <burgershot-logo> sobre el logo 3D aprobado
-   (assets/logo/burgershot-3d.png). El <img> interior es siempre el respaldo: si el script
+   (assets/burgershot-logo.webp). El <img> interior es siempre el respaldo: si el script
    no carga, el logo se ve igual, solo que quieto.
 
    Variantes (atributo variant):
@@ -16,8 +16,8 @@
 (()=>{
   'use strict';
   if(customElements.get('burgershot-logo'))return;
-  const SOURCES={full:'assets/logo/burgershot-3d-512.webp',compact:'assets/logo/burgershot-3d-160.webp',icon:'assets/logo/burgershot-3d-320.webp',loader:'assets/logo/burgershot-3d-512.webp',mobile:'assets/logo/burgershot-3d-160.webp'};
-  const FALLBACKS=['assets/logo/burgershot-3d-512.webp','assets/logo/burgershot-3d.png'];
+  const SOURCES={full:'assets/burgershot-logo.webp',compact:'assets/burgershot-logo.webp',icon:'assets/burgershot-logo.webp',loader:'assets/burgershot-logo.webp',mobile:'assets/burgershot-logo.webp'};
+  const FALLBACKS=['assets/burgershot-logo.webp','assets/burgershot-logo.webp'];
   const EASE='cubic-bezier(.22,1,.36,1)';
   // Decoración estacional registrada aparte de la marca. Añadir una temporada = una entrada aquí y su bloque en logo.css.
   // accents:true añadiría pétalos junto al emblema; se descartó en el pulido (la marca debe mandar).
@@ -47,7 +47,7 @@
       let img=mark.querySelector('img');
       if(!img){
         img=document.createElement('img');img.src=SOURCES[variant];
-        const size=variant==='mobile'?96:variant==='full'||variant==='loader'?320:160;img.width=size;img.height=Math.round(size*1150/1367);
+        const size=variant==='mobile'?96:variant==='full'||variant==='loader'?320:160;img.width=size;img.height=Math.round(size*328/306);
         img.alt=this.hasAttribute('decorative')?'':'Burger Shot';mark.append(img);
       }
       img.decoding='async';img.draggable=false;

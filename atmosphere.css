@@ -1,0 +1,37 @@
+/* Acero ahumado y luz de marca. Las capas se mueven por transformación, sin tocar el contenido. */
+:root{--bs-ground:#101820;--bs-secondary:#131d26;--bs-card:#18212a;--o-ground:#101820;--o-shell-solid:#131d26;--o-surface:#18212a;--o-surface-2:#202b35;--o-surface-3:#2b3741;--o-inset:#111a22}
+html,body{background:#101820}
+.brand-backdrop{overflow:hidden;background:linear-gradient(118deg,#101820 8%,#1b2933 52%,#101820 91%)}
+.brand-backdrop::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M0 0h72M0 36h72M0 0v72M36 0v72' fill='none' stroke='%23b9d6e5' stroke-opacity='.065' stroke-width='.5'/%3E%3C/svg%3E");opacity:.28;mask-image:linear-gradient(120deg,#000,transparent 55%,#000);-webkit-mask-image:linear-gradient(120deg,#000,transparent 55%,#000)}
+.brand-backdrop::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#080e1677,transparent 40%,#080e1655);animation:none;opacity:1;transform:none}
+.room-light{position:absolute;pointer-events:none;will-change:transform;mix-blend-mode:screen}
+.room-light-red{width:75vw;height:85vh;top:-40vh;left:-22vw;background:radial-gradient(ellipse,#ff5e3838,transparent 64%);animation:room-red-drift 22s ease-in-out infinite alternate}
+.room-light-amber{width:65vw;height:95vh;right:-30vw;bottom:-25vh;background:radial-gradient(ellipse,#ffb24630,transparent 64%);animation:room-amber-drift 27s ease-in-out infinite alternate}
+.room-light-ribbon{width:130vw;height:24vh;left:-15vw;top:45vh;opacity:.26;background:linear-gradient(180deg,transparent 22%,#adcbd107 40%,#e7c08417 49%,#f3d69a09 52%,transparent 68%);transform:rotate(-18deg);animation:room-ribbon-drift 32s ease-in-out infinite alternate}
+.app .topbar{background:linear-gradient(180deg,#101820ed,#10182033);border:0;box-shadow:none}
+.app .topbar.is-scrolled{background:#101820f5;box-shadow:0 6px 25px -17px #000}
+.app .topbar .global-search input{background:#101820d9;border-color:#6d777b}
+.app .topbar .user-mini{background:#141d26e8;border-color:#856042}
+#page-dashboard #dashboardMetrics .metric{background:linear-gradient(130deg,#23303aed,#141c25f5);border-color:#99523b;box-shadow:0 4px 18px -12px #ff6b3d66,inset 0 1px #d4e6ed0c}
+#page-dashboard .dashboard-team-grid>.panel,#page-dashboard #weeklyActivity{background:linear-gradient(135deg,#1d2933f5,#111a23f7);border-color:#83543c;box-shadow:0 6px 22px -17px #ff7836,inset 0 1px #d4e6ed09}
+#page-dashboard .employee-week{background:radial-gradient(ellipse at 82% 30%,#df8f3520,transparent 63%),linear-gradient(135deg,#1d2933f5,#111a23f7)!important}
+#page-dashboard .dashboard-panel-head p,#page-dashboard .metric small,#page-dashboard .metric span{color:#c1c2bd}
+#page-dashboard .chart-mode{background:#111a22;border-color:#80523d}
+#page-dashboard .chart-mode button{color:#bdc2c3}
+#page-dashboard .chart-mode button[aria-pressed=true]{background:linear-gradient(135deg,#934028,#65291e);color:#fff0dc;border-color:#d47745;box-shadow:0 0 12px -7px #ff8e38}
+.desk-chart-tools>div{background:#101820;border-color:#53606a}
+.desk-chart-tools button{color:#b1bcc3}
+.desk-chart-tools button[aria-pressed=true]{background:#38454d;color:#ffe2b7}
+.desk-line-grid{stroke:#8497a1;stroke-opacity:.22}
+.desk-line-readout{background:#1b2933;border-color:#a16c46}
+.dashboard-bar-tooltip{background:#20313c}
+body.sidebar-collapsed .app #sidebar{background:linear-gradient(165deg,#27313c,#131c25 32%,#131c25 72%,#252c34);border-color:#866047;box-shadow:inset 0 1px #d4e6ed1a,0 14px 35px -15px #000,0 0 18px -15px #ff8a3f}
+body.sidebar-collapsed .app #sidebar .nav-tools-panel{background:linear-gradient(145deg,#293641,#141d27);border-color:#a66a42}
+body.sidebar-collapsed .nav-tooltip{background:linear-gradient(115deg,#2c3b47,#17212b);border-color:#a3744d}
+@keyframes room-red-drift{from{transform:translate3d(0,0,0) scale(.95)}to{transform:translate3d(22vw,15vh,0) scale(1.1)}}
+@keyframes room-amber-drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-14vw,-16vh,0) scale(1.12)}}
+@keyframes room-ribbon-drift{from{transform:translate3d(0,-8vh,0) rotate(-18deg)}to{transform:translate3d(0,18vh,0) rotate(-12deg)}}
+@media(max-width:700px){.room-light-red{width:140vw;left:-70vw}.room-light-amber{width:130vw;right:-70vw}.room-light-ribbon{width:190vw;left:-40vw;opacity:.18}}
+@media(prefers-reduced-motion:reduce){.room-light{animation:none!important;will-change:auto}}
+body.motion-off .room-light,body[data-effects=performance] .room-light{animation:none!important;will-change:auto}
+html[data-page-hidden] .room-light{animation-play-state:paused}

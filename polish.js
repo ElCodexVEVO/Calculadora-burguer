@@ -1,8 +1,6 @@
 /* Burger Shot V9 · Pulido de movimiento.
    Solo observa y decora: no toca el carrito, los importes ni los manejadores de app.js.
    - Entrada de secciones (.m-enter), revelado al bajar, transición de vista entre módulos y progreso de lectura.
-   - Modelos 3D de primer plano (assets/season/props), con la luz de cada llama en su sitio.
-   - Luces tenues en la gráfica semanal.
    Rendimiento: todo lo que se repite anima solo opacidad o transformación (compositor, sin recalcular estilos), nada sigue
    al cursor y no hay partículas. Se desactiva con movimiento reducido, modo Rendimiento (body.motion-off) o pestaña oculta. */
 (()=>{
@@ -12,55 +10,11 @@
   const calm=()=>reduced.matches||body.classList.contains('motion-off');
   const activePageId=()=>document.querySelector('.page.active')?.id.replace(/^page-/,'')||'';
 
-  /* ── Modelos de primer plano ──
-     flames = [x, y, diámetro] normalizados al ancho/alto del recorte; salen de design/props-source/build_props.py. */
-  const PROPS={
-    velas:{ar:1236/1194,w:[520,860],flames:[[.5555,.1172,.2],[.3337,.3964,.13]]},
-    esquina:{ar:1228/1216,w:[420,760],flames:[[.1536,.1353,.17],[.2474,.0546,.08],[.2206,.4354,.08],[.2187,.6913,.11]]},
-    guirnalda:{ar:1661/526,w:[760,1400],flames:[[.1714,.1656,.06],[.262,.2624,.06],[.7394,.2515,.06],[.8279,.1618,.06]]}
-  };
-  const prop=(name,sizes)=>{
-    const p=PROPS[name],[a,b]=p.w,src=n=>`assets/season/props/${name}-${n}.webp`;
-    const flames=p.flames.map((f,i)=>`<i class="pf" style="--x:${(f[0]*100).toFixed(2)}%;--y:${(f[1]*100).toFixed(2)}%;--d:${(f[2]*100).toFixed(1)}%;--t:${(1.8+i*.43).toFixed(2)}s;--o:-${(i*.67).toFixed(2)}s"></i>`).join('');
-    return `<div class="prop prop-${name}" style="--ar:${p.ar.toFixed(4)}"><img src="${src(a)}" srcset="${src(a)} ${a}w, ${src(b)} ${b}w" sizes="${sizes}" width="${b}" height="${Math.round(b/p.ar)}" alt="" decoding="async" draggable="false">${flames}</div>`;
-  };
-
-  /* Primer plano fijo en las esquinas inferiores: un modelo distinto en cada sitio (velas con calavera aquí; guirnalda y esquinas en otros lugares). */
-  const host=document.getElementById('app')||body;
-  const fg=document.createElement('div');fg.className='fg-decor';fg.setAttribute('aria-hidden','true');host.append(fg);
-  const LEFT={};
-  let fgPage='';
-  const setProps=page=>{
-    if(page===fgPage)return;fgPage=page;
-    const left=LEFT[page]||'velas';
-    fg.dataset.page=page;
-    fg.innerHTML=`<div class="fg-prop fg-left">${prop(left,'(min-width:1600px) 210px, 160px')}</div>`;
-  };
-  const away=()=>fg.classList.toggle('fg-away',window.scrollY>60);
-  addEventListener('scroll',away,{passive:true});away();
-
-  /* Guirnalda al final de Inicio y esquinas de flores en la tarjeta del acceso. */
-  const home=document.getElementById('page-dashboard');
-  if(home&&!home.querySelector('.page-garland'))home.insertAdjacentHTML('beforeend',`<div class="page-garland" aria-hidden="true">${prop('guirnalda','(min-width:900px) 880px, 92vw')}</div>`);
-  const card=document.querySelector('#authScreen .auth-composition');
-  if(card&&!card.querySelector('.auth-corner'))card.insertAdjacentHTML('beforeend',`<div class="auth-corner auth-corner-l" aria-hidden="true">${prop('esquina','150px')}</div><div class="auth-corner auth-corner-r" aria-hidden="true">${prop('esquina','150px')}</div>`);
-
-  /* ── Luces tenues en la gráfica semanal: tres haces de vela y unas chispas. Solo opacidad. ── */
-  const chartPanel=document.getElementById('weeklyActivity');
-  if(chartPanel&&!chartPanel.querySelector(':scope>.m-lights')){
-    const beams=[[16,13,3.1,-.4],[49,11,4.4,-1.9],[82,13,3.6,-2.6]].map(([x,w,t,o])=>`<i class="m-beam" style="--x:${x}%;--w:${w}%;--t:${t}s;--o:${o}s"></i>`).join('');
-    const sparks=[[8,22,5,3.4,-.6],[27,12,4,4.8,-2.1],[39,30,3,3.9,-1.4],[58,18,5,5.2,-3.3],[71,36,3,4.1,-.9],[90,16,4,4.6,-2.7]].map(([x,y,s,t,o])=>`<i class="m-spark" style="--x:${x}%;--y:${y}%;--s:${s}px;--t:${t}s;--o:${o}s"></i>`).join('');
-    chartPanel.insertAdjacentHTML('afterbegin',`<div class="m-lights" aria-hidden="true">${beams}${sparks}</div>`);
-    const box=chartPanel.querySelector('.m-lights');
-    if('IntersectionObserver' in window)new IntersectionObserver(es=>es.forEach(e=>box.classList.toggle('is-live',e.isIntersecting)),{threshold:.05}).observe(chartPanel);
-    else box.classList.add('is-live');
-  }
-
   /* ── Entrada de secciones ── */
   const timers=new WeakMap();
   const enter=page=>{
     if(!page)return;
-    setProps(page.id.replace(/^page-/,''));
+
     if(calm())return;
     clearTimeout(timers.get(page));
     page.classList.remove('m-enter');void page.offsetWidth;page.classList.add('m-enter');
@@ -84,7 +38,7 @@
     }).observe(app,{attributes:true,attributeFilter:['class'],attributeOldValue:true});
     if(!app.classList.contains('hidden'))enter(document.querySelector('.page.active'));
   }
-  setProps(activePageId()||'dashboard');
+
 
   /* ── Revelado al bajar ──
      Solo lo que está bajo el pliegue recibe .m-reveal; si el script falla, todo queda visible. */

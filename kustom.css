@@ -899,6 +899,8 @@ html:not(#k):not(#k):not(#k):not(#k):not(#k){
   & #page-pos .totals>div:not(.grand){display:flex;justify-content:space-between;align-items:baseline}
   & #page-pos .totals>div:nth-child(2){border-left:1px solid var(--k-line);padding-left:18px}
   & #page-pos .totals .grand{grid-column:1 / -1}
+  /* Packs de catering: encuadre alto para que se lea el rótulo con la cantidad (5×5, 25×25). */
+  & .product-photo .food-photo.is-photo:is([src*="bulk-"][src*="-5.webp"],[src*="bulk-"][src*="-25.webp"]){object-position:50% 18%}
 }
 
 @keyframes k-hop{0%,58%,100%{transform:none}63%{transform:rotate(-6.5deg) translateY(-12px)}68%{transform:rotate(-1deg) translateY(-2px)}72%{transform:rotate(-2.6deg) translateY(-5px)}77%{transform:rotate(0) translateY(0)}80%{transform:translateY(1.5px)}84%{transform:none}}

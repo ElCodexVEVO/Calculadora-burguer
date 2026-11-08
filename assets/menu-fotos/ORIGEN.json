@@ -1,7 +1,8 @@
 {
-  "provenance": "Fotografías de menú Burger Shot suministradas por el usuario el 7 de noviembre de 2026. Recortadas a 3:2 (720x480) y miniaturas 240x160 sin alterar color ni contenido. El 7 de noviembre de 2026 el usuario entregó también la Caja Feliz (26.webp) y la Caja Feliz Police (25.webp), y eligió 12.webp para la Caja Feliz EMS. El helado (27.webp) llegó después y sustituye la composición provisional. La Cola-Shot (28.webp) y las papas (29.webp) llegaron como fotos propias y sustituyen los recortes del combo.",
+  "provenance": "Fotografías de menú Burger Shot suministradas por el usuario el 7 de noviembre de 2026. Recortadas a 3:2 (720x480) y miniaturas 240x160 sin alterar color ni contenido. El 7 de noviembre de 2026 el usuario entregó también la Caja Feliz (26.webp) y la Caja Feliz Police (25.webp), y eligió 12.webp para la Caja Feliz EMS. El helado (27.webp) llegó después y sustituye la composición provisional. La Cola-Shot (28.webp) y las papas (29.webp) llegaron como fotos propias y sustituyen los recortes del combo. Los packs de mayoreo 5x5 y 25x25 (30-37.webp) llegaron después; 31.webp es idéntica a 30.webp y no se usa.",
   "unused": {
-    "1.webp": "Caja Feliz EMS (primera variante); el usuario eligió la versión kids meal (12.webp)"
+    "1.webp": "Caja Feliz EMS (primera variante); el usuario eligió la versión kids meal (12.webp)",
+    "31.webp": "duplicado exacto de 30.webp (Hamburguesa 5x5)"
   },
   "missing_photo_uses_illustration": [],
   "items": {
@@ -184,6 +185,62 @@
         1254,
         1026
       ]
+    },
+    "bulk-burger-5": {
+      "source": "originales/30.webp",
+      "band_y": [
+        150,
+        1190
+      ],
+      "layout": "centro nítido con laterales desenfocados de la misma foto"
+    },
+    "bulk-wings-5": {
+      "source": "originales/32.webp",
+      "band_y": [
+        140,
+        1180
+      ],
+      "layout": "centro nítido con laterales desenfocados de la misma foto"
+    },
+    "bulk-wings-25": {
+      "source": "originales/33.webp",
+      "band_y": [
+        20,
+        1180
+      ],
+      "layout": "centro nítido con laterales desenfocados de la misma foto"
+    },
+    "bulk-nuggets-5": {
+      "source": "originales/34.webp",
+      "band_y": [
+        110,
+        1180
+      ],
+      "layout": "centro nítido con laterales desenfocados de la misma foto"
+    },
+    "bulk-nuggets-25": {
+      "source": "originales/35.webp",
+      "band_y": [
+        30,
+        1200
+      ],
+      "layout": "centro nítido con laterales desenfocados de la misma foto"
+    },
+    "bulk-burrito-5": {
+      "source": "originales/36.webp",
+      "band_y": [
+        30,
+        1200
+      ],
+      "layout": "centro nítido con laterales desenfocados de la misma foto"
+    },
+    "bulk-burrito-25": {
+      "source": "originales/37.webp",
+      "band_y": [
+        40,
+        1180
+      ],
+      "layout": "centro nítido con laterales desenfocados de la misma foto"
     }
   }
 }

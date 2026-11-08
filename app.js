@@ -13,7 +13,7 @@ const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN",minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(n)||0);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 
-const PHOTO_LABELS={burger:"Hamburguesa",burrito:"Burrito",wings:"Alitas",nuggets:"Nuggets","combo-burger":"Combo Hamburguesa","combo-burrito":"Combo Burrito","combo-wings":"Combo Alitas","combo-nuggets":"Combo Nuggets",drink:"Bebida",fries:"Papitas",icecream:"Helado",happybox:"Caja Feliz", "happybox-ems":"Caja EMS", "happybox-police":"Caja Policía", "bulk-burger":"Hamburguesa mayoreo", "bulk-wings":"Alitas mayoreo", "bulk-nuggets":"Nuggets mayoreo", "bulk-burrito":"Burrito mayoreo", "burger-alt":"Hamburguesa alternativa", "wings-alt":"Alitas alternativas"};
+const PHOTO_LABELS={burger:"Hamburguesa",burrito:"Burrito",wings:"Alitas",nuggets:"Nuggets","combo-burger":"Combo Hamburguesa","combo-burrito":"Combo Burrito","combo-wings":"Combo Alitas","combo-nuggets":"Combo Nuggets",drink:"Bebida",fries:"Papitas",icecream:"Helado",happybox:"Caja Feliz", "happybox-ems":"Caja EMS", "happybox-police":"Caja Policía", "bulk-burger":"Hamburguesa mayoreo", "bulk-wings":"Alitas mayoreo", "bulk-nuggets":"Nuggets mayoreo", "bulk-burrito":"Burrito mayoreo", "burger-alt":"Hamburguesa alternativa", "wings-alt":"Alitas alternativas", "bulk-burger-5":"Hamburguesa mayoreo 5×5", "bulk-wings-5":"Alitas mayoreo 5×5", "bulk-wings-25":"Alitas mayoreo 25×25", "bulk-nuggets-5":"Nuggets mayoreo 5×5", "bulk-nuggets-25":"Nuggets mayoreo 25×25", "bulk-burrito-5":"Burrito mayoreo 5×5", "bulk-burrito-25":"Burrito mayoreo 25×25"};
 const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const uiIcon=(name)=>`<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">${{plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',trash:'<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>'}[name]||""}</svg>`;
 function productPhotoKey(p){
@@ -23,11 +23,16 @@ function productPhotoKey(p){
   if(category==="cajas"||/caj[ai].*feliz/.test(n))return /ems/.test(n)?"happybox-ems":/polic/.test(n)?"happybox-police":"happybox";
   let key=/burrito/.test(n)?"burrito":/alita|wing/.test(n)?"wings":/nugget/.test(n)?"nuggets":/cola|refresco|bebida/.test(n)?"drink":/helado|sundae/.test(n)?"icecream":/papas|papitas|fritas/.test(n)?"fries":"burger";
   if((category==="combos"||/combo/.test(n))&&["burger","burrito","wings","nuggets"].includes(key))key="combo-"+key;
-  if(category==="mayoreo"&&["burger","wings","nuggets","burrito"].includes(key))key="bulk-"+key;
+  if(category==="mayoreo"&&["burger","wings","nuggets","burrito"].includes(key)){
+    key="bulk-"+key;
+    // Packs de catering: si el nombre trae "5×5" o "25×25" y hay foto de ese tamaño, se usa esa.
+    const size=n.match(/\b(\d+)\s*[x×]\s*\1\b/)?.[1];
+    if(size&&PHOTO_LABELS[key+"-"+size])key+="-"+size;
+  }
   return key;
 }
 // Fotos de menú del negocio; un producto nuevo sin foto usa su ilustración.
-const MENU_PHOTOS=new Set(["combo-burger","combo-burrito","combo-nuggets","combo-wings","burger","burger-alt","burrito","nuggets","wings","wings-alt","fries","drink","happybox-ems","happybox","happybox-police","icecream","bulk-burger","bulk-burrito","bulk-nuggets","bulk-wings"]);
+const MENU_PHOTOS=new Set(["combo-burger","combo-burrito","combo-nuggets","combo-wings","burger","burger-alt","burrito","nuggets","wings","wings-alt","fries","drink","happybox-ems","happybox","happybox-police","icecream","bulk-burger","bulk-burrito","bulk-nuggets","bulk-wings","bulk-burger-5","bulk-wings-5","bulk-wings-25","bulk-nuggets-5","bulk-nuggets-25","bulk-burrito-5","bulk-burrito-25"]);
 function productArtSrc(key,thumb=false){return MENU_PHOTOS.has(key)?`assets/menu-fotos/${thumb?"thumb":"webp"}/${key}.webp`:`assets/kustom/food/${key}.svg`}
 window.bsMenuArtSrc=productArtSrc;
 function productArt(p,thumb=false){

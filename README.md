@@ -1,6 +1,6 @@
 # Burger Shot · calculadora y punto de venta
 
-Versión 15.2.3 · Candy Kustom.
+Versión 15.3.0 · Candy Kustom.
 
 Punto de venta para Burger Shot en FiveM, con Supabase. Conserva la composición nocturna original, su tipografía, halos cálidos y animaciones con un banner y ambiente de uso general. Incluye restaurante 3D, alternativa 2D, caja, caja auxiliar, convenios, comisiones, perfiles y reportes.
 

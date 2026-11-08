@@ -38,3 +38,7 @@ Desde `tests/`: `npm ci` y `npm test` (239 escenarios en verde). La única prueb
 ## Fotos del menú
 
 Los 20 productos del catálogo usan fotos del negocio (`assets/menu-fotos`, origen en `ORIGEN.json`). Si agregas un producto nuevo sin foto, se muestra su ilustración de `assets/kustom/food`; para darle foto, colócala recortada a 720×480 en `assets/menu-fotos/webp/<clave>.webp` (y 240×160 en `thumb/`) y agrega la clave a `MENU_PHOTOS` en `app.js`.
+
+## Packs de mayoreo
+
+Los productos de mayoreo cuyo nombre incluye "5×5" o "25×25" (también "5x5") muestran la foto de su pack de catering. Hay fotos de 5×5 y 25×25 para alitas, nuggets y burritos, y de 5×5 para hamburguesa. Los demás tamaños (50×50, 100×100) y la Hamburguesa 25×25 usan la foto genérica del producto, sin número, para no mostrar una cantidad equivocada. Las fotos de pack también aparecen en el selector de imagen del editor de productos.

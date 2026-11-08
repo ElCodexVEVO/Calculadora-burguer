@@ -26,7 +26,7 @@ function productPhotoKey(p){
   if(category==="mayoreo"&&["burger","wings","nuggets","burrito"].includes(key))key="bulk-"+key;
   return key;
 }
-// Fotos de menú del negocio (Helado es una composición provisional); sin foto, se usa la ilustración.
+// Fotos de menú del negocio; un producto nuevo sin foto usa su ilustración.
 const MENU_PHOTOS=new Set(["combo-burger","combo-burrito","combo-nuggets","combo-wings","burger","burger-alt","burrito","nuggets","wings","wings-alt","fries","drink","happybox-ems","happybox","happybox-police","icecream","bulk-burger","bulk-burrito","bulk-nuggets","bulk-wings"]);
 function productArtSrc(key,thumb=false){return MENU_PHOTOS.has(key)?`assets/menu-fotos/${thumb?"thumb":"webp"}/${key}.webp`:`assets/kustom/food/${key}.svg`}
 window.bsMenuArtSrc=productArtSrc;

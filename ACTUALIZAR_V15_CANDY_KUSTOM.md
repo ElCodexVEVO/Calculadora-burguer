@@ -35,6 +35,6 @@ node design/kustom/build-food.cjs
 
 Desde `tests/`: `npm ci` y `npm test` (239 escenarios en verde). La única prueba ajustada fue la ruta de la miniatura del ticket, que ahora es `assets/menu-fotos/thumb/combo-burrito.webp`. La demo reparte sus ventas simuladas entre empleados para que el ranking tenga orden.
 
-## Imagen provisional
+## Fotos del menú
 
-Solo el Helado no tiene foto del negocio: usa una composición provisional (render con volumen sobre el fondo real de las fotos), generada con `design/kustom/renders/renders.py` y `compose.py`. Para usar su foto, recórtala a 720×480 en `assets/menu-fotos/webp/icecream.webp` y a 240×160 en `thumb/icecream.webp`.
+Los 20 productos del catálogo usan fotos del negocio (`assets/menu-fotos`, origen en `ORIGEN.json`). Si agregas un producto nuevo sin foto, se muestra su ilustración de `assets/kustom/food`; para darle foto, colócala recortada a 720×480 en `assets/menu-fotos/webp/<clave>.webp` (y 240×160 en `thumb/`) y agrega la clave a `MENU_PHOTOS` en `app.js`.

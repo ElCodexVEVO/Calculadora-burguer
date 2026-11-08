@@ -1,0 +1,862 @@
+/* ==========================================================================
+   Burger Shot · Candy Kustom (v15)
+   El autoservicio donde los lowriders de Los Santos llegan en noche de crucero,
+   con la paleta medida en las fotos del menú del negocio.
+   Capa visual final: se carga la última y reemplaza el aspecto de las capas
+   anteriores sin tocar estructura, datos ni comportamiento.
+   Vocabulario de estado:
+     cromo  = seleccionado / actual
+     oro    = acción principal y cifras de dinero
+     rojo   = marca Burger Shot y placa del total
+     un punto dorado marca la sección activa; verde solo para estado
+   ========================================================================== */
+
+@font-face{font-family:"Barlow";src:url("assets/fonts/kustom/Barlow-400.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Barlow";src:url("assets/fonts/kustom/Barlow-500.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Barlow";src:url("assets/fonts/kustom/Barlow-600.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Barlow";src:url("assets/fonts/kustom/Barlow-700.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Barlow";src:url("assets/fonts/kustom/Barlow-800.woff2") format("woff2");font-weight:800 900;font-display:swap}
+@font-face{font-family:"Barlow Condensed";src:url("assets/fonts/kustom/BarlowCondensed-600.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Barlow Condensed";src:url("assets/fonts/kustom/BarlowCondensed-700.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Barlow Condensed";src:url("assets/fonts/kustom/BarlowCondensed-800.woff2") format("woff2");font-weight:800 900;font-display:swap}
+@font-face{font-family:"Grenze Gotisch";src:url("assets/fonts/kustom/GrenzeGotisch-700.woff2") format("woff2");font-weight:400 900;font-display:swap}
+@font-face{font-family:"Yellowtail";src:url("assets/fonts/kustom/Yellowtail-400.woff2") format("woff2");font-weight:400;font-display:swap}
+
+/* Prefijo de autoridad: (5,0,1) supera a las capas heredadas sin depender de !important. */
+html:not(#k):not(#k):not(#k):not(#k):not(#k){
+  /* --- Tokens propios --------------------------------------------------- */
+  --k-ground:#140706;
+  --k-ground-2:#1b0a08;
+  --k-panel:#250f0c;
+  --k-panel-2:#301510;
+  --k-panel-3:#3c1c15;
+  --k-inset:#0d0504;
+  --k-line:rgba(255,214,196,.1);
+  --k-line-2:rgba(255,214,196,.17);
+  --k-line-3:rgba(255,214,196,.28);
+  --k-text:#fff4ec;
+  --k-text-2:#f2dccf;
+  --k-muted:#d3b0a2;
+  --k-faint:#b08c7f;
+  --k-red:#d61a1f;
+  --k-red-hi:#ff3d3a;
+  --k-red-deep:#8f0c0f;
+  --k-red-ink:#4a0506;
+  --k-gold:#ffb526;
+  --k-gold-hi:#ffd36b;
+  --k-gold-deep:#e8800c;
+  --k-gold-ink:#2b1300;
+  --k-tangerine:#f2661b;
+  --k-chrome:#e7edef;
+  --k-chrome-2:#a9b9be;
+  --k-ok:#55dc8f;
+  --k-warn:#ffb347;
+  --k-bad:#ff6b6f;
+  /* sección activa (todas en oro: la paleta es de una sola familia) */
+  --c-restaurant:#ffb526;
+  --c-dashboard:#ffb526;
+  --c-pos:#ffb526;
+  --c-companion:#ffb526;
+  --c-sales:#ffb526;
+  --c-team:#ffb526;
+  --c-admin:#ffb526;
+  --c-customers:#ffb526;
+  --c-promos:#ffb526;
+  --c-audit:#ffb526;
+  --c-settings:#ffb526;
+  --c-profile:#ffb526;
+  /* tipografía */
+  --k-ui:"Barlow",system-ui,"Segoe UI",Roboto,sans-serif;
+  --k-cond:"Barlow Condensed","Barlow",system-ui,sans-serif;
+  --k-plaque:"Grenze Gotisch","Barlow Condensed",serif;
+  --k-script:"Yellowtail","Barlow Condensed",cursive;
+  /* movimiento */
+  --k-out:cubic-bezier(.23,1,.32,1);
+  --k-inout:cubic-bezier(.77,0,.175,1);
+  --k-r-sm:10px;--k-r:14px;--k-r-lg:20px;
+  --k-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -26px rgba(0,0,0,.9);
+  --k-shadow-pop:0 24px 60px -20px rgba(0,0,0,.85),0 2px 10px rgba(0,0,0,.35);
+  --k-flake:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='7' cy='11' r='.7' opacity='.55'/%3E%3Ccircle cx='41' cy='5' r='.5' opacity='.4'/%3E%3Ccircle cx='68' cy='19' r='.8' opacity='.5'/%3E%3Ccircle cx='23' cy='37' r='.5' opacity='.35'/%3E%3Ccircle cx='57' cy='46' r='.7' opacity='.5'/%3E%3Ccircle cx='84' cy='58' r='.5' opacity='.4'/%3E%3Ccircle cx='13' cy='68' r='.8' opacity='.45'/%3E%3Ccircle cx='46' cy='79' r='.5' opacity='.35'/%3E%3Ccircle cx='75' cy='85' r='.6' opacity='.45'/%3E%3C/g%3E%3C/svg%3E");
+  --k-filete:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 16'%3E%3Cg fill='none' stroke='%23ffb526' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M2 8h80c8 0 10-6 17-6s8 12 11 12 4-12 11-12 9 6 17 6h80'/%3E%3C/g%3E%3Ccircle cx='110' cy='8' r='2' fill='%23ffb526'/%3E%3C/svg%3E");
+
+  /* --- Tokens heredados reasignados al nuevo mundo ---------------------- */
+  --bs-ground:var(--k-ground);--bs-secondary:var(--k-ground-2);--bs-card:var(--k-panel);--bs-wine:var(--k-red-ink);
+  --bs-neon:var(--k-red-hi);--bs-orange:var(--k-tangerine);--bs-orange-soft:var(--k-gold);--bs-gold:var(--k-gold);
+  --bs-purple:#2a2150;--bs-text:var(--k-text);--bs-muted:var(--k-muted);--bs-success:var(--k-ok);
+  --bs-display:var(--k-cond);--bs-ui:var(--k-ui);--night-display:var(--k-cond);
+  --night-panel:rgba(22,8,6,.96);--night-line:var(--k-line-2);
+  --neon-orange:255,181,38;--neon-red:214,26,31;
+  --o-ground:var(--k-ground);--o-shell-solid:var(--k-ground-2);--o-shell:transparent;
+  --o-surface:var(--k-panel);--o-surface-2:var(--k-panel-2);--o-surface-3:var(--k-panel-3);--o-inset:var(--k-inset);
+  --o-cream:var(--k-text);--o-cream-2:var(--k-text-2);--o-muted:var(--k-muted);--o-faint:var(--k-faint);
+  --o-line:var(--k-line);--o-line-2:var(--k-line-2);--o-line-3:var(--k-line-3);
+  --o-gold:var(--k-gold);--o-mari:var(--k-gold);--o-mari-hi:var(--k-gold-hi);--o-mari-deep:var(--k-gold-deep);
+  --o-mari-ink:var(--k-gold-ink);--o-mari-line:rgba(255,181,38,.42);--o-mari-soft:rgba(255,181,38,.13);
+  --o-teal:var(--k-ok);--o-teal-soft:rgba(85,220,143,.13);--o-red:var(--k-bad);--o-red-soft:rgba(255,107,111,.13);
+  --o-wine:var(--k-red-deep);--o-plum:#2a2150;--o-font:var(--k-ui);
+  --o-ease:var(--k-out);--o-shadow-1:var(--k-shadow);--o-shadow-2:var(--k-shadow-pop);--o-shadow-pop:var(--k-shadow-pop);
+  --rs-font:var(--k-ui);--rs-display:var(--k-cond);--rs-text:var(--k-text);--rs-muted:var(--k-muted);--rs-gold:var(--k-gold);
+  --rs-neon:var(--k-red-hi);--rs-orange:var(--k-tangerine);--rs-ok:var(--k-ok);--rs-line:rgba(255,59,78,.4);
+  --rs-line-soft:var(--k-line-2);--rs-panel:rgba(22,8,6,.92);--rs-panel-solid:var(--k-panel);--rs-raise:rgba(48,20,15,.92);
+  --rs-ease:var(--k-out);
+  /* El neón heredado se convierte en sombra de rótulo pintado. */
+  --glow-red:0 2px 0 rgba(60,0,8,.55);--glow-orange:0 2px 0 rgba(70,30,0,.55);--glow-warm:0 2px 0 rgba(0,0,0,.4);
+
+  background:var(--k-ground);
+  color-scheme:dark;
+  accent-color:var(--k-gold);
+  scrollbar-color:#45201a transparent;
+
+  /* ======================================================================
+     Base y superficies del navegador
+     ====================================================================== */
+  & body{background:var(--k-ground);color:var(--k-text);font-family:var(--k-ui);font-feature-settings:"lnum","tnum" 0;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  & ::selection{background:rgba(255,181,38,.85);color:var(--k-gold-ink)}
+  & input,& textarea,& select{caret-color:var(--k-gold)}
+  & ::-webkit-scrollbar{width:11px;height:11px}
+  & ::-webkit-scrollbar-track{background:transparent}
+  & ::-webkit-scrollbar-thumb{background:#45201a;border-radius:999px;border:3px solid var(--k-ground)}
+  & ::-webkit-scrollbar-thumb:hover{background:#5a2a22}
+  & :focus-visible{outline:2px solid var(--k-gold);outline-offset:3px}
+  & a{color:var(--k-gold);text-underline-offset:3px}
+  & strong,& b,& td,& th,& .metric strong,& time{font-variant-numeric:tabular-nums}
+
+  /* Fondo ambiente: terciopelo petróleo, metalflake y dos luces cálidas. */
+  & .brand-backdrop{background:radial-gradient(1200px 700px at 18% -12%,rgba(214,26,31,.16),transparent 60%),radial-gradient(900px 700px at 105% 110%,rgba(255,181,38,.09),transparent 60%),linear-gradient(180deg,#1d0a08,#120605 70%) !important}
+  & .brand-backdrop::before{background:var(--k-flake);opacity:.35}
+  & .brand-backdrop::after{background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.35));animation:none}
+  & .room-light-ribbon,& .season-backdrop{display:none}
+  & .room-light-red{background:radial-gradient(ellipse,rgba(214,26,31,.16),transparent 64%)}
+  & .room-light-amber{background:radial-gradient(ellipse,rgba(255,181,38,.1),transparent 64%)}
+  & .app .main{background:transparent}
+
+  /* Sin neón heredado: las cifras y etiquetas se leen limpias; el relieve lo da la sombra de rótulo. */
+  & .app strong,& .app #sidebar .nav-item b,& .app #sidebar .nav-label,& .dashboard-all-team,& .app .metric strong{text-shadow:none}
+  & .rs-place-mark{box-shadow:0 4px 10px -4px rgba(0,0,0,.6)}
+  /* Piso de legibilidad: nada funcional por debajo de 11–12 px. */
+  & .desk-chart-tools span,& .desk-chart-tools button,& .chart-legend{font-size:12px}
+  & #page-profile small,& #page-profile dt,& #page-profile .profile-identity p,& .effects-note{font-size:12px}
+  & .v6-demobar,& .v6-demobar button{font-size:11.5px !important}
+  & #authScreen .bs-type small,& #authScreen burgershot-logo small{font-size:12px;letter-spacing:.14em}
+  /* Sin ornamentos heredados: filigranas, festones, glows de neón. */
+  & .ornate-frame::before,& .ornate-frame::after,& .metric-hover-edge,& .hero-brand-label,& .employee-week-kicker::before{display:none !important}
+
+  /* ======================================================================
+     Tipografía de página
+     ====================================================================== */
+  & h1,& h2,& h3{font-family:var(--k-cond);letter-spacing:0;color:var(--k-text);text-shadow:none}
+  & .page-title-row{align-items:flex-end;margin-bottom:18px;gap:16px}
+  & .page-title-row h1,& .pos-head-copy h1,& #page-profile h1{font:800 clamp(30px,2.7vw,40px)/1 var(--k-cond);text-transform:uppercase;letter-spacing:.005em;margin:0}
+  & .page-title-row h1::after,& .pos-head-copy h1::after{content:"";display:block;width:180px;height:14px;margin-top:8px;background:var(--k-filete) left center/contain no-repeat;opacity:.95}
+  & .page-title-row p,& .pos-head-copy p{color:var(--k-muted);font:500 14px/1.45 var(--k-ui);margin-top:8px}
+  & .panel-head h2,& .dashboard-panel-head h2,& .profile-section-head h2,& .modal-head h2{font:700 21px/1.05 var(--k-cond);text-transform:uppercase;letter-spacing:.02em}
+  & .panel-head span,& .dashboard-panel-head p{color:var(--k-muted);font:500 13px var(--k-ui)}
+  & .muted,& small{color:var(--k-muted)}
+
+  /* ======================================================================
+     Botones, campos y chips
+     ====================================================================== */
+  & .btn,& .row-btn,& .icon-btn,& .checkout,& .add-product,& .category-tab,& .template-action,& .rs-btn,& .chart-mode button,& .profile-period-picker button{
+    font-family:var(--k-ui);transition:transform 160ms var(--k-out),background-color 180ms ease,border-color 180ms ease,color 180ms ease,box-shadow 200ms ease,filter 180ms ease}
+  & .btn:active:not(:disabled),& .row-btn:active:not(:disabled),& .icon-btn:active:not(:disabled),& .checkout:active:not(:disabled),& .add-product:active,& .category-tab:active,& .bulk-presets button:active,& .template-action:active:not(:disabled){transform:scale(.97)}
+  & .btn{min-height:42px;border-radius:12px;font:700 14px var(--k-ui);letter-spacing:.01em}
+  & .btn.primary,& #dashboardPosBtn,& .checkout:not(:disabled),& .add-product,& #loginBtn,& .bs-primary{
+    position:relative;isolation:isolate;overflow:hidden;
+    background:linear-gradient(180deg,var(--k-gold-hi),var(--k-gold) 45%,var(--k-gold-deep));
+    color:var(--k-gold-ink);border:1px solid #b87400;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -2px 0 rgba(120,60,0,.25),0 10px 22px -12px rgba(255,181,38,.65);
+    text-shadow:none}
+  & .btn.primary::after,& #dashboardPosBtn::after,& .checkout:not(:disabled)::after,& #loginBtn::after{
+    content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 220ms ease;
+    background:radial-gradient(160px 60px at var(--mx,50%) var(--my,0%),rgba(255,255,255,.75),transparent 70%)}
+  @media (hover:hover) and (pointer:fine){
+    & .btn.primary:hover,& #dashboardPosBtn:hover,& .checkout:not(:disabled):hover,& #loginBtn:hover,& .add-product:hover{filter:brightness(1.05) saturate(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 14px 28px -12px rgba(255,181,38,.75)}
+    & .btn.primary:hover::after,& #dashboardPosBtn:hover::after,& .checkout:not(:disabled):hover::after,& #loginBtn:hover::after{opacity:.55}
+  }
+  & .btn.secondary,& .btn.ghost,& .row-btn,& .rs-btn,& .template-action{background:var(--k-panel-2);color:var(--k-text);border:1px solid var(--k-line-2);border-radius:11px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+  @media (hover:hover) and (pointer:fine){& .btn.secondary:hover,& .btn.ghost:hover,& .row-btn:hover,& .rs-btn:hover,& .template-action:hover:not(:disabled){background:var(--k-panel-3);border-color:var(--k-line-3)}}
+  & .btn.danger,& .row-btn.danger,& .template-action.danger{background:rgba(255,107,111,.1);color:#ffb3b5;border-color:rgba(255,107,111,.35)}
+  & .btn:disabled,& .row-btn:disabled,& .checkout:disabled,& .template-action:disabled{background:var(--k-panel-2);color:var(--k-faint);border-color:var(--k-line);box-shadow:none;filter:none;cursor:not-allowed}
+  & .icon-btn{width:40px;height:40px;border-radius:12px;background:var(--k-panel-2);border:1px solid var(--k-line-2);color:var(--k-text-2)}
+  @media (hover:hover) and (pointer:fine){& .icon-btn:hover{background:var(--k-panel-3);color:var(--k-text)}}
+
+  & input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),& select,& textarea{
+    background:var(--k-inset);color:var(--k-text);border:1px solid var(--k-line-2);border-radius:11px;font:500 14px var(--k-ui);
+    box-shadow:inset 0 2px 6px rgba(0,0,0,.35);transition:border-color 160ms ease,box-shadow 160ms ease}
+  & input::placeholder,& textarea::placeholder{color:#9e8b7c}
+  & input:not([type=checkbox]):not([type=radio]):focus,& select:focus,& textarea:focus{border-color:var(--k-gold);box-shadow:inset 0 2px 6px rgba(0,0,0,.35),0 0 0 3px rgba(255,181,38,.18);outline:none}
+  & label,& .v6-label{color:var(--k-text-2);font:600 13px var(--k-ui)}
+  & input[type=checkbox],& input[type=radio]{accent-color:var(--k-gold)}
+  & .search,& .global-search{color:var(--k-muted)}
+  & .global-search input,& .search input{box-shadow:inset 0 2px 6px rgba(0,0,0,.35) !important}
+
+  /* Chips y pestañas: cromo = seleccionado. */
+  & .category-tab,& .v6-tabs button,& .chart-mode button,& .profile-period-picker button,& .rs-cats button,& .bs-tabs button{
+    min-height:38px;border-radius:999px;background:transparent;border:1px solid var(--k-line-2);color:var(--k-text-2);font:700 13px var(--k-ui);box-shadow:none}
+  @media (hover:hover) and (pointer:fine){& .category-tab:hover,& .v6-tabs button:hover,& .bs-tabs button:hover{border-color:var(--k-line-3);color:var(--k-text);background:rgba(255,255,255,.03)}}
+  & .category-tab.active,& .category-tab[aria-pressed=true],& .v6-tabs button.active,& .v6-tabs button[aria-selected=true],& .chart-mode button[aria-pressed=true],& .profile-period-picker button[aria-pressed=true],& .rs-cats button.active,& .bs-tabs button.active{
+    background:linear-gradient(180deg,#ffffff,#d5dfe2);color:#3a0710;border-color:#ffffff;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12),0 6px 16px -10px rgba(255,255,255,.6);text-shadow:none}
+  & .category-tab svg{color:currentColor}
+  /* Selector deslizante heredado (polish.js): placa de cromo en vez de pastilla roja. */
+  & .m-slider{background:linear-gradient(180deg,#ffffff,#d5dfe2) !important;border:0 !important;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12),0 6px 16px -10px rgba(255,255,255,.6) !important;border-radius:999px}
+  & .has-slider button[aria-pressed=true]{background:transparent;box-shadow:none}
+
+  /* Insignias de estado */
+  & .badge{border-radius:999px;font:700 11px/1 var(--k-ui);letter-spacing:.03em;padding:6px 9px;border:1px solid transparent}
+  & .badge.green{background:rgba(85,220,143,.13);color:#8ef0b6;border-color:rgba(85,220,143,.3)}
+  & .badge.gold{background:rgba(255,181,38,.13);color:var(--k-gold-hi);border-color:rgba(255,181,38,.32)}
+  & .badge.dark{background:rgba(255,255,255,.06);color:var(--k-text-2);border-color:var(--k-line-2)}
+  & .badge.red{background:rgba(255,107,111,.12);color:#ffb3b5;border-color:rgba(255,107,111,.32)}
+  & .green{color:var(--k-ok)}
+
+  /* ======================================================================
+     Paneles, tablas, filtros
+     ====================================================================== */
+  & .panel,& .table-panel,& .employee-card,& .discount-card,& .v6-promo,& .role-editor,& .role-list,& .v6-settings>*,& .profile-identity,& .profile-content>section,& .customer-week{
+    background:linear-gradient(180deg,rgba(48,20,15,.92),rgba(33,13,10,.94));border:1px solid var(--k-line);border-radius:var(--k-r-lg);box-shadow:var(--k-shadow);backdrop-filter:none}
+  & .table-wrap{border-radius:var(--k-r)}
+  & table{border-collapse:separate;border-spacing:0}
+  & th{background:transparent;color:var(--k-muted);font:700 12px var(--k-cond);letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--k-line-2)}
+  & td{color:var(--k-text-2);border-bottom:1px solid var(--k-line);font:500 14px var(--k-ui);font-variant-numeric:tabular-nums}
+  & tbody tr{transition:background-color 160ms ease}
+  @media (hover:hover) and (pointer:fine){& tbody tr:hover td{background:rgba(255,255,255,.025)}}
+  & .report-filters,& .v6-toolbar{background:rgba(16,6,5,.55);border:1px solid var(--k-line);border-radius:var(--k-r)}
+  & .report-pager button{border-radius:10px}
+
+  /* ======================================================================
+     Riel lateral: panel candy rojo Burger Shot con metalflake y cromo
+     ====================================================================== */
+  & .app #sidebar{
+    background:var(--k-flake),linear-gradient(180deg,#c8171b 0%,#9c0e10 38%,#6c0808 100%);
+    background-size:90px 90px,100% 100%;
+    border:0;border-right:0;box-shadow:inset -3px 0 0 #e7edef,inset -4px 0 0 #6d7c80,inset -10px 0 18px -10px rgba(0,0,0,.6),12px 0 40px -24px rgba(0,0,0,.9)}
+  & .app #sidebar .store-copy strong{font:700 27px/1 var(--k-plaque);color:#fff7ea;text-shadow:0 2px 0 var(--k-red-ink);letter-spacing:.01em}
+  & .app #sidebar .store-copy span{color:#ffd9a0;font:400 18px/1 var(--k-script);letter-spacing:0;margin-top:4px;text-transform:none}
+  & .app #sidebar .emblem::before{background:radial-gradient(ellipse,rgba(255,181,38,.35),transparent 70%);animation:none}
+  & .app #sidebar .emblem-medal{filter:drop-shadow(0 6px 8px rgba(40,0,6,.55))}
+  & .app #sidebar .nav-label{color:rgba(255,226,214,.72);font:700 11px var(--k-cond);letter-spacing:.2em;text-transform:uppercase}
+  & .app #sidebar .nav-label::before,& .app #sidebar .nav-label::after{display:none}
+  & .app #sidebar .nav-item{position:relative;color:#ffeee9;border:0;background:transparent;box-shadow:none;border-radius:12px;font:600 14px var(--k-ui)}
+  & .app #sidebar .nav-item .nav-svg{color:#ffe7df;background:none}
+  & .app #sidebar .nav-item b{font:600 14px var(--k-ui)}
+  & .app #sidebar .nav-item::before{display:none}
+  & .app #sidebar .nav-item::after{content:"";position:absolute;right:12px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--sec,#fff);box-shadow:0 0 0 2px #6e0815;display:block;opacity:0;transform:scale(.4);transition:opacity 200ms ease,transform 260ms var(--k-out)}
+  & .app #sidebar .nav-item.active::after{opacity:1;transform:none}
+  @media (hover:hover) and (pointer:fine){& .app #sidebar .nav-item:hover{background:rgba(40,0,8,.28);color:#fff}}
+  & .app #sidebar .nav-item.active{background:linear-gradient(180deg,#ffffff,#d6e0e3);color:#6e0815;box-shadow:inset 0 -2px 0 rgba(0,0,0,.14),inset 0 1px 0 #fff,0 8px 18px -10px rgba(0,0,0,.7)}
+  & .app #sidebar .nav-item.active .nav-svg{color:var(--k-red)}
+  & .app #sidebar .nav-item.active b{font-weight:700}
+  & .app #sidebar .nav-item[data-page=restaurant]{--sec:var(--c-restaurant)}
+  & .app #sidebar .nav-item[data-page=dashboard]{--sec:var(--c-dashboard)}
+  & .app #sidebar .nav-item[data-page=pos]{--sec:var(--c-pos)}
+  & .app #sidebar .nav-item[data-page=companion]{--sec:var(--c-companion)}
+  & .app #sidebar .nav-item[data-page=mySales],& .app #sidebar .nav-item[data-page=allSales],& .app #sidebar .nav-item[data-page=analytics]{--sec:var(--c-sales)}
+  & .app #sidebar .nav-item[data-page=employees],& .app #sidebar .nav-item[data-page=payouts]{--sec:var(--c-team)}
+  & .app #sidebar .nav-item[data-page=admin],& .app #sidebar .nav-item[data-page=roles],& .app #sidebar .nav-item[data-page=discounts],& .app #sidebar .nav-item[data-page=products]{--sec:var(--c-admin)}
+  & .app #sidebar .nav-item[data-page=customers],& .app #sidebar .nav-item[data-page=customerHistory]{--sec:var(--c-customers)}
+  & .app #sidebar .nav-item[data-page=promotions]{--sec:var(--c-promos)}
+  & .app #sidebar .nav-item[data-page=audit]{--sec:var(--c-audit)}
+  & .app #sidebar .nav-item[data-page=settings]{--sec:var(--c-settings)}
+  & .app #sidebar .nav-item[data-page=profile]{--sec:var(--c-profile)}
+  & .app #sidebar .sidebar-toggle{background:rgba(40,0,8,.35);border:1px solid rgba(255,255,255,.28);color:#fff1ea;border-radius:9px}
+  & .app #sidebar .sidebar-bottom{border-top:1px solid rgba(255,255,255,.18)}
+  & .app #sidebar .account-card{background:rgba(40,0,8,.38);border:1px solid rgba(255,255,255,.2);border-radius:14px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+  @media (hover:hover) and (pointer:fine){& .app #sidebar .account-card:hover{background:rgba(40,0,8,.55);border-color:rgba(255,255,255,.38)}}
+  & .app #sidebar .account-eyebrow{display:none}
+  & .app #sidebar .account-copy strong{color:#fff;font:700 14px var(--k-ui)}
+  & .app #sidebar .account-copy span{color:#ffd8cf}
+  & .app #sidebar .sync{color:#ffe1d8}
+  & .app #sidebar .sync-symbol{color:#bfffd6}
+  & .app #sidebar .nav-tools summary,& .app #sidebar .rail-more{color:#ffeee9}
+  & .nav-tools-panel .nav-tools-title{color:var(--k-muted);font:700 11px var(--k-cond);letter-spacing:.18em}
+  & .avatar,& .profile-avatar{background:linear-gradient(180deg,#6b2a22,#3a1714);color:#fff;border:2px solid var(--k-chrome);box-shadow:0 0 0 1px rgba(0,0,0,.4)}
+
+  /* Riel plegado: cápsula candy con moldura de cromo y placa deslizante. */
+  @media (min-width:1101px){
+    & body.sidebar-collapsed .app #sidebar{border-radius:26px;box-shadow:inset 0 0 0 2px rgba(231,237,239,.85),inset 0 0 0 3px rgba(80,0,10,.6),inset 0 2px 10px rgba(255,255,255,.18),0 18px 40px -16px rgba(0,0,0,.9)}
+    & body.sidebar-collapsed .app #sidebar .nav-item,& body.sidebar-collapsed .app #sidebar .rail-more{color:#ffe9e2 !important;background:transparent !important}
+    & body.sidebar-collapsed .app #sidebar .nav-item::after{display:none !important}
+    & body.sidebar-collapsed .app #sidebar .nav-item.active,& body.sidebar-collapsed .app #sidebar .nav-tools:has(.nav-item.active)>.rail-more{color:#6e0815 !important}
+    & body.sidebar-collapsed .app #sidebar .nav-item.active .nav-svg{color:var(--k-red);filter:none}
+    & body.sidebar-collapsed .app #sidebar .nav-item:hover:not(.active){background:rgba(40,0,8,.3) !important;color:#fff !important}
+    & body.sidebar-collapsed .app #sidebar .nav-label{background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent)}
+    & body.sidebar-collapsed .app #sidebar .rail-bump{border:0;background:linear-gradient(180deg,#ffffff,#d3dde0);box-shadow:inset 0 -2px 0 rgba(0,0,0,.14),0 8px 16px -8px rgba(0,0,0,.7)}
+    & body.sidebar-collapsed .app #sidebar .rail-bump.is-ready{transition:transform 320ms var(--k-out)}
+    & body.sidebar-collapsed .app #sidebar .rail-bump::after{content:"";position:absolute;right:-5px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--rail-sec,var(--k-gold));box-shadow:0 0 0 2px #6e0815}
+    & body.sidebar-collapsed .app #sidebar .account-card{background:rgba(40,0,8,.4);border:1px solid rgba(255,255,255,.3)}
+    & body.sidebar-collapsed .app #sidebar .sidebar-toggle{background:rgba(40,0,8,.35);border-color:rgba(255,255,255,.3);color:#fff}
+    & body.sidebar-collapsed .app #sidebar .rail-logout{color:#ffd8cf}
+    & body.sidebar-collapsed .app #sidebar .sidebar-bottom{border-top-color:rgba(255,255,255,.2)}
+    & body.sidebar-collapsed .app #sidebar .nav-tools-panel{background:var(--k-panel);border:1px solid var(--k-line-2);box-shadow:var(--k-shadow-pop)}
+    & body.sidebar-collapsed .app #sidebar .nav-tools-panel .nav-item{color:var(--k-text-2) !important}
+    & body.sidebar-collapsed .app #sidebar .nav-tools-panel .nav-item.active{background:linear-gradient(180deg,#ffffff,#d6e0e3) !important;color:#6e0815 !important}
+    & body.sidebar-collapsed .app #sidebar .nav-tools-panel .nav-item:hover:not(.active){background:rgba(255,255,255,.05) !important}
+    & body.sidebar-collapsed .nav-tooltip{background:var(--k-panel-2);border:1px solid var(--k-line-3);color:var(--k-text);font:700 13px var(--k-ui);box-shadow:var(--k-shadow-pop)}
+  }
+  & .sidebar-scrim{background:rgba(10,3,3,.66)}
+
+  /* ======================================================================
+     Barra superior
+     ====================================================================== */
+  & .app .topbar{background:linear-gradient(180deg,rgba(22,8,6,.94),rgba(22,8,6,0));border:0;box-shadow:none}
+  & .app .topbar.is-scrolled{background:rgba(22,8,6,.97);box-shadow:0 1px 0 var(--k-line),0 12px 30px -20px #000}
+  & .current-section{font:800 18px var(--k-cond);letter-spacing:.06em;text-transform:uppercase;color:var(--k-text)}
+  & .app .topbar .global-search input{background:var(--k-inset);border-color:var(--k-line-2);border-radius:12px;color:var(--k-text)}
+  & .search-shortcut,& kbd{background:var(--k-panel-2);border:1px solid var(--k-line-2);color:var(--k-muted);border-radius:6px;font:600 11px var(--k-ui)}
+  & .header-time{background:none;border:0;box-shadow:none;text-align:center;line-height:1}
+  & .header-time span{display:block;color:var(--k-muted);font:700 12px var(--k-cond);letter-spacing:.12em;text-transform:uppercase}
+  & .header-time strong{display:block;color:var(--k-gold);font:800 20px var(--k-cond);letter-spacing:.02em}
+  & .app .topbar .user-mini{background:var(--k-panel);border:1px solid var(--k-line-2);border-radius:14px;box-shadow:none}
+  & .user-mini strong{color:var(--k-text);font:700 14px var(--k-ui)}
+  & .user-mini small{color:var(--k-muted)}
+  & .global-search-results{background:var(--k-panel);border:1px solid var(--k-line-2);border-radius:var(--k-r);box-shadow:var(--k-shadow-pop)}
+
+  /* ======================================================================
+     Resumen (inicio)
+     ====================================================================== */
+  & #page-dashboard .hero-row h1{font:800 clamp(34px,3.1vw,48px)/1 var(--k-cond);letter-spacing:.005em;color:var(--k-text);text-shadow:none}
+  & #page-dashboard .hero-row p{color:var(--k-muted);font:500 14px var(--k-ui)}
+  & #page-dashboard .clock-card{background:none;border:0;box-shadow:none;text-align:right}
+  & #page-dashboard .clock-card span{color:var(--k-muted);font:600 13px var(--k-ui);text-transform:none}
+  & #page-dashboard .clock-card strong{font:800 40px/1 var(--k-cond);color:var(--k-gold);text-shadow:none;letter-spacing:.01em}
+  & #page-dashboard .clock-card small{color:#9ff0c0;font:600 12px var(--k-ui)}
+  & #page-dashboard .clock-card small i{background:var(--k-ok);box-shadow:0 0 0 3px rgba(85,220,143,.2)}
+
+  & #page-dashboard .dash-hero{min-height:268px;border-radius:24px;border:1px solid var(--k-line-2);background:#120605;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 30px 60px -36px #000;isolation:isolate}
+  & #page-dashboard .dash-hero::before{content:"";display:block !important;position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(16,5,4,.9) 0%,rgba(16,5,4,.62) 28%,rgba(16,5,4,0) 46%)}
+  & #page-dashboard .dash-hero::after{display:none !important}
+  & #page-dashboard .dash-hero-photo{position:absolute;inset:0;width:100%;height:100%;z-index:-2;background:none !important;opacity:1;-webkit-mask:none;mask:none}
+  & #page-dashboard .dash-hero{clip-path:none}
+  & #page-dashboard .dash-hero-photo .ks-scene{position:absolute;inset:0;width:100%;height:100%}
+  & #page-dashboard .dash-hero-content{position:relative;max-width:52%;padding:34px 40px}
+  & #page-dashboard .dash-hero h2{font:800 clamp(40px,3.8vw,58px)/.92 var(--k-cond);text-transform:uppercase;color:var(--k-text);max-width:520px;letter-spacing:.005em;text-shadow:0 3px 0 rgba(0,0,0,.4)}
+  & #page-dashboard .dash-hero h2 .hero-line{display:inline}
+  & #page-dashboard .dash-hero h2 em{display:inline-block;font:400 1.22em/.8 var(--k-script);text-transform:none;color:var(--k-gold);text-shadow:0 3px 0 rgba(90,40,0,.6);transform:rotate(-4deg) translateY(4px);margin-left:.06em}
+  & #page-dashboard .dash-hero p{color:var(--k-text-2);font:500 15px/1.5 var(--k-ui);max-width:34ch;margin:14px 0 20px}
+  & #page-dashboard #dashboardPosBtn{min-height:46px;padding:0 22px;border-radius:13px;font:800 15px var(--k-ui)}
+
+  /* Métricas sin caja: cifras grandes directamente sobre el fondo. */
+  & #page-dashboard #dashboardMetrics{gap:0;margin:22px 0 20px;padding:4px 0;border-top:1px solid var(--k-line);border-bottom:1px solid var(--k-line)}
+  & #page-dashboard #dashboardMetrics .metric{background:none !important;border:0 !important;border-radius:0;box-shadow:none !important;padding:16px 22px;min-height:0;position:relative}
+  & #page-dashboard #dashboardMetrics .metric+.metric{border-left:1px solid var(--k-line) !important}
+  & #page-dashboard #dashboardMetrics .metric:nth-child(1){--sec:var(--k-gold)}
+  & #page-dashboard #dashboardMetrics .metric:nth-child(2){--sec:var(--k-gold)}
+  & #page-dashboard #dashboardMetrics .metric:nth-child(3){--sec:var(--k-gold)}
+  & #page-dashboard #dashboardMetrics .metric:nth-child(4){--sec:var(--k-gold)}
+  & #page-dashboard .dashboard-metric-icon{background:color-mix(in srgb,var(--sec) 16%,transparent);color:var(--sec);border:1px solid color-mix(in srgb,var(--sec) 40%,transparent);border-radius:12px;box-shadow:none}
+  & #page-dashboard .dashboard-metric-copy span{color:var(--k-muted);font:700 12px var(--k-cond);letter-spacing:.14em;text-transform:uppercase}
+  & #page-dashboard .dashboard-metric-copy strong{font:800 clamp(30px,2.6vw,42px)/1 var(--k-cond);color:var(--k-text);text-shadow:none;letter-spacing:.005em}
+  & #page-dashboard .dashboard-metric-copy small{color:var(--k-faint);font:500 12px var(--k-ui)}
+  & #page-dashboard .metric-history{color:var(--sec);opacity:.85}
+  & #page-dashboard .metric-history rect,& #page-dashboard .metric-history path{fill:currentColor}
+  & #page-dashboard .metric-open{background:transparent;border:1px solid var(--k-line-2);color:var(--k-muted);border-radius:9px}
+  @media (hover:hover) and (pointer:fine){& #page-dashboard .metric-open:hover{color:var(--k-text);border-color:var(--k-line-3)}}
+
+  & #page-dashboard .dashboard-team-grid>.panel,& #page-dashboard #weeklyActivity{background:linear-gradient(180deg,rgba(48,20,15,.92),rgba(33,13,10,.94)) !important;border:1px solid var(--k-line) !important;border-radius:var(--k-r-lg);box-shadow:var(--k-shadow) !important}
+  & #page-dashboard .dashboard-panel-head>svg{color:var(--k-gold);background:rgba(255,181,38,.12);border-radius:10px;padding:7px;box-sizing:content-box}
+  & #page-dashboard .dashboard-all-team{color:var(--k-gold);font:700 13px var(--k-ui);background:none;border:0}
+
+  /* Ranking: fila de crucero. */
+  & .employee-week-rank-row{border-radius:12px;transition:background-color 160ms ease}
+  & .employee-week-rank-row>b{font:800 15px var(--k-cond);color:var(--k-text-2);background:var(--k-panel-3);border:1px solid var(--k-line-2);border-radius:8px;box-shadow:none}
+  & .employee-week-rank-row.leading>b{background:linear-gradient(180deg,#ffffff,#d5dfe2);color:#6e0815;border-color:#fff}
+  & .employee-week-rank-row strong{color:var(--k-text);font:700 15px var(--k-ui)}
+  & .employee-week-rank-row>strong{font:800 19px var(--k-cond);color:var(--k-gold)}
+  & .employee-week-rank-row small{color:var(--k-faint)}
+  & .dashboard-rank-track{background:rgba(255,255,255,.06);border-radius:999px;height:6px;overflow:hidden}
+  & .dashboard-rank-track i{background:linear-gradient(90deg,var(--k-red),var(--k-tangerine),var(--k-gold));border-radius:999px;box-shadow:none;transform-origin:left center}
+  & .profile-link{color:inherit;font:inherit}
+  /* La lista muestra cuatro filas completas; con más personal desplaza y se desvanece abajo. */
+  & #teamPerformanceContent{max-height:212px;padding-right:6px}
+  & #teamPerformanceContent:has(.employee-week-rank-row:nth-child(5)){-webkit-mask:linear-gradient(180deg,#000 82%,transparent);mask:linear-gradient(180deg,#000 82%,transparent)}
+  & #teamPerformanceContent .employee-week-rank-row{min-height:50px;padding:4px 4px}
+  & #teamPerformanceContent .dashboard-rank-track i::after{display:none}
+  & #teamPerformanceContent .employee-week-rank-row:nth-child(2)>b,& #teamPerformanceContent .employee-week-rank-row:nth-child(3)>b{box-shadow:none}
+
+  /* Empleado de la semana: placa de club. */
+  & #page-dashboard .employee-week{background:radial-gradient(420px 220px at 18% 40%,rgba(214,26,31,.22),transparent 70%),linear-gradient(180deg,rgba(48,20,15,.92),rgba(33,13,10,.94)) !important}
+  & .employee-week-avatar{border:3px solid var(--k-chrome) !important;box-shadow:0 0 0 2px var(--k-red),0 0 0 6px rgba(231,237,239,.25),0 14px 28px -12px #000 !important;background:linear-gradient(180deg,#d61a1f,#8e0b1c) !important;color:#fff;font:800 26px var(--k-cond)}
+  & #page-dashboard .employee-week-avatar::after{display:none}
+  & .employee-week-person h3{font:700 30px/1 var(--k-plaque);color:#fff7ea;letter-spacing:.01em;text-transform:none}
+  & .employee-week-kicker{display:inline-block;background:linear-gradient(180deg,var(--k-gold-hi),var(--k-gold-deep));color:var(--k-gold-ink);font:800 11px var(--k-cond);letter-spacing:.14em;border-radius:999px;padding:4px 10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+  & .employee-week-person p,& .employee-week-average{color:var(--k-muted)}
+  & .employee-week-kpis{border-top:1px solid var(--k-line)}
+  & .employee-week-kpis span{color:var(--k-muted);font:700 12px var(--k-cond);letter-spacing:.12em;text-transform:uppercase}
+  & .employee-week-kpis strong{font:800 28px/1.05 var(--k-cond);color:var(--k-text)}
+  & .employee-week-kpis div:last-child strong{color:var(--k-gold-hi)}
+
+  /* Actividad semanal */
+  & .dashboard-bar-track{background:rgba(255,255,255,.04);border-radius:10px 10px 4px 4px}
+  & .dashboard-bar-track i{background:linear-gradient(180deg,var(--k-gold),var(--k-tangerine));border-radius:8px 8px 3px 3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45);transform-origin:bottom center}
+  & .employee-week-bar.is-selected .dashboard-bar-track i{background:linear-gradient(180deg,var(--k-red-hi),var(--k-red));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 0 2px rgba(255,255,255,.75)}
+  & .employee-week-bar small{color:var(--k-muted);font:700 12px var(--k-cond);letter-spacing:.08em;text-transform:uppercase}
+  & .dashboard-bar-tooltip,& .desk-line-readout{background:var(--k-panel-3);border:1px solid var(--k-line-3);color:var(--k-text);border-radius:8px;font:700 12px var(--k-ui)}
+  & .dashboard-chart-scale span{color:var(--k-faint);font:600 11px var(--k-ui)}
+  & .dashboard-chart-total{font:800 24px var(--k-cond);color:var(--k-gold)}
+  & #page-dashboard .chart-mode{background:var(--k-inset);border:1px solid var(--k-line-2);border-radius:999px;padding:3px}
+  & #page-dashboard .chart-mode button{border:0;min-height:32px}
+  & .desk-chart-tools>div{background:var(--k-inset);border-color:var(--k-line-2)}
+  & .desk-chart-tools button[aria-pressed=true]{background:var(--k-panel-3);color:var(--k-gold-hi)}
+  & .desk-line-grid{stroke:var(--k-chrome-2);stroke-opacity:.16}
+  & .chart-legend{color:var(--k-muted)}
+  & .dashboard-day-detail{background:var(--k-inset);border:1px solid var(--k-line);border-radius:var(--k-r)}
+  & .bar-chart .bar{background:linear-gradient(180deg,var(--k-gold),var(--k-tangerine));border-radius:8px 8px 3px 3px}
+  & .bar-chart .bar-value,& .bar-chart .bar-label{color:var(--k-muted)}
+
+  /* Métricas genéricas de otros módulos */
+  & .metrics:not(#dashboardMetrics) .metric{background:linear-gradient(180deg,rgba(48,20,15,.9),rgba(33,13,10,.92));border:1px solid var(--k-line);border-radius:var(--k-r);box-shadow:var(--k-shadow)}
+  & .metrics:not(#dashboardMetrics) .metric strong{font:800 30px/1.05 var(--k-cond);color:var(--k-text)}
+  & .metrics:not(#dashboardMetrics) .metric span{color:var(--k-muted);font:700 12px var(--k-cond);letter-spacing:.12em;text-transform:uppercase}
+
+  /* ======================================================================
+     Caja
+     ====================================================================== */
+  & #page-pos .product-panel{background:none;border:0;box-shadow:none;padding-top:4px}
+  & .pos-count,& .pos-session{color:var(--k-muted)}
+  & .session-dot{background:var(--k-ok);box-shadow:0 0 0 3px rgba(85,220,143,.18)}
+  & #page-pos .search input,& #productSearch{background:var(--k-inset)}
+  & .pos-add-status{color:var(--k-ok)}
+
+  & .product-card{
+    --disc:var(--k-tangerine);
+    background:linear-gradient(180deg,rgba(50,21,16,.95),rgba(31,12,9,.97));border:1px solid var(--k-line);border-radius:20px;overflow:hidden;
+    box-shadow:var(--k-shadow);transition:transform 220ms var(--k-out),border-color 200ms ease,box-shadow 220ms ease}
+  @media (hover:hover) and (pointer:fine){& .product-card:hover{transform:translateY(-3px);border-color:var(--k-line-3);box-shadow:0 1px 0 rgba(255,255,255,.07) inset,0 26px 44px -26px #000}}
+  & .product-photo{position:relative;background:var(--k-flake),radial-gradient(circle at 50% 112%,color-mix(in srgb,var(--disc) 92%,#fff 8%) 0 46%,color-mix(in srgb,var(--disc) 60%,#000 40%) 46.5% 47.6%,transparent 48%),radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.07),transparent 60%),#1d0a08 !important;overflow:hidden;border-bottom:1px solid var(--k-line)}
+  & .product-photo::before{content:"";position:absolute;left:50%;bottom:-62%;width:96%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;border:1.5px dashed rgba(255,181,38,.55);pointer-events:none}
+  & .product-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.12) 45%,transparent 60%);transform:translateX(-120%);transition:transform 700ms var(--k-out)}
+  @media (hover:hover) and (pointer:fine){& .product-card:hover .product-photo::after{transform:translateX(120%)}}
+  & .product-photo .food-photo{position:relative;z-index:1;object-fit:contain !important;width:100%;height:100%;padding:8px 10px 2px;filter:drop-shadow(0 10px 10px rgba(0,0,0,.4));transition:transform 260ms var(--k-out)}
+  @media (hover:hover) and (pointer:fine){& .product-card:hover .food-photo{transform:translateY(-4px) scale(1.03)}}
+  & .product-card:has(img[src*="/burger"]),& .product-card:has(img[src*="bulk-burger"]){--disc:#f2661b}
+  & .product-card:has(img[src*="nuggets"]){--disc:#d61a1f}
+  & .product-card:has(img[src*="wings"]){--disc:#ffb526}
+  & .product-card:has(img[src*="burrito"]){--disc:#f2661b}
+  & .product-card:has(img[src*="drink"]){--disc:#ffb526}
+  & .product-card:has(img[src*="fries"]){--disc:#ffb526}
+  & .product-card:has(img[src*="icecream"]){--disc:#f2661b}
+  & .product-card:has(img[src*="happybox"]){--disc:#d61a1f}
+  & .product-card:has(img[src*="happybox-police"]){--disc:#ffb526}
+  & .product-card:has(img[src*="combo-"]){--disc:#d61a1f}
+  & .product-badge{background:linear-gradient(180deg,#ffffff,#d5dfe2);color:#6e0815;font:800 11px var(--k-cond);letter-spacing:.1em;text-transform:uppercase;border-radius:999px;border:0;box-shadow:0 4px 10px -4px rgba(0,0,0,.6);z-index:2}
+  & .in-cart-count{z-index:2;background:var(--k-red);color:#fff;font:800 14px var(--k-cond);border:2px solid #fff;box-shadow:0 6px 14px -6px rgba(0,0,0,.8)}
+  & .product-copy{padding:14px 16px 16px}
+  & .product-category{color:var(--k-faint);font:700 11px var(--k-cond);letter-spacing:.14em;text-transform:uppercase}
+  & .product-card h3{font:700 17px/1.2 var(--k-ui);color:var(--k-text);text-transform:none;letter-spacing:0}
+  & .product-contents{color:var(--k-muted);font:500 12.5px/1.4 var(--k-ui)}
+  & .product-bottom strong{font:800 28px/1 var(--k-cond);color:var(--k-gold);letter-spacing:.01em}
+  & .product-unit{color:var(--k-faint);font:500 12px var(--k-ui)}
+  & .bulk-qty{background:var(--k-inset) !important;text-align:center;font:800 16px var(--k-cond) !important}
+  & .add-product{border-radius:11px;font:800 14px var(--k-ui)}
+  & .bulk-presets button{background:transparent;border:1px solid var(--k-line-2);color:var(--k-text-2);border-radius:9px;font:700 12px var(--k-ui);transition:transform 160ms var(--k-out),background-color 160ms ease,border-color 160ms ease}
+  @media (hover:hover) and (pointer:fine){& .bulk-presets button:hover{background:rgba(255,181,38,.1);border-color:rgba(255,181,38,.45);color:var(--k-gold-hi)}}
+  & .bulk-preview{color:var(--k-faint)}
+  & .bulk-feedback{background:linear-gradient(180deg,var(--k-gold-hi),var(--k-gold));color:var(--k-gold-ink);font:800 12px var(--k-ui);box-shadow:0 6px 16px -6px rgba(0,0,0,.7)}
+  & .catalog-empty{background:var(--k-panel);border:1px dashed var(--k-line-3);border-radius:var(--k-r-lg);color:var(--k-muted)}
+
+  /* Ticket */
+  & #page-pos .order-panel{background:linear-gradient(180deg,rgba(44,18,14,.98),rgba(28,11,9,.99));border:1px solid var(--k-line-2);border-radius:24px;box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 30px 60px -30px #000;overflow:hidden}
+  & #page-pos .order-panel::before,& .order-panel .totals .grand::before{display:none !important}
+  & .order-head h2{font:800 26px/1 var(--k-cond);text-transform:uppercase;letter-spacing:.02em}
+  & .order-head h2 small,& #orderCount{background:var(--k-red);color:#fff;font:800 14px var(--k-cond);border-radius:999px;min-width:28px;height:28px;display:inline-grid;place-items:center;border:2px solid #fff;padding:0 7px}
+  & .empty-cart strong{font:800 18px var(--k-cond);text-transform:uppercase;letter-spacing:.04em;color:var(--k-text)}
+  & .empty-cart span{color:var(--k-muted)}
+  & .cart-list>*{border-bottom:1px dashed var(--k-line-2)}
+  & .cart-list strong{color:var(--k-text)}
+  & .order-checkout{border-top:1px solid var(--k-line)}
+  & .order-extras summary{background:var(--k-inset);border:1px solid var(--k-line-2);border-radius:11px;color:var(--k-text-2)}
+  & .field-note{color:var(--k-muted)}
+  & .totals>div:not(.grand){color:var(--k-muted)}
+  & .totals>div:not(.grand) strong{color:var(--k-text-2);font:700 15px var(--k-ui)}
+  & .order-panel .totals #discountAmount{color:var(--k-text-2) !important}
+
+  /* La placa del total: única placa invertida de la pantalla. */
+  & .totals .grand{
+    position:relative;isolation:isolate;margin-top:10px;padding:14px 18px 14px;border-radius:18px 18px 34px 34px/18px 18px 24px 24px;
+    background:var(--k-flake),linear-gradient(180deg,#e8221f,#b3110f 55%,#7a0807);
+    box-shadow:inset 0 0 0 2.5px #e7edef,inset 0 0 0 4px #6d7c80,inset 0 3px 12px rgba(255,255,255,.35),0 16px 32px -16px rgba(0,0,0,.9);
+    transform-origin:20% 100%}
+  & .totals .grand span{color:#ffe6c4;font:800 12px var(--k-cond);letter-spacing:.18em;text-transform:uppercase}
+  & .totals .grand strong,& #grandTotal{font:800 clamp(38px,3.2vw,48px)/1 var(--k-cond) !important;color:var(--k-gold-hi) !important;text-shadow:0 2px 0 var(--k-red-ink);letter-spacing:.01em}
+  & .copy-total{background:rgba(40,0,8,.4);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:9px}
+  & .commission-preview{background:rgba(85,220,143,.07);border:1px solid rgba(85,220,143,.22);border-radius:12px}
+  & .commission-preview span{color:var(--k-text-2)}
+  & .commission-preview strong{color:var(--k-money,var(--k-gold-hi));font:800 20px var(--k-cond)}
+  & .checkout{min-height:56px;border-radius:14px;font:800 16px var(--k-ui)}
+  & .checkout strong{font:800 20px var(--k-cond)}
+
+  /* Ticket claro: papel de recibo, misma estructura. */
+  & #page-pos .order-panel.ticket-light{
+    --k-text:#2a1c1d;--k-text-2:#43312f;--k-muted:#664f4a;--k-faint:#76605a;--k-inset:#fffaf1;
+    --k-line:rgba(70,40,30,.13);--k-line-2:rgba(70,40,30,.24);--k-line-3:rgba(70,40,30,.36);
+    --k-panel-2:#efe5d4;--k-panel-3:#e5d8c2;--k-ok:#17824a;
+    background:linear-gradient(180deg,#f8f3ea,#f0e7d8);color:var(--k-text);border-color:#e0d3bd;box-shadow:0 30px 60px -30px #000}
+  & #page-pos .order-panel.ticket-light input:not([type=checkbox]):not([type=radio]),& #page-pos .order-panel.ticket-light select{box-shadow:inset 0 1px 3px rgba(70,40,30,.12)}
+  & #page-pos .order-panel.ticket-light .commission-preview{background:rgba(23,130,74,.08);border-color:rgba(23,130,74,.25)}
+  & #page-pos .order-panel.ticket-light .checkout:disabled{background:#e5d8c2;color:#76605a}
+  & #page-pos .order-panel.ticket-light .order-checkout{background:transparent}
+
+  /* ======================================================================
+     Caja auxiliar, perfil, equipo y módulos
+     ====================================================================== */
+  & .bs-shell,& .bs-order,& .bs-catalog{background:var(--k-panel);border-color:var(--k-line)}
+  & .bs-product{background:var(--k-panel-2);border:1px solid var(--k-line);border-radius:var(--k-r)}
+  & .bs-total{color:var(--k-gold-hi);font-family:var(--k-cond)}
+  /* Barra móvil del pedido: placa roja con el total en oro. */
+  & .order-dock{background:none;border:0;box-shadow:none}
+  & .order-dock button{background:var(--k-flake),linear-gradient(180deg,#e8221f,#9c0e10) !important;color:#fff !important;border:0 !important;border-radius:18px !important;box-shadow:inset 0 0 0 2px #e7edef,inset 0 0 0 3.5px #6d7c80,0 18px 36px -14px rgba(0,0,0,.9) !important}
+  & .order-dock .dock-count{background:#fff !important;color:#6e0815 !important;font:800 18px var(--k-cond) !important}
+  & .order-dock .dock-label b{color:#fff;font:800 17px var(--k-cond);letter-spacing:.04em;text-transform:uppercase}
+  & .order-dock .dock-label small{color:#ffd9c4 !important;font:600 12px var(--k-ui)}
+  & .order-dock strong{color:var(--k-gold-hi) !important;font:800 28px var(--k-cond) !important;text-shadow:0 2px 0 var(--k-red-ink)}
+  /* Búsqueda del menú: una sola caja; el campo vive dentro sin borde propio. */
+  & label.search{background:var(--k-inset);border:1px solid var(--k-line-2);border-radius:12px;box-shadow:inset 0 2px 6px rgba(0,0,0,.35)}
+  & label.search:focus-within{border-color:var(--k-gold);box-shadow:inset 0 2px 6px rgba(0,0,0,.35),0 0 0 3px rgba(255,181,38,.18)}
+  & label.search input{background:transparent !important;border:0 !important;box-shadow:none !important}
+
+  & .profile-identity{background:radial-gradient(400px 240px at 50% 0%,rgba(214,26,31,.25),transparent 70%),linear-gradient(180deg,rgba(48,20,15,.95),rgba(33,13,10,.96))}
+  & .profile-portrait .profile-avatar,& .profile-identity .profile-avatar{border:4px solid var(--k-chrome);box-shadow:0 0 0 3px var(--k-red),0 0 0 8px rgba(231,237,239,.2),0 20px 40px -18px #000}
+  & .profile-stats strong{font:800 clamp(24px,2.1vw,34px)/1.05 var(--k-cond);color:var(--k-text)}
+  & .effects-choice{background:var(--k-inset);border:1px solid var(--k-line-2);border-radius:14px}
+  & .effects-choice.selected,& .effects-choice[aria-pressed=true],& .effects-choice:has(input:checked){border-color:var(--k-gold);box-shadow:0 0 0 3px rgba(255,181,38,.16)}
+
+  & .employee-card{transition:transform 220ms var(--k-out),border-color 200ms ease}
+  @media (hover:hover) and (pointer:fine){& .employee-card:hover{transform:translateY(-2px);border-color:var(--k-line-3)}}
+  & .employee-card-stats strong{font:800 22px var(--k-cond)}
+  & .status-dot{box-shadow:0 0 0 3px rgba(85,220,143,.18)}
+  & .discount-pct,& .v6-promo-amount{font-family:var(--k-cond);color:var(--k-gold)}
+  & .rank-num{background:var(--k-panel-3);color:var(--k-text);font:800 14px var(--k-cond);border-radius:8px}
+  & .customer-week-medal{filter:none}
+
+  /* ======================================================================
+     Modales, toasts y avisos
+     ====================================================================== */
+  & .modal-backdrop{background:rgba(10,3,3,.74);backdrop-filter:blur(3px)}
+  & .modal{background:linear-gradient(180deg,#321510,#1e0b09);border:1px solid var(--k-line-2);border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),var(--k-shadow-pop);color:var(--k-text)}
+  & .modal-copy{color:var(--k-muted)}
+  & .toast-host .toast,& .toast{background:var(--k-panel-2);border:1px solid var(--k-line-3);color:var(--k-text);border-radius:14px;box-shadow:var(--k-shadow-pop);font:600 14px var(--k-ui)}
+  & .toast-success{border-color:rgba(85,220,143,.5)}
+  & .notice,& .report-notice,& .report-note{background:rgba(255,181,38,.08);border:1px solid rgba(255,181,38,.28);color:#ffe6a8;border-radius:12px}
+  & .error{color:#ffb3b5}
+  & .v6-demobar{background:rgba(22,8,6,.94) !important;border:1px solid var(--k-line-2) !important;color:var(--k-text-2)}
+  & .v6-demobar button{background:var(--k-gold);color:var(--k-gold-ink);border:0;border-radius:8px;font-weight:800}
+
+  /* ======================================================================
+     Restaurante 3D: paneles del tablero con el mismo vocabulario
+     ====================================================================== */
+  & .restaurant-page{
+    --rs-font:var(--k-ui);--rs-display:var(--k-cond);--rs-text:var(--k-text);--rs-muted:var(--k-muted);--rs-gold:var(--k-gold);
+    --rs-neon:var(--k-red-hi);--rs-orange:var(--k-tangerine);--rs-ok:var(--k-ok);--rs-line:rgba(255,59,78,.4);
+    --rs-line-soft:var(--k-line-2);--rs-panel:rgba(22,8,6,.92);--rs-panel-solid:var(--k-panel);--rs-raise:rgba(48,20,15,.92)}
+  & .rs-place strong{font:800 17px/1.05 var(--k-cond);letter-spacing:.02em;text-transform:uppercase}
+  & .rs-panel,& .rs-dock,& .rs-caption,& .rs-top,& .rs-place{background:rgba(22,8,6,.9);border:1px solid var(--k-line-2);border-radius:16px;color:var(--k-text);box-shadow:var(--k-shadow-pop)}
+  & .rs-dock-btn{color:var(--k-text-2);border-radius:12px}
+  & .rs-dock-btn.active,& .rs-dock-btn[aria-pressed=true]{background:linear-gradient(180deg,#ffffff,#d6e0e3);color:#6e0815}
+  & .rs-place-mark{background:var(--k-red);border:2px solid var(--k-chrome)}
+
+  /* ======================================================================
+     Acceso y carga: escena de noche de crucero
+     ====================================================================== */
+  & #authScreen .auth-scene,& #authLoading .auth-scene{background:#120605 !important;background-image:none !important}
+  & .auth-scene .ks-scene{position:absolute;inset:0;width:100%;height:100%}
+  & #authScreen .auth-scene::before,& #authScreen .auth-scene::after,& #authLoading .auth-scene::before,& #authLoading .auth-scene::after{display:none !important}
+  & #authScreen{background:#120605}
+  & #authScreen .auth-scene .ks-scene{filter:saturate(1.05)}
+  /* Una sola placa sólida: emblema, bienvenida y formulario. */
+  & #authScreen .auth-composition{
+    position:relative;z-index:1;overflow:hidden;animation:k-card-in 700ms var(--k-out) 120ms both;
+    background:linear-gradient(180deg,rgba(46,19,14,.97),rgba(27,10,8,.985));border:1px solid var(--k-line-2);border-radius:28px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 6px rgba(16,6,5,.35),0 50px 90px -30px #000;backdrop-filter:none;-webkit-backdrop-filter:none}
+  & #authScreen .auth-composition::before{display:none !important}
+  & #authScreen .auth-composition::after{content:"" !important;display:block !important;position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--k-flake);opacity:.25}
+  & #authScreen .auth-card{background:none !important;border:0 !important;box-shadow:none !important;padding-left:0;padding-right:0;animation:none !important;overflow:visible}
+  & #authScreen .auth-card::before{display:none !important}
+  & #authScreen .gate-art .gate-copy>small,& #authScreen .auth-brand .bs-type small{color:var(--k-muted)}
+  & #authScreen .gate-copy h1{font:800 clamp(44px,5vw,64px)/.92 var(--k-cond);text-transform:uppercase;color:var(--k-text);letter-spacing:.005em;text-shadow:0 4px 0 rgba(0,0,0,.45)}
+  & #authScreen .auth-welcome-accent{display:inline-block;font:400 1.15em/.9 var(--k-script);text-transform:none;color:var(--k-gold);transform:rotate(-4deg);text-shadow:0 3px 0 rgba(90,40,0,.6)}
+  & #authScreen .gate-copy p{color:var(--k-text-2);font:500 15px var(--k-ui)}
+  & #authScreen .auth-card::after{display:none !important}
+  & #authScreen .auth-card h2{font:800 15px var(--k-cond);text-transform:uppercase;letter-spacing:.2em;color:var(--k-muted);display:flex;align-items:center;gap:12px}
+  & #authScreen .auth-card h2::before,& #authScreen .auth-card h2::after{content:"";flex:1;height:14px;background:var(--k-filete) center/contain no-repeat;opacity:.8}
+  & #authScreen .auth-field{background:var(--k-inset);border:1px solid var(--k-line-2);border-radius:13px}
+  & #authScreen .auth-field:focus-within{border-color:var(--k-gold);box-shadow:0 0 0 3px rgba(255,181,38,.18)}
+  & #authScreen .auth-field input{background:transparent !important;border:0 !important;box-shadow:none !important}
+  & #authScreen .auth-field-icon{color:var(--k-muted);stroke:currentColor}
+  & #loginBtn{min-height:52px;border-radius:14px;font:800 16px var(--k-ui)}
+  & .auth-sep span{color:var(--k-muted)}
+  & #authLoading{background:#120605}
+  & #authLoading .auth-loading-content{position:relative;z-index:1}
+  & #authLoading .auth-loading-wordmark{font:700 34px/1 var(--k-plaque);color:#fff7ea;letter-spacing:.01em}
+  & #authLoading .auth-loading-wordmark span{color:var(--k-gold)}
+  & #authLoading h2{font:800 24px var(--k-cond);text-transform:uppercase;letter-spacing:.06em}
+  & #authLoading p{color:var(--k-text-2)}
+  & .k-wheel-loader{width:64px;height:64px;margin:18px auto 6px;display:block}
+  & .k-wheel-loader g{transform-origin:32px 32px;animation:k-spin .9s linear infinite}
+
+  /* Pantalla de conexión inicial */
+  & #cloudSetup .auth-card,& #cloudSetup .gate-copy h1{color:var(--k-text)}
+  & #cloudSetup .gate-copy h1{font:800 48px/.95 var(--k-cond);text-transform:uppercase}
+
+  /* ======================================================================
+     Movimiento firma
+     ====================================================================== */
+  /* Lowrider: entra rodando una vez y salta en hidráulicos de vez en cuando. */
+  & .ks-car{transform-box:fill-box;transform-origin:82% 100%}
+  & .ks-scene.is-live .ks-car{animation:k-hop 7.5s var(--k-out) 1.6s infinite}
+  & .ks-scene.is-arriving .ks-car{animation:k-roll-in 1.4s var(--k-out) both}
+  & .ks-scene.is-arriving .ks-wheel{animation:k-wheel-spin 1.4s var(--k-out) both}
+  & .ks-wheel{transform-box:fill-box;transform-origin:center}
+  & .ks-twinkle{animation:k-twinkle 3.6s ease-in-out var(--d,0s) infinite}
+  & .ks-flake{opacity:0;animation:k-flake 5s ease-in-out var(--d,0s) infinite}
+  & .ks-sign-glow{animation:k-glow 4s ease-in-out infinite alternate}
+  /* La placa del total salta como lowrider al cambiar el pedido; la cifra ya es la real. */
+  & .totals .grand.is-hopping{animation:k-plaque-hop 420ms var(--k-out)}
+  & .product-card.is-added .food-photo{animation:k-card-hop 420ms var(--k-out)}
+  /* Entradas de módulo: se reutiliza la coreografía existente (.m-enter de polish.js);
+     aquí solo se reemplazan sus piezas de neón por las del mundo kustom. */
+  & .m-enter .dash-hero{animation:k-hero-open 900ms var(--k-out) 40ms both}
+  & .m-enter .dash-hero-photo{animation:k-fade 900ms ease 40ms both}
+  & .m-enter .dash-hero h2 em{animation:k-script 900ms var(--k-out) 520ms both}
+  & .m-enter .page-title-row h1::after,& .m-enter .pos-head-copy h1::after{animation:k-filete 900ms var(--k-out) 160ms both}
+  & .m-enter .dashboard-bar-track i{animation:k-grow-y 700ms var(--k-out) both;animation-delay:calc(520ms + var(--k-b,0) * 55ms)}
+  & .m-enter .employee-week-avatar{animation:k-plaque-in 760ms var(--k-out) 700ms both}
+  & .m-enter #page-pos .order-panel,& #page-pos.m-enter .order-panel{animation:k-rise 560ms var(--k-out) 120ms both}
+  /* Acceso: las letras de la bienvenida se pintan como rótulo. */
+  & #authScreen .auth-letter{display:inline-block;text-shadow:inherit;animation:k-letter 600ms var(--k-out) both;animation-delay:calc(260ms + var(--letter-index,0) * 32ms)}
+
+  /* --- Escenas: profundidad, estrella fugaz y letrero que titila --- */
+  & .ks-scene{--px:0;--py:0}
+  & .ks-far,& .ks-mid,& .ks-near{transition:transform 900ms var(--k-out)}
+  & .ks-far{transform:translate(calc(var(--px) * -8px),calc(var(--py) * -4px))}
+  & .ks-mid{transform:translate(calc(var(--px) * -18px),calc(var(--py) * -6px))}
+  & .ks-near{transform:translate(calc(var(--px) * 10px),0)}
+  & .ks-shooting{opacity:0;animation:k-shoot 13s linear 4s infinite}
+  & .ks-scene image{animation:k-sign 9s linear 2s infinite}
+  & .ks-headlight{animation:k-beam 7.5s var(--k-out) 1.6s infinite}
+
+  /* --- Caja: comida que flota, tarjetas que se inclinan, vuelo al ticket --- */
+  & #page-pos.active .product-card .food-photo.is-illustration{animation:k-float 4.6s ease-in-out infinite;animation-delay:calc(var(--i,0) * -.43s)}
+  & .product-card{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px));transition:transform 260ms var(--k-out),border-color 200ms ease,box-shadow 220ms ease}
+  @media (hover:hover) and (pointer:fine){& .product-card:hover{--ty:-4px;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px))}}
+  & #page-pos.active .product-card.is-added .food-photo{animation:k-card-hop 460ms var(--k-out)}
+  & .bs-fly{overflow:visible !important;border:0 !important;background:none !important;box-shadow:none !important;border-radius:0 !important}
+  & .bs-fly img{object-fit:contain !important;transform:scale(2.2);filter:drop-shadow(0 10px 10px rgba(0,0,0,.55))}
+  & .bs-fly-quantity{background:var(--k-red) !important;color:#fff !important;border:2px solid #fff;border-radius:999px !important;font:800 12px/1 var(--k-cond) !important;padding:4px 6px !important;transform:translate(16px,-18px)}
+  & .cart-item.bs-line-in{animation:k-line-in 560ms var(--k-out) both;animation-delay:calc(var(--i,0) * 40ms)}
+  & .cart-item.k-line-bump{animation:k-line-bump 650ms var(--k-out)}
+  & .k-spark{position:absolute;left:72%;top:52%;width:14px;height:14px;margin:-7px 0 0 -7px;pointer-events:none;z-index:3;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'%3E%3Cpath d='M0-10L2.4-2.4 10 0 2.4 2.4 0 10-2.4 2.4-10 0-2.4-2.4Z' fill='%23ffdb72'/%3E%3C/svg%3E") center/contain no-repeat;
+    animation:k-spark 760ms var(--k-out) both}
+  & .checkout:not(:disabled){background-image:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.6) 50%,transparent 58%),linear-gradient(180deg,var(--k-gold-hi),var(--k-gold) 45%,var(--k-gold-deep));background-size:260% 100%,100% 100%;background-repeat:no-repeat;animation:k-sweep 5.5s ease-in-out 1s infinite}
+
+  /* --- Entradas de módulo: cascada corta para listas, tarjetas y tablas --- */
+  & .page.m-enter .k-stagger{animation:k-rise 520ms var(--k-out) both;animation-delay:calc(60ms + var(--n,0) * 45ms)}
+  & .page.m-enter tr.k-stagger{animation-name:k-fade-up}
+
+  /* --- Microinteracciones --- */
+  & .app #sidebar .nav-svg svg,& .btn svg,& #dashboardPosBtn svg,& .checkout svg,& .dashboard-all-team svg,& .metric-open svg,& .icon-btn svg,& .category-tab svg{transition:transform 260ms var(--k-out)}
+  @media (hover:hover) and (pointer:fine){
+    & .app #sidebar .nav-item:hover .nav-svg svg{animation:k-wiggle 520ms var(--k-out)}
+    & .btn:hover svg,& #dashboardPosBtn:hover svg,& .checkout:not(:disabled):hover svg,& .dashboard-all-team:hover svg{transform:translateX(4px)}
+    & .metric-open:hover svg{transform:translate(2px,-2px)}
+    & .icon-btn:hover svg{transform:translateY(-1px) rotate(-8deg)}
+    & .category-tab:hover svg{transform:scale(1.15) rotate(-6deg)}
+    & .category-tab:hover,& .bulk-presets button:hover{transform:translateY(-1px)}
+    & .employee-week-rank-row:hover{background:rgba(255,181,38,.06)}
+    & #page-dashboard #dashboardMetrics .metric:hover .dashboard-metric-icon{transform:translateY(-2px) rotate(-6deg)}
+    & .avatar:hover,& .profile-avatar:hover{transform:scale(1.04)}
+  }
+  & #page-dashboard .dashboard-metric-icon,& .avatar,& .profile-avatar{transition:transform 260ms var(--k-out)}
+
+  @media (prefers-reduced-motion:reduce){
+    & .ks-far,& .ks-mid,& .ks-near{transform:none !important;transition:none}
+    & .ks-shooting,& .ks-scene image,& .ks-headlight,& .k-spark,& .page.m-enter .k-stagger,& .cart-item,& .checkout,& .app #sidebar .nav-svg svg{animation:none !important}
+    & .product-card{transform:none !important}
+    & .ks-car,& .ks-wheel,& .ks-twinkle,& .ks-flake,& .ks-sign-glow,& .totals .grand,& .food-photo,& .m-enter *,& #authScreen .auth-letter,& #authScreen .auth-composition,& .k-wheel-loader g{animation:none !important}
+    & .ks-flake{opacity:.6}
+    & .k-wheel-loader g{animation:k-spin 2.4s linear infinite !important}
+    & #authLoading .auth-loading-emblem,& #authLoading .k-road,& #authLoading .k-road .k-wheel-loader,& #authLoading .auth-loading-content{animation:none !important}
+  }
+  & body.motion-off .ks-car,& body.motion-off .ks-wheel,& body.motion-off .ks-twinkle,& body.motion-off .ks-flake,& body.motion-off .ks-sign-glow,& body.motion-off .totals .grand,& body.motion-off .food-photo,& body[data-effects=performance] .ks-twinkle,& body[data-effects=performance] .ks-flake,& body[data-effects=performance] .ks-sign-glow{animation:none !important}
+  & body.motion-off .ks-flake{opacity:.6}
+  & body.motion-off #authLoading .auth-loading-emblem,& body.motion-off #authLoading .k-road,& body.motion-off #authLoading .k-road .k-wheel-loader{animation:none !important}
+  & body.motion-off .ks-shooting,& body.motion-off .ks-scene image,& body.motion-off .ks-headlight,& body.motion-off .k-spark,& body.motion-off .page.m-enter .k-stagger,& body.motion-off .checkout,& body.motion-off .cart-item,
+  & body[data-effects=performance] .ks-shooting,& body[data-effects=performance] .ks-scene image,& body[data-effects=performance] .ks-headlight,& body[data-effects=performance] #page-pos.active .product-card .food-photo,& body[data-effects=performance] .checkout{animation:none !important}
+  & body.motion-off .product-card,& body[data-effects=performance] .product-card{--rx:0deg;--ry:0deg}
+  & body.motion-off .ks-far,& body.motion-off .ks-mid,& body.motion-off .ks-near{transform:none}
+  &[data-page-hidden] .ks-shooting,&[data-page-hidden] .ks-scene image,&[data-page-hidden] .food-photo,&[data-page-hidden] .checkout{animation-play-state:paused}
+  &[data-page-hidden] .ks-car,&[data-page-hidden] .ks-twinkle,&[data-page-hidden] .ks-flake,&[data-page-hidden] .ks-sign-glow,&.auth-motion-paused .ks-car{animation-play-state:paused}
+
+  /* ======================================================================
+     Adaptación
+     ====================================================================== */
+  @media (max-width:1100px){
+    & #page-dashboard #dashboardMetrics .metric:nth-child(3){border-left:0 !important}
+    & #page-dashboard #dashboardMetrics .metric:nth-child(n+3){border-top:1px solid var(--k-line)}
+    & .app #sidebar{box-shadow:inset -3px 0 0 #e7edef,24px 0 60px rgba(0,0,0,.6)}
+  }
+  @media (max-width:700px){
+    /* Banner apilado: rótulo arriba y la escena del lowrider como franja inferior. */
+    & #page-dashboard .dash-hero{display:flex;flex-direction:column-reverse;min-height:0;background:linear-gradient(180deg,#120605,#1d0a08)}
+    & #page-dashboard .dash-hero::before{display:none !important}
+    & #page-dashboard .dash-hero-photo{position:relative;inset:auto;height:168px;flex:none;z-index:0;border-top:1px solid var(--k-line)}
+    & #page-dashboard .dash-hero-content{max-width:100%;padding:26px 22px 20px}
+    & #page-dashboard .dash-hero h2{font-size:42px}
+    & #page-dashboard .dash-hero p{margin:12px 0 18px}
+    & #page-dashboard #dashboardMetrics .metric{padding:14px 12px}
+    & #page-dashboard #dashboardMetrics .metric:nth-child(odd){border-left:0 !important}
+    & #page-dashboard .clock-card strong{font-size:30px}
+    & #authScreen .gate-copy h1{font-size:44px}
+    & .page-title-row h1,& .pos-head-copy h1{font-size:30px}
+  }
+  /* ======================================================================
+     v15.1 · Fotos del menú, paleta de las fotos y arreglos de revisión
+     ====================================================================== */
+  /* Ambiente del local: negro rojizo con el neón rojo del letrero y la luz ámbar de la mesa. */
+  & .brand-backdrop{background:radial-gradient(1100px 620px at 30% -14%,rgba(214,26,31,.26),transparent 62%),radial-gradient(900px 600px at 100% 110%,rgba(242,102,27,.12),transparent 60%),linear-gradient(180deg,#1d0a08,#120605 70%) !important}
+
+  /* Tarjetas con foto: la foto manda, a sangre, sin disco; se acerca al pasar el cursor. */
+  & .product-photo:has(.is-photo){background:#120605 !important}
+  & .product-photo:has(.is-photo)::before{display:none}
+  & .product-photo:has(.is-photo)::after{background:linear-gradient(180deg,transparent 58%,rgba(20,7,6,.55) 100%);transform:none;transition:none}
+  & .product-photo .food-photo.is-photo{object-fit:cover !important;object-position:50% 55%;padding:0;filter:none;transition:transform 700ms var(--k-out),filter 300ms ease}
+  @media (hover:hover) and (pointer:fine){& .product-card:hover .food-photo.is-photo{transform:scale(1.06);filter:saturate(1.08) brightness(1.04)}}
+  & #page-pos.active .product-card.is-added .food-photo.is-photo{animation:k-photo-pop 520ms var(--k-out)}
+  & .bs-fly:has(img[src*="menu-fotos"]) img{object-fit:cover !important;transform:none;border-radius:12px;border:2px solid #fff4ec;box-shadow:0 12px 24px -8px rgba(0,0,0,.7);filter:none}
+  & .cart-photo img{border-radius:10px;object-fit:cover}
+
+  /* Placa del total como caja Burger Shot: rojo de empaque y franjas blancas en diagonal. */
+  & .totals .grand,& .order-dock button{
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'%3E%3Cpath d='M0 22L22 0h9L0 31zM0 36L36 0h9L4 40H0z' fill='%23fff4ec'/%3E%3C/svg%3E") left bottom/52px 35px no-repeat,
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'%3E%3Cpath d='M60 22L38 0h-9l31 31zM60 36L24 0h-9l41 40h4z' fill='%23fff4ec'/%3E%3C/svg%3E") right bottom/52px 35px no-repeat,
+      radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.18),transparent 55%),
+      linear-gradient(180deg,#e01f1f,#b5110f 60%,#8c0b0b) !important;
+    border-radius:16px !important;
+    box-shadow:inset 0 0 0 1.5px rgba(255,244,236,.55),inset 0 -3px 0 rgba(0,0,0,.18),0 18px 34px -16px rgba(0,0,0,.9) !important}
+  & .totals .grand span{color:#ffe9dc}
+  & .totals .grand strong,& #grandTotal{color:#fff4ec !important;text-shadow:0 2px 0 rgba(74,5,6,.75)}
+  & .order-dock .dock-count{background:#fff4ec !important;color:#b5110f !important}
+
+  /* Empleado de la semana: placa de caja Burger Shot con su nombre. */
+  & #page-dashboard .employee-week-person{position:relative;padding:16px 18px;border-radius:16px;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'%3E%3Cpath d='M60 22L38 0h-9l31 31zM60 36L24 0h-9l41 40h4z' fill='%23fff4ec'/%3E%3C/svg%3E") right bottom/58px 39px no-repeat,radial-gradient(120% 90% at 30% 0%,rgba(255,255,255,.16),transparent 55%),linear-gradient(180deg,#d81c1c,#9f0f0e);
+    box-shadow:inset 0 0 0 1.5px rgba(255,244,236,.5),0 18px 30px -18px rgba(0,0,0,.9)}
+  & #page-dashboard .employee-week-person h3{color:#fff4ec}
+  & #page-dashboard .employee-week-person p,& #page-dashboard .employee-week-average{color:#ffd9cc}
+  & #page-dashboard .employee-week-avatar{border-color:#fff4ec !important;box-shadow:0 0 0 3px rgba(74,5,6,.6),0 12px 22px -10px #000 !important;background:linear-gradient(180deg,#3c1c15,#1d0a08) !important}
+  & #page-dashboard .employee-week-kicker{background:#fff4ec;color:#9f0f0e;box-shadow:none}
+
+  /* Cabeceras del resumen: título con filete dorado, sin cuadro de icono. */
+  & #page-dashboard .dashboard-panel-head>svg,& #page-dashboard .dashboard-metric-icon{display:none !important}
+  & #page-dashboard .dashboard-panel-head h2::after{content:"";display:block;width:132px;height:12px;margin-top:6px;background:var(--k-filete) left center/contain no-repeat}
+
+  /* Ticket claro = papel de envoltura Burger Shot con el emblema repetido muy tenue. */
+  & #page-pos .order-panel.ticket-light{--k-money:#9f0f0e;
+    background:linear-gradient(180deg,rgba(253,245,238,.84) 0,rgba(253,245,238,.97) 70px,#fdf5ee 96px,#f6e9df 100%),url("assets/burgershot-logo.webp") 14px 8px/38px auto repeat-x,#fdf5ee !important}
+  & #page-pos .order-panel.ticket-light ::placeholder{color:#76605a}
+  & #page-pos .order-panel.ticket-light .commission-preview{background:rgba(214,26,31,.06);border-color:rgba(214,26,31,.2)}
+
+  /* Acceso: sin rótulo sobre la bienvenida. */
+  & #authScreen .auth-brand .bs-type{display:none !important}
+
+  /* Aviso de demo: arriba, entre la búsqueda y la cuenta, sin tapar contenido. */
+  /* Aviso de demo en el flujo, como franja al inicio del contenido: nunca tapa nada. */
+  & .v6-demobar{position:static !important;inset:auto !important;transform:none !important;display:flex !important;justify-content:center;width:auto !important;max-width:none !important;margin:10px 16px 0 !important;padding:6px 12px !important;border-radius:10px !important}
+  /* Al agregar se ve una sola confirmación; el contador vuelve después. */
+  & .product-card.feedback-on .in-cart-count{opacity:0 !important;animation:none !important}
+  /* Las franjas de la placa no tocan el importe. */
+  & .totals .grand,& .order-dock button{padding-right:40px !important;background-size:40px 27px,40px 27px,auto,auto !important}
+
+  @media (max-width:700px){
+    & #page-dashboard #dashboardMetrics .metric{padding-right:44px}
+    & #page-dashboard .metric-history{display:none}
+    /* Banner móvil: el encuadre se ancla en el local y su letrero. */
+    & #page-dashboard .dash-hero-photo .ks-scene{left:auto;right:0;width:auto;height:100%;aspect-ratio:1600/340}
+    & #authScreen .ks-near,& #authScreen .ks-mid{display:none}
+  }
+  /* ======================================================================
+     v15.2 · Pantalla de carga y tarjeta de cuenta
+     ====================================================================== */
+  /* Carga del turno: placa centrada con el emblema limpio y un rin que rueda por la calle. */
+  & #authLoading .auth-loading-content{
+    position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;
+    width:min(400px,calc(100vw - 32px));padding:30px 32px 28px;border-radius:28px;text-align:center;overflow:hidden;
+    background:linear-gradient(180deg,rgba(46,19,14,.97),rgba(27,10,8,.98));border:1px solid var(--k-line-2);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 0 6px rgba(16,6,5,.35),0 50px 90px -30px #000;
+    animation:k-card-in 600ms var(--k-out) both}
+  & #authLoading .auth-loading-content::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--k-flake);opacity:.22}
+  & #authLoading .auth-loading-emblem{--bs-logo-size:104px;filter:drop-shadow(0 12px 16px rgba(0,0,0,.55));animation:k-bob 2.6s ease-in-out infinite}
+  & #authLoading .auth-loading-emblem .bs-mark,& #authLoading .auth-loading-emblem .bs-mark-face{width:104px !important;height:112px !important;background:none !important;box-shadow:none !important;border:0 !important}
+  & #authLoading .auth-loading-emblem .bs-mark img{filter:none !important;opacity:1 !important}
+  & #authLoading .auth-loading-emblem :is(.bs-mark-fill,.bs-mark-shadow,.bs-mark-glow,.bs-mark-sheen,.bs-accent,.bs-accents),
+  & #authLoading .auth-loading-emblem .bs-mark::before,& #authLoading .auth-loading-emblem .bs-mark::after,
+  & #authLoading .auth-loading-emblem::before,& #authLoading .auth-loading-emblem::after{display:none !important}
+  & #authLoading .auth-loading-wordmark{display:block !important;margin-top:8px;font:800 30px/1 var(--k-cond) !important;color:#fff4ec !important;letter-spacing:.08em;text-shadow:0 2px 0 var(--k-red-ink)}
+  & #authLoading .auth-loading-wordmark span{color:var(--k-gold) !important}
+  & #authLoading .k-road{position:relative;width:200px;height:62px;margin:2px auto 4px;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='4'%3E%3Crect width='18' height='4' rx='2' fill='%23ffb526'/%3E%3C/svg%3E") 0 100%/34px 4px repeat-x;
+    -webkit-mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);
+    animation:k-road 520ms linear infinite}
+  & #authLoading .k-road .k-wheel-loader{position:absolute;left:50%;bottom:6px;width:52px;height:52px;margin:0 0 0 -26px;animation:k-bump 1.04s var(--k-out) infinite}
+  & #authLoading h2{margin-top:2px;font:800 26px/1.05 var(--k-cond) !important;text-transform:uppercase;letter-spacing:.05em;color:var(--k-text) !important}
+  & #authLoading #authLoadingMessage{margin:0;color:var(--k-gold) !important;font:600 15px/1.4 var(--k-ui) !important}
+  & #authLoading .auth-slow-notice{max-width:32ch;margin:6px auto 0;color:var(--k-muted);font:500 13px/1.45 var(--k-ui)}
+  & #authLoading.is-leaving .auth-loading-content{animation:k-card-out 320ms var(--k-out) both}
+  @media (max-width:700px){& #authLoading .ks-near,& #authLoading .ks-mid{display:none}}
+
+  /* Avatares siempre circulares; la foto llena el círculo. */
+  & .avatar,& .profile-avatar{border-radius:50% !important;overflow:hidden}
+  & .avatar img,& .profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+  /* Tarjeta de cuenta (menú abierto): avatar circular con estado, nombre y rol. */
+  & .app #sidebar .account-card{grid-template-columns:42px minmax(0,1fr) 22px;align-items:center;gap:10px;min-height:64px;padding:10px 10px 10px 12px;
+    background:rgba(40,0,6,.38) !important;border:1px solid rgba(255,244,236,.22) !important;border-radius:16px !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08) !important}
+  & .app #sidebar .account-card .avatar{width:42px;height:42px;border:2px solid #fff4ec;background:linear-gradient(180deg,#3c1c15,#1d0a08);font:800 14px var(--k-cond);color:#fff4ec}
+  & .app #sidebar .account-card .avatar::after{right:-1px;bottom:-1px;width:10px;height:10px;border:2px solid #8f0c0f;background:var(--k-ok)}
+  & .app #sidebar .account-card em{border:0;background:rgba(0,0,0,.18);color:#ffe9dc;border-radius:8px}
+
+  /* Menú plegado: la tarjeta es solo el avatar, centrado en su botón circular. */
+  @media (min-width:1101px){
+    & body.sidebar-collapsed .app #sidebar .account-card{display:grid !important;grid-template-columns:1fr !important;place-items:center;width:50px !important;height:50px !important;min-height:50px !important;padding:0 !important;
+      border-radius:50% !important;background:rgba(40,0,6,.35) !important;border:1px solid rgba(255,244,236,.3) !important;box-shadow:none !important}
+    & body.sidebar-collapsed .app #sidebar .account-card .avatar{grid-column:1;width:40px;height:40px;margin:0}
+    & body.sidebar-collapsed .app #sidebar .account-card .avatar::after{width:9px;height:9px}
+    & body.sidebar-collapsed .app #sidebar .account-card:hover{border-color:var(--k-gold) !important;background:rgba(40,0,6,.55) !important}
+  }
+}
+
+@keyframes k-hop{0%,58%,100%{transform:none}63%{transform:rotate(-6.5deg) translateY(-12px)}68%{transform:rotate(-1deg) translateY(-2px)}72%{transform:rotate(-2.6deg) translateY(-5px)}77%{transform:rotate(0) translateY(0)}80%{transform:translateY(1.5px)}84%{transform:none}}
+@keyframes k-roll-in{from{transform:translateX(-140%)}to{transform:none}}
+@keyframes k-wheel-spin{from{transform:rotate(-720deg)}to{transform:none}}
+@keyframes k-twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes k-flake{0%,70%,100%{opacity:0;transform:scale(.4)}80%{opacity:1;transform:scale(1)}90%{opacity:0;transform:scale(.6)}}
+@keyframes k-glow{from{opacity:.65}to{opacity:1}}
+@keyframes k-plaque-hop{0%{transform:none}35%{transform:translateY(-6px) rotate(-1.6deg)}62%{transform:translateY(1px) rotate(.4deg)}82%{transform:translateY(-1px)}100%{transform:none}}
+@keyframes k-card-hop{0%{transform:none}35%{transform:translateY(-10px) rotate(-3deg) scale(1.04)}65%{transform:translateY(1px) rotate(.6deg)}100%{transform:none}}
+@keyframes k-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes k-fade{from{opacity:0}to{opacity:1}}
+@keyframes k-filete{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes k-grow-x{from{transform:scaleX(0)}to{transform:none}}
+@keyframes k-grow-y{from{transform:scaleY(0)}to{transform:none}}
+@keyframes k-shoot{0%,88%{opacity:0;transform:none}89%{opacity:1}96%{opacity:0;transform:translate(260px,86px)}100%{opacity:0;transform:translate(260px,86px)}}
+@keyframes k-sign{0%,86%,90%,94%,100%{opacity:1}88%{opacity:.55}92%{opacity:.75}}
+@keyframes k-beam{0%,58%,100%{opacity:1}63%{opacity:.6}70%{opacity:1}}
+@keyframes k-float{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes k-line-in{from{opacity:0;transform:translateX(22px);background-color:rgba(255,181,38,.25)}60%{background-color:rgba(255,181,38,.12)}to{opacity:1;transform:none;background-color:transparent}}
+@keyframes k-line-bump{0%{background-color:rgba(255,181,38,.28);transform:translateX(-4px)}40%{transform:translateX(2px)}100%{background-color:transparent;transform:none}}
+@keyframes k-spark{0%{opacity:0;transform:translate(0,0) scale(.3) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(1) rotate(var(--sr))}}
+@keyframes k-sweep{0%,72%{background-position:130% 0,0 0}92%,100%{background-position:-30% 0,0 0}}
+@keyframes k-fade-up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes k-wiggle{0%{transform:none}30%{transform:rotate(-12deg) translateY(-2px)}60%{transform:rotate(8deg)}85%{transform:rotate(-3deg)}100%{transform:none}}
+@keyframes k-photo-pop{0%{transform:none}35%{transform:scale(1.09) rotate(-1deg)}100%{transform:none}}
+@keyframes k-bob{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes k-road{from{background-position:0 100%}to{background-position:-34px 100%}}
+@keyframes k-bump{0%,100%{transform:none}12%{transform:translateY(-5px)}24%{transform:none}}
+@keyframes k-card-out{to{opacity:0;transform:translateY(-10px) scale(.98)}}
+@keyframes k-hero-open{from{clip-path:inset(0 100% 0 0 round 24px);opacity:.4}to{clip-path:inset(0 0 0 0 round 24px);opacity:1}}
+@keyframes k-script{from{opacity:0;clip-path:inset(-20% 100% -20% 0)}30%{opacity:1}to{opacity:1;clip-path:inset(-20% -10% -20% 0)}}
+@keyframes k-plaque-in{from{opacity:0;transform:scale(.86) rotate(-6deg)}to{opacity:1;transform:none}}
+@keyframes k-letter{from{opacity:0;transform:translateY(14px) rotate(-4deg);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+@keyframes k-card-in{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes k-spin{to{transform:rotate(360deg)}}

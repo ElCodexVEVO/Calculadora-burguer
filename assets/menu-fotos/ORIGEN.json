@@ -1,0 +1,166 @@
+{
+  "provenance": "Fotografías de menú Burger Shot suministradas por el usuario el 7 de noviembre de 2026. Recortadas a 3:2 (720x480) y miniaturas 240x160 sin alterar color ni contenido.",
+  "unused": {
+    "12.webp": "Caja Feliz EMS (variante); se conserva como alternativa"
+  },
+  "missing_photo_uses_illustration": [
+    "icecream",
+    "happybox",
+    "happybox-police"
+  ],
+  "items": {
+    "combo-burger": {
+      "source": "originales/3.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "combo-burrito": {
+      "source": "originales/9.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "combo-nuggets": {
+      "source": "originales/10.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "combo-wings": {
+      "source": "originales/11.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "burger": {
+      "source": "originales/5.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "bulk-burger": {
+      "source": "originales/5.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "burrito": {
+      "source": "originales/6.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "bulk-burrito": {
+      "source": "originales/6.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "nuggets": {
+      "source": "originales/7.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "bulk-nuggets": {
+      "source": "originales/7.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "wings": {
+      "source": "originales/8.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "bulk-wings": {
+      "source": "originales/8.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "wings-alt": {
+      "source": "originales/8.webp",
+      "crop": [
+        0,
+        230,
+        1254,
+        1066
+      ]
+    },
+    "happybox-ems": {
+      "source": "originales/1.webp",
+      "crop": [
+        0,
+        0,
+        1536,
+        1024
+      ]
+    },
+    "burger-alt": {
+      "source": "originales/3.webp",
+      "crop": [
+        200,
+        560,
+        960,
+        1067
+      ]
+    },
+    "fries": {
+      "source": "originales/3.webp",
+      "crop": [
+        640,
+        430,
+        1254,
+        839
+      ]
+    },
+    "drink": {
+      "source": "originales/3.webp",
+      "crop": [
+        0,
+        300,
+        640,
+        727
+      ]
+    }
+  }
+}

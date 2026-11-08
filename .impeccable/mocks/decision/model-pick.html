@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Rótulo de puesto · Caja</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Shade&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;font:600 14px/1.4 Rubik,sans-serif;color:#1a1410;background:#ffd23f;display:grid;grid-template-columns:220px 1fr 380px}
+.rail{background:#e4002b;color:#fff;padding:22px 16px;display:flex;flex-direction:column;gap:6px}
+.rail b{font:400 26px/1 Bungee;text-shadow:3px 3px 0 #1a1410;margin-bottom:20px}
+.nav{height:42px;display:flex;align-items:center;padding:0 12px;border-radius:6px;font-weight:800}
+.nav.on{background:#ffd23f;color:#1a1410;box-shadow:4px 4px 0 #1a1410}
+main{padding:24px 28px}
+h1{font:400 54px/1 'Bungee Shade';color:#e4002b;margin-bottom:6px}
+.sub{font-weight:800;margin-bottom:16px}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
+.tab{padding:8px 16px;border:3px solid #1a1410;border-radius:6px;background:#fff;font-weight:800}
+.tab.on{background:#0a7d4f;color:#fff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:3px solid #1a1410;border-radius:8px;box-shadow:6px 6px 0 #1a1410;overflow:hidden}
+.art{height:140px;background:var(--c);display:grid;place-items:center}
+.art span{width:90px;height:90px;border-radius:50%;background:#fff;border:3px solid #1a1410}
+.meta{padding:10px 12px}
+.meta b{font:400 15px Bungee;display:block}
+.price{font:400 26px Bungee;color:#e4002b;text-shadow:2px 2px 0 #1a1410}
+aside{background:#1d3fbb;color:#fff;padding:24px;display:flex;flex-direction:column;gap:10px}
+aside h2{font:400 30px Bungee;text-shadow:3px 3px 0 #1a1410}
+.line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:2px dashed #ffffff55;font-weight:800}
+.total{margin-top:auto;background:#ffd23f;color:#e4002b;border:4px solid #1a1410;border-radius:8px;box-shadow:6px 6px 0 #1a1410;text-align:center;padding:14px}
+.total div{font:400 64px/1 Bungee;text-shadow:3px 3px 0 #1a1410}
+.pay{background:#0a7d4f;border:3px solid #1a1410;border-radius:8px;height:52px;display:grid;place-items:center;font:400 18px Bungee;box-shadow:4px 4px 0 #1a1410}
+</style></head><body>
+<nav class="rail"><b>Burger<br>Shot</b><div class="nav">Resumen</div><div class="nav on">Caja</div><div class="nav">Caja auxiliar</div><div class="nav">Ventas</div><div class="nav">Equipo</div><div class="nav">Clientes</div><div class="nav">Promociones</div></nav>
+<main><h1>¡Arma el pedido!</h1><div class="sub">El sabor de siempre, recién preparado · 30 productos</div>
+<div class="tabs"><div class="tab on">Todos</div><div class="tab">Combos</div><div class="tab">Individuales</div><div class="tab">Extras</div><div class="tab">Cajas felices</div></div>
+<div class="grid">
+<div class="card"><div class="art" style="--c:#e4002b"><span></span></div><div class="meta"><b>Combo Hamburguesa</b><div class="price">$280</div></div></div>
+<div class="card"><div class="art" style="--c:#0a7d4f"><span></span></div><div class="meta"><b>Combo Nuggets</b><div class="price">$280</div></div></div>
+<div class="card"><div class="art" style="--c:#1d3fbb"><span></span></div><div class="meta"><b>Combo Alitas</b><div class="price">$280</div></div></div>
+<div class="card"><div class="art" style="--c:#ff8a00"><span></span></div><div class="meta"><b>Combo Burrito</b><div class="price">$280</div></div></div>
+<div class="card"><div class="art" style="--c:#ff8a00"><span></span></div><div class="meta"><b>Hamburguesa</b><div class="price">$200</div></div></div>
+<div class="card"><div class="art" style="--c:#e4002b"><span></span></div><div class="meta"><b>Cubo de alitas</b><div class="price">$200</div></div></div>
+<div class="card"><div class="art" style="--c:#1d3fbb"><span></span></div><div class="meta"><b>Cola-Shot</b><div class="price">$100</div></div></div>
+<div class="card"><div class="art" style="--c:#0a7d4f"><span></span></div><div class="meta"><b>Caja Feliz</b><div class="price">$400</div></div></div>
+</div></main>
+<aside><h2>Tu pedido</h2>
+<div class="line"><span>2 × Combo Hamburguesa</span><span>$560</span></div>
+<div class="line"><span>1 × Cubo de alitas</span><span>$200</span></div>
+<div class="line"><span>1 × Papitas</span><span>$100</span></div>
+<div class="total"><b>TOTAL A COBRAR</b><div>$840</div></div>
+<div class="pay">Cobrar y registrar</div></aside>
+</body></html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><base href="../../"><title>Paletas Burger Shot</title>
+<style>
+@font-face{font-family:"Barlow";src:url("assets/fonts/kustom/Barlow-600.woff2") format("woff2");font-weight:600}
+@font-face{font-family:"Barlow Condensed";src:url("assets/fonts/kustom/BarlowCondensed-800.woff2") format("woff2");font-weight:800}
+@font-face{font-family:"Yellowtail";src:url("assets/fonts/kustom/Yellowtail-400.woff2") format("woff2")}
+*{box-sizing:border-box;margin:0}
+body{background:#0b0b0c;color:#eee;font:600 14px Barlow,sans-serif;padding:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+h1{grid-column:1/-1;font:800 28px "Barlow Condensed";text-transform:uppercase;letter-spacing:.04em}
+.opt{border-radius:18px;overflow:hidden;border:1px solid #ffffff1a}
+.head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#000}
+.head b{font:800 20px "Barlow Condensed";text-transform:uppercase;letter-spacing:.05em}
+.sw{display:flex;gap:6px}.sw i{width:22px;height:22px;border-radius:6px;border:1px solid #ffffff30}
+.ui{display:grid;grid-template-columns:62px 1fr 190px;height:300px;background:var(--g)}
+.rail{background:linear-gradient(180deg,#c3142a,#6c0816);box-shadow:inset -3px 0 0 #e7edef;display:flex;flex-direction:column;align-items:center;gap:12px;padding:14px 0}
+.rail i{width:34px;height:30px;border-radius:9px;background:rgba(40,0,8,.35)}
+.rail i.on{background:linear-gradient(#fff,#d6e0e3)}
+.main{padding:16px;display:flex;flex-direction:column;gap:12px}
+.t{font:800 26px "Barlow Condensed";text-transform:uppercase;color:var(--tx)}
+.t em{font:400 30px Yellowtail;color:#ffc531;text-transform:none}
+.row{display:flex;gap:12px}
+.card{flex:1;background:var(--p);border:1px solid var(--l);border-radius:14px;overflow:hidden}
+.ph{height:84px;display:grid;place-items:center;background:radial-gradient(circle at 50% 120%,var(--d) 0 48%,transparent 49%),var(--p2)}
+.ph img{height:80px}
+.c{padding:8px 10px}
+.c b{display:block;color:var(--tx);font-size:13px}
+.c span{font:800 22px "Barlow Condensed";color:#ffc531}
+.m{display:flex;gap:18px;color:var(--mu);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+.m strong{display:block;font:800 26px "Barlow Condensed";color:var(--tx);letter-spacing:0}
+.tk{background:var(--p);border-left:1px solid var(--l);padding:14px;display:flex;flex-direction:column;gap:8px}
+.tk .ln{display:flex;justify-content:space-between;color:var(--tx);font-size:12px;border-bottom:1px dashed var(--l);padding-bottom:6px}
+.plq{margin-top:auto;border-radius:14px 14px 26px 26px/14px 14px 18px 18px;background:linear-gradient(#ec2238,#7a0817);box-shadow:inset 0 0 0 2px #e7edef;padding:10px;text-align:center}
+.plq small{color:#ffe6c4;font-size:9px;letter-spacing:.18em}
+.plq b{display:block;font:800 30px "Barlow Condensed";color:#ffdb72}
+.btn{border-radius:10px;background:linear-gradient(#ffdb72,#ffc531 45%,#e8980f);color:#2b1700;text-align:center;padding:9px;font-weight:800}
+.note{padding:10px 16px;background:#000;color:#bbb;font-size:12.5px;line-height:1.45}
+</style></head><body>
+<h1>¿Qué combinación de colores prefieres?</h1>
+<script>
+const P=[
+ {k:'A',n:'A · Medianoche',g:'#0c1322',p:'#16213a',p2:'#111a2e',l:'rgba(200,215,255,.13)',tx:'#f3efe6',mu:'#a9b3c9',d:['#d7182a','#ffc531','#d7182a'],note:'Azul medianoche + rojo Burger Shot + oro + crema. Clásico americano: el rojo resalta sin pelear. Fondo de noche, cómodo junto a GTA.'},
+ {k:'B',n:'B · Cálido diner',g:'#15100e',p:'#221a17',p2:'#1b1411',l:'rgba(255,225,200,.11)',tx:'#f6eee3',mu:'#bfae9f',d:['#d7182a','#ffc531','#ff6a1a'],note:'Espresso oscuro + rojo + mostaza + crema. Todo en familia cálida, como un diner de noche. Lo más "comida rápida".'},
+ {k:'C',n:'C · Asfalto',g:'#121314',p:'#1c1e20',p2:'#16181a',l:'rgba(255,255,255,.09)',tx:'#f2f0ea',mu:'#a7a9ab',d:['#d7182a','#ffc531','#d7182a'],note:'Gris grafito neutro + solo rojo y oro. La más sobria y limpia; el color lo ponen la marca y la comida.'},
+ {k:'X',n:'Actual · Petróleo',g:'#0a1c1e',p:'#112b2d',p2:'#0c2325',l:'rgba(190,232,228,.11)',tx:'#f4f2ea',mu:'#a3bcbb',d:['#ff6a1a','#4f7dff','#18b5a8'],note:'Lo que ves ahora, como referencia: verde petróleo + rojo + muchos acentos (azul, turquesa, morado...).'}];
+const food=['combo-burger','fries','wings'];
+document.body.insertAdjacentHTML('beforeend',P.map(o=>`<section class="opt" style="--g:${o.g};--p:${o.p};--p2:${o.p2};--l:${o.l};--tx:${o.tx};--mu:${o.mu}">
+<div class="head"><b>${o.n}</b><div class="sw">${[o.g,o.p,'#d7182a','#ffc531',o.tx].map(c=>`<i style="background:${c}"></i>`).join('')}</div></div>
+<div class="ui"><div class="rail"><i></i><i class="on"></i><i></i><i></i><i></i></div>
+<div class="main"><div class="t">Siempre a tu <em>antojo.</em></div>
+<div class="m"><div>Ventas<strong>24</strong></div><div>Generado<strong>$13,440</strong></div></div>
+<div class="row">${food.map((f,i)=>`<div class="card"><div class="ph" style="--d:${o.d[i]}"><img src="assets/kustom/food/${f}.svg" alt=""></div><div class="c"><b>${['Combo','Papitas','Alitas'][i]}</b><span>$${[280,100,200][i]}</span></div></div>`).join('')}</div></div>
+<div class="tk"><div class="ln"><span>2 × Combo</span><span>$560</span></div><div class="ln"><span>1 × Papitas</span><span>$100</span></div>
+<div class="plq"><small>TOTAL A COBRAR</small><b>$660</b></div><div class="btn">Cobrar</div></div></div>
+<div class="note">${o.note}</div></section>`).join(''));
+</script>
+</body></html>

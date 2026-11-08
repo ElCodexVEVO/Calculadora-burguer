@@ -35,10 +35,10 @@ Sesiones de roleplay, a menudo de noche y con el juego en primer plano. El cajer
 ## Brand Commitments
 
 - Nombre Burger Shot; lettering BURGER SHOT integrado en el emblema aprobado.
-- Temática de Día de Muertos y Halloween: cempasúchil, papel picado, velas, calaveras y calabazas.
-- Negro y vino casi negro, filigrana roja luminosa, texto crema y acción naranja/dorada. La reproducción visual del dashboard elegido el 12 de octubre de 2026 sustituye la interpretación sobria rechazada.
+- Mundo Candy Kustom (noviembre de 2026): el autoservicio Burger Shot en noche de crucero lowrider de Los Santos; la marca manda y lo lowrider es acabado. Sustituye la temática de temporada anterior.
+- Colores medidos en las fotos del menú: negro rojizo del local, rojo de empaque Burger Shot, ámbar del logo y crema del papel. Acción en oro, selección en cromo, verde solo para estado.
 - Logo aprobado `assets/logo/burgershot-3d.png` y variantes WebP: conservar arte, proporción, lettering y respaldos.
-- Fotografías del menú en `assets/menu/`, con origen en `assets/menu/ORIGEN.json`: conservar su proporción y relación con el producto.
+- Fotografías del menú entregadas por el negocio en `assets/menu-fotos/` (originales y recortes 3:2), con origen en `assets/menu-fotos/ORIGEN.json`: conservar su proporción y relación con el producto. Los productos sin foto (Helado, Caja Feliz, Cajita Policía) usan ilustraciones propias de `assets/kustom/food/` hasta tener foto.
 
 ## Evidence on Hand
 

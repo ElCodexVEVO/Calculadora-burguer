@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Hoja de ilustraciones</title>
+<style>
+body{margin:0;padding:24px;background:#0b1e20;font:600 13px system-ui;color:#eef2f1;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+figure{margin:0;border-radius:14px;overflow:hidden;background:#143235}
+figure div{aspect-ratio:3/2;display:grid;place-items:center;background:radial-gradient(circle at 50% 70%,var(--c) 0 36%,transparent 37%)}
+img{width:100%;height:100%;object-fit:contain}
+figcaption{padding:8px 12px}
+</style></head><body>
+<script>
+const keys=['combo-burger','combo-nuggets','combo-wings','combo-burrito','burger','burger-alt','wings','wings-alt','burrito','nuggets','drink','fries','icecream','happybox','happybox-ems','happybox-police','bulk-burger','bulk-wings','bulk-nuggets','bulk-burrito'];
+const cs=['#c8102e','#ff6a1a','#2f5fe0','#7ed957','#f2b33d','#b04ae0','#18c3b5'];
+document.body.innerHTML=keys.map((k,i)=>`<figure><div style="--c:${cs[i%cs.length]}"><img src="../../assets/kustom/food/${k}.svg" alt=""></div><figcaption>${k}</figcaption></figure>`).join('');
+</script>
+</body></html>

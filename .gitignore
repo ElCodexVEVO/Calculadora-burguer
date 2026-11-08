@@ -16,3 +16,6 @@ supabase/.temp/
 
 # Capturas del barrido visual (tests/visual-sweep.py), regenerables
 preview/sweep*/
+
+# Capturas de la revisión visual de Impeccable, regenerables
+.impeccable/review/

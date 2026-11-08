@@ -1,9 +1,9 @@
 {
-  "version": "14.8.0",
+  "version": "15.1.0",
   "date": "2026-11-07",
-  "edition": "Burger Shot · identidad nocturna general",
+  "edition": "Burger Shot · Candy Kustom (paleta de las fotos del menú)",
   "base": "User-supplied Calculadora-burguer-main.zip",
-  "menu_images": "40 general assets: 20 catalog photos and 20 thumbnails, reused from assets/food",
+  "menu_images": "17 recortes 3:2 de las fotos de menú entregadas por el negocio (assets/menu-fotos) y 20 ilustraciones vectoriales de respaldo (assets/kustom/food) para productos sin foto",
   "database_patch_required": "supabase_patch_v14_manager.sql (aplicado a la instalación actual)",
   "verification": {
     "automated_scenarios": 239,
@@ -19,7 +19,9 @@
       "employee_rpc_security_definer": true
     },
     "real_sales_created": false,
-    "real_accounts_created": false
+    "real_accounts_created": false,
+    "redesign_suite": "239/239; la miniatura del ticket ahora apunta a assets/menu-fotos/thumb y la demo reparte las ventas simuladas entre empleados",
+    "finish_review": "Revisión independiente de Impeccable: disposición ship tras tres rondas (8 arreglos materiales y 2 regresiones resueltos)"
   },
   "historical_metadata": "docs/HISTORIAL_VERSION.json",
   "dashboard_features": [
@@ -36,5 +38,28 @@
     "Ver ventas generales por empleado",
     "Gestionar descuentos sin acceso al catálogo de productos",
     "Roles privilegiados y cuentas administrativas protegidos"
-  ]
+  ],
+  "previous_version": "14.8.0",
+  "redesign": {
+    "direction": "Candy Kustom: el autoservicio Burger Shot en noche de crucero lowrider de Los Santos",
+    "palette": "Medida en las fotos del menú: negro rojizo #140706, paneles #250f0c, rojo de empaque #d61a1f, ámbar del logo #ffb526, crema del papel #fff4ec",
+    "typography": "Barlow y Barlow Condensed (operación), Grenze Gotisch (placas), Yellowtail (firma); autoalojadas en assets/fonts/kustom",
+    "files": [
+      "kustom.css",
+      "kustom.js",
+      "kustom-scene.js",
+      "assets/menu-fotos/",
+      "assets/kustom/",
+      "assets/fonts/kustom/"
+    ],
+    "motion": [
+      "Salto hidráulico y chispas en la placa del total",
+      "Vuelo de la ilustración al ticket y destello de líneas",
+      "Tarjetas que flotan y se inclinan hacia el cursor",
+      "Lowrider que llega y salta; paralaje, estrellas, estrella fugaz y letrero",
+      "Entradas en cascada por módulo",
+      "Microinteracciones en menú, botones e iconos",
+      "Todo se detiene con movimiento reducido, modo Rendimiento y pestaña oculta"
+    ]
+  }
 }

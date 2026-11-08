@@ -1,600 +1,773 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-14T03:58:18.534Z",
-  "title": "Design System: Burger Shot V7.8 · Ofrenda nocturna de referencia",
+  "generatedAt": "2026-11-08T00:46:46.612Z",
+  "title": "Design System: Burger Shot · Candy Kustom",
   "extensions": {
     "colorMeta": {
       "ground": {
         "role": "neutral",
-        "displayName": "Negro nocturno",
+        "displayName": "Negro del local",
+        "canonical": "#140706",
         "tonalRamp": [
-          "oklch(15% 0.0194 326.63)",
-          "oklch(26% 0.0194 326.63)",
-          "oklch(38% 0.0194 326.63)",
-          "oklch(49% 0.0194 326.63)",
-          "oklch(61% 0.0194 326.63)",
-          "oklch(72% 0.0194 326.63)",
-          "oklch(84% 0.0194 326.63)",
-          "oklch(95% 0.0194 326.63)"
+          "#3b1512",
+          "#68241f",
+          "#95342d",
+          "#c1443a",
+          "#d16d65",
+          "#de9792",
+          "#ecc2bf",
+          "#f9eceb"
         ]
       },
-      "secondary": {
+      "ground-2": {
         "role": "neutral",
-        "displayName": "Negro vino",
+        "displayName": "Segundo fondo",
+        "canonical": "#1b0a08",
         "tonalRamp": [
-          "oklch(15% 0.0247 337.28)",
-          "oklch(26% 0.0247 337.28)",
-          "oklch(38% 0.0247 337.28)",
-          "oklch(49% 0.0247 337.28)",
-          "oklch(61% 0.0247 337.28)",
-          "oklch(72% 0.0247 337.28)",
-          "oklch(84% 0.0247 337.28)",
-          "oklch(95% 0.0247 337.28)"
+          "#3b1611",
+          "#68271f",
+          "#95372c",
+          "#c24839",
+          "#d17064",
+          "#df9a91",
+          "#ecc3be",
+          "#f9edeb"
         ]
       },
-      "wine": {
-        "role": "tertiary",
-        "displayName": "Vino profundo",
-        "tonalRamp": [
-          "oklch(15% 0.0453 5.68)",
-          "oklch(26% 0.0453 5.68)",
-          "oklch(38% 0.0453 5.68)",
-          "oklch(49% 0.0453 5.68)",
-          "oklch(61% 0.0453 5.68)",
-          "oklch(72% 0.0453 5.68)",
-          "oklch(84% 0.0453 5.68)",
-          "oklch(95% 0.0453 5.68)"
-        ]
-      },
-      "card": {
+      "panel": {
         "role": "neutral",
-        "displayName": "Carbón vino",
+        "displayName": "Panel",
+        "canonical": "#250f0c",
         "tonalRamp": [
-          "oklch(15% 0.0263 358.10)",
-          "oklch(26% 0.0263 358.10)",
-          "oklch(38% 0.0263 358.10)",
-          "oklch(49% 0.0263 358.10)",
-          "oklch(61% 0.0263 358.10)",
-          "oklch(72% 0.0263 358.10)",
-          "oklch(84% 0.0263 358.10)",
-          "oklch(95% 0.0263 358.10)"
+          "#3a1713",
+          "#662921",
+          "#923b2f",
+          "#be4d3e",
+          "#ce7468",
+          "#dc9c94",
+          "#eac5c0",
+          "#f9edec"
         ]
       },
-      "neon": {
-        "role": "primary",
-        "displayName": "Rojo neón",
-        "tonalRamp": [
-          "oklch(15% 0.2383 25.58)",
-          "oklch(26% 0.2383 25.58)",
-          "oklch(38% 0.2383 25.58)",
-          "oklch(49% 0.2383 25.58)",
-          "oklch(61% 0.2383 25.58)",
-          "oklch(72% 0.2383 25.58)",
-          "oklch(84% 0.2383 25.58)",
-          "oklch(95% 0.2383 25.58)"
-        ]
-      },
-      "orange": {
-        "role": "primary",
-        "displayName": "Cempasúchil",
-        "tonalRamp": [
-          "oklch(15% 0.1770 55.21)",
-          "oklch(26% 0.1770 55.21)",
-          "oklch(38% 0.1770 55.21)",
-          "oklch(49% 0.1770 55.21)",
-          "oklch(61% 0.1770 55.21)",
-          "oklch(72% 0.1770 55.21)",
-          "oklch(84% 0.1770 55.21)",
-          "oklch(95% 0.1770 55.21)"
-        ]
-      },
-      "orange-soft": {
-        "role": "primary",
-        "displayName": "Cempasúchil suave",
-        "tonalRamp": [
-          "oklch(15% 0.1559 66.31)",
-          "oklch(26% 0.1559 66.31)",
-          "oklch(38% 0.1559 66.31)",
-          "oklch(49% 0.1559 66.31)",
-          "oklch(61% 0.1559 66.31)",
-          "oklch(72% 0.1559 66.31)",
-          "oklch(84% 0.1559 66.31)",
-          "oklch(95% 0.1559 66.31)"
-        ]
-      },
-      "gold": {
-        "role": "primary",
-        "displayName": "Dorado de vela",
-        "tonalRamp": [
-          "oklch(15% 0.1486 72.10)",
-          "oklch(26% 0.1486 72.10)",
-          "oklch(38% 0.1486 72.10)",
-          "oklch(49% 0.1486 72.10)",
-          "oklch(61% 0.1486 72.10)",
-          "oklch(72% 0.1486 72.10)",
-          "oklch(84% 0.1486 72.10)",
-          "oklch(95% 0.1486 72.10)"
-        ]
-      },
-      "purple": {
-        "role": "tertiary",
-        "displayName": "Ciruela profunda",
-        "tonalRamp": [
-          "oklch(15% 0.0549 328.79)",
-          "oklch(26% 0.0549 328.79)",
-          "oklch(38% 0.0549 328.79)",
-          "oklch(49% 0.0549 328.79)",
-          "oklch(61% 0.0549 328.79)",
-          "oklch(72% 0.0549 328.79)",
-          "oklch(84% 0.0549 328.79)",
-          "oklch(95% 0.0549 328.79)"
-        ]
-      },
-      "text": {
+      "panel-2": {
         "role": "neutral",
-        "displayName": "Crema principal",
+        "displayName": "Panel 2",
+        "canonical": "#301510",
         "tonalRamp": [
-          "oklch(15% 0.0277 70.95)",
-          "oklch(26% 0.0277 70.95)",
-          "oklch(38% 0.0277 70.95)",
-          "oklch(49% 0.0277 70.95)",
-          "oklch(61% 0.0277 70.95)",
-          "oklch(72% 0.0277 70.95)",
-          "oklch(84% 0.0277 70.95)",
-          "oklch(95% 0.0277 70.95)"
+          "#391913",
+          "#652c22",
+          "#913f30",
+          "#bd523f",
+          "#cd7869",
+          "#dba094",
+          "#eac7c0",
+          "#f9eeec"
         ]
       },
-      "muted": {
+      "panel-3": {
         "role": "neutral",
-        "displayName": "Ceniza cálida",
+        "displayName": "Panel 3",
+        "canonical": "#3c1c15",
         "tonalRamp": [
-          "oklch(15% 0.0222 21.28)",
-          "oklch(26% 0.0222 21.28)",
-          "oklch(38% 0.0222 21.28)",
-          "oklch(49% 0.0222 21.28)",
-          "oklch(61% 0.0222 21.28)",
-          "oklch(72% 0.0222 21.28)",
-          "oklch(84% 0.0222 21.28)",
-          "oklch(95% 0.0222 21.28)"
-        ]
-      },
-      "success": {
-        "role": "secondary",
-        "displayName": "Verde positivo",
-        "tonalRamp": [
-          "oklch(15% 0.1579 163.94)",
-          "oklch(26% 0.1579 163.94)",
-          "oklch(38% 0.1579 163.94)",
-          "oklch(49% 0.1579 163.94)",
-          "oklch(61% 0.1579 163.94)",
-          "oklch(72% 0.1579 163.94)",
-          "oklch(84% 0.1579 163.94)",
-          "oklch(95% 0.1579 163.94)"
-        ]
-      },
-      "surface-2": {
-        "role": "neutral",
-        "displayName": "Carbón elevado",
-        "tonalRamp": [
-          "oklch(15% 0.0324 356.10)",
-          "oklch(26% 0.0324 356.10)",
-          "oklch(38% 0.0324 356.10)",
-          "oklch(49% 0.0324 356.10)",
-          "oklch(61% 0.0324 356.10)",
-          "oklch(72% 0.0324 356.10)",
-          "oklch(84% 0.0324 356.10)",
-          "oklch(95% 0.0324 356.10)"
-        ]
-      },
-      "surface-3": {
-        "role": "neutral",
-        "displayName": "Carbón interactivo",
-        "tonalRamp": [
-          "oklch(15% 0.0345 354.98)",
-          "oklch(26% 0.0345 354.98)",
-          "oklch(38% 0.0345 354.98)",
-          "oklch(49% 0.0345 354.98)",
-          "oklch(61% 0.0345 354.98)",
-          "oklch(72% 0.0345 354.98)",
-          "oklch(84% 0.0345 354.98)",
-          "oklch(95% 0.0345 354.98)"
+          "#391a14",
+          "#642f23",
+          "#8f4332",
+          "#ba5741",
+          "#cb7c6b",
+          "#daa296",
+          "#e9c8c1",
+          "#f8eeec"
         ]
       },
       "inset": {
         "role": "neutral",
-        "displayName": "Campo oscuro",
+        "displayName": "Hundido",
+        "canonical": "#0d0504",
         "tonalRamp": [
-          "oklch(15% 0.0205 342.72)",
-          "oklch(26% 0.0205 342.72)",
-          "oklch(38% 0.0205 342.72)",
-          "oklch(49% 0.0205 342.72)",
-          "oklch(61% 0.0205 342.72)",
-          "oklch(72% 0.0205 342.72)",
-          "oklch(84% 0.0205 342.72)",
-          "oklch(95% 0.0205 342.72)"
+          "#3b1612",
+          "#672820",
+          "#94392d",
+          "#c04a3b",
+          "#d07266",
+          "#de9b92",
+          "#ebc4bf",
+          "#f9edec"
         ]
       },
-      "cream-2": {
+      "text": {
         "role": "neutral",
-        "displayName": "Crema secundaria",
+        "displayName": "Crema de papel",
+        "canonical": "#fff4ec",
         "tonalRamp": [
-          "oklch(15% 0.0293 57.34)",
-          "oklch(26% 0.0293 57.34)",
-          "oklch(38% 0.0293 57.34)",
-          "oklch(49% 0.0293 57.34)",
-          "oklch(61% 0.0293 57.34)",
-          "oklch(72% 0.0293 57.34)",
-          "oklch(84% 0.0293 57.34)",
-          "oklch(95% 0.0293 57.34)"
+          "#4d2000",
+          "#873900",
+          "#c15100",
+          "#fb6a00",
+          "#ff8b37",
+          "#ffad71",
+          "#ffceab",
+          "#fff0e6"
         ]
       },
-      "night-panel": {
+      "text-2": {
         "role": "neutral",
-        "displayName": "Panel nocturno translúcido",
+        "displayName": "Crema 2",
+        "canonical": "#f2dccf",
         "tonalRamp": [
-          "oklch(15% 0.0199 352.05)",
-          "oklch(26% 0.0199 352.05)",
-          "oklch(38% 0.0199 352.05)",
-          "oklch(49% 0.0199 352.05)",
-          "oklch(61% 0.0199 352.05)",
-          "oklch(72% 0.0199 352.05)",
-          "oklch(84% 0.0199 352.05)",
-          "oklch(95% 0.0199 352.05)"
+          "#3c2110",
+          "#6a391d",
+          "#985229",
+          "#c66b36",
+          "#d48c61",
+          "#e1ad8f",
+          "#edcfbd",
+          "#faf0eb"
         ]
       },
-      "night-line": {
+      "muted": {
+        "role": "neutral",
+        "displayName": "Apagado",
+        "canonical": "#d3b0a2",
+        "tonalRamp": [
+          "#342019",
+          "#5b392b",
+          "#83523e",
+          "#ab6a51",
+          "#bf8b77",
+          "#d1ad9f",
+          "#e4cfc6",
+          "#f7f0ee"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Tenue",
+        "canonical": "#b08c7f",
+        "tonalRamp": [
+          "#2f221d",
+          "#533c33",
+          "#77564a",
+          "#9b7060",
+          "#b39083",
+          "#c9b0a7",
+          "#dfd0cb",
+          "#f5f1ef"
+        ]
+      },
+      "red": {
         "role": "primary",
-        "displayName": "Borde rojo translúcido",
+        "displayName": "Rojo de empaque Burger Shot",
+        "canonical": "#d61a1f",
         "tonalRamp": [
-          "oklch(15% 0.2188 30.75)",
-          "oklch(26% 0.2188 30.75)",
-          "oklch(38% 0.2188 30.75)",
-          "oklch(49% 0.2188 30.75)",
-          "oklch(61% 0.2188 30.75)",
-          "oklch(72% 0.2188 30.75)",
-          "oklch(84% 0.2188 30.75)",
-          "oklch(95% 0.2188 30.75)"
+          "#44080a",
+          "#780f11",
+          "#ac1519",
+          "#e01b20",
+          "#e94c51",
+          "#f08083",
+          "#f6b4b6",
+          "#fce8e9"
         ]
       },
-      "luminous-red": {
+      "red-hi": {
         "role": "primary",
-        "displayName": "Rojo de filigrana",
+        "displayName": "Rojo letrero",
+        "canonical": "#ff3d3a",
         "tonalRamp": [
-          "oklch(15% 0.2211 33.56)",
-          "oklch(26% 0.2211 33.56)",
-          "oklch(38% 0.2211 33.56)",
-          "oklch(49% 0.2211 33.56)",
-          "oklch(61% 0.2211 33.56)",
-          "oklch(72% 0.2211 33.56)",
-          "oklch(84% 0.2211 33.56)",
-          "oklch(95% 0.2211 33.56)"
+          "#4d0100",
+          "#870200",
+          "#c10300",
+          "#fb0400",
+          "#ff3a37",
+          "#ff7371",
+          "#ffacab",
+          "#ffe6e6"
         ]
       },
-      "nav-text": {
-        "role": "neutral",
-        "displayName": "Crema de navegación",
+      "red-deep": {
+        "role": "primary",
+        "displayName": "Rojo hondo",
+        "canonical": "#8f0c0f",
         "tonalRamp": [
-          "oklch(15% 0.0224 49.92)",
-          "oklch(26% 0.0224 49.92)",
-          "oklch(38% 0.0224 49.92)",
-          "oklch(49% 0.0224 49.92)",
-          "oklch(61% 0.0224 49.92)",
-          "oklch(72% 0.0224 49.92)",
-          "oklch(84% 0.0224 49.92)",
-          "oklch(95% 0.0224 49.92)"
+          "#470607",
+          "#7c0a0d",
+          "#b20f13",
+          "#e81318",
+          "#ef464a",
+          "#f47c7f",
+          "#f9b2b3",
+          "#fde7e8"
         ]
       },
-      "nav-active-text": {
-        "role": "neutral",
-        "displayName": "Crema seleccionada",
+      "red-ink": {
+        "role": "primary",
+        "displayName": "Tinta roja",
+        "canonical": "#4a0506",
         "tonalRamp": [
-          "oklch(15% 0.0203 74.66)",
-          "oklch(26% 0.0203 74.66)",
-          "oklch(38% 0.0203 74.66)",
-          "oklch(49% 0.0203 74.66)",
-          "oklch(61% 0.0203 74.66)",
-          "oklch(72% 0.0203 74.66)",
-          "oklch(84% 0.0203 74.66)",
-          "oklch(95% 0.0203 74.66)"
+          "#480506",
+          "#7e090a",
+          "#b50c0f",
+          "#eb1013",
+          "#f24346",
+          "#f67a7c",
+          "#fab1b2",
+          "#fde7e7"
         ]
       },
-      "line-2": {
-        "role": "neutral",
-        "displayName": "Divisor suave",
+      "box-red": {
+        "role": "primary",
+        "displayName": "Rojo de caja",
+        "canonical": "#b5110f",
         "tonalRamp": [
-          "oklch(15% 0.0267 80.25)",
-          "oklch(26% 0.0267 80.25)",
-          "oklch(38% 0.0267 80.25)",
-          "oklch(49% 0.0267 80.25)",
-          "oklch(61% 0.0267 80.25)",
-          "oklch(72% 0.0267 80.25)",
-          "oklch(84% 0.0267 80.25)",
-          "oklch(95% 0.0267 80.25)"
+          "#470706",
+          "#7c0c0a",
+          "#b2110f",
+          "#e81613",
+          "#f04846",
+          "#f47d7c",
+          "#f9b2b2",
+          "#fde8e7"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "Oro mostaza",
+        "canonical": "#ffb526",
+        "tonalRamp": [
+          "#4d3200",
+          "#875900",
+          "#c17f00",
+          "#fba600",
+          "#ffbb37",
+          "#ffcf71",
+          "#ffe2ab",
+          "#fff6e6"
+        ]
+      },
+      "gold-hi": {
+        "role": "secondary",
+        "displayName": "Oro claro",
+        "canonical": "#ffd36b",
+        "tonalRamp": [
+          "#4d3600",
+          "#875f00",
+          "#c18800",
+          "#fbb100",
+          "#ffc337",
+          "#ffd571",
+          "#ffe6ab",
+          "#fff7e6"
+        ]
+      },
+      "gold-deep": {
+        "role": "secondary",
+        "displayName": "Oro tostado",
+        "canonical": "#e8800c",
+        "tonalRamp": [
+          "#492804",
+          "#804707",
+          "#b86509",
+          "#ef840c",
+          "#f5a040",
+          "#f8bb78",
+          "#fbd7af",
+          "#fef3e7"
+        ]
+      },
+      "gold-ink": {
+        "role": "secondary",
+        "displayName": "Tinta de oro",
+        "canonical": "#2b1300",
+        "tonalRamp": [
+          "#4d2200",
+          "#873c00",
+          "#c15500",
+          "#fb6f00",
+          "#ff8f37",
+          "#ffb071",
+          "#ffd0ab",
+          "#fff1e6"
+        ]
+      },
+      "tangerine": {
+        "role": "tertiary",
+        "displayName": "Mandarina",
+        "canonical": "#f2661b",
+        "tonalRamp": [
+          "#481c04",
+          "#803107",
+          "#b7460a",
+          "#ee5c0e",
+          "#f48041",
+          "#f7a579",
+          "#facab0",
+          "#feefe7"
+        ]
+      },
+      "chrome": {
+        "role": "tertiary",
+        "displayName": "Cromo",
+        "canonical": "#e7edef",
+        "tonalRamp": [
+          "#1f2a2e",
+          "#364a51",
+          "#4d6a74",
+          "#658a97",
+          "#87a5af",
+          "#aabfc6",
+          "#cdd9dd",
+          "#f0f4f5"
+        ]
+      },
+      "chrome-2": {
+        "role": "tertiary",
+        "displayName": "Cromo sombra",
+        "canonical": "#a9b9be",
+        "tonalRamp": [
+          "#21292c",
+          "#3a484d",
+          "#53686e",
+          "#6c878f",
+          "#8da2a9",
+          "#aebdc2",
+          "#cfd8db",
+          "#f0f3f4"
+        ]
+      },
+      "chrome-ink": {
+        "role": "tertiary",
+        "displayName": "Tinta de cromo",
+        "canonical": "#6e0815",
+        "tonalRamp": [
+          "#47050e",
+          "#7e0918",
+          "#b40d22",
+          "#ea112d",
+          "#f1445a",
+          "#f57b8a",
+          "#f9b1ba",
+          "#fde7ea"
+        ]
+      },
+      "ok": {
+        "role": "status",
+        "displayName": "Verde en línea",
+        "canonical": "#55dc8f",
+        "tonalRamp": [
+          "#0d3f23",
+          "#17703d",
+          "#21a058",
+          "#2bd072",
+          "#59dd92",
+          "#89e7b1",
+          "#baf1d1",
+          "#eafbf1"
+        ]
+      },
+      "bad": {
+        "role": "status",
+        "displayName": "Rojo de peligro",
+        "canonical": "#ff6b6f",
+        "tonalRamp": [
+          "#4d0002",
+          "#870004",
+          "#c10005",
+          "#fb0007",
+          "#ff373c",
+          "#ff7175",
+          "#ffabad",
+          "#ffe6e6"
         ]
       },
       "ticket-paper": {
         "role": "neutral",
-        "displayName": "Papel del ticket",
+        "displayName": "Papel de envoltura",
+        "canonical": "#fdf5ee",
         "tonalRamp": [
-          "oklch(15% 0.0238 79.74)",
-          "oklch(26% 0.0238 79.74)",
-          "oklch(38% 0.0238 79.74)",
-          "oklch(49% 0.0238 79.74)",
-          "oklch(61% 0.0238 79.74)",
-          "oklch(72% 0.0238 79.74)",
-          "oklch(84% 0.0238 79.74)",
-          "oklch(95% 0.0238 79.74)"
+          "#442408",
+          "#79400e",
+          "#ad5b14",
+          "#e1771a",
+          "#ea964c",
+          "#f0b480",
+          "#f6d3b4",
+          "#fcf2e8"
         ]
       },
-      "ticket-ink": {
+      "ticket-text": {
         "role": "neutral",
         "displayName": "Tinta del ticket",
+        "canonical": "#2a1c1d",
         "tonalRamp": [
-          "oklch(15% 0.0223 9.30)",
-          "oklch(26% 0.0223 9.30)",
-          "oklch(38% 0.0223 9.30)",
-          "oklch(49% 0.0223 9.30)",
-          "oklch(61% 0.0223 9.30)",
-          "oklch(72% 0.0223 9.30)",
-          "oklch(84% 0.0223 9.30)",
-          "oklch(95% 0.0223 9.30)"
+          "#2e1f20",
+          "#513638",
+          "#744d50",
+          "#976568",
+          "#af878a",
+          "#c6aaac",
+          "#ddcdce",
+          "#f5f0f0"
+        ]
+      },
+      "ticket-text-2": {
+        "role": "neutral",
+        "displayName": "Tinta del ticket 2",
+        "canonical": "#43312f",
+        "tonalRamp": [
+          "#2d2120",
+          "#4f3a38",
+          "#715350",
+          "#946c68",
+          "#ac8d89",
+          "#c4aeac",
+          "#dccfce",
+          "#f4f0f0"
+        ]
+      },
+      "ticket-muted": {
+        "role": "neutral",
+        "displayName": "Ticket apagado",
+        "canonical": "#664f4a",
+        "tonalRamp": [
+          "#2c2220",
+          "#4e3d39",
+          "#705751",
+          "#92716a",
+          "#ab918b",
+          "#c3b1ad",
+          "#dcd1ce",
+          "#f4f1f0"
+        ]
+      },
+      "ticket-faint": {
+        "role": "neutral",
+        "displayName": "Ticket tenue",
+        "canonical": "#76605a",
+        "tonalRamp": [
+          "#2b2321",
+          "#4c3e3a",
+          "#6e5954",
+          "#8f746d",
+          "#a8938d",
+          "#c2b3ae",
+          "#dbd2cf",
+          "#f4f1f1"
+        ]
+      },
+      "ticket-money": {
+        "role": "secondary",
+        "displayName": "Dinero en papel",
+        "canonical": "#9f0f0e",
+        "tonalRamp": [
+          "#460706",
+          "#7c0c0b",
+          "#b11110",
+          "#e71614",
+          "#ef4847",
+          "#f47d7c",
+          "#f8b2b2",
+          "#fde8e8"
+        ]
+      },
+      "ticket-ok": {
+        "role": "status",
+        "displayName": "Verde en papel",
+        "canonical": "#17824a",
+        "tonalRamp": [
+          "#0c4125",
+          "#147341",
+          "#1da45d",
+          "#26d67a",
+          "#55e198",
+          "#86eab6",
+          "#b8f2d4",
+          "#e9fbf2"
         ]
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "display",
-        "purpose": "Bienvenida del inicio."
+        "displayName": "Display",
+        "purpose": "Titular del banner de inicio y del acceso; admite una palabra en Yellowtail."
       },
       "headline": {
-        "displayName": "headline",
-        "purpose": "Titular del banner de referencia."
+        "displayName": "Headline",
+        "purpose": "Título de página con filete dorado debajo."
       },
       "title": {
-        "displayName": "title",
-        "purpose": "Títulos de panel del inicio."
+        "displayName": "Title",
+        "purpose": "Cabeceras de panel, modal y ticket."
       },
-      "profile-title": {
-        "displayName": "profile-title",
-        "purpose": "Encabezado de Mi perfil."
-      },
-      "metric": {
-        "displayName": "metric",
-        "purpose": "Cifras destacadas del inicio."
-      },
-      "body": {
-        "displayName": "body",
-        "purpose": "Texto operativo, campos y tablas."
-      },
-      "label": {
-        "displayName": "label",
-        "purpose": "Etiquetas y controles compactos."
+      "figure": {
+        "displayName": "Cifra",
+        "purpose": "Precios en oro y KPIs; números tabulares."
       },
       "total": {
-        "displayName": "total",
-        "purpose": "Total principal de caja."
+        "displayName": "Total",
+        "purpose": "Solo en la placa del total, crema sobre rojo de caja."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto operativo."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Encabezados de tabla, nombres de métrica, grupos del riel; mayúsculas espaciadas."
+      },
+      "plaque": {
+        "displayName": "Placa de club",
+        "purpose": "Nombre de la tienda en el riel, empleado de la semana, marca de carga."
+      },
+      "script": {
+        "displayName": "Firma",
+        "purpose": "Una palabra de firma por titular y subtítulo de la tienda."
       }
     },
     "shadows": [
       {
-        "name": "hero-red",
-        "value": "inset 0 0 5px #ff4b24,0 2px 16px -5px rgba(255,65,24,.85)",
-        "purpose": "Borde luminoso del banner."
+        "name": "panel",
+        "value": "0 1px 0 rgba(255,255,255,.05) inset, 0 18px 40px -26px rgba(0,0,0,.9)",
+        "purpose": "Paneles y tarjetas en reposo."
       },
       {
-        "name": "nav-active-red",
-        "value": "inset 0 0 14px rgba(255,55,20,.35),0 2px 13px -3px rgba(255,59,20,.65)",
-        "purpose": "Placa de navegación activa."
+        "name": "pop",
+        "value": "0 24px 60px -20px rgba(0,0,0,.85), 0 2px 10px rgba(0,0,0,.35)",
+        "purpose": "Modales, toasts, búsqueda, tooltips."
       },
       {
-        "name": "panel-general",
-        "value": "0 12px 32px -22px #000",
-        "purpose": "Separación de paneles generales y modal."
+        "name": "gold-button",
+        "value": "inset 0 1px 0 rgba(255,255,255,.7), inset 0 -2px 0 rgba(120,60,0,.25), 0 10px 22px -12px rgba(255,181,38,.65)",
+        "purpose": "Relieve de caramelo de la acción oro."
       },
       {
-        "name": "metric-red",
-        "value": "0 4px 15px -10px #ff3c1b",
-        "purpose": "Luz bajo las métricas independientes."
+        "name": "packaging-plaque",
+        "value": "inset 0 0 0 1.5px rgba(255,244,236,.55), inset 0 -3px 0 rgba(0,0,0,.18), 0 18px 34px -16px rgba(0,0,0,.9)",
+        "purpose": "Placa del total y barra móvil Ver pedido."
       },
       {
-        "name": "profile-portrait",
-        "value": "0 0 0 6px rgba(255,85,28,.07),0 9px 35px -17px #ff5523",
-        "purpose": "Aro del avatar de perfil."
+        "name": "rail-chrome",
+        "value": "inset -3px 0 0 #e7edef, inset -4px 0 0 #6d7c80, inset -10px 0 18px -10px rgba(0,0,0,.6), 12px 0 40px -24px rgba(0,0,0,.9)",
+        "purpose": "Canto cromado del riel candy."
+      },
+      {
+        "name": "chrome-selected",
+        "value": "inset 0 -2px 0 rgba(0,0,0,.12), 0 6px 16px -10px rgba(255,255,255,.6)",
+        "purpose": "Placa de cromo de lo seleccionado."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 2px solid #ffb526; outline-offset: 3px",
+        "purpose": "Foco visible global."
+      },
+      {
+        "name": "sign-drop",
+        "value": "text-shadow: 0 2px 0 #4a0506",
+        "purpose": "Letra pintada: solo texto display, firma y cifras sobre rojo."
       }
     ],
     "motion": [
       {
-        "name": "ease-standard",
-        "value": "cubic-bezier(.22,1,.36,1)",
-        "purpose": "Curva --o-ease de estados operativos."
+        "name": "ease-out",
+        "value": "cubic-bezier(.23,1,.32,1)",
+        "purpose": "Curva por defecto: estados, saltos, entradas."
       },
       {
-        "name": "sidebar-width",
-        "value": ".24s ease",
-        "purpose": "Cambio de ancho entre sidebar y carril."
+        "name": "ease-inout",
+        "value": "cubic-bezier(.77,0,.175,1)",
+        "purpose": "Reordenación FLIP del ranking."
       },
       {
-        "name": "button-active",
-        "value": "80ms",
-        "purpose": "Respuesta breve al pulsar."
+        "name": "state",
+        "value": "160–260ms",
+        "purpose": "Hover, pulsación, foco."
       },
       {
-        "name": "night-fog",
-        "value": "28s ease-in-out infinite alternate",
-        "purpose": "Niebla del acceso; se detiene con Rendimiento, movimiento reducido o pestaña oculta."
+        "name": "plaque-hop",
+        "value": "420ms cubic-bezier(.23,1,.32,1)",
+        "purpose": "Salto hidráulico de la placa del total; la cifra no se anima."
+      },
+      {
+        "name": "card-hop",
+        "value": "420–520ms cubic-bezier(.23,1,.32,1)",
+        "purpose": "Salto de la imagen al agregar."
+      },
+      {
+        "name": "rise",
+        "value": "520–560ms, cascada 45ms",
+        "purpose": "Entradas de módulo, tarjetas, filas."
+      },
+      {
+        "name": "draw",
+        "value": "900ms cubic-bezier(.23,1,.32,1)",
+        "purpose": "Filete que se dibuja y banner que se abre."
+      },
+      {
+        "name": "scene-hop",
+        "value": "7.5s bucle",
+        "purpose": "Salto del lowrider en las escenas."
+      },
+      {
+        "name": "stop",
+        "value": "prefers-reduced-motion · body.motion-off / data-effects=performance · pestaña oculta",
+        "purpose": "Todo movimiento se detiene; los importes nunca se animan."
       }
     ],
     "breakpoints": [
       {
-        "name": "profile-mobile",
-        "value": "600px"
+        "name": "rail-wide",
+        "value": "1101px"
       },
       {
-        "name": "header-mobile",
-        "value": "760px"
-      },
-      {
-        "name": "profile-single-column",
-        "value": "900px"
-      },
-      {
-        "name": "aux-wide",
-        "value": "961px"
-      },
-      {
-        "name": "sidebar-drawer",
+        "name": "tablet",
         "value": "1100px"
       },
       {
-        "name": "profile-metrics-two-columns",
-        "value": "1300px"
-      },
-      {
-        "name": "sidebar-medium",
-        "value": "1450px"
-      },
-      {
-        "name": "sidebar-short-height",
-        "value": "850px"
-      },
-      {
-        "name": "profile-heading-start",
-        "value": "980px"
+        "name": "mobile",
+        "value": "700px"
       }
     ]
   },
   "components": [
     {
-      "name": "Acción principal",
+      "name": "Botón primario oro",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Guardar o confirmar una acción con estado habilitado o deshabilitado.",
-      "html": "<button class=\"ds-btn-primary\">Guardar cambios</button>",
-      "css": ".ds-btn-primary{min-height:42px;padding:10px 16px;border:1px solid var(--bs-orange-soft,#FFA63B);border-radius:9px;background:linear-gradient(110deg,var(--bs-gold,#FFB347),var(--bs-orange,#FF891C));color:var(--bs-wine,#230910);font:700 14px/1.15 var(--o-font,Figtree,system-ui,sans-serif);cursor:pointer;box-shadow:0 7px 20px -13px #ff891c;transition:filter .16s,box-shadow .2s}.ds-btn-primary:hover{filter:brightness(1.06);box-shadow:0 9px 26px -12px #ff891c}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:disabled{background:var(--o-surface-3,#38232b);color:var(--bs-muted,#BCA9A8);border-color:rgba(246,235,217,.17);cursor:not-allowed}.ds-btn-primary:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
+      "description": "Acción principal: cobrar, agregar, entrar. Caramelo oro con brillo que sigue al cursor.",
+      "html": "<button class=\"ds-btn-primary\">Ir a la caja <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 20px;border-radius:12px;font:700 14px \"Barlow\",system-ui,sans-serif;letter-spacing:.01em;color:#2b1300;background:linear-gradient(180deg,#ffd36b,#ffb526 45%,#e8800c);border:1px solid #b87400;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -2px 0 rgba(120,60,0,.25),0 10px 22px -12px rgba(255,181,38,.65);cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),filter 180ms ease,box-shadow 200ms ease}.ds-btn-primary svg{transition:transform 260ms cubic-bezier(.23,1,.32,1)}.ds-btn-primary:hover{filter:brightness(1.05) saturate(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 14px 28px -12px rgba(255,181,38,.75)}.ds-btn-primary:hover svg{transform:translateX(4px)}.ds-btn-primary:focus-visible{outline:2px solid #ffb526;outline-offset:3px}.ds-btn-primary:active{transform:scale(.97)}"
     },
     {
-      "name": "Acción secundaria",
+      "name": "Botón secundario",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Cancelar o abrir una acción auxiliar sin competir con el botón principal.",
-      "html": "<button class=\"ds-btn-secondary\">Cancelar</button>",
-      "css": ".ds-btn-secondary{min-height:42px;padding:10px 16px;border:1px solid rgba(246,235,217,.17);border-radius:9px;background:var(--o-surface-2,#2c1920);color:var(--bs-text,#FFF0DF);font:700 14px/1.15 var(--o-font,Figtree,system-ui,sans-serif);cursor:pointer;transition:background .16s,border-color .16s}.ds-btn-secondary:hover{background:var(--o-surface-3,#38232b);border-color:rgba(246,235,217,.28)}.ds-btn-secondary:active{transform:scale(.97)}.ds-btn-secondary:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
+      "description": "Acciones de apoyo sobre panel.",
+      "html": "<button class=\"ds-btn-secondary\">Exportar</button>",
+      "css": ".ds-btn-secondary{min-height:42px;padding:0 18px;border-radius:11px;font:700 14px \"Barlow\",system-ui,sans-serif;color:#fff4ec;background:#301510;border:1px solid rgba(255,214,196,.17);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);cursor:pointer;transition:background-color 180ms ease,border-color 180ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}.ds-btn-secondary:hover{background:#3c1c15;border-color:rgba(255,214,196,.28)}.ds-btn-secondary:focus-visible{outline:2px solid #ffb526;outline-offset:3px}.ds-btn-secondary:active{transform:scale(.97)}"
     },
     {
-      "name": "Campo de red social",
-      "kind": "input",
-      "refersTo": "social-input",
-      "description": "Campo opcional con etiqueta persistente; el error de guardado se muestra en el formulario.",
-      "html": "<label class=\"ds-field\">Instagram<input class=\"ds-social-input\" placeholder=\"@tuusuario\" autocomplete=\"off\" autocapitalize=\"none\" spellcheck=\"false\"></label>",
-      "css": ".ds-field{display:grid;gap:8px;max-width:300px;color:#ecd3c3;font:11px var(--o-font,Figtree,system-ui,sans-serif)}.ds-social-input{height:43px;padding:0 12px;border:1px solid #664039;border-radius:8px;background:#13070d;color:var(--bs-text,#FFF0DF);font:13px var(--o-font,Figtree,system-ui,sans-serif);caret-color:var(--bs-gold,#FFB347);transition:border-color .16s}.ds-social-input::placeholder{color:var(--bs-muted,#BCA9A8)}.ds-social-input:hover{border-color:#9d5b44}.ds-social-input:disabled{opacity:.65}.ds-social-input:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
-    },
-    {
-      "name": "Navegación roja",
-      "kind": "nav",
-      "refersTo": "navigation-item",
-      "description": "Destino activo con icono SVG, etiqueta legible y borde rojo luminoso.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Navegación de ejemplo\"><button class=\"ds-nav-item\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 10.5 12 3l9 7.5v9A1.5 1.5 0 0 1 19.5 21H15v-6H9v6H4.5A1.5 1.5 0 0 1 3 19.5z\"/></svg><span>Inicio</span></button></nav>",
-      "css": ".ds-nav{padding:12px;background:#090205;max-width:240px}.ds-nav-item{display:flex;align-items:center;gap:13px;width:100%;min-height:44px;padding:9px 13px;border:1px solid #ff612d;border-radius:8px;background:linear-gradient(100deg,rgba(134,24,16,.85),rgba(71,11,9,.83));color:#fff5e8;box-shadow:inset 0 0 14px rgba(255,55,20,.35),0 2px 13px -3px rgba(255,59,20,.65);font:700 13px var(--o-font,Figtree,system-ui,sans-serif);cursor:pointer}.ds-nav-item svg{width:20px;height:20px;fill:none;stroke:#ffc363;stroke-width:1.5;filter:drop-shadow(0 1px 4px #ed4a15)}.ds-nav-item:hover{background-color:rgba(144,29,18,.28);border-color:#ff834f}.ds-nav-item:active{transform:scale(.98)}.ds-nav-item:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
-    },
-    {
-      "name": "Selector de periodo",
+      "name": "Pestañas de categoría",
       "kind": "chip",
-      "refersTo": "period-chip",
-      "description": "Dos opciones excluyentes para las cuatro métricas propias.",
-      "html": "<div class=\"ds-period\" role=\"group\" aria-label=\"Periodo de rendimiento\"><button class=\"ds-period-chip\" aria-pressed=\"true\">Esta semana</button><button class=\"ds-period-chip\" aria-pressed=\"false\">Total</button></div>",
-      "css": ".ds-period{display:inline-flex;gap:4px;padding:4px;border:1px solid #613122;border-radius:10px;background:#100407}.ds-period-chip{min-height:35px;padding:8px 15px;border:0;border-radius:6px;background:none;color:#d9c3b6;font:600 11px var(--o-font,Figtree,system-ui,sans-serif);cursor:pointer;transition:background .16s}.ds-period-chip[aria-pressed=true]{background:#7b2015;color:#fff2df;box-shadow:inset 0 0 0 1px #d25d2a}.ds-period-chip:hover{background:#542017;color:#fff3e4}.ds-period-chip:active{transform:scale(.98)}.ds-period-chip:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
+      "refersTo": "chip-selected",
+      "description": "Cromo = seleccionado.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab\" aria-pressed=\"true\">Todo</button><button class=\"ds-tab\" aria-pressed=\"false\">Combos</button><button class=\"ds-tab\" aria-pressed=\"false\">Bebidas</button></div>",
+      "css": ".ds-tabs{display:flex;gap:8px;padding:12px;background:#140706}.ds-tab{min-height:38px;padding:0 16px;border-radius:999px;background:transparent;border:1px solid rgba(255,214,196,.17);color:#f2dccf;font:700 13px \"Barlow\",system-ui,sans-serif;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),border-color 180ms ease,color 180ms ease}.ds-tab:hover{border-color:rgba(255,214,196,.28);color:#fff4ec;background:rgba(255,255,255,.03);transform:translateY(-1px)}.ds-tab:focus-visible{outline:2px solid #ffb526;outline-offset:3px}.ds-tab[aria-pressed=true]{background:linear-gradient(180deg,#ffffff,#d5dfe2);color:#3a0710;border-color:#fff;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12),0 6px 16px -10px rgba(255,255,255,.6)}"
     },
     {
-      "name": "Panel con filigrana",
+      "name": "Campo",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo hundido con foco oro.",
+      "html": "<label class=\"ds-field\"><span>Cliente</span><input placeholder=\"Nombre del cliente\"></label>",
+      "css": ".ds-field{display:grid;gap:6px;padding:12px;background:#250f0c;font:600 13px \"Barlow\",system-ui,sans-serif;color:#f2dccf}.ds-field input{min-height:42px;padding:0 12px;background:#0d0504;color:#fff4ec;border:1px solid rgba(255,214,196,.17);border-radius:11px;font:500 14px \"Barlow\",system-ui,sans-serif;box-shadow:inset 0 2px 6px rgba(0,0,0,.35);caret-color:#ffb526;transition:border-color 160ms ease,box-shadow 160ms ease}.ds-field input::placeholder{color:#9e8b7c}.ds-field input:focus{outline:none;border-color:#ffb526;box-shadow:inset 0 2px 6px rgba(0,0,0,.35),0 0 0 3px rgba(255,181,38,.18)}"
+    },
+    {
+      "name": "Riel lateral",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Carrocería candy roja con canto cromado; activo en placa de cromo con punto oro. En escritorio arranca colapsado.",
+      "html": "<nav class=\"ds-rail\"><strong class=\"ds-rail-store\">Burger Shot</strong><span class=\"ds-rail-sub\">Los Santos</span><small class=\"ds-rail-group\">Operación</small><a class=\"ds-rail-item\" href=\"#\">Resumen</a><a class=\"ds-rail-item is-active\" href=\"#\" aria-current=\"page\">Caja</a><a class=\"ds-rail-item\" href=\"#\">Ventas</a></nav>",
+      "css": ".ds-rail{display:flex;flex-direction:column;gap:4px;width:220px;padding:18px 14px 18px 12px;background:linear-gradient(180deg,#c8171b 0%,#9c0e10 38%,#6c0808 100%);box-shadow:inset -3px 0 0 #e7edef,inset -4px 0 0 #6d7c80,inset -10px 0 18px -10px rgba(0,0,0,.6)}.ds-rail-store{font:700 27px/1 \"Grenze Gotisch\",\"Barlow Condensed\",serif;color:#fff7ea;text-shadow:0 2px 0 #4a0506}.ds-rail-sub{font:400 18px/1 \"Yellowtail\",cursive;color:#ffd9a0;margin-bottom:14px}.ds-rail-group{color:rgba(255,226,214,.72);font:700 11px \"Barlow Condensed\",sans-serif;letter-spacing:.2em;text-transform:uppercase;margin:6px 0 2px}.ds-rail-item{position:relative;display:block;padding:10px 12px;border-radius:12px;color:#ffeee9;text-decoration:none;font:600 14px \"Barlow\",system-ui,sans-serif;transition:background-color 180ms ease}.ds-rail-item:hover{background:rgba(40,0,8,.28);color:#fff}.ds-rail-item:focus-visible{outline:2px solid #ffb526;outline-offset:2px}.ds-rail-item.is-active{background:linear-gradient(180deg,#ffffff,#d6e0e3);color:#6e0815;font-weight:700;box-shadow:inset 0 -2px 0 rgba(0,0,0,.14),0 8px 18px -10px rgba(0,0,0,.7)}.ds-rail-item.is-active::after{content:\"\";position:absolute;right:12px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:#ffb526;box-shadow:0 0 0 2px #6e0815}"
+    },
+    {
+      "name": "Tarjeta de producto",
       "kind": "card",
-      "refersTo": "dashboard-card",
-      "description": "Marco negro vino con ornamentos SVG que no reciben interacción.",
-      "html": "<section class=\"ds-ornate-card\"><svg class=\"ds-corner ds-corner-tl\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><svg class=\"ds-corner ds-corner-tr\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><svg class=\"ds-corner ds-corner-br\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><svg class=\"ds-corner ds-corner-bl\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"#ff3526\" stroke-width=\".8\" aria-hidden=\"true\"><path d=\"M2 30V12Q2 2 12 2h18M5 29V13q0-8 8-8h16M8 25V14q0-6 6-6h11\" opacity=\".7\"/><path d=\"M4 4c4 0 10 3 10 9 0 5-7 6-7 2 0-4 7-2 7 3 0 4 6 7 12 6M4 4c0 4 3 10 9 10 5 0 6-7 2-7-4 0-2 7 3 7 4 0 7 6 6 12\"/><path d=\"M14 3c3 1 6 5 4 8 5 0 8-4 9-8-5 0-7 3-7 5M3 14c1 3 5 6 8 4 0 5-4 8-8 9 0-5 3-7 5-7M16 20q6-7 12-2-8 1-9 6M20 16q-7 6-2 12 1-8 6-9\"/><circle cx=\"4\" cy=\"4\" r=\"1.5\" fill=\"#ff891c\"/></svg><h2>Actividad semanal</h2><p>Las ventas registradas aparecen aquí.</p></section>",
-      "css": ".ds-ornate-card{position:relative;max-width:460px;padding:24px;border:1px solid #773020;border-radius:12px;background:linear-gradient(140deg,rgba(24,7,11,.95),rgba(6,2,5,.94));color:var(--bs-text,#FFF0DF);box-shadow:0 5px 20px -15px #e84225}.ds-ornate-card h2{margin:0 0 8px;font:700 20px/1.1 var(--night-display,Fraunces,Georgia,serif);color:#ffe4bb}.ds-ornate-card p{margin:0;color:#d8c3b9;font:11px/1.4 var(--o-font,Figtree,system-ui,sans-serif)}.ds-corner{position:absolute;width:32px;height:32px;pointer-events:none;opacity:.8}.ds-corner-tl{left:3px;top:3px}.ds-corner-tr{right:3px;top:3px;transform:rotate(90deg)}.ds-corner-br{right:3px;bottom:3px;transform:rotate(180deg)}.ds-corner-bl{left:3px;bottom:3px;transform:rotate(270deg)}.ds-ornate-card:hover{border-color:#a64b33}"
+      "refersTo": "card-product",
+      "description": "Foto real a sangre (aquí, disco de respaldo), precio oro tabular y Agregar oro.",
+      "html": "<article class=\"ds-product\"><div class=\"ds-product-photo\"></div><div class=\"ds-product-copy\"><h3>Combo Burger</h3><p>Hamburguesa, papas y refresco</p><div class=\"ds-product-bottom\"><strong>$85</strong><button>Agregar</button></div></div></article>",
+      "css": ".ds-product{width:240px;border-radius:20px;overflow:hidden;background:linear-gradient(180deg,rgba(50,21,16,.95),rgba(31,12,9,.97));border:1px solid rgba(255,214,196,.1);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 18px 40px -26px rgba(0,0,0,.9);transition:transform 260ms cubic-bezier(.23,1,.32,1),border-color 200ms ease}.ds-product:hover{transform:translateY(-4px);border-color:rgba(255,214,196,.28)}.ds-product-photo{aspect-ratio:3/2;background:radial-gradient(circle at 50% 112%,#f2661b 0 46%,transparent 48%),#1d0a08;border-bottom:1px solid rgba(255,214,196,.1)}.ds-product-copy{padding:14px 16px 16px}.ds-product h3{margin:0;font:700 17px/1.2 \"Barlow\",system-ui,sans-serif;color:#fff4ec}.ds-product p{margin:4px 0 12px;font:500 12.5px/1.4 \"Barlow\",system-ui,sans-serif;color:#d3b0a2}.ds-product-bottom{display:flex;align-items:center;justify-content:space-between}.ds-product-bottom strong{font:800 28px/1 \"Barlow Condensed\",sans-serif;color:#ffb526;font-variant-numeric:tabular-nums}.ds-product-bottom button{min-height:38px;padding:0 14px;border-radius:11px;font:800 14px \"Barlow\",system-ui,sans-serif;color:#2b1300;background:linear-gradient(180deg,#ffd36b,#ffb526 45%,#e8800c);border:1px solid #b87400;cursor:pointer}.ds-product-bottom button:hover{filter:brightness(1.05)}.ds-product-bottom button:focus-visible{outline:2px solid #ffb526;outline-offset:3px}"
     },
     {
-      "name": "Placa de métrica",
+      "name": "Placa del total",
+      "kind": "custom",
+      "refersTo": "plaque-total",
+      "description": "Empaque Burger Shot: rojo con franjas blancas diagonales en SVG; salta al cambiar el pedido, la cifra no se anima. Misma piel en la barra móvil Ver pedido y la ficha del empleado de la semana.",
+      "html": "<div class=\"ds-plaque\"><span>Total</span><strong>$1,240</strong></div>",
+      "css": ".ds-plaque{display:flex;align-items:center;justify-content:space-between;width:320px;padding:14px 40px 14px 18px;border-radius:16px;background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'%3E%3Cpath d='M0 22L22 0h9L0 31zM0 36L36 0h9L4 40H0z' fill='%23fff4ec'/%3E%3C/svg%3E\") left bottom/40px 27px no-repeat,url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'%3E%3Cpath d='M60 22L38 0h-9l31 31zM60 36L24 0h-9l41 40h4z' fill='%23fff4ec'/%3E%3C/svg%3E\") right bottom/40px 27px no-repeat,radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.18),transparent 55%),linear-gradient(180deg,#e01f1f,#b5110f 60%,#8c0b0b);box-shadow:inset 0 0 0 1.5px rgba(255,244,236,.55),inset 0 -3px 0 rgba(0,0,0,.18),0 18px 34px -16px rgba(0,0,0,.9)}.ds-plaque span{color:#ffe9dc;font:800 12px \"Barlow Condensed\",sans-serif;letter-spacing:.18em;text-transform:uppercase}.ds-plaque strong{color:#fff4ec;font:800 44px/1 \"Barlow Condensed\",sans-serif;letter-spacing:.01em;font-variant-numeric:tabular-nums;text-shadow:0 2px 0 rgba(74,5,6,.75)}"
+    },
+    {
+      "name": "Ticket claro",
       "kind": "card",
-      "refersTo": "metric-card",
-      "description": "Cifra serif real o estado vacío; cuatro placas independientes componen el inicio.",
-      "html": "<article class=\"ds-metric\"><svg class=\"ds-metric-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 3h14v18H5zM8 7h8M8 11h8M8 15h5\"/></svg><div><span>Ventas activas</span><strong>—</strong><small>Sin ventas disponibles</small></div></article>",
-      "css": ".ds-metric{display:flex;align-items:center;gap:15px;min-height:92px;max-width:300px;padding:12px 17px;border:1px solid var(--night-line,rgba(238,58,36,.52));border-radius:12px;background:linear-gradient(130deg,rgba(28,8,12,.95),rgba(6,2,4,.93));box-shadow:0 4px 15px -10px #ff3c1b;color:var(--bs-text,#FFF0DF);font-family:var(--o-font,Figtree,system-ui,sans-serif)}.ds-metric-icon{width:29px;height:29px;padding:13px;border-radius:18px;background:rgba(169,49,8,.16);fill:none;stroke:#ffa514;stroke-width:1.7}.ds-metric span,.ds-metric small{display:block;font-size:12px;line-height:1.3;color:#dfc9bf}.ds-metric strong{display:block;margin:2px 0;font:800 clamp(21px,1.65vw,28px)/1.15 var(--night-display,Fraunces,Georgia,serif);font-variant-numeric:tabular-nums;letter-spacing:-.015em;color:#fff3e9}.ds-metric small{font-size:11px;color:#d1bcb3}.ds-metric:hover{border-color:#ff6b37}"
-    },
-    {
-      "name": "Avatar de perfil",
-      "kind": "custom",
-      "refersTo": "profile-avatar",
-      "description": "Iniciales de respaldo dentro del mismo círculo que utiliza la fotografía privada.",
-      "html": "<div class=\"ds-profile-avatar\" role=\"img\" aria-label=\"Avatar de Burger Shot\">BS</div>",
-      "css": ".ds-profile-avatar{display:grid;place-items:center;width:158px;height:158px;border:2px solid #ff9e32;border-radius:50%;background:radial-gradient(circle at 25% 20%,#a02f48,#280b16);color:var(--bs-text,#FFF0DF);box-shadow:0 0 0 6px rgba(255,85,28,.07),0 9px 35px -17px #ff5523;font:700 48px var(--o-font,Figtree,system-ui,sans-serif);overflow:hidden}"
-    },
-    {
-      "name": "Modo de efectos",
-      "kind": "button",
-      "refersTo": "effects-choice",
-      "description": "Preferencia visible por cuenta; respeta también la reducción de movimiento del sistema.",
-      "html": "<button class=\"ds-effects-choice\" aria-pressed=\"true\"><strong>Equilibrado</strong><span>Ambiente y transiciones moderadas.</span></button>",
-      "css": ".ds-effects-choice{display:flex;flex-direction:column;gap:10px;align-items:start;max-width:250px;text-align:left;padding:18px 14px;border:1px solid var(--bs-orange,#FF891C);border-radius:11px;background:#321719;color:var(--bs-text,#FFF0DF);box-shadow:0 8px 20px -15px #ff891c;font-family:var(--o-font,Figtree,system-ui,sans-serif);cursor:pointer;transition:border-color .16s,background .16s}.ds-effects-choice strong{font-size:13px;color:var(--bs-gold,#FFB347)}.ds-effects-choice span{font-size:11px;line-height:1.6;color:var(--bs-muted,#BCA9A8)}.ds-effects-choice:hover{background:#3d1c20}.ds-effects-choice:active{transform:scale(.98)}.ds-effects-choice:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-effects-choice{transition:none}}"
-    },
-    {
-      "name": "Guía de recorte fotográfico",
-      "kind": "custom",
-      "refersTo": "photo-editor",
-      "description": "Vista del editor con guía circular, zoom y estado inicial; la lógica real reside en profile.js.",
-      "html": "<section class=\"ds-photo-editor\" aria-label=\"Editar fotografía\"><h2>Editar fotografía</h2><div class=\"ds-photo-crop\" aria-label=\"Área de recorte\"></div><label class=\"ds-photo-label\">Zoom<input type=\"range\" min=\"1\" max=\"3\" step=\".01\" value=\"1\"></label><p>Elige una imagen para comenzar.</p><button class=\"ds-photo-cancel\">Cancelar</button></section>",
-      "css": ".ds-photo-editor{width:min(440px,calc(100vw - 88px));padding:28px;border:1px solid rgba(255,179,71,.17);border-radius:17px;background:var(--bs-card,#211217);color:var(--bs-text,#FFF0DF);box-shadow:0 12px 32px -22px #000;font-family:var(--o-font,Figtree,system-ui,sans-serif)}.ds-photo-editor h2{margin:0 0 24px;font-size:22px}.ds-photo-crop{position:relative;aspect-ratio:1;width:min(100%,300px);margin:auto;border:1px solid #734438;border-radius:10px;background:#140911;overflow:hidden}.ds-photo-crop::after{content:\"\";position:absolute;inset:0;border:1px dashed rgba(255,240,223,.7);border-radius:50%;box-shadow:0 0 0 80px rgba(0,0,0,.35);pointer-events:none}.ds-photo-label{display:grid;gap:8px;margin-top:18px;font-size:12px;color:var(--bs-muted,#BCA9A8)}.ds-photo-label input{width:100%;accent-color:var(--bs-orange,#FF891C);min-height:24px}.ds-photo-editor p{font-size:12px;color:var(--bs-muted,#BCA9A8);margin:18px 0}.ds-photo-cancel{min-height:42px;padding:10px 16px;border:1px solid rgba(246,235,217,.17);border-radius:9px;background:var(--o-surface-2,#2c1920);color:var(--bs-text,#FFF0DF);font:700 14px var(--o-font,Figtree,system-ui,sans-serif);cursor:pointer}.ds-photo-cancel:hover{background:var(--o-surface-3,#38232b)}.ds-photo-cancel:active{transform:scale(.97)}.ds-photo-cancel:focus-visible,.ds-photo-label input:focus-visible{outline:2px solid var(--bs-gold,#FFB347);outline-offset:3px}"
+      "refersTo": "ticket-light",
+      "description": "Papel de envoltura; única superficie clara, con dinero en rojo de papel.",
+      "html": "<section class=\"ds-ticket\"><h2>Pedido</h2><div class=\"ds-ticket-line\"><span>2× Combo Burger</span><b>$170</b></div><div class=\"ds-ticket-line\"><span>Descuento</span><b>−$17</b></div><p class=\"ds-ticket-note\">Comisión del cajero</p><strong class=\"ds-ticket-money\">$15.30</strong></section>",
+      "css": ".ds-ticket{width:300px;padding:18px;border-radius:24px;background:#fdf5ee;color:#2a1c1d;border:1px solid #e0d3bd;font:500 14px \"Barlow\",system-ui,sans-serif}.ds-ticket h2{margin:0 0 10px;font:800 26px/1 \"Barlow Condensed\",sans-serif;text-transform:uppercase;letter-spacing:.02em}.ds-ticket-line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(70,40,30,.24);color:#43312f}.ds-ticket-line b{font-variant-numeric:tabular-nums}.ds-ticket-note{margin:12px 0 2px;color:#76605a;font-size:12px}.ds-ticket-money{font:800 20px \"Barlow Condensed\",sans-serif;color:#9f0f0e;font-variant-numeric:tabular-nums}"
     }
   ],
   "narrative": {
-    "northStar": "La sucursal durante la ofrenda nocturna",
-    "overview": "Negro profundo, vino casi negro, filigrana roja luminosa y luz naranja de velas y cempasúchil definen la identidad. La captura de dashboard elegida por el usuario el 12 de octubre de 2026 sustituyó la interpretación sobria anterior. El sistema debe reproducir ese carácter ornamental con textos, controles, gráficas e importes funcionales.\n\nEl emblema 3D aprobado conserva su arte y proporción. Fraunces aporta el carácter editorial de bienvenida, titulares e importes destacados del inicio y perfil; Figtree conserva precisión en formularios, navegación, tablas y caja. El acceso centrado mantiene su composición aprobada. Las escenas fotográficas quedan detrás del HTML y dejan oscuras las áreas de lectura.\n\nLa fuente final del marco operativo es `reference-dashboard.css`, cargada después de `cinematic.css`. Esta última conserva la paleta compartida y los controles generales; `ofrenda.css`, `sidebar.css`, `auth-scene.css` y `logo.css` aportan la base. La composición específica del inicio y la autoridad visual están en `.impeccable/surfaces/index-html.md` y `docs/REFERENCE_FIDELITY.md`.",
+    "northStar": "El autoservicio en noche de crucero",
+    "overview": "Burger Shot es la marca y lo lowrider es el acabado. La caja vive en el negro rojizo del local que se ve en las fotos del menú; el riel lateral es una carrocería candy roja con metalflake y moldura de cromo; el oro mostaza del logo es la única voz de acción y de dinero; el cromo blanco marca lo seleccionado. El empaque rojo de Burger Shot, con sus franjas blancas en diagonal, se reserva para lo que importa: el total, la barra móvil \"Ver pedido\" y la ficha del empleado de la semana.\n\nLa densidad es de herramienta de trabajo: Barlow para operar, Barlow Condensed en mayúsculas para títulos y cifras, y dos voces rotuladas usadas con medida (Grenze Gotisch en placas de club, Yellowtail como firma). Las fotos reales del menú mandan en el catálogo; la ilustración propia (tinta gruesa, candy plano, brillo cromado) solo cubre lo que no tiene foto y las escenas de noche de crucero. El movimiento es de hidráulico: saltos cortos, rodadas, filetes que se dibujan; nunca toca un importe.\n\nRechazos confirmados: el panel negro con neón genérico (el neón heredado se convirtió en sombra de rótulo pintado) y la caja blanca de SaaS. El color por sección se retiró a petición del usuario: todo punto de sección es oro.",
     "keyCharacteristics": [
-      "Paneles negros y vino con bordes rojos luminosos y esquinas de filigrana.",
-      "Acción naranja y dorada, navegación seleccionada en rojo y estados positivos en verde.",
-      "Fraunces en titulares y cifras destacadas; Figtree en operación y cifras tabulares.",
-      "Logo 3D grande, papel picado diagonal y escenas de ofrenda en el marco.",
-      "Sidebar de 290 o 260 px, carril de 76 px y cajón móvil; perfil propio accesible.",
-      "Avatares circulares y tres modos de efectos con reducción de movimiento."
+      "Fondo negro rojizo con dos luces de ambiente (rojo de letrero arriba, mandarina abajo) y metalflake tenue.",
+      "Vocabulario de estado fijo: cromo = seleccionado, oro = acción y dinero, rojo = marca y placa del total, verde solo para estado en línea y confirmaciones.",
+      "Placas de empaque Burger Shot (rojo con franjas blancas diagonales en SVG) para total, barra móvil y empleado de la semana.",
+      "Filete dorado bajo títulos de página y cabeceras del resumen.",
+      "Cifras tabulares en Barlow Condensed 800; precios en oro.",
+      "Fotos reales a sangre en el catálogo; ilustración kustom solo como respaldo."
     ],
     "rules": [
       {
-        "name": "The Luz Roja Rule",
-        "body": "El rojo luminoso y la filigrana son parte esencial de la dirección elegida; deben conservarse en el marco y la selección de navegación.",
+        "name": "The Cuatro Voces Rule",
+        "body": "Cromo = seleccionado; oro = acción y dinero; rojo = marca y placa del total; verde solo para el punto \"Sistema en línea\", la sesión y las confirmaciones. Un mismo color no cambia de significado entre pantallas.",
         "section": "colors"
       },
       {
-        "name": "The Estado Legible Rule",
-        "body": "Cada color de estado acompaña texto o icono comprensible; la confirmación de una venta llega después de la respuesta del servidor.",
+        "name": "The Un Solo Oro Rule",
+        "body": "Los puntos de sección del riel son todos oro; no se reintroduce color por sección.",
         "section": "colors"
       },
       {
-        "name": "The Cifra Real Rule",
-        "body": "Las cifras alineadas usan números tabulares y muestran el valor calculado real; los efectos no retrasan, ocultan ni alteran importes.",
+        "name": "The Rojo No Es Acción Rule",
+        "body": "Los botones de acción son oro; el rojo pinta marca y placas, nunca un botón de cobrar o agregar.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cifra Tabular Rule",
+        "body": "Toda cifra (td, strong, time, métricas) usa números tabulares; los importes se leen en columna.",
         "section": "typography"
       },
       {
-        "name": "The Luz Enmarcada Rule",
-        "body": "Los resplandores y ornamentos enmarcan la lectura y no interceptan clics; los motivos decorativos permanecen fuera del orden de foco.",
+        "name": "The Rótulo Escaso Rule",
+        "body": "Grenze Gotisch solo en placas de nombre; Yellowtail solo como una palabra de firma por titular. Ninguna de las dos en botones, campos ni tablas.",
+        "section": "typography"
+      },
+      {
+        "name": "The Piso de Legibilidad Rule",
+        "body": "Nada funcional por debajo de 11–12px.",
+        "section": "typography"
+      },
+      {
+        "name": "The Métrica Sin Caja Rule",
+        "body": "Las cifras clave del resumen van sobre el fondo, separadas por líneas, no dentro de tarjetas.",
+        "section": "layout"
+      },
+      {
+        "name": "The Sin Neón Rule",
+        "body": "El relieve viene de luz superior y sombra inferior; ningún texto ni borde brilla.",
         "section": "elevation"
+      },
+      {
+        "name": "The Importe Quieto Rule",
+        "body": "Los importes nunca se animan, cuentan ni se retrasan: la placa se mueve, la cifra no.",
+        "section": "components"
       }
     ],
     "dos": [
-      "**Do** usar la cascada final de `reference-dashboard.css` para el marco de referencia.",
-      "**Do** conservar negro, filigrana roja luminosa, acción cálida y selección roja.",
-      "**Do** usar Fraunces en titulares del inicio y perfil, y Figtree en controles y caja.",
-      "**Do** conservar el arte y la proporción del logo 3D aprobado.",
-      "**Do** mantener cifras tabulares, datos propios reales, foco visible y nombres accesibles.",
-      "**Do** separar decoración de controles y respetar efectos por cuenta y movimiento reducido.",
-      "**Do** documentar el prompt exacto de cada nuevo raster y la licencia de las fuentes."
+      "Do usar oro (gold) para toda acción principal y toda cifra de dinero, y cromo para todo estado seleccionado.",
+      "Do reservar el empaque rojo con franjas blancas diagonales para la placa del total, la barra \"Ver pedido\" y el empleado de la semana.",
+      "Do dar prioridad a las fotos reales de assets/menu-fotos; usar las ilustraciones de assets/kustom/food solo para Helado, Caja Feliz y Cajita Policía, y la ilustración para escenas y estados vacíos.",
+      "Do poner el filete dorado bajo títulos de página y cabeceras del resumen.",
+      "Do escribir cifras en Barlow Condensed 800 con números tabulares.",
+      "Do detener todo movimiento con movimiento reducido, modo Rendimiento y pestaña oculta.",
+      "Do mantener el riel colapsado por defecto en escritorio."
     ],
     "donts": [
-      "**Don't** restablecer la interpretación sobria ni la selección crema que la nueva referencia sustituyó.",
-      "**Don't** redibujar, recolorear ni recortar el emblema aprobado.",
-      "**Don't** insertar texto, cifras o controles dentro del arte ambiental.",
-      "**Don't** inventar ventas, tendencias, fotografías, reconocimientos o fechas de incorporación.",
-      "**Don't** animar cálculos financieros ni confirmar ventas antes del servidor.",
-      "**Don't** presentar OCR ni un campo de importe recibido como parte de la caja auxiliar actual.",
-      "**Don't** presentar pruebas simuladas como validación autenticada real entre dispositivos."
+      "Don't reintroducir neón, glows ni color por sección.",
+      "Don't usar rojo para botones de acción ni oro como fondo de superficie.",
+      "Don't animar, contar ni retrasar un importe.",
+      "Don't poner Grenze Gotisch o Yellowtail en controles, tablas o texto corrido.",
+      "Don't usar verde como acento decorativo; es estado.",
+      "Don't meter las métricas clave del resumen en tarjetas.",
+      "Don't añadir rótulos pequeños en mayúsculas sobre los títulos (kickers); la ficha del empleado de la semana lo trae como deuda, no como patrón."
     ]
   }
 }

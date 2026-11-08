@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><base href="../../"><title>Escena noche de crucero</title>
+<style>body{margin:0;background:#081416;display:grid;gap:16px;padding:16px}.hero{height:260px;border-radius:16px;overflow:hidden}.auth{height:620px;border-radius:16px;overflow:hidden}svg{width:100%;height:100%;display:block}
+.ks-car{transform-box:fill-box;transform-origin:83% 100%;animation:hop 5s cubic-bezier(.23,1,.32,1) infinite}
+@keyframes hop{0%,62%,100%{transform:none}68%{transform:rotate(-7deg) translateY(-14px)}74%{transform:rotate(-1.5deg)}79%{transform:rotate(-3deg) translateY(-4px)}84%{transform:none}}</style></head>
+<body><div class="hero" id="h"></div><div class="auth" id="a"></div>
+<script src="kustom-scene.js"></script>
+<script>document.getElementById('h').innerHTML=KustomScene.scene('hero');document.getElementById('a').innerHTML=KustomScene.scene('auth');</script>
+</body></html>

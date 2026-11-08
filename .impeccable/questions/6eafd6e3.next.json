@@ -1,0 +1,225 @@
+{
+  "title": "Elige el mundo visual de Burger Shot",
+  "question": "El sorteo asignó «Candy Kustom». Quédate con ella, toma una alternativa o vuelve a tirar.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Candy Kustom · taller lowrider de Los Santos",
+      "kicker": "THE ROLL",
+      "lineage": "Lowriders de Los Santos: pintura candy, filete a mano, cromo y placas de car club",
+      "thesis": "La caja como un lowrider recién pintado: color candy profundo, cromo y fileteado; el total vive en una placa de club.",
+      "palette": [
+        "#0d2224",
+        "#143235",
+        "#c8102e",
+        "#f2b33d",
+        "#ff6a1a",
+        "#e9eef0",
+        "#2f5fe0"
+      ],
+      "materials": [
+        "pintura candy con metalflake",
+        "filete (pinstripe) a mano",
+        "cromo pulido",
+        "terciopelo capitoné"
+      ],
+      "viewport": "Barra lateral cromada con cada sección en su color candy; catálogo de ilustraciones propias en rejilla; ticket a la derecha rematado por la placa cromada del total.",
+      "risk": "Si el filete y el cromo se usan de más, se vuelve disfraz de taller; el ornamento queda en cabeceras, placa del total y estados.",
+      "raised": [
+        {
+          "from": "challenger-manual",
+          "raise": "Cada sección tiene su propio color candy en la barra y tiñe su cabecera: el color dice dónde estás."
+        },
+        {
+          "from": "challenger-ikeda",
+          "raise": "Todas las cifras en una sola voz tabular, alineadas por columna en ticket, tablas y métricas."
+        },
+        {
+          "from": "challenger-timetable",
+          "raise": "Rango por peso, mayúsculas y reverso, no por tamaño: una sola placa invertida por pantalla, la del total."
+        },
+        {
+          "from": "challenger-streaming",
+          "raise": "Un foco a la vez: al cobrar, el resto de la caja se atenúa y la revisión toma el centro."
+        },
+        {
+          "from": "challenger-metro",
+          "raise": "Las métricas clave sin caja alrededor: cifras grandes directamente sobre el fondo."
+        }
+      ],
+      "html": ".impeccable/mocks/decision/assigned.html"
+    },
+    {
+      "id": "model-pick",
+      "label": "Rótulo de puesto",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "Rotulación popular mexicana de taquerías y puestos callejeros",
+      "thesis": "La caja pintada a mano como el rótulo de un puesto: campos de color plano, letra rotulada con sombra y comida ilustrada.",
+      "palette": [
+        "#ffd23f",
+        "#e4002b",
+        "#0a7d4f",
+        "#1d3fbb",
+        "#1a1410"
+      ],
+      "materials": [
+        "esmalte sobre lámina",
+        "letra rotulada con sombra",
+        "ilustración ingenua"
+      ],
+      "viewport": "Muros de color mango y chile como regiones de la caja; productos como rótulos ilustrados; el total en un letrero con sombra paralela.",
+      "risk": "Es la lectura más previsible para un público hispano y puede verse kitsch; además exige base clara, menos cómoda de noche junto a GTA.",
+      "html": ".impeccable/mocks/decision/model-pick.html"
+    },
+    {
+      "id": "challenger-boarding",
+      "label": "Pase de abordar y tablero de puertas",
+      "verdict": "competitive",
+      "lineage": "Pase de abordar segmentado y tablero de salidas en vivo",
+      "thesis": "El pedido como un pase segmentado con celdas etiquetadas; el ranking del equipo como tablero que reordena filas en su sitio.",
+      "palette": [
+        "#f4f4f1",
+        "#111111",
+        "#ff4f00",
+        "#8a8a85"
+      ],
+      "materials": [
+        "papel de pase",
+        "bloque escaneable monoespaciado"
+      ],
+      "viewport": "Ticket dividido en celdas (cliente, convenio, pago, total); ranking del equipo como tablero de salidas.",
+      "case": "Gana en claridad del ticket y del ranking; pierde en identificación: un cajero de Los Santos no se ve en un aeropuerto.",
+      "risk": "Neutro y frío: Burger Shot pierde su sabor y la caja parece de aerolínea.",
+      "html": ".impeccable/mocks/decision/challenger-boarding.html"
+    },
+    {
+      "id": "challenger-ikeda",
+      "label": "Campo de datos en blanco y negro",
+      "verdict": "declined",
+      "lineage": "Instalaciones de datos con barras y senoides",
+      "thesis": "Columnas de código de barras y cifras monoespaciadas en blanco y negro puro.",
+      "palette": [
+        "#000000",
+        "#ffffff"
+      ],
+      "materials": [
+        "barras de píxel",
+        "tipografía monoespaciada"
+      ],
+      "viewport": "Ventas como campo de barras.",
+      "case": "Sin comida ni calidez: el cajero no se identifica y los productos se vuelven abstractos.",
+      "kept": "Cifras tabulares en una sola voz, alineadas por columna.",
+      "risk": "Ilegible para operar rápido."
+    },
+    {
+      "id": "challenger-timetable",
+      "label": "Horario de bolsillo en vidrio",
+      "verdict": "declined",
+      "lineage": "Horarios de aerolínea de 1971 sobre mesa de luz",
+      "thesis": "Un solo tamaño de letra; el rango se lleva con peso, caja y reverso.",
+      "palette": [
+        "#d9a21b",
+        "#2b2b2b",
+        "#e34234",
+        "#1f6b45"
+      ],
+      "materials": [
+        "vidrio tintado",
+        "papel biblia"
+      ],
+      "viewport": "Rack inclinado de diapositivas.",
+      "case": "La inclinación y el tamaño único frenan la lectura del total.",
+      "kept": "Una sola placa invertida por pantalla para lo más importante.",
+      "risk": "Lento de escanear."
+    },
+    {
+      "id": "challenger-streaming",
+      "label": "Muro de catálogo de streaming",
+      "verdict": "declined",
+      "lineage": "Filas de pósters con foco expandible",
+      "thesis": "Filas horizontales de productos que crecen al enfocar.",
+      "palette": [
+        "#0b0b0f",
+        "#e50914",
+        "#ffffff"
+      ],
+      "materials": [
+        "pósters a sangre"
+      ],
+      "viewport": "Filas desplazables de productos.",
+      "case": "Esconde productos en filas laterales; el cajero necesita verlo todo.",
+      "kept": "Un foco a la vez: el resto se atenúa al cobrar.",
+      "risk": "Más desplazamiento, cobro más lento."
+    },
+    {
+      "id": "challenger-manual",
+      "label": "Manual con pestañas de acetato",
+      "verdict": "declined",
+      "lineage": "Manuales de software en caja con separadores de color",
+      "thesis": "Separadores de color por sección y hojas de acetato superpuestas.",
+      "palette": [
+        "#e8641c",
+        "#f2c230",
+        "#3a9d4a",
+        "#1d8a8a",
+        "#2a3fbf",
+        "#6b3fa0"
+      ],
+      "materials": [
+        "acetato lechoso",
+        "cartón de color"
+      ],
+      "viewport": "Riel de pestañas escalonado.",
+      "case": "Se lee como documentación, no como caja de comida rápida.",
+      "kept": "Cada sección con su propio color en la navegación.",
+      "risk": "Frío y técnico."
+    },
+    {
+      "id": "challenger-metro",
+      "label": "Mosaicos tipográficos",
+      "verdict": "declined",
+      "lineage": "Interfaces de mosaicos planos con tipografía gigante",
+      "thesis": "Mosaicos de color plano y titulares gigantes recortados.",
+      "palette": [
+        "#000000",
+        "#00aba9",
+        "#e3008c",
+        "#ffffff"
+      ],
+      "materials": [
+        "color plano",
+        "tipografía ligera"
+      ],
+      "viewport": "Panorama de mosaicos.",
+      "case": "Recortar titulares y borrar controles pelea con un punto de venta.",
+      "kept": "Cifras clave grandes y sin cajas alrededor.",
+      "risk": "Pierde affordances de botón."
+    }
+  ],
+  "reroll": {
+    "registers": [
+      "safer",
+      "bolder"
+    ]
+  },
+  "canon": true,
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Un punto de venta moderno como Toast o Square, ejecutado con todo el oficio.",
+    "palette": [
+      "#ffffff",
+      "#f4f5f7",
+      "#111827",
+      "#d62828"
+    ],
+    "materials": [
+      "rejilla limpia",
+      "tarjetas blancas",
+      "fotografía de producto"
+    ],
+    "viewport": "Barra superior, categorías en pestañas, rejilla de productos y ticket blanco a la derecha.",
+    "risk": "Indistinguible de cualquier otra caja; Burger Shot pierde su personalidad.",
+    "html": ".impeccable/mocks/decision/canon.html"
+  },
+  "steer": true
+}

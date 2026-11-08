@@ -26,9 +26,13 @@ function productPhotoKey(p){
   if(category==="mayoreo"&&["burger","wings","nuggets","burrito"].includes(key))key="bulk-"+key;
   return key;
 }
+// Fotos de menú suministradas por el negocio; los productos sin foto usan su ilustración.
+const MENU_PHOTOS=new Set(["combo-burger","combo-burrito","combo-nuggets","combo-wings","burger","burger-alt","burrito","nuggets","wings","wings-alt","fries","drink","happybox-ems","bulk-burger","bulk-burrito","bulk-nuggets","bulk-wings"]);
+function productArtSrc(key,thumb=false){return MENU_PHOTOS.has(key)?`assets/menu-fotos/${thumb?"thumb":"webp"}/${key}.webp`:`assets/kustom/food/${key}.svg`}
+window.bsMenuArtSrc=productArtSrc;
 function productArt(p,thumb=false){
-  const key=productPhotoKey(p);
-  return `<img class="food-photo" src="assets/menu-general/${thumb?"thumb":"webp"}/${key}.webp" alt="" loading="${thumb?"eager":"lazy"}" decoding="async" width="${thumb?240:720}" height="${thumb?160:480}">`;
+  const key=productPhotoKey(p),photo=MENU_PHOTOS.has(key);
+  return `<img class="food-photo${photo?" is-photo":" is-illustration"}" src="${productArtSrc(key,thumb)}" alt="" loading="${thumb?"eager":"lazy"}" decoding="async" width="${thumb?240:photo?720:300}" height="${thumb?160:photo?480:200}">`;
 }
 function productBadge(p){
   if(p.restriction)return {police:"Policía",ems:"EMS",sheriff:"Sheriff"}[p.restriction]||p.restriction;

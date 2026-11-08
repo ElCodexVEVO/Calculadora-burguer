@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Candy Kustom · Caja</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&family=Grenze+Gotisch:wght@700;800&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1440px;height:900px;overflow:hidden;font:500 14px/1.4 Barlow,sans-serif;color:#eef2f1;
+background:radial-gradient(900px 500px at 70% -10%,#1b4246 0,transparent 60%),radial-gradient(700px 600px at 0 100%,#2a0f17 0,transparent 55%),#0b1e20;display:grid;grid-template-columns:236px 1fr 384px}
+.rail{background:linear-gradient(180deg,#0f2729,#081618);border-right:1px solid #ffffff14;padding:20px 14px;display:flex;flex-direction:column;gap:6px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px}
+.logo{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd36b,#e8432a 55%,#7a0c1c);box-shadow:0 0 0 3px #0b1e20,0 0 0 5px #c9d3d6}
+.brand b{font:800 20px/1 'Grenze Gotisch',serif;letter-spacing:.01em}.brand small{display:block;font:400 18px/1 Yellowtail,cursive;color:#f2b33d}
+.grp{font:700 11px/1 'Barlow Condensed';letter-spacing:.16em;color:#7fa3a6;padding:14px 10px 6px;text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:12px;height:42px;padding:0 12px;border-radius:10px;color:#cfdcdc;font-weight:600}
+.nav i{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 25%,transparent)}
+.nav.on{background:linear-gradient(180deg,#e0213c,#a30c22);color:#fff;box-shadow:inset 0 1px 0 #ffffff55,inset 0 0 0 1.5px #f2b33d,0 8px 24px #c8102e55}
+.nav.on i{background:#fff}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:12px;border-radius:12px;background:#ffffff08;border:1px solid #ffffff12}
+.av{width:36px;height:36px;border-radius:50%;background:#2f5fe0;display:grid;place-items:center;font:700 13px Barlow}
+main{padding:0 26px;overflow:hidden}
+.top{height:68px;display:flex;align-items:center;gap:16px}
+.search{flex:1;max-width:520px;height:40px;border-radius:10px;background:#ffffff0d;border:1px solid #ffffff1a;padding:0 14px;display:flex;align-items:center;color:#8fb0b2}
+.clock{margin-left:auto;font:700 22px 'Barlow Condensed';font-variant-numeric:tabular-nums;color:#f2b33d}
+.head{display:flex;align-items:flex-end;gap:18px;margin:8px 0 6px}
+.kick{font:400 24px/1 Yellowtail,cursive;color:#ff8a3d}
+h1{font:800 46px/.95 'Barlow Condensed';text-transform:uppercase;letter-spacing:.01em}
+.stripe{display:block;width:260px;height:18px;margin:4px 0 14px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{height:36px;padding:0 16px;border-radius:999px;border:1px solid #ffffff22;display:flex;align-items:center;font:700 13px Barlow;color:#cfdcdc}
+.tab.on{background:#ff6a1a;border-color:#ff6a1a;color:#1a0800}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{background:linear-gradient(180deg,#163a3d,#10292b);border:1px solid #ffffff14;border-radius:16px;overflow:hidden}
+.art{height:150px;display:grid;place-items:center;position:relative;background:radial-gradient(circle at 50% 62%,var(--c) 0 38%,transparent 39%),repeating-linear-gradient(45deg,#ffffff06 0 2px,transparent 2px 14px)}
+.art svg{width:120px;height:120px;filter:drop-shadow(0 10px 10px #0006)}
+.meta{padding:12px 14px 14px}
+.meta b{display:block;font:700 15px Barlow}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.price{font:800 24px 'Barlow Condensed';color:#f2b33d;font-variant-numeric:tabular-nums}
+.add{height:34px;padding:0 14px;border-radius:9px;background:#f2b33d;color:#2a1200;font:700 13px Barlow;display:flex;align-items:center}
+aside{background:linear-gradient(180deg,#112d30,#0c2123);border-left:1px solid #ffffff14;padding:22px 22px;display:flex;flex-direction:column}
+aside h2{font:800 26px 'Barlow Condensed';text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.cnt{width:28px;height:28px;border-radius:50%;background:#c8102e;display:grid;place-items:center;font:700 14px Barlow}
+.line{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px dashed #ffffff1f;font-variant-numeric:tabular-nums}
+.q{width:30px;height:30px;border-radius:8px;background:#ffffff10;display:grid;place-items:center;font-weight:700}
+.line em{font-style:normal;color:#8fb0b2;font-size:12px;display:block}
+.fld{margin-top:14px;height:42px;border-radius:10px;background:#081a1c;border:1px solid #ffffff1c;padding:0 12px;display:flex;align-items:center;color:#8fb0b2}
+.sum{display:flex;justify-content:space-between;color:#a9c0c1;margin-top:12px;font-variant-numeric:tabular-nums}
+.plaque{margin-top:auto;position:relative;padding:18px 22px 16px;border-radius:22px 22px 60px 60px/22px 22px 26px 26px;
+background:linear-gradient(180deg,#e1233e,#8e0b1f);box-shadow:inset 0 0 0 3px #d9e2e4,inset 0 0 0 5px #6d7c80,inset 0 2px 14px #fff6,0 18px 40px #0008;text-align:center}
+.plaque small{font:700 11px 'Barlow Condensed';letter-spacing:.24em;color:#ffe2b0}
+.plaque .tot{font:800 64px/1 'Barlow Condensed';color:#ffd77a;font-variant-numeric:tabular-nums;text-shadow:0 2px 0 #5a0613}
+.plaque .club{font:700 18px/1 'Grenze Gotisch',serif;color:#fff}
+.pay{margin-top:14px;height:52px;border-radius:12px;background:linear-gradient(180deg,#ffc95a,#f2a12a);color:#2a1200;font:800 17px Barlow;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px #f2b33d44}
+</style></head><body>
+<nav class="rail">
+ <div class="brand"><div class="logo"></div><div><b>Burger Shot</b><small>low &amp; slow</small></div></div>
+ <div class="grp">Operación</div>
+ <div class="nav" style="--c:#ff6a1a"><i></i>Resumen</div>
+ <div class="nav on" style="--c:#e0213c"><i></i>Caja</div>
+ <div class="nav" style="--c:#f2b33d"><i></i>Caja auxiliar</div>
+ <div class="nav" style="--c:#7ed957"><i></i>Ventas</div>
+ <div class="grp">Gestión</div>
+ <div class="nav" style="--c:#2f5fe0"><i></i>Equipo</div>
+ <div class="nav" style="--c:#b04ae0"><i></i>Clientes</div>
+ <div class="nav" style="--c:#18c3b5"><i></i>Promociones</div>
+ <div class="nav" style="--c:#c9d3d6"><i></i>Ajustes</div>
+ <div class="me"><div class="av">AR</div><div><b>Alex Rivera</b><div style="color:#8fb0b2;font-size:12px">Administrador</div></div></div>
+</nav>
+<main>
+ <div class="top"><div class="search">Buscar productos o sección…</div><div class="clock">05:40 p.m.</div></div>
+ <div class="head"><div><div class="kick">a la orden</div><h1>Arma el pedido</h1></div></div>
+ <svg class="stripe" viewBox="0 0 260 18" fill="none" stroke="#f2b33d" stroke-width="1.6" stroke-linecap="round"><path d="M2 9h96c10 0 12-7 20-7s10 14 12 14 4-14 12-14 10 7 20 7h96"/><circle cx="130" cy="9" r="2.2" fill="#f2b33d"/></svg>
+ <div class="tabs"><div class="tab on">Todos</div><div class="tab">Combos</div><div class="tab">Individuales</div><div class="tab">Extras</div><div class="tab">Cajas felices</div><div class="tab">Mayoreo</div></div>
+ <div class="grid">
+  <div class="card"><div class="art" style="--c:#c8102e"><svg viewBox="0 0 100 100"><path d="M18 50c0-20 14-32 32-32s32 12 32 32z" fill="#f2a33a" stroke="#1a0b05" stroke-width="3"/><rect x="14" y="52" width="72" height="9" rx="4" fill="#5b2a14" stroke="#1a0b05" stroke-width="3"/><path d="M16 64h68l-4 6H20z" fill="#ffd23f" stroke="#1a0b05" stroke-width="3"/><path d="M18 72h64c0 8-6 12-14 12H32c-8 0-14-4-14-12z" fill="#e98f2c" stroke="#1a0b05" stroke-width="3"/><path d="M34 30q4-3 8 0M52 26q4-3 8 0" stroke="#fff6" stroke-width="3"/></svg></div><div class="meta"><b>Combo Hamburguesa</b><div class="row"><span class="price">$280</span><span class="add">+ Agregar</span></div></div></div>
+  <div class="card"><div class="art" style="--c:#ff6a1a"><svg viewBox="0 0 100 100"><path d="M26 40h48l-6 46H32z" fill="#e0213c" stroke="#1a0b05" stroke-width="3"/><path d="M30 40l-4-22 6 2 2 20M40 40l-2-26 6 2v24M52 40l2-28 5 3-2 25M62 40l6-22 5 3-5 19" fill="#ffd23f" stroke="#1a0b05" stroke-width="3"/></svg></div><div class="meta"><b>Combo Nuggets</b><div class="row"><span class="price">$280</span><span class="add">+ Agregar</span></div></div></div>
+  <div class="card"><div class="art" style="--c:#2f5fe0"><svg viewBox="0 0 100 100"><path d="M28 30h44l-4 56H32z" fill="#ffd23f" stroke="#1a0b05" stroke-width="3"/><rect x="26" y="22" width="48" height="10" rx="3" fill="#e0213c" stroke="#1a0b05" stroke-width="3"/><path d="M56 22l8-14" stroke="#1a0b05" stroke-width="4"/></svg></div><div class="meta"><b>Combo Alitas</b><div class="row"><span class="price">$280</span><span class="add">+ Agregar</span></div></div></div>
+  <div class="card"><div class="art" style="--c:#7ed957"><svg viewBox="0 0 100 100"><path d="M20 62c10-30 50-40 62-18 4 10-6 22-26 28-20 6-40 4-36-10z" fill="#f4d08a" stroke="#1a0b05" stroke-width="3"/><path d="M30 60q20-10 44-18" stroke="#c98b3a" stroke-width="3"/></svg></div><div class="meta"><b>Combo Burrito</b><div class="row"><span class="price">$280</span><span class="add">+ Agregar</span></div></div></div>
+  <div class="card"><div class="art" style="--c:#f2b33d"><svg viewBox="0 0 100 100"><path d="M18 50c0-20 14-32 32-32s32 12 32 32z" fill="#f2a33a" stroke="#1a0b05" stroke-width="3"/><rect x="14" y="52" width="72" height="10" rx="4" fill="#5b2a14" stroke="#1a0b05" stroke-width="3"/><path d="M18 66h64c0 8-6 14-14 14H32c-8 0-14-6-14-14z" fill="#e98f2c" stroke="#1a0b05" stroke-width="3"/></svg></div><div class="meta"><b>Hamburguesa</b><div class="row"><span class="price">$200</span><span class="add">+ Agregar</span></div></div></div>
+  <div class="card"><div class="art" style="--c:#b04ae0"><svg viewBox="0 0 100 100"><path d="M24 36h52l-6 50H30z" fill="#e0213c" stroke="#1a0b05" stroke-width="3"/><circle cx="40" cy="32" r="10" fill="#c96a24" stroke="#1a0b05" stroke-width="3"/><circle cx="60" cy="30" r="11" fill="#d97b2c" stroke="#1a0b05" stroke-width="3"/></svg></div><div class="meta"><b>Cubo de alitas</b><div class="row"><span class="price">$200</span><span class="add">+ Agregar</span></div></div></div>
+  <div class="card"><div class="art" style="--c:#18c3b5"><svg viewBox="0 0 100 100"><path d="M34 24h32l-4 62H38z" fill="#fff" stroke="#1a0b05" stroke-width="3"/><path d="M36 44h28" stroke="#e0213c" stroke-width="8"/><path d="M54 24l6-16" stroke="#1a0b05" stroke-width="4"/></svg></div><div class="meta"><b>Cola-Shot</b><div class="row"><span class="price">$100</span><span class="add">+ Agregar</span></div></div></div>
+  <div class="card"><div class="art" style="--c:#e0213c"><svg viewBox="0 0 100 100"><path d="M22 40h56l-8 44H30z" fill="#ffd23f" stroke="#1a0b05" stroke-width="3"/><path d="M34 40c0-12 32-12 32 0" fill="none" stroke="#1a0b05" stroke-width="3"/><circle cx="50" cy="60" r="8" fill="#e0213c" stroke="#1a0b05" stroke-width="3"/></svg></div><div class="meta"><b>Caja Feliz</b><div class="row"><span class="price">$400</span><span class="add">+ Agregar</span></div></div></div>
+ </div>
+</main>
+<aside>
+ <h2>Tu pedido <span class="cnt">3</span></h2>
+ <div class="line"><span class="q">2</span><div>Combo Hamburguesa<em>$280 c/u</em></div><b>$560</b></div>
+ <div class="line"><span class="q">1</span><div>Cubo de alitas<em>$200 c/u</em></div><b>$200</b></div>
+ <div class="line"><span class="q">1</span><div>Papitas<em>$100 c/u</em></div><b>$100</b></div>
+ <div class="fld">Cliente / ID</div>
+ <div class="fld">Cliente general · Sin convenio</div>
+ <div class="sum"><span>Subtotal</span><span>$860</span></div>
+ <div class="sum"><span>Descuento</span><span>−$20</span></div>
+ <div class="plaque"><div class="club">Burger Shot</div><small>TOTAL A COBRAR</small><div class="tot">$840</div></div>
+ <div class="pay">Cobrar y registrar →</div>
+</aside>
+</body></html>

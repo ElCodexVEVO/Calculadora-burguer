@@ -756,7 +756,7 @@ function menuBoards(kit, M, g, logoUrl) {
         const y = 78 + r * 74, key2 = photoKey ? photoKey(p) : '';
         if (key2) {
           let img = images.get(key2);
-          if (!img) { img = new Image(); pending++; img.onload = img.onerror = () => { pending--; if (!pending && last) draw(...last); }; img.src = `assets/menu-general/thumb/${key2}.webp`; images.set(key2, img); }
+          if (!img) { img = new Image(); pending++; img.onload = img.onerror = () => { pending--; if (!pending && last) draw(...last); }; img.src = window.bsMenuArtSrc ? window.bsMenuArtSrc(key2, true) : `assets/kustom/food/${key2}.svg`; images.set(key2, img); }
           if (img.complete && img.naturalWidth) ctx.drawImage(img, x0 + 18, y + 4, 96, 64);
         }
         ctx.fillStyle = '#fff0df'; ctx.font = '700 25px Figtree, sans-serif';
@@ -792,7 +792,7 @@ export function buildRestaurant(kit, { logoUrl, season = false, quality = 'mediu
   counter(kit, M, g, S);
   kitchen(kit, M, g, rand);
   staffRoom(kit, M, g, S.notes);
-  const posters = ['combo-burger', 'burger', 'happybox'].map(k => kit.std(`poster:${k}`, { map: kit.imageTex(`assets/menu-general/webp/${k}.webp`), roughness: 0.5 }));
+  const posters = ['combo-burger', 'burger', 'combo-wings'].map(k => kit.std(`poster:${k}`, { map: kit.imageTex(`assets/menu-fotos/webp/${k}.webp`), roughness: 0.5 }));
   dining(kit, M, g, posters);
   exterior(kit, M, F, g, rand, lightSpots);
   const flags = season ? seasonal(kit, M, F, g, rand, candles) : [];

@@ -1,7 +1,7 @@
 {
-  "provenance": "Fotografías de menú Burger Shot suministradas por el usuario el 7 de noviembre de 2026. Recortadas a 3:2 (720x480) y miniaturas 240x160 sin alterar color ni contenido.",
+  "provenance": "Fotografías de menú Burger Shot suministradas por el usuario el 7 de noviembre de 2026. Recortadas a 3:2 (720x480) y miniaturas 240x160 sin alterar color ni contenido. El 7 de noviembre de 2026 el usuario entregó también la Caja Feliz (26.webp) y la Caja Feliz Police (25.webp), y eligió 12.webp para la Caja Feliz EMS.",
   "unused": {
-    "12.webp": "Caja Feliz EMS (variante); se conserva como alternativa"
+    "1.webp": "Caja Feliz EMS (primera variante); el usuario eligió la versión kids meal (12.webp)"
   },
   "missing_photo_uses_illustration": [],
   "items": {
@@ -123,12 +123,12 @@
       ]
     },
     "happybox-ems": {
-      "source": "originales/1.webp",
+      "source": "originales/12.webp",
       "crop": [
         0,
-        0,
-        1536,
-        1024
+        190,
+        1254,
+        1026
       ]
     },
     "burger-alt": {
@@ -162,18 +162,28 @@
       "source": "composición: render vectorial con volumen (design/kustom/renders/icecream.svg) sobre el fondo de originales/7.webp (letrero y mesa)"
     },
     "happybox": {
-      "source": "composición: render vectorial con volumen (design/kustom/renders/happybox.svg) sobre el fondo de originales/7.webp (letrero y mesa)"
+      "source": "originales/26.webp",
+      "crop": [
+        0,
+        0,
+        1536,
+        1024
+      ]
     },
     "happybox-police": {
-      "source": "composición: render vectorial con volumen (design/kustom/renders/happybox-police.svg) sobre el fondo de originales/7.webp (letrero y mesa)"
+      "source": "originales/25.webp",
+      "crop": [
+        0,
+        190,
+        1254,
+        1026
+      ]
     }
   },
   "composites": {
-    "note": "Helado, Caja Feliz y Cajita Feliz Policía no tienen foto del negocio: son composiciones provisionales de la ilustración sobre el fondo real de las fotos. Sustitúyelas por fotos cuando existan.",
+    "note": "Helado no tiene foto del negocio: usa una composición provisional (render con volumen sobre el fondo real de las fotos). Sustitúyela cuando exista la foto.",
     "keys": [
-      "icecream",
-      "happybox",
-      "happybox-police"
+      "icecream"
     ]
   }
 }

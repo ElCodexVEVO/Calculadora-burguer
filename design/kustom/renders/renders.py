@@ -93,7 +93,7 @@ def sundae():
     <path d="M176 300 Q300 316 424 300" stroke="#fff" stroke-opacity=".5" stroke-width="2" fill="none"/>
     </svg>'''
 
-items = {'happybox': box('happy'), 'happybox-police': box('police'), 'icecream': sundae()}
+items = {'icecream': sundae()}  # Caja Feliz y Police ya tienen foto del negocio
 with sync_playwright() as p:
     try: b = p.chromium.launch()
     except Exception: b = p.chromium.launch(channel='msedge')

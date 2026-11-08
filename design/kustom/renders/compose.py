@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright
 
 proj = pathlib.Path(sys.argv[1]); tmp = pathlib.Path(sys.argv[2]); tmp.mkdir(parents=True, exist_ok=True)
 orig = proj / 'assets/menu-fotos/originales'
-keys = ['icecream', 'happybox', 'happybox-police']
+keys = ['icecream']
 
 # 1. Los renders con volumen ya están en tmp (renders.py): <clave>.png con fondo transparente.
 

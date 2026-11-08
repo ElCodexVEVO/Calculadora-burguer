@@ -35,6 +35,6 @@ node design/kustom/build-food.cjs
 
 Desde `tests/`: `npm ci` y `npm test` (239 escenarios en verde). La única prueba ajustada fue la ruta de la miniatura del ticket, que ahora es `assets/menu-fotos/thumb/combo-burrito.webp`. La demo reparte sus ventas simuladas entre empleados para que el ranking tenga orden.
 
-## Imágenes provisionales
+## Imagen provisional
 
-Helado, Caja Feliz normal y Cajita Feliz Policía no tienen foto del negocio: usan composiciones provisionales (render con volumen sobre el fondo real de las fotos), generadas con `design/kustom/renders/renders.py` y `compose.py`. Cuando tengas sus fotos, sustituye `assets/menu-fotos/webp/<clave>.webp` (720×480) y `thumb/<clave>.webp` (240×160).
+Solo el Helado no tiene foto del negocio: usa una composición provisional (render con volumen sobre el fondo real de las fotos), generada con `design/kustom/renders/renders.py` y `compose.py`. Para usar su foto, recórtala a 720×480 en `assets/menu-fotos/webp/icecream.webp` y a 240×160 en `thumb/icecream.webp`.

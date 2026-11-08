@@ -1,9 +1,9 @@
 {
-  "version": "15.2.0",
+  "version": "15.2.1",
   "date": "2026-11-07",
   "edition": "Burger Shot · Candy Kustom (paleta de las fotos del menú)",
   "base": "User-supplied Calculadora-burguer-main.zip",
-  "menu_images": "20 imágenes de catálogo en assets/menu-fotos: 17 recortes de las fotos del negocio y 3 composiciones provisionales (Helado, Caja Feliz, Cajita Policía) con render vectorial sobre el fondo real de las fotos",
+  "menu_images": "20 imágenes de catálogo en assets/menu-fotos: 19 de fotos del negocio (incluye Caja Feliz, EMS y Police) y 1 composición provisional (Helado)",
   "database_patch_required": "supabase_patch_v14_manager.sql (aplicado a la instalación actual)",
   "verification": {
     "automated_scenarios": 239,

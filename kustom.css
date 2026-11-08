@@ -894,7 +894,7 @@ html:not(#k):not(#k):not(#k):not(#k):not(#k){
   & #page-pos .order-fields{padding-bottom:18px;scrollbar-width:thin;-webkit-mask:linear-gradient(180deg,#000 calc(100% - 22px),transparent);mask:linear-gradient(180deg,#000 calc(100% - 22px),transparent)}
   /* Altura del ticket: el pedido vacío ocupa poco y subtotal/descuento comparten fila,
      así los campos del cliente quedan a la vista en pantallas de 900 px. */
-  & #page-pos .order-scroll:has(#cartList:empty){max-height:172px;min-height:0}
+  & #page-pos .order-scroll:has(#cartList:empty){flex:0 0 auto;max-height:none;min-height:0;padding-top:8px;padding-bottom:8px}
   & #page-pos .totals{display:grid;grid-template-columns:1fr 1fr;column-gap:18px;row-gap:0}
   & #page-pos .totals>div:not(.grand){display:flex;justify-content:space-between;align-items:baseline}
   & #page-pos .totals>div:nth-child(2){border-left:1px solid var(--k-line);padding-left:18px}

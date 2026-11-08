@@ -1,5 +1,5 @@
 {
-  "provenance": "Fotografías de menú Burger Shot suministradas por el usuario el 7 de noviembre de 2026. Recortadas a 3:2 (720x480) y miniaturas 240x160 sin alterar color ni contenido. El 7 de noviembre de 2026 el usuario entregó también la Caja Feliz (26.webp) y la Caja Feliz Police (25.webp), y eligió 12.webp para la Caja Feliz EMS. El helado (27.webp) llegó después y sustituye la composición provisional.",
+  "provenance": "Fotografías de menú Burger Shot suministradas por el usuario el 7 de noviembre de 2026. Recortadas a 3:2 (720x480) y miniaturas 240x160 sin alterar color ni contenido. El 7 de noviembre de 2026 el usuario entregó también la Caja Feliz (26.webp) y la Caja Feliz Police (25.webp), y eligió 12.webp para la Caja Feliz EMS. El helado (27.webp) llegó después y sustituye la composición provisional. La Cola-Shot (28.webp) y las papas (29.webp) llegaron como fotos propias y sustituyen los recortes del combo.",
   "unused": {
     "1.webp": "Caja Feliz EMS (primera variante); el usuario eligió la versión kids meal (12.webp)"
   },
@@ -141,21 +141,21 @@
       ]
     },
     "fries": {
-      "source": "originales/3.webp",
+      "source": "originales/29.webp",
       "crop": [
-        640,
-        430,
+        0,
+        200,
         1254,
-        839
+        1036
       ]
     },
     "drink": {
-      "source": "originales/3.webp",
+      "source": "originales/28.webp",
       "crop": [
         0,
-        300,
-        640,
-        727
+        170,
+        1254,
+        1006
       ]
     },
     "icecream": {

@@ -824,6 +824,81 @@ html:not(#k):not(#k):not(#k):not(#k):not(#k){
     & body.sidebar-collapsed .app #sidebar .account-card .avatar::after{width:9px;height:9px}
     & body.sidebar-collapsed .app #sidebar .account-card:hover{border-color:var(--k-gold) !important;background:rgba(40,0,6,.55) !important}
   }
+  /* ======================================================================
+     v15.3 · Ticket: orden, interruptor claro/noche liquid glass y animaciones
+     ====================================================================== */
+  /* Cabecera limpia: sin trama de emblemas detrás del título. */
+  & #page-pos .order-panel.ticket-light{background:linear-gradient(180deg,#fdf6f0,#f6e9df) !important}
+  & #page-pos .order-head{align-items:center;padding-bottom:12px}
+  & #page-pos .order-head h2{display:flex;align-items:center;gap:10px}
+
+  /* Placa del total: etiqueta y copiar arriba, importe grande abajo a la derecha. */
+  & .totals .grand{display:grid !important;grid-template-columns:1fr auto;grid-template-areas:"label copy" "amount amount";align-items:center;row-gap:2px;padding:14px 18px 12px !important;background-size:36px 24px,0 0,auto,auto !important}
+  & .totals .grand>span{grid-area:label;align-self:start}
+  & .totals .grand .copy-total{grid-area:copy;justify-self:end}
+  & .totals .grand #grandTotal{grid-area:amount;justify-self:end;line-height:1}
+  & .totals .grand .copy-total:disabled{opacity:.55}
+
+  /* Ganancia y cobro: una fila clara; el cobro deshabilitado es un contorno, no un bloque. */
+  & .commission-preview{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-radius:14px}
+  & .commission-preview small{display:block;margin-top:2px}
+  & #page-pos .order-panel.ticket-light .checkout:disabled{background:transparent !important;border:1.5px dashed rgba(70,40,30,.28) !important;color:#76605a !important;box-shadow:none !important}
+
+  /* Interruptor sol/luna con pastilla de vidrio líquido. */
+  & #ticketThemeBtn{position:relative;width:66px !important;height:34px !important;padding:0 !important;border-radius:999px !important;display:grid !important;grid-template-columns:1fr 1fr;place-items:center;overflow:hidden;
+    background:rgba(0,0,0,.28) !important;border:1px solid var(--k-line-2) !important;box-shadow:inset 0 2px 6px rgba(0,0,0,.35) !important}
+  & .ticket-light #ticketThemeBtn{background:rgba(70,40,30,.08) !important;border-color:rgba(70,40,30,.18) !important;box-shadow:inset 0 2px 5px rgba(70,40,30,.12) !important}
+  & #ticketThemeBtn svg{display:block !important;position:relative;z-index:1;width:16px;height:16px;color:var(--k-faint);transition:color 320ms ease,transform 420ms var(--k-out)}
+  & #ticketThemeBtn .icon-sun{grid-column:1;grid-row:1}
+  & #ticketThemeBtn .icon-moon{grid-column:2;grid-row:1}
+  & #ticketThemeBtn[aria-pressed=true] .icon-sun{color:#c2410c;transform:rotate(90deg)}
+  & #ticketThemeBtn[aria-pressed=false] .icon-moon{color:#fff4ec;transform:rotate(-12deg)}
+  & #ticketThemeBtn::before{content:"";position:absolute;top:3px;left:3px;width:28px;height:26px;border-radius:999px;
+    background:linear-gradient(180deg,rgba(255,255,255,.62),rgba(255,255,255,.14));-webkit-backdrop-filter:blur(6px) saturate(1.8);backdrop-filter:blur(6px) saturate(1.8);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -2px 3px rgba(0,0,0,.12),0 4px 10px -4px rgba(0,0,0,.55);
+    transition:transform 560ms cubic-bezier(.34,1.35,.5,1)}
+  & #ticketThemeBtn[aria-pressed=false]::before{transform:translateX(32px)}
+  & #ticketThemeBtn.is-morphing::before{animation:k-liquid-thumb 560ms var(--k-out)}
+
+  /* Lente de vidrio líquido que barre el ticket al cambiar de tema. */
+  & .k-liquid{position:absolute;z-index:6;pointer-events:none;border-radius:50%;
+    -webkit-backdrop-filter:blur(14px) saturate(1.9) brightness(1.06);backdrop-filter:blur(14px) saturate(1.9) brightness(1.06);
+    background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.4),rgba(255,255,255,.08) 42%,rgba(255,255,255,.03) 70%);
+    box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6),inset 0 0 50px rgba(255,255,255,.2),inset -20px -30px 60px rgba(255,181,38,.12)}
+
+  /* Animaciones del ticket. */
+  & #cartEmpty burgershot-logo{animation:k-bob 3.2s ease-in-out infinite}
+  & #cartEmpty strong,& #cartEmpty span{animation:k-rise 520ms var(--k-out) both}
+  & #cartEmpty span{animation-delay:90ms}
+  & #orderCount.k-pop{animation:k-badge 460ms var(--k-out)}
+  @media (prefers-reduced-motion:reduce){& #cartEmpty burgershot-logo,& #cartEmpty strong,& #cartEmpty span,& #orderCount.k-pop,& #ticketThemeBtn::before{animation:none !important;transition:none !important}}
+  & body.motion-off #cartEmpty burgershot-logo{animation:none !important}
+  /* Ticket compacto: el pedido vacío cabe completo y los selectores quedan a la vista. */
+  & #cartEmpty{padding:14px 12px 18px;gap:6px}
+  & #cartEmpty burgershot-logo{--bs-logo-size:76px}
+  & #cartEmpty burgershot-logo .bs-mark{width:76px !important;height:82px !important}
+  & .totals .grand{padding:10px 16px 8px !important;margin-top:8px}
+  & .totals .grand strong,& #grandTotal{font-size:clamp(32px,2.6vw,40px) !important}
+  & .commission-preview{padding:8px 14px;background:rgba(255,181,38,.07);border:1px solid rgba(255,181,38,.22)}
+  & #page-pos .order-panel .checkout{min-height:50px}
+  /* Pedido vacío compacto y formulario más ajustado para que todo quepa a 900 px de alto. */
+  & #cartEmpty{padding:6px 12px 10px;gap:4px;align-content:center}
+  & #cartEmpty burgershot-logo{--bs-logo-size:58px}
+  & #cartEmpty burgershot-logo .bs-mark{width:58px !important;height:62px !important}
+  & #cartEmpty strong{font-size:15px}
+  & #cartEmpty span{font-size:13px}
+  & #page-pos .order-checkout input:not([type=checkbox]):not([type=radio]),& #page-pos .order-checkout select{min-height:40px;height:40px}
+  & #page-pos .order-extras summary{min-height:40px}
+  & #page-pos .order-fields label,& #page-pos .order-options label{margin-top:6px;margin-bottom:4px}
+  /* Campos del cliente: área con desplazamiento propio que se anuncia con un desvanecido. */
+  & #page-pos .order-fields{padding-bottom:18px;scrollbar-width:thin;-webkit-mask:linear-gradient(180deg,#000 calc(100% - 22px),transparent);mask:linear-gradient(180deg,#000 calc(100% - 22px),transparent)}
+  /* Altura del ticket: el pedido vacío ocupa poco y subtotal/descuento comparten fila,
+     así los campos del cliente quedan a la vista en pantallas de 900 px. */
+  & #page-pos .order-scroll:has(#cartList:empty){max-height:172px;min-height:0}
+  & #page-pos .totals{display:grid;grid-template-columns:1fr 1fr;column-gap:18px;row-gap:0}
+  & #page-pos .totals>div:not(.grand){display:flex;justify-content:space-between;align-items:baseline}
+  & #page-pos .totals>div:nth-child(2){border-left:1px solid var(--k-line);padding-left:18px}
+  & #page-pos .totals .grand{grid-column:1 / -1}
 }
 
 @keyframes k-hop{0%,58%,100%{transform:none}63%{transform:rotate(-6.5deg) translateY(-12px)}68%{transform:rotate(-1deg) translateY(-2px)}72%{transform:rotate(-2.6deg) translateY(-5px)}77%{transform:rotate(0) translateY(0)}80%{transform:translateY(1.5px)}84%{transform:none}}
@@ -854,6 +929,8 @@ html:not(#k):not(#k):not(#k):not(#k):not(#k){
 @keyframes k-road{from{background-position:0 100%}to{background-position:-34px 100%}}
 @keyframes k-bump{0%,100%{transform:none}12%{transform:translateY(-5px)}24%{transform:none}}
 @keyframes k-card-out{to{opacity:0;transform:translateY(-10px) scale(.98)}}
+@keyframes k-liquid-thumb{0%{scale:1 1}40%{scale:1.45 .86}70%{scale:.94 1.06}100%{scale:1 1}}
+@keyframes k-badge{0%{transform:scale(1)}35%{transform:scale(1.35)}70%{transform:scale(.92)}100%{transform:scale(1)}}
 @keyframes k-hero-open{from{clip-path:inset(0 100% 0 0 round 24px);opacity:.4}to{clip-path:inset(0 0 0 0 round 24px);opacity:1}}
 @keyframes k-script{from{opacity:0;clip-path:inset(-20% 100% -20% 0)}30%{opacity:1}to{opacity:1;clip-path:inset(-20% -10% -20% 0)}}
 @keyframes k-plaque-in{from{opacity:0;transform:scale(.86) rotate(-6deg)}to{opacity:1;transform:none}}

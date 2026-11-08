@@ -1,4 +1,4 @@
-# Actualizar a Burger Shot 15.1 · Candy Kustom
+# Actualizar a Burger Shot 15.2 · Candy Kustom
 
 Rediseño visual completo. No cambia la base de datos, los permisos, los cálculos ni las funciones: no hay migración SQL.
 
@@ -35,6 +35,6 @@ node design/kustom/build-food.cjs
 
 Desde `tests/`: `npm ci` y `npm test` (239 escenarios en verde). La única prueba ajustada fue la ruta de la miniatura del ticket, que ahora es `assets/menu-fotos/thumb/combo-burrito.webp`. La demo reparte sus ventas simuladas entre empleados para que el ranking tenga orden.
 
-## Fotos pendientes
+## Imágenes provisionales
 
-Helado, Caja Feliz normal y Cajita Feliz Policía no tienen foto todavía; usan su ilustración. Para añadirlas, coloca la foto recortada a 720×480 en `assets/menu-fotos/webp/<clave>.webp` (y 240×160 en `thumb/`) y agrega la clave a `MENU_PHOTOS` en `app.js`.
+Helado, Caja Feliz normal y Cajita Feliz Policía no tienen foto del negocio: usan composiciones provisionales (render con volumen sobre el fondo real de las fotos), generadas con `design/kustom/renders/renders.py` y `compose.py`. Cuando tengas sus fotos, sustituye `assets/menu-fotos/webp/<clave>.webp` (720×480) y `thumb/<clave>.webp` (240×160).

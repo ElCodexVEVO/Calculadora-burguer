@@ -3,11 +3,7 @@
   "unused": {
     "12.webp": "Caja Feliz EMS (variante); se conserva como alternativa"
   },
-  "missing_photo_uses_illustration": [
-    "icecream",
-    "happybox",
-    "happybox-police"
-  ],
+  "missing_photo_uses_illustration": [],
   "items": {
     "combo-burger": {
       "source": "originales/3.webp",
@@ -161,6 +157,23 @@
         640,
         727
       ]
+    },
+    "icecream": {
+      "source": "composición: render vectorial con volumen (design/kustom/renders/icecream.svg) sobre el fondo de originales/7.webp (letrero y mesa)"
+    },
+    "happybox": {
+      "source": "composición: render vectorial con volumen (design/kustom/renders/happybox.svg) sobre el fondo de originales/7.webp (letrero y mesa)"
+    },
+    "happybox-police": {
+      "source": "composición: render vectorial con volumen (design/kustom/renders/happybox-police.svg) sobre el fondo de originales/7.webp (letrero y mesa)"
     }
+  },
+  "composites": {
+    "note": "Helado, Caja Feliz y Cajita Feliz Policía no tienen foto del negocio: son composiciones provisionales de la ilustración sobre el fondo real de las fotos. Sustitúyelas por fotos cuando existan.",
+    "keys": [
+      "icecream",
+      "happybox",
+      "happybox-police"
+    ]
   }
 }

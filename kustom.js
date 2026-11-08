@@ -147,6 +147,36 @@
     }
   }).observe(dash, { attributes: true, attributeFilter: ['class'], attributeOldValue: true });
 
+
+  /* ── Ticket: cambio claro/noche con una lente de vidrio líquido ── */
+  const themeBtn = $('ticketThemeBtn'), orderPanel = $('orderPanel');
+  if (themeBtn && orderPanel) themeBtn.addEventListener('click', e => {
+    if (themeBtn._kPass || calm() || document.hidden) return;
+    e.stopImmediatePropagation(); e.preventDefault();
+    replay(themeBtn, 'is-morphing', 620);
+    const pr = orderPanel.getBoundingClientRect(), br = themeBtn.getBoundingClientRect();
+    const x = br.left + br.width / 2 - pr.left + orderPanel.scrollLeft, y = br.top + br.height / 2 - pr.top + orderPanel.scrollTop;
+    const r = Math.hypot(Math.max(x, pr.width - x), Math.max(y, pr.height - y));
+    const lens = document.createElement('div');
+    lens.className = 'k-liquid'; lens.setAttribute('aria-hidden', 'true');
+    Object.assign(lens.style, { left: (x - r) + 'px', top: (y - r) + 'px', width: (r * 2) + 'px', height: (r * 2) + 'px' });
+    orderPanel.append(lens);
+    const run = lens.animate([
+      { transform: 'scale(.03)', borderRadius: '50%', opacity: 1 },
+      { transform: 'scale(.5)', borderRadius: '44% 56% 53% 47%', opacity: 1, offset: .42 },
+      { transform: 'scale(1)', borderRadius: '50%', opacity: 1, offset: .7 },
+      { transform: 'scale(1.06)', borderRadius: '50%', opacity: 0 }
+    ], { duration: 900, easing: 'cubic-bezier(.23,1,.32,1)' });
+    // El tema cambia debajo de la lente, cuando ya cubre el ticket.
+    setTimeout(() => { themeBtn._kPass = true; themeBtn.click(); themeBtn._kPass = false; }, 330);
+    run.onfinish = run.oncancel = () => lens.remove();
+    setTimeout(() => lens.remove(), 1400); // por si la pestaña oculta congela la animación
+  }, true);
+
+  /* ── Contador del pedido: pequeño salto cuando cambia ── */
+  const count = $('orderCount');
+  if (count) { let last = count.textContent; new MutationObserver(() => { if (count.textContent !== last) { last = count.textContent; replay(count, 'k-pop', 480); } }).observe(count, { childList: true, characterData: true, subtree: true }); }
+
   /* ── Brillo candy bajo el puntero ── */
   const shiny = '.btn.primary,#dashboardPosBtn,.checkout,#loginBtn';
   let raf = 0, pending = null;

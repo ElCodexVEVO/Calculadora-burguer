@@ -1,5 +1,5 @@
 {
-  "version": "15.3.0",
+  "version": "15.4.0",
   "date": "2026-11-07",
   "edition": "Burger Shot · Candy Kustom (paleta de las fotos del menú)",
   "base": "User-supplied Calculadora-burguer-main.zip",
@@ -45,12 +45,13 @@
     "palette": "Medida en las fotos del menú: negro rojizo #140706, paneles #250f0c, rojo de empaque #d61a1f, ámbar del logo #ffb526, crema del papel #fff4ec",
     "typography": "Barlow y Barlow Condensed (operación), Grenze Gotisch (placas), Yellowtail (firma); autoalojadas en assets/fonts/kustom",
     "files": [
-      "kustom.css",
-      "kustom.js",
-      "kustom-scene.js",
-      "assets/menu-fotos/",
+      "assets/fonts/kustom/",
       "assets/kustom/",
-      "assets/fonts/kustom/"
+      "assets/menu-fotos/",
+      "kustom-3d.js",
+      "kustom-scene.js",
+      "kustom.css",
+      "kustom.js"
     ],
     "motion": [
       "Salto hidráulico y chispas en la placa del total",
@@ -65,6 +66,9 @@
       "Ticket: interruptor claro/noche con lente de vidrio líquido, placa del total reordenada, subtotal y descuento en una fila, pedido vacío compacto",
       "Escena redibujada con volumen: lowrider con pintura candy, cromos y rines de 13 pulgadas; local con neón, toldo e interior iluminado; bruma, haz de faros, reflejos mojados y desenfoque de profundidad",
       "Catálogo completo con fotos del negocio (incluye Caja Feliz, EMS, Police y Helado)"
+    ],
+    "v15_4": [
+      "Escena 3D en tiempo real del lowrider y el local (kustom-3d.js): llegada con frenado, saltos hidráulicos, balanceo, reflejos en la calle mojada, cámara con paralaje y neón que parpadea; respaldo vectorial sin WebGL o en modo Rendimiento"
     ]
   }
 }

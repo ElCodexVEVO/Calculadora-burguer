@@ -1,6 +1,6 @@
 # Burger Shot · calculadora y punto de venta
 
-Versión 15.3.0 · Candy Kustom.
+Versión 15.4.0 · Candy Kustom.
 
 Punto de venta para Burger Shot en FiveM, con Supabase. Conserva la composición nocturna original, su tipografía, halos cálidos y animaciones con un banner y ambiente de uso general. Incluye restaurante 3D, alternativa 2D, caja, caja auxiliar, convenios, comisiones, perfiles y reportes.
 
@@ -8,10 +8,10 @@ Punto de venta para Burger Shot en FiveM, con Supabase. Conserva la composición
 
 Burger Shot como el autoservicio donde los lowriders de Los Santos llegan en noche de crucero. Paleta medida en las fotos del menú (negro rojizo del local, rojo del empaque, ámbar del logo y crema del papel), riel lateral en pintura candy roja con moldura de cromo, filete dorado en cabeceras y el total en una placa de club cromada.
 
-- Capa visual: kustom.css (se carga la última). Movimiento: kustom.js. Escena ilustrada: kustom-scene.js.
+- Capa visual: kustom.css (se carga la última). Movimiento: kustom.js. Escena 3D: kustom-3d.js (three.js), con la ilustración de kustom-scene.js como respaldo.
 - Fotos del menú en assets/menu-fotos (origen en ORIGEN.json). Ilustraciones de respaldo en assets/kustom/food para productos sin foto (regenerables con node design/kustom/build-food.cjs).
 - Tipografías autoalojadas en assets/fonts/kustom (licencias en LICENCIAS.md).
-- Animaciones: salto de la placa del total, chispas, vuelo al ticket, tarjetas que flotan e inclinan, lowrider que llega y salta, paralaje, entradas en cascada y microinteracciones. Respetan movimiento reducido, modo Rendimiento y pestaña oculta. Los importes nunca se animan.
+- Animaciones: salto de la placa del total, chispas, vuelo al ticket, tarjetas que flotan e inclinan, lowrider 3D que llega, frena y salta en hidráulicos con reflejos en la calle mojada, paralaje, entradas en cascada y microinteracciones. Respetan movimiento reducido, modo Rendimiento y pestaña oculta. Los importes nunca se animan.
 
 Consulta ACTUALIZAR_V15_CANDY_KUSTOM.md para publicar.
 

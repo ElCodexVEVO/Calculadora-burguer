@@ -901,6 +901,17 @@ html:not(#k):not(#k):not(#k):not(#k):not(#k){
   & #page-pos .totals .grand{grid-column:1 / -1}
   /* Packs de catering: encuadre alto para que se lea el rótulo con la cantidad (5×5, 25×25). */
   & .product-photo .food-photo.is-photo:is([src*="bulk-"][src*="-5.webp"],[src*="bulk-"][src*="-25.webp"]){object-position:50% 18%}
+  /* ======================================================================
+     v15.4 · Escena 3D (kustom-3d.js). La ilustración vectorial queda debajo como respaldo:
+     se ve sin WebGL, en modo Rendimiento, con movimiento desactivado o mientras carga el 3D.
+     ====================================================================== */
+  & .k3d-canvas{position:absolute;inset:0;width:100% !important;height:100% !important;display:block;z-index:1;opacity:0;pointer-events:none;transition:opacity 900ms ease}
+  & body.k3d-ready .k3d-host>.k3d-canvas{opacity:1}
+  & body.motion-off .k3d-canvas,& body[data-effects=performance] .k3d-canvas{display:none !important}
+  /* El texto del banner queda sobre el lienzo. */
+  & #page-dashboard .dash-hero::before{z-index:0}
+  & #page-dashboard .dash-hero-photo{z-index:-2}
+  & #page-dashboard .dash-hero-content{z-index:2}
 }
 
 @keyframes k-hop{0%,58%,100%{transform:none}63%{transform:rotate(-6.5deg) translateY(-12px)}68%{transform:rotate(-1deg) translateY(-2px)}72%{transform:rotate(-2.6deg) translateY(-5px)}77%{transform:rotate(0) translateY(0)}80%{transform:translateY(1.5px)}84%{transform:none}}

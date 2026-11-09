@@ -320,8 +320,8 @@ Riel candy rojo con metalflake y canto cromado. Nombre de la tienda en Grenze Go
 ### Ticket
 Panel de 24px con cabecera Title de 26px y contador rojo; líneas separadas por guiones; las nuevas entran desde la derecha con destello oro. Variante clara de papel de envoltura con sus propios tokens.
 
-### Escena de noche de crucero
-Ilustración vectorial (kustom-scene.js) del lowrider Burger Shot frente al local con el emblema aprobado: banner del resumen, acceso y carga. Tres planos con paralaje, estrella fugaz, letrero que titila, coche que llega rodando y salta cada 7.5s. Carga con rin cromado de rayos.
+### Escena de noche de crucero (3D)
+Escena 3D en tiempo real (kustom-3d.js, three.js r170 incluido en assets/vendor): lowrider candy Burger Shot con pintura de barniz y microdestellos, techo de vinilo, cromos, filete dorado, faros y calaveras encendidos y rines de rayos cruzados de 13"; local con fascia de neón, toldo a rayas, interior iluminado con clientes, letrero tipo pilón con el emblema aprobado, palmeras, luna y estrellas; calle mojada con reflejos. Movimiento: el coche llega rodando y frena con cabeceo, luego hace saltos hidráulicos y balanceo cada 9 s; la cámara deriva despacio y sigue al cursor; el neón parpadea de vez en cuando. Un solo lienzo se mueve entre carga, acceso y banner, a 30 fps y solo mientras está a la vista. La ilustración vectorial (kustom-scene.js) queda debajo como respaldo: se ve sin WebGL, en modo Rendimiento o con el movimiento desactivado; con movimiento reducido el 3D se dibuja en una pose quieta.
 
 ### Movimiento
 Curvas `cubic-bezier(.23,1,.32,1)` (salida) y `cubic-bezier(.77,0,.175,1)` (reordenación). Estados 160–260ms; saltos 420–520ms; entradas 520–560ms en cascada de 45ms; banner y filete 900ms. El ranking se reordena con FLIP en su sitio. Todo se detiene con `prefers-reduced-motion`, con el modo Rendimiento (`body.motion-off` / `data-effects=performance`) y con la pestaña oculta; los atajos de teclado tampoco animan la placa.
